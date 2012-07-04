@@ -1,0 +1,90 @@
+/**** STRUCTURE ****/
+body {
+	background: #f5fafc;
+	color: #666;
+}
+#restOfPageWrap {
+	margin: 100px auto 0 auto;
+	width: 820px;
+}
+
+#photo {
+	float: right;
+	display: inline;
+	padding: 14px;
+	width: 494px;
+	height: 501px;
+	margin-right: 25px;
+	background: transparent url('/assets/img/bg-photo.png') no-repeat;
+}
+#details {
+	float: left;
+	display: inline;
+	width: 225px;
+	padding-left: 10px;
+	margin-top: 25px;
+	font-size: 14px;
+	line-height: 26px;
+	color: #999;
+}
+strong { color: #666; }
+#details a:link, #details a:visited {
+	color: #3399cc;
+	font-size: 16px;
+}
+#details a:hover {
+	color: #cc3300;
+}
+
+a#back:link, a#back:visited {
+	display: block;
+	width: 75px;
+	font-size: 20px;
+	text-align: center;
+	color: #fff;	
+	background: #35789b;
+	border-radius: 5px;
+	text-decoration: none;
+	padding: 5px 10px 2px 10px;
+	margin-bottom: 25px;
+}
+a#back:hover {
+	color: #fff;
+	background: #cc3300;
+	border-radius: 5px;
+}
+
+h1 {
+	font-size: 18px;
+	line-height: 24px;
+	color: #333;
+	margin: 40px 0 20px 0;
+	font-weight: normal;
+	font-family: georgia, times, times new roman, serif;
+	font-style: italic;
+}
+h2 {
+	font-size: 14px;
+	line-height: 16px;
+	color: #999;
+	margin: 40px 0 10px 0;
+	font-weight: normal;
+}
+
+a#twitter, a#facebook, a#email {
+	display: inline-block;
+	width: 32px;
+	height: 32px;
+	margin-right: 5px;
+	text-indent: -8000px;
+	overflow: hidden;
+}
+a#twitter {
+	background: transparent url('/assets/img/icons/32px/twitter-2.png') no-repeat;
+}
+a#facebook {
+	background: transparent url('/assets/img/icons/32px/facebook.png') no-repeat;
+}
+a#email {
+	background: transparent url('/assets/img/icons/32px/email.png') no-repeat;
+}

@@ -1,0 +1,40 @@
+/**** FOOTER ****/
+
+section#footer {
+	border-top: 1px dotted #ccc;
+	margin-top: 50px;
+	padding: 25px 10px 0 10px;
+	color: #b1b1b1;
+	font-weight: normal;
+	font-size: 14px;
+}
+section#footer:after {
+	content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+    margin: 0;
+    padding: 0;
+}
+section#footer a:link, section#footer a:visited {
+	color: #0099cc;
+}
+section#footer a:hover {
+	color: #cc3300;
+}
+
+#sm-links {
+	float: right;
+}
+#sm-twitter {
+	padding-top: 2px;
+	padding-left: 22px;
+	padding-right: 10px;
+	background: transparent url('/assets/img/icons/16px/twitter-2.png') no-repeat;
+}
+#sm-facebook {
+	padding-top: 2px;
+	padding-left: 22px;
+	background: transparent url('/assets/img/icons/16px/facebook.png') no-repeat;
+}
