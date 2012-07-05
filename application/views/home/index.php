@@ -14,7 +14,8 @@
     
     <link href='http://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
     
-    <link rel="stylesheet" href="assets/css/fpo.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="assets/css/fpo.css" type="text/css" media="screen and (min-width: 981px)" />
+    <link rel="stylesheet" href="assets/css/fpo-sm.css" type="text/css" media="screen and (max-width: 980px)" />
     
     <link rel="stylesheet" href="assets/css/home-mobile.css" type="text/css" media="screen  and (max-width: 980px)" /> <!--Mobile-->
     <link rel="stylesheet" href="assets/css/home-sm.css" type="text/css" media="screen and (min-width: 981px) and (max-width: 1125px)" /> <!--Mobile-->
