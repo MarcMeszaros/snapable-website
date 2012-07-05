@@ -1,14 +1,14 @@
 $(document).ready(function() 
 {  
 	
+	var windowH = $(window).height();
+	var windowW = $(window).width();
 	// $(window).resize(function() { });
 	$(window).bind("load resize", function(){
 		
 		// get windowWidth
 		// if width has max-width: 960px set as X, if min-width: 961px set as y and if min-width: 1280px set as z
 		// set height variable based on width
-		var windowH = $(window).height();
-		var windowW = $(window).width();
 		
 		var theWidth = 1073;
 		var theHeight = 504;
@@ -63,17 +63,26 @@ $(document).ready(function()
 	var elemTop = $('#why-use').offset().top;
     var elemPos = elemTop  - $(window).scrollTop();
     
-    if ( elemPos <= -812 )
+    if ( (windowW > 1280 && elemPos <= -812) || (windowW >=1024 && windowW <= 1280 && elemPos <= -640) || (windowW > 640 && windowW <= 980 && elemPos <= -420) ) //elemPos <= -812 || 
    {
        $("#headNav, #headTagline").css({"display":"inline"})
+   }
+   else if (windowW > 980 && windowW <= 1024 && elemPos <= -460)
+   {
+	   $("#headNav").css({"display":"inline"})
    }
     
     $(window).scroll(function() {
        var elemPos = elemTop  - $(window).scrollTop();
        
-       if ( elemPos <= -812 )
+       if ( (windowW > 1280 && elemPos <= -812) || (windowW >=1024 && windowW <= 1280 && elemPos <= -640) || (windowW > 980 && windowW <= 1024 && elemPos <= -460) || (windowW > 640 && windowW <= 980 && elemPos <= -420) ) //elemPos <= -812 || 
        {
-	       $("#headNav, #headTagline").fadeIn("normal").css({ "display":"inline" });
+       		if ( windowW > 980 && windowW <= 1024 && elemPos <= -460 || (windowW > 640 && windowW <= 980 && elemPos <= -420) )
+       		{
+	       		$("#headNav").fadeIn("normal").css({ "display":"inline" });
+       		} else {
+	       		$("#headNav, #headTagline").fadeIn("normal").css({ "display":"inline" });		
+       		}
 	       $("#homeHeadWrap").css({ "-webkit-box-shadow": "0px 2px 5px rgba(102, 102, 102, 0.5)", "-moz-box-shadow":"0px 2px 5px rgba(102, 102, 102, 0.5)", "box-shadow":"0px 2px 5px rgba(102, 102, 102, 0.5)" });
        } else {
 	       $("#headNav, #headTagline").fadeOut("normal");

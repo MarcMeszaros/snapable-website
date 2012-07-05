@@ -26,15 +26,33 @@ HTML {_background: url('../img/trans.gif') no-repeat fixed;}
 	_position: absolute; /*IE6 doesn't support fixed positioning*/
 	left: 0;
 }
+/*
 @media screen and (max-width: 769px) {
 	.bgstretcher {
 		top: 90px;
 	}
 }
-@media screen and (min-width: 770px) {
+*/
+@media screen  and (max-width: 980px) {
 	.bgstretcher {
-		top: 100px;
+		top: 67px;
 	}
 }
+@media screen and (min-width: 981px) and (max-width: 1125px) {
+	.bgstretcher {
+		top: 67px;
+	}
+}
+@media screen and (min-width: 1126px) and (max-width: 1399px) {
+	.bgstretcher {
+		top: 71px;
+	}
+}
+@media screen and (min-width: 1400px) {
+	.bgstretcher {
+		top: 71px;
+	}
+}
+
 
 

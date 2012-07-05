@@ -17,10 +17,11 @@
     <link rel="stylesheet" href="assets/css/fpo.css" type="text/css" media="screen" />
     
     <link rel="stylesheet" href="assets/css/home-mobile.css" type="text/css" media="screen  and (max-width: 980px)" /> <!--Mobile-->
-    <link rel="stylesheet" href="assets/css/home-sm.css" type="text/css" media="screen and (min-width: 981px) and (max-width: 1024px)" /> <!--Mobile-->
-    <link rel="stylesheet" href="assets/css/home-med.css" type="text/css" media="screen and (min-width: 1025px) and (max-width: 1400px)" />
+    <link rel="stylesheet" href="assets/css/home-sm.css" type="text/css" media="screen and (min-width: 981px) and (max-width: 1125px)" /> <!--Mobile-->
+    <link rel="stylesheet" href="assets/css/home-med.css" type="text/css" media="screen and (min-width: 1126px) and (max-width: 1400px)" />
     <link rel="stylesheet" href="assets/css/home-lrg.css" type="text/css" media="screen and (min-width: 1400px)" />
     
+    <link rel="stylesheet" href="assets/css/footer.css" type="text/css" media="screen" />
     <link rel="stylesheet" href="assets/css/bgstretcher.css" type="text/css" media="screen" />
     
     <script type="text/javascript" src="assets/js/jquery-1.7.2.min.js"></script>
