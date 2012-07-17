@@ -43,7 +43,8 @@ class Event extends CI_Controller {
 				echo "&nbsp;";
 				$head = array(
 					'noTagline' => true,
-					'css' => base64_encode('assets/css/setup.css,assets/css/header.css,assets/css/event.css,assets/css/footer.css')
+					'css' => base64_encode('assets/css/setup.css,assets/css/header.css,assets/css/event.css,assets/css/footer.css'),
+						'js' => base64_encode('assets/js/jquery-1.7.2.min.js,assets/js/jquery.timePicker.min.js,assets/js/jquery-ui-1.8.21.custom.min.js,assets/js/photostream.js')	
 				);
 				$data = array(
 					'url' => $this->uri->segment(2)
@@ -51,6 +52,41 @@ class Event extends CI_Controller {
 				$this->load->view('common/header', $head);
 				$this->load->view('event/photostream', $data);
 				$this->load->view('common/footer');
+			}
+		}
+		else if ( $segments == 3 )
+		{
+			if ( $this->uri->segment(2) == "setup" )
+			{
+				echo "&nbsp;";
+				$head = array(
+					'css' => base64_encode('assets/css/facebox.css,assets/css/setup.css,assets/css/header.css,assets/css/buy.css,assets/css/footer-short.css'),
+					'js' => base64_encode('assets/js/jquery-1.7.2.min.js,assets/js/jquery.timePicker.min.js,assets/js/jquery-ui-1.8.21.custom.min.js,assets/js/buy.js')	
+				);
+				$data = array(
+					'url' => $this->uri->segment(3)
+				);
+				$this->load->view('common/header', $head);
+				$this->load->view('event/setup', $data);
+				$this->load->view('common/footer');
+			}
+			else if ( $this->uri->segment(2) == "guests" )
+			{	
+				if ( $this->uri->segment(3) == "add" )
+				{
+					$this->load->view('event/guests-add');
+				} else {
+					show_404();
+				}
+			}
+			else if ( $this->uri->segment(2) == "details" )
+			{
+				if ( $this->uri->segment(3) == "save" )
+				{
+					echo "saved";
+				}
+			} else {
+				show_404();
 			}
 		} else {
 			show_404();

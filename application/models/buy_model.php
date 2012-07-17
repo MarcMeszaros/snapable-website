@@ -8,7 +8,7 @@ Class Buy_model extends CI_Model
 		return $details->result();
 	}
 	
-	function createEvent($event, $user, $cc, $address, $terms)
+	function createEvent($event, $user, $cc, $address)
 	{
 		// Charge Credit Card then do rest if it comes back ok
 		
@@ -44,7 +44,6 @@ Class Buy_model extends CI_Model
    			'email' => $user['email'],
    			'password' => md5($user['password']),
    			'billing_zip' => $address['zip'],
-   			'terms' => $terms,
    			'type' => 1,
    			'creation_date' => time(),
    			'last_accessed' => time()

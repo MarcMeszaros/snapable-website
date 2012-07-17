@@ -43,16 +43,11 @@ class Buy extends CI_Controller {
 					);
 					$this->load->view('buy/complete', $data);
 					
-					$terms = 0;
-					if ( isset($_POST['terms']) && $_POST['terms'] == "on" )
-					{
-						$terms = 1;
-					}
-					$create_event = $this->buy_model->createEvent($_POST['event'], $_POST['user'], $_POST['cc'], $_POST['address'], $terms);
+					$create_event = $this->buy_model->createEvent($_POST['event'], $_POST['user'], $_POST['cc'], $_POST['address']);
 					
 					if ( $create_event == 1 )
 					{
-						redirect('/event/' . $_POST['event']['url']);
+						redirect('/event/setup/' . $_POST['event']['url']);
 					} else {
 						redirect('/buy/error');
 					}
@@ -71,7 +66,8 @@ class Buy extends CI_Controller {
 					echo "&nbsp;";
 					$head = array(
 						'linkHome' => true,
-						'css' => base64_encode('assets/css/cupertino/jquery-ui-1.8.21.custom.css,assets/css/timePicker.css,assets/css/setup.css,assets/css/header.css,assets/css/buy.css,assets/css/footer.css')
+						'css' => base64_encode('assets/css/cupertino/jquery-ui-1.8.21.custom.css,assets/css/timePicker.css,assets/css/setup.css,assets/css/header.css,assets/css/buy.css,assets/css/footer-short.css'),
+						'js' => base64_encode('assets/js/jquery-1.7.2.min.js,assets/js/jquery.timePicker.min.js,assets/js/jquery-ui-1.8.21.custom.min.js,assets/js/buy.js')	
 					);
 					$this->load->view('common/header', $head);
 					$this->load->view('buy/index', $data);

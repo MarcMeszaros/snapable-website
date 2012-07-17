@@ -51,6 +51,7 @@ function geocoder(address)
 
 $(document).ready(function() 
 {  
+	$('a[rel*=facebox]').facebox();
 	
 	$( "#event-start-date, #event-end-date" ).datepicker({dateFormat: 'M d, yy'});//( "option", "dateFormat", "d M, y" );
 	
@@ -225,6 +226,19 @@ $(document).ready(function()
 		
 		return false;
 	})
+	$("#event-title").blur( function()
+	{
+		if ( $("#event-title").val() == "" )
+		{
+			$("#event-title").focus().addClass("input-error");
+			$("#event-title-error").fadeIn();
+		} else {
+			$("#event-title").removeClass("input-error");
+			$("#event-title-error").fadeOut();
+		}
+		
+		return false;
+	})
 	
 	// form verification and submission 
 	$("#btn-sign-up").click( function()
@@ -349,17 +363,47 @@ $(document).ready(function()
 			$("#address_zip").addClass("input-error");
 			$("#address_zip_error").fadeIn();
 			location.href="#billing-info";
-		}
-		else if ( agree == 0 )
-		{
-			$("#terms-error").fadeIn();
-			$("#terms-refund h3").css({"color":"#cc3300"});
-			location.href="#terms-refund";
 		} else {
 			document.forms["create_event"].submit();
 		}
 		
 		return false;
+	});
+	
+	// save a few more details 
+	$("#save-event").click( function()
+	{
+		// save title, description and privacy setting (cover photo and other photos are all saved already)
+		
+		var title = $("#event-title").val();
+		var desc = $("#event-description").val();
+		var privacy = new Array();
+		
+		if ( desc == "Add a description for your event." )
+		{
+			desc = "";
+		}
+		
+		$("input:checkbox[name=privacy-setting]:checked").each(function()
+		{
+		    privacy.push($(this).val());
+		});
+		
+		if ( title == "" )
+		{
+			$("#event-title").focus().addClass("input-error");
+			$("#event-title-error").fadeIn();
+		} else {
+			$.post("/event/details/save", {title:title,desc:desc,privacy:privacy}, function(data){ 
+				if ( data == "saved" )
+				{
+					window.location = "/dashboard";
+				} else {
+					alert("It appears something went wrong. Contact help@snapable.com and we'll straighten it out.");
+				}
+			});
+		}
+		
 	});
 
 });

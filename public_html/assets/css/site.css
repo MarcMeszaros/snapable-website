@@ -1,0 +1,53 @@
+/**** STRUCTURE ****/
+body {
+        background: #fff;
+        color: #666;
+}
+
+.contentWrap, section {
+        width: 820px;
+        margin: 0 auto;
+}
+section { margin-bottom: 25px; }
+
+#restOfPageWrap {
+        margin: 150px auto 50px auto;
+        width: 780px;
+}
+
+/**** TEXT ****/
+
+h1 {
+        color: #777;
+        font-size:32px;
+        line-height: 34px;
+        font-weight:normal;
+        margin: 0 10px 25px 0;
+}
+
+h2 {
+        color: #555;
+        font-size:22px;
+        line-height: 24px;
+        font-weight:bold;
+        margin: 0 10px 10px 0;
+}
+h2 span {
+        font-size: 14px;
+        padding-left: 5px;
+        color: #d99d36;
+}
+
+h3 {
+        font-size: 16px;
+        line-height: 20px;
+        padding: 15px 0;
+        color: #444;
+}
+
+p {
+        font-weight: normal;
+        margin: 0 0 15px 0;
+        font-size: 14px;
+        line-height: 20px;
+}

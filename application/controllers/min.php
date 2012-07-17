@@ -34,11 +34,20 @@ class Min extends CI_Controller {
 	public function index()
 	{
 		$segments = $this->uri->total_segments();
-  	
-  		if ( $segments == 2 )
+		
+  		if ( $segments == 3 )
 		{
-			$files = base64_decode($this->uri->segment(2));
+			$files = base64_decode($this->uri->segment(3));
 			$combine = explode(",",$files);
+			
+			if ( $this->uri->segment(2) == "c" )
+			{
+				header('Content-type: text/css');
+			} 
+			else if ( $this->uri->segment(2) == "j" )
+			{
+				header("Content-type: application/javascript");
+			}
 			echo $this->minify->combine_files($combine);
 		} else {
 			show_404();

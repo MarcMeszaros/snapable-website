@@ -13,18 +13,12 @@
 	<link rel="SHORTCUT ICON" href="/favicon.ico"/> 
     
     <link href='http://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="/min/<?= $css ?>" type="text/css" media="screen" />
-    <!--
-    <link rel="stylesheet" href="/assets/css/timePicker.css" type="text/css" media="screen" />
-    <link rel="stylesheet" href="/assets/css/timePicker.css" type="text/css" media="screen" />
-		<link type="text/css" href="/assets/css/cupertino/jquery-ui-1.8.21.custom.css" rel="stylesheet" />
-    -->
-    <script type="text/javascript" src="/assets/js/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="/assets/js/jquery.timePicker.min.js"></script>
-		<script type="text/javascript" src="/assets/js/jquery-ui-1.8.21.custom.min.js"></script>
-    <script type="text/javascript" src="/assets/js/buy.js"></script>
-    
-    <script type="text/javascript" src="/assets/js/photostream.js"></script>
+    <?php if ( isset($css) ) { ?>
+    <link rel="stylesheet" href="/min/c/<?= $css ?>" type="text/css" media="screen" />
+    <?php } ?>
+    <?php if ( isset($js) ) { ?>
+    <script type="text/javascript" src="/min/j/<?= $js ?>"></script>
+    <?php } ?>
     
 </head>
 

@@ -3,12 +3,13 @@
 	<input type="hidden" id="package" name="event[package]" value="<?= $package[0]->package_id ?>" />
 	<input type="hidden" id="lat" name="event[lat]" value="0" />
 	<input type="hidden" id="lng" name="event[lng]" value="0" />
-
-	<h1>Sign-up now and receive 10 additional prints <strong>FREE</strong></h1>
-	
-	<h2>Your Details</h2>
 	
 	<section id="your-details" class="form-fields">
+
+		<h1>Sign-up</h1>
+		<h2>It’ll only take a minute to setup your event.</h2>
+	
+		<h3>Your Details</h3>
 	
 		<div class="form-box">
 			
@@ -33,14 +34,14 @@
   
 			<hr />
   
-			<div class="form-field field-separated">
-				<label for="user_password">Password <em>(6 characters or longer)</em></label>
+			<div class="password-field field-separated">
+				<label for="user_password">Password<br /><em>(6 characters or longer)</em></label>
 				<input id="user_password" name="user[password]" size="30" type="password">
 				<div class="field-error" id="user_password_error">Error.</div>
 			</div>
       
-			<div class="form-field">
-				<label for="user_password_confirmation">Enter password again <em>(for confirmation)</em></label>
+			<div class="password-field">
+				<label for="user_password_confirmation">Enter password again<br /><em>(for confirmation)</em></label>
 				<input id="user_password_confirmation" name="user[password_confirmation]" size="30" type="password">
 				<div class="field-error" id="user_password_confirmation_error">Error.</div>
 			</div>
@@ -49,12 +50,11 @@
 			
 		</div>
 	
-		<div class="form-fields-bottom">&nbsp;</div>
 	</section>
 	
 	<div class="form-column-right form-package-details">
 		
-			<p><strong>Your Package: </strong><?= $package[0]->name ?> for $<?= $package[0]->price ?></p>
+			<h4><strong>Your Package: </strong><?= $package[0]->name ?> for $<?= $package[0]->price ?></h4>
 
 			<p>This package includes <strong><?= $package[0]->prints ?> prints</strong>, <strong><?php if ( $package[0]->albums == 0 ) { echo "Unlimited"; } else { echo $package[0]->albums; } ?> online albums</strong> and more.</p>
 			
@@ -62,17 +62,17 @@
 	
 	<div class="clearit">&nbsp;</div>
 	
-	
-	
-	<h2>Event Details</h2>
-	
 	<section id="event-details" class="form-fields">
 	
+		<hr class="thick" />
+		
+		<h3>Event Details</h3>
+		
 		<div class="form-box">
 			
 			<div class="form-field field-separated">
 				<label for="event_title">Title</label>
-				<input id="event_title" class="long-field" name="event[title]" size="40" type="text"> 
+				<input id="event_title" name="event[title]" size="40" type="text"> 
 				<div class="field-error" id="event_title_error">You must provide a title for your event.</div>
 			</div>
 			
@@ -104,37 +104,46 @@
 				</div>
 			</div>
 			
-			<div class="location-field field-separated">
+			<div class="form-field">
 				<label for="event_location">Location</label>
 				<span id="event_location_status">&nbsp;</span>
-				<input id="event_location" class="long-field" name="event[location]" size="40" type="text"> 
+				<input id="event_location" name="event[location]" size="40" type="text"> 
 				<div class="field-error" id="event_location_error">You must provide a location for your event.</div>
 				<div class="form-field_hint">Example: 255 Bremner Blvd, Toronto, Canada, M5V 3M9</div>
 			</div>
 			
 			<hr />
 			
-			<div class="form-field long-field">
+			<div class="form-field">
 				<label for="event_url">Pick a custom URL</label>
-				<span class="info left">http://getsnapable.com/</span><input id="event_url" name="event[url]" size="30" type="text" />
+				<span class="info left">snapable.com/</span><input id="event_url" name="event[url]" type="text" />
 				<span id="event_url_status">&nbsp;</span>
 				<div class="clearit">&nbsp;</div>
 				<div class="field-error" id="event_url_error">This URL is already in use.</div>
-				<div class="form-field_hint">Example: http://getsnapable.com/<b>my-big-fat-greek-wedding</div>
+				<div class="form-field_hint">Example: http://snapable.com/<b>my-big-fat-greek-wedding</div>
 			</div>
 			<div class="clearit">&nbsp;</div>
 		</div>
 		
-		<div class="form-fields-bottom">&nbsp;</div>
 	</section>
+	
+	<div id="refund-policy" class="form-column-right">
+		
+		<h4>Refund Policy</h4>
+		
+		<p>You will be billed right away, however at any time leading up to 48 hours before the event you can request a full refund.</p>
+		
+		<p>After the event should no prints have been mailed you can request a refund and we will immediately delete all information (including photos) of the event and refund 50% of the package cost. &nbsp;<a href="/site/terms" target="_blank">› See Full Terms of Service</a>.</p>
+		
+	</div>
 	
 	<div class="clearit">&nbsp;</div>
 	
-	
-	
-	<h2>Billing Information &nbsp; <img src="/assets/img/lock.png" width="16" height="16" alt="SECURE" /><span>Secure</span></h2>
-	
 	<section id="billing-info" class="form-fields">
+	
+		<hr class="thick" />
+	
+		<h3>Billing Information &nbsp; <img src="/assets/img/lock.png" width="16" height="16" alt="SECURE" /><span>Secure</span></h3>
 	
 		<div class="form-box">
 		 
@@ -150,7 +159,7 @@
 				<div class="field-error" id="creditcard_number_error">You must provide the number on your credit card.</div>
 			</div> 
 			
-			<div class="form-field" id="cc_expiration">
+			<div class="expires-field" id="cc_expiration">
 				<label for="creditcard_month">Expiration date</label>
 				<select id="creditcard_month" name="cc[month]"><option value="1">1</option>
 					<option value="2">2</option>
@@ -165,7 +174,6 @@
 					<option value="11">11</option>
 					<option value="12">12</option>
 				</select>
-				<span class="info left">/<span>
 				<select id="creditcard_year" name="cc[year]">
 					<option value="2012" selected="selected">2012</option>
 					<option value="2013">2013</option>
@@ -181,14 +189,14 @@
 				</select>
 			</div>
 			
-			<div class="clearit">&nbsp;</div>
-			
-			<div class="form-field" id="cc_cvv">
+			<div class="cvv-field" id="cc_cvv">
 				<label class="input" for="creditcard_verification_value">Security code </label>
 				<input id="creditcard_verification_value" name="cc[verification_value]" size="4" type="text" /> 
 				<img src="/assets/img/cc_security_code.png" width="48" height="30" alt="-" />
 				<div class="field-error" id="creditcard_verification_value_error">You must provide the security from the back of your credit card.</div>
 			</div>
+			
+			<div class="clearit">&nbsp;</div>
 			
 			<hr />
 			
@@ -202,38 +210,23 @@
 		 
 		</div>
 		
-		<div class="form-fields-bottom">&nbsp;</div>
 	</section>
 	
 	<div class="form-column-right">
 	
-		<div id="credit_cards">CARDS</div>
+		<div id="credit_cards">
+			<img src="/assets/img/cards.png" width="154" height="30" alt="Visa, Mastercard, Paypal" />
+		</div>
 		<div id="receipt_text">
 			You'll receive a receipt via email upon completion of this form.
 		</div>
+		
+		<img src="/assets/img/RapidSSL_SEAL-90x50.gif" width="90" height="50" alt="Secured By RapidSSL" />
 	
 	</div>
 	
 	<div class="clearit">&nbsp;</div>
 	
-	<h2>Please read &amp; agree to our terms and refund policy</h2>
-	
-	<section id="terms-refund" class="form-fields">
-	
-		<div class="terms-box">
-
-			<p>You will be billed right away, however at any time leading up to 48 hours before the event you can request a full refund. Post event should no prints have been mailed you can request a refund and we will immediately delete all information (including photos) of the event and refund 50% of the package cost. <a href="/site/terms" target="_blank">See Full Terms of Service</a>.</p>
-
-			<h3><input id="terms-service" name="terms" type="checkbox" /> I agree to these Terms of Service</h3>
-			<div class="field-error" id="terms-error">You must agree to the terms before signing up.</div>
-			
-		</div>
-		
-		<div class="form-fields-bottom">&nbsp;</div>
-	</section>
-	
-	<div class="clearit">&nbsp;</div>
-	
-	<a href="#" id="btn-sign-up"><img src="/assets/img/finalize_setup.png" width="453" height="75" alt="Finalize and setup setup" border="0" /></a>
+	<a href="#" id="btn-sign-up"><img src="/assets/img/complete.png" width="250" height="75" alt="Complete Purchase" border="0" /></a>
 			
 </form>
