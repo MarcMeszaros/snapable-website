@@ -5,6 +5,7 @@
 <div id="dash-list">	
 	
 	<h3>Here's a few things you can do to help make your wedding day photos a success.</h3>
+	<h4>Don't worry, you can come back later and complete these!</h4>
 	
 	<ul>
 		<li>
@@ -26,7 +27,7 @@
 				
 				<h5>Add Photos</h5>
 				
-				<p>Setup albums of the events leading up to the big day. <br /><em>This can also be done at any time from your event page.</em></p>
+				<p>Upload photos and setup albums leading up to the big day. <br /><em>This can also be done at any time from your event page.</em></p>
 				
 				<a href="/event/setup/<?= $url ?>/upload" id="upload-photos" class="button" rel="facebox">Upload Photos &rarr;</a>
 				
@@ -53,7 +54,7 @@
 		<li>
 			<div class="dash-list-title">After the event</div>
 			<div class="dash-list-text">
-				<h5>Create Albums</h5>
+				<h5>Create Photo Albums</h5>
 				<p>Make albums  of your favorite photos</p>
 				
 				<a href="/event/setup/<?= $url ?>/albums" id="make-albums" class="button" rel="facebox">Make Albums &rarr;</a>

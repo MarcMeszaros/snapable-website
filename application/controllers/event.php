@@ -60,14 +60,14 @@ class Event extends CI_Controller {
 			{
 				echo "&nbsp;";
 				$head = array(
-					'css' => base64_encode('assets/css/facebox.css,assets/css/setup.css,assets/css/header.css,assets/css/buy.css,assets/css/footer-short.css'),
+					'css' => base64_encode('assets/css/setup.css,assets/css/header.css,assets/css/buy.css,assets/css/footer-short.css'),
 					'js' => base64_encode('assets/js/jquery-1.7.2.min.js,assets/js/jquery.timePicker.min.js,assets/js/jquery-ui-1.8.21.custom.min.js,assets/js/buy.js')	
 				);
 				$data = array(
 					'url' => $this->uri->segment(3)
 				);
 				$this->load->view('common/header', $head);
-				$this->load->view('event/setup', $data);
+				$this->load->view('event/setup/index', $data);
 				$this->load->view('common/footer');
 			}
 			else if ( $this->uri->segment(2) == "guests" )
@@ -85,6 +85,15 @@ class Event extends CI_Controller {
 				{
 					echo "saved";
 				}
+			} else {
+				show_404();
+			}
+		} 
+		else if ( $segments == 4 )
+		{
+			if ( $this->uri->segment(2) == "setup" )
+			{
+				$this->load->view('event/setup/' . $this->uri->segment(4));
 			} else {
 				show_404();
 			}

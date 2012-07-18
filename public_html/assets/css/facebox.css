@@ -35,6 +35,10 @@
   margin-bottom:0;
 }
 
+#facebox .inner {
+	padding: 10px;
+}
+
 #facebox .close{
   position:absolute;
   top:5px;

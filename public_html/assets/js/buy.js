@@ -51,8 +51,6 @@ function geocoder(address)
 
 $(document).ready(function() 
 {  
-	$('a[rel*=facebox]').facebox();
-	
 	$( "#event-start-date, #event-end-date" ).datepicker({dateFormat: 'M d, yy'});//( "option", "dateFormat", "d M, y" );
 	
 	$("#event-start-time").timePicker({
