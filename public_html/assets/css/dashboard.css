@@ -111,11 +111,12 @@ h4 {
 	}
 
 h5 {
-	color: #9ab6c3;
+	color: #24abe2;
 	font-size: 16px;
 	line-height: 20px;
 	margin-bottom: 5px;
 }
+h5 img { vertical-align: top; margin-left: 5px; }
 
 p {
 	color: #333;
@@ -178,6 +179,24 @@ a.button:hover {
 	border-bottom: 1px dotted #006699;
 }
 
+
+a.show-extended-info:link, a.show-extended-info:visited {
+	text-decoration: none;
+	color: #24abe2;
+	padding-top: 2px;
+	padding-left: 20px;
+	background: transparent url('/assets/img/icons/arrow_down_12x12.png') no-repeat left center;
+}
+a.show-extended-info:hover {
+	color: #86c440;
+	background: transparent url('/assets/img/icons/arrow_down_12x12-on.png') no-repeat left center;
+	text-decoration: underline;
+}
+.dash-extended-info {
+	display: none;
+}
+
+
 /**** OVERLAYS ****/
 
 ul.overlay-tabs {
@@ -186,7 +205,7 @@ ul.overlay-tabs {
 }
 ul.overlay-tabs li {
 	display: inline;
-	margin: 0 1px 0 0;
+	margin: 0;
 	padding: 10px 15px 5px 15px;
 	border-top: 1px solid #e1e1e1;
 	border-left: 1px solid #e1e1e1;
@@ -195,6 +214,16 @@ ul.overlay-tabs li {
 	background: #f4f4f4;
 	color: #999;
 	font-weight: bold;
+}
+ul.overlay-tabs li.fifty {
+	display: inline-block;
+	width: 175px;
+	margin-bottom: -3px;
+}
+ul.overlay-tabs li.hundred {
+	display: block;
+	width: 380px;
+	margin-bottom: -3px;
 }
 ul.overlay-tabs li.active {
 	border-color: #333;
@@ -206,13 +235,15 @@ ul.overlay-tabs li.active {
 	margin-top: 3px;
 	padding: 10px;
 	border-top: 1px solid #333;
+	font-size: 13px;
+	line-height: 18px;
 }
 
 #add-guests-wrap p {
 	margin: 10px 0;
 }
 
-a#guest-upload:link, a#guest-manual:link, a#guest-upload:visited, a#guest-manual:visited {
+a#guest-link-upload:link, a#guest-link-manual:link, a#guest-link-upload:visited, a#guest-link-manual:visited {
 	display: inline-block;
 	width: 170px;
 	border: 1px solid #ccc;
@@ -225,72 +256,50 @@ a#guest-upload:link, a#guest-manual:link, a#guest-upload:visited, a#guest-manual
 	margin: 10px 0;
 	text-decoration: none;
 }
-a#guest-upload:link, a#guest-upload:visited { 
+a#guest-link-upload:link, a#guest-link-upload:visited { 
 	float: left; 
 	margin-left: 10px;
 	background: #e1e1e1 url('/assets/img/icons/upload-file.png') no-repeat center top;
 	}
-a#guest-manual:link, a#guest-manual:visited { 
+a#guest-link-manual:link, a#guest-link-manual:visited { 
 	float: right;
 	margin-right: 10px;
 	background: #e1e1e1 url('/assets/img/icons/copy-paste.png') no-repeat center top;
 	}
 
-a#guest-upload:hover, a#guest-manual:hover {
+a#guest-link-upload:hover, a#guest-link-manual:hover {
 	border: 1px solid #00ccff;
 	background-color: #d0e8ee;
 }
 
-#uploadArea {
-	display: block;
-	border: 2px solid #c3d7ec;
-	background: #f4f4f4;
-	border-radius: 3px;
-	padding: 50px 30px;
-	margin: 10px 0 20px 0;
-	text-align: center;
-	-moz-box-shadow: 0 4px 2px -2px #666;
-	-webkit-box-shadow: 0 4px 2px -2px #666;
-	box-shadow: inset 1px 1px 6px -2px #000;
-}
-
-a#upload-done {
-	display: block;
-	width: 75px;
+.guests-hide { 
+	display: none; 
+	background: #ffffee;
+	border: 1px solid #E3C27C;
+	padding: 10px;
 	border-radius: 5px;
-	margin: 0 auto;
-	padding: 10px 0 7px 0;
-	text-align: center;
-	font-size: 18px;
-	line-height: 20px;
-	font-weight: bold;
-	text-shadow: 1px 1px 1px #333;
-	box-shadow: 0 4px 2px -2px rgba(0, 0, 0, 0.5);
-	background-image: -webkit-gradient(
-		linear, left top, left bottom, from(rgba(80,80,80,0.1)),
-		to(rgba(80,80,80,0.5))
-	);
-}
-a#upload-done:link, a#upload-done:visited {
-	color: #fff;
-	background-color: #669900;
-	border: 1px solid #5b8801;
-	text-decoration: none;
-	font-weight: normal;
-}
-a#upload-done:hover {
-	background-color: #006699;
-	border: 1px solid #015c89;
+	}
+	
+#guests-file-uploader {
+	padding: 5px;
+	background: #f6dca6;
+	border-radius: 3px;
+}	
+
+#guests-file-how-to-csv {
+	display: none;
+	border-top: 1px solid #E3C27C;
+	padding-top: 10px;
+	margin-top: 20px;
 }
 
-#slideshow-text {
-	font-size: 14px;
-	line-height: 20px;
-	padding: 20px 0 10px 0;
+.guests-back-to-choices {
+	display: block;
+	width: 50px;
+	margin: 0 auto 5px auto;
 }
 
-/*
-#event-guest-list-manual textarea {
+#guests-manual textarea {
 	width: 420px;
 	height: 100px;
 	resize: none;
@@ -301,8 +310,52 @@ a#upload-done:hover {
 	font-size: 14px;
 	line-height: 18px;
 }
-*/
+
+a.buttonBox {
+	display: block;
+	width: 50px;
+	margin: 0 auto 0 auto;
+	padding: 5px 10px 3px 10px;
+	text-align: center;
+	font-size: 12px;
+	line-height: 14px;
+	font-weight: bold;
+	letter-spacing: 1px;
+	text-shadow: 1px 1px 1px #666;
+	border-radius: 3px;
+	box-shadow: 0 3px 1px -2px #ccc;
+	background-image: -webkit-gradient(
+		linear, left top, left bottom, from(rgba(80,80,80,0.1)),
+		to(rgba(80,80,80,0.5))
+	);
+}
+a.buttonBox:link, a.buttonBox:visited {
+	color: #fff;
+	background-color: #669900;
+	border-bottom: 1px dotted #669900;
+	text-decoration: none;
+}
+a.buttonBox:hover {
+	background-color: #006699;
+	border-bottom: 1px dotted #006699;
+}
+
+#guests-upload-csv {
+	float: right;
+}
 
 #notify-guests {
 	display: none;
+}
+
+#notify-guests textarea {
+	width: 420px;
+	height: 100px;
+	resize: none;
+	border: 1px solid #999;
+	padding: 10px;
+	margin: 10px 0;
+	background: #fff url('/assets/img/textbox-inner-shadow.png') no-repeat;
+	font-size: 14px;
+	line-height: 18px;
 }

@@ -44,7 +44,7 @@ class Event extends CI_Controller {
 				$head = array(
 					'noTagline' => true,
 					'css' => base64_encode('assets/css/setup.css,assets/css/header.css,assets/css/event.css,assets/css/footer.css'),
-						'js' => base64_encode('assets/js/jquery-1.7.2.min.js,assets/js/jquery.timePicker.min.js,assets/js/jquery-ui-1.8.21.custom.min.js,assets/js/photostream.js')	
+					'js' => base64_encode('assets/js/jquery-1.7.2.min.js,assets/js/photostream.js')	
 				);
 				$data = array(
 					'url' => $this->uri->segment(2)

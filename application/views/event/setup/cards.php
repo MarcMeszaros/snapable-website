@@ -1,7 +1,7 @@
 <div class="inner">
 
 	<ul class="overlay-tabs">
-		<li class="active">Customize &amp; Download Table Cards</li>
+		<li class="active hundred">Customize &amp; Download Table Cards</li>
 	</ul>
 	
 	<div class="tab-content">
