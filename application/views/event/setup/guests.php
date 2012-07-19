@@ -76,6 +76,8 @@
 	
 		<p>Let your guests know to download Snapable in advance.</p>
 		
+		<p>ADD EMAIL TEMPLATE TO SHOW FULL MESSAGE</p>
+		
 		<div id="notify-message">
 		
 			<textarea>Message</textarea>

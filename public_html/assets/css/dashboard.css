@@ -8,6 +8,7 @@ body {
 	width: 650px;
 }
 
+
 #dash-list {
 	width: 525px;
 	margin: 20px auto;
@@ -16,30 +17,84 @@ body {
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
-.dash-list-title {
-	float: left;
-	width: 145px;
-	font-weight: bold;
-	color: #333;
-	font-size: 16px;
+ul#dash-tabs {
+	padding: 0;
+	margin: 0;
 }
-.dash-list-text {
-	float: right;
-	width: 355px;
-	padding-left: 20px;
-	border-left: 1px dotted #E3C27C;
-	font-size: 14px;
-	line-height: 18px;
+ul#dash-tabs:after {
+	content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+    margin: 0;
+    padding: 0;
+}
+ul#dash-tabs li {
+	float: left;
+	display: inline;
+}
+ul#dash-tabs li:first-child { margin-left: 10px; }
+ul#dash-tabs a {
+	display: block;
+	padding: 10px 10px 8px 10px;
+	margin-right: 2px;
+	border-top: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	border-left: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	border-top-right-radius: 4px;
+	border-top-left-radius: 4px;
+	background: #f4f4f4;
+	text-decoration: none;
+	color: #006699;
+	font-weight: bold;
+	background: -webkit-gradient(
+		linear, left top, left bottom, from(rgba(225,225,225,1)),
+		to(rgba(244,244,244,1))
+	);
+}
+ul#dash-tabs a.active { 
+	border-bottom: 1px solid #fff;
+	background: #fff;
+}
+ul#dash-tabs a:link, ul#dash-tabs a:visited {
+	color: #666;
+}
+ul#dash-tabs a:hover {
+	color: #669900;
+}
+ul#dash-tabs a.active:link, ul#dash-tabs a.active:visited {
+	color: #006699;
+}
+ul#dash-tabs a.active:hover {
+	color: #006699;
 }
 
-.dash-list-text input[type=text] {
+.dash-tabs-content {
+	display: none;
+	border-top: 1px solid #ccc;
+	padding: 20px;
+	margin-top: -1px;
+	margin-bottom: 30px;
+	color: #666;
+	background: #fff;
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	border-left: 1px solid #ccc;
+	border-radius: 5px;
+}
+
+.dash-tabs-content input[type=text] {
 	padding: 5px;
 	width: 100%;
 	font-size: 14px;
 	text-align: center;
 	margin-top: 5px;
 	margin-bottom: 10px;
+	background: #ffffee;
 }
+
 
 a#event-link {
 	display: block;
@@ -119,7 +174,7 @@ h5 {
 h5 img { vertical-align: top; margin-left: 5px; }
 
 p {
-	color: #333;
+	color: #666;
 	font-size: 13px;
 	line-height: 18px;
 }
@@ -132,70 +187,38 @@ hr {
 	height: 1px;
 }
 
-ul {
-	margin: 40px 0;
-	list-style: none;
-}
-li {
-	margin: 0 0 20px 0;
-	padding: 0 0 20px 0;
-	border-bottom: 1px solid #E3C27C;
-}
-li:after {
-	content: ".";
-    display: block;
-    height: 0;
-    clear: both;
-    visibility: hidden;
-    margin: 0;
-    padding: 0;
-}
-
-a:link, a:visited {
+.dash-tabs-content a:link, .dash-tabs-content a:visited {
 	color: #006699;
 	font-weight: bold;
 }
-a:hover {
+.dash-tabs-content a:hover {
 	color: #669900;
 }
-
 a.button {
 	display: inline-block;
 	margin: 10px 0 0 0;
+	padding: 3px 10px 2px 10px;
 	text-align: center;
 	font-size: 12px;
 	line-height: 14px;
 	font-weight: bold;
 	letter-spacing: 1px;
-	text-shadow: 1px 1px 1px #fff;
+	text-shadow: 1px 1px 1px #666;
+	border-radius: 3px;
+	background-image: -webkit-gradient(
+		linear, left top, left bottom, from(rgba(80,80,80,0.1)),
+		to(rgba(80,80,80,0.5))
+	);
 }
 a.button:link, a.button:visited {
-	color: #669900;
-	border-bottom: 1px dotted #669900;
+	color: #fff;
+	background-color: #669900;
 	text-decoration: none;
 }
 a.button:hover {
-	color: #006699;
-	border-bottom: 1px dotted #006699;
+	color: #fff;
+	background-color: #006699;
 }
-
-
-a.show-extended-info:link, a.show-extended-info:visited {
-	text-decoration: none;
-	color: #24abe2;
-	padding-top: 2px;
-	padding-left: 20px;
-	background: transparent url('/assets/img/icons/arrow_down_12x12.png') no-repeat left center;
-}
-a.show-extended-info:hover {
-	color: #86c440;
-	background: transparent url('/assets/img/icons/arrow_down_12x12-on.png') no-repeat left center;
-	text-decoration: underline;
-}
-.dash-extended-info {
-	display: none;
-}
-
 
 /**** OVERLAYS ****/
 
@@ -238,6 +261,14 @@ ul.overlay-tabs li.active {
 	font-size: 13px;
 	line-height: 18px;
 }
+.tab-content a:link, .tab-content a:visited {
+	color: #006699;
+    font-weight: bold;
+}
+.tab-content a:hover {
+	color: #669900;
+}
+
 
 #add-guests-wrap p {
 	margin: 10px 0;
