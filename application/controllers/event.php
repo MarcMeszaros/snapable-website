@@ -43,8 +43,8 @@ class Event extends CI_Controller {
 				echo "&nbsp;";
 				$head = array(
 					'noTagline' => true,
-					'css' => base64_encode('assets/css/setup.css,assets/css/header.css,assets/css/event.css,assets/css/footer.css'),
-					'js' => base64_encode('assets/js/jquery-1.7.2.min.js,assets/js/photostream.js')	
+					'css' => base64_encode('assets/css/tipsy.css,assets/css/setup.css,assets/css/header.css,assets/css/event.css,assets/css/footer.css'),
+					'js' => base64_encode('assets/js/jquery-1.7.2.min.js,assets/js/jquery.tipsy.js,assets/js/photostream.js')	
 				);
 				$data = array(
 					'url' => $this->uri->segment(2)

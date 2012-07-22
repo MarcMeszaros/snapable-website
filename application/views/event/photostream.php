@@ -35,14 +35,14 @@
 		</ul>
 		<h3>Add to:</h3>
 		<div class="photo-buttons">
-			<a class="button button-left" href="#">Prints</a>
-			<a class="button button-right" href="#">Album</a>
+			<a class="button button-left addto-prints" href="#">Prints</a>
+			<a class="button button-right addto-album" href="#">Album</a>
 		</div>
 		<a class="photo-enlarge" href="/p/123" title="Enlarge">Enlarge</a>
 		<a class="photo-download" href="#" title="Download">Download</a>
 	</div>
 	<img src="/assets/img/FPO/event-photo-1.jpg" />
-	<img class="photo-comment" src="/assets/img/icons/comment.png" /> Andrew D.	
+	<img class="photo-comment" title="Uncle Bob dancing up a storm on the dance floor." src="/assets/img/icons/comment.png" /> Andrew D.	
 </div>
 <div class="photo">
 	<div class="photo-overlay">
@@ -53,8 +53,8 @@
 		</ul>
 		<h3>Add to:</h3>
 		<div class="photo-buttons">
-			<a class="button button-left" href="#">Prints</a>
-			<a class="button button-right" href="#">Album</a>
+			<a class="button button-left addto-prints" href="#">Prints</a>
+			<a class="button button-right addto-album" href="#">Album</a>
 		</div>
 		<a class="photo-enlarge" href="#" title="Enlarge">Enlarge</a>
 		<a class="photo-download" href="#" title="Download">Download</a>
@@ -71,8 +71,8 @@
 		</ul>
 		<h3>Add to:</h3>
 		<div class="photo-buttons">
-			<a class="button button-left" href="#">Prints</a>
-			<a class="button button-right" href="#">Album</a>
+			<a class="button button-left addto-prints" href="#">Prints</a>
+			<a class="button button-right addto-album" href="#">Album</a>
 		</div>
 		<a class="photo-enlarge" href="#" title="Enlarge">Enlarge</a>
 		<a class="photo-download" href="#" title="Download">Download</a>
@@ -89,8 +89,8 @@
 		</ul>
 		<h3>Add to:</h3>
 		<div class="photo-buttons">
-			<a class="button button-left" href="#">Prints</a>
-			<a class="button button-right" href="#">Album</a>
+			<a class="button button-left addto-prints" href="#">Prints</a>
+			<a class="button button-right addto-album" href="#">Album</a>
 		</div>
 		<a class="photo-enlarge" href="#" title="Enlarge">Enlarge</a>
 		<a class="photo-download" href="#" title="Download">Download</a>
@@ -107,8 +107,8 @@
 		</ul>
 		<h3>Add to:</h3>
 		<div class="photo-buttons">
-			<a class="button button-left" href="#">Prints</a>
-			<a class="button button-right" href="#">Album</a>
+			<a class="button button-left addto-prints" href="#">Prints</a>
+			<a class="button button-right addto-album" href="#">Album</a>
 		</div>
 		<a class="photo-enlarge" href="#" title="Enlarge">Enlarge</a>
 		<a class="photo-download" href="#" title="Download">Download</a>
@@ -125,8 +125,8 @@
 		</ul>
 		<h3>Add to:</h3>
 		<div class="photo-buttons">
-			<a class="button button-left" href="#">Prints</a>
-			<a class="button button-right" href="#">Album</a>
+			<a class="button button-left addto-prints" href="#">Prints</a>
+			<a class="button button-right addto-album" href="#">Album</a>
 		</div>
 		<a class="photo-enlarge" href="#" title="Enlarge">Enlarge</a>
 		<a class="photo-download" href="#" title="Download">Download</a>
@@ -143,8 +143,8 @@
 		</ul>
 		<h3>Add to:</h3>
 		<div class="photo-buttons">
-			<a class="button button-left" href="#">Prints</a>
-			<a class="button button-right" href="#">Album</a>
+			<a class="button button-left addto-prints" href="#">Prints</a>
+			<a class="button button-right addto-album" href="#">Album</a>
 		</div>
 		<a class="photo-enlarge" href="#" title="Enlarge">Enlarge</a>
 		<a class="photo-download" href="#" title="Download">Download</a>
@@ -161,8 +161,8 @@
 		</ul>
 		<h3>Add to:</h3>
 		<div class="photo-buttons">
-			<a class="button button-left" href="#">Prints</a>
-			<a class="button button-right" href="#">Album</a>
+			<a class="button button-left addto-prints" href="#">Prints</a>
+			<a class="button button-right addto-album" href="#">Album</a>
 		</div>
 		<a class="photo-enlarge" href="#" title="Enlarge">Enlarge</a>
 		<a class="photo-download" href="#" title="Download">Download</a>

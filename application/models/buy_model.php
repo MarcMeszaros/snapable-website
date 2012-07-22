@@ -38,62 +38,127 @@ Class Buy_model extends CI_Model
 	        )
 	    [terms] => on
 	        */
-	     $data = array(
-   			'fname' => $user['first_name'],
-   			'lname' => $user['last_name'],
-   			'email' => $user['email'],
-   			'password' => md5($user['password']),
-   			'billing_zip' => $address['zip'],
-   			'type' => 1,
-   			'creation_date' => time(),
-   			'last_accessed' => time()
-		);
-		$this->db->insert('user', $data);
-		$user_id = $this->db->insert_id();
-		/*
-		 [event] => Array
-	        (
-	            [package] => 1
-	            [lat] => 45.355772
-	            [lng] => -75.938238
-	            [title] => Big Awesome Event
-	            [start_date] => Jun 27, 2012
-	            [start_time] => 06:00 PM
-	            [end_date] => Jun 27, 2012
-	            [end_time] => 10:00 PM
-	            [location] => 1110 Halton Terrace, Kanata, ON
-	            [url] => big-awesome-event
-	        )
-	     */
-	     $start = strtotime($event['start_date'] . " " . $event['start_time']);
-	     $end = strtotime($event['end_date'] . " " . $event['end_time']);
-	     
-	     $data = array(
-   			'user_id' => $user_id,
-   			'package_id' => $event['package'],
-   			'start_timestamp' => $start,
-   			'end_timestamp' => $end,
-   			'title' => $event['title'],
-   			'url' => $event['url'],
-   			'creation_date' => time(),
-   			'last_accessed' => time(),
-   			'times_accessed' => 0,
-   			'active' => 1
-		);
-		$this->db->insert('event', $data);
-		$event_id = $this->db->insert_id();
+	    
+	    // USER
+	    $json = '{
+			"billing_zip": "' . $address['zip'] . '",
+		    "email": "' . $user['email'] . '",
+		    "first_name": "' . $user['first_name'] . '",
+		    "last_name": "' . $user['last_name'] . '",
+		    "password": "' . $user['password'] . '",
+		    "terms": true
+		}';
 		
-		$data = array(
-   			'event_id' => $event_id,
-   			'address' => $event['location'],
-   			'lat' => $event['lat'],
-   			'lng' => $event['lng'],
-   			'creation_date' => time()
-		);
-		$this->db->insert('addresses', $data);
-		$address_id = $this->db->insert_id();
+		$ch = curl_init('http://devapi.snapable.com/private_v1/user/');                                                                      
+		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $json);                                                                  
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
+		    'Content-Type: application/json',                                                                                
+		    'Content-Length: ' . strlen($json))                                                                       
+		);                                                                                                                   
 		
-		return 1;
-	}
+		$response = curl_exec($ch);
+		$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		curl_close($ch);
+		
+		if ( $httpcode == 201 )
+		{
+		
+			$result = json_decode($response);
+			$user_uri = $result->resource_uri;
+			
+			/*
+			 [event] => Array
+		        (
+		            [package] => 1
+		            [lat] => 45.355772
+		            [lng] => -75.938238
+		            [title] => Big Awesome Event
+		            [start_date] => Jun 27, 2012
+		            [start_time] => 06:00 PM
+		            [end_date] => Jun 27, 2012
+		            [end_time] => 10:00 PM
+		            [location] => 1110 Halton Terrace, Kanata, ON
+		            [url] => big-awesome-event
+		        )
+		     */
+		     
+		    // EVENT
+		    $min = 1000;
+			$max = 9999;
+			$event_pin = rand($min,$max);
+			
+			$start_timestamp = strtotime($event['start_date'] . " " . $event['start_time']);
+		    $end_timestamp = strtotime($event['end_date'] . " " . $event['end_time']);
+			$start = date( "Y-m-d", $start_timestamp ) . "T" . date( "H:i:s", $start_timestamp ); // formatted: 2010-11-10T03:07:43
+			$end = date( "Y-m-d", $end_timestamp ) . "T" . date( "H:i:s", $end_timestamp ); 
+			
+			$json = '{
+				"user": "' . $user_uri . '",
+				"package": "/private_v1/package/' . $event['package'] . '/",
+				"title": "' . $event['title'] . '",
+			    "url": "' . $event['url'] . '",
+			    "start": "' . $start . '",
+			    "end": "' . $end . '",
+			    "pin": "' . $event_pin . '",
+			    "enabled": true
+			}';
+			
+			$ch = curl_init('http://devapi.snapable.com/private_v1/event/');                                                                      
+			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $json);                                                                  
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
+			curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
+			    'Content-Type: application/json',                                                                                
+			    'Content-Length: ' . strlen($json))                                                                       
+			);                                                                                                                                
+			 
+			$response = curl_exec($ch);                                                                                
+			$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+			curl_close($ch);
+			
+			if ( $httpcode == 201 )
+			{
+				
+				$result = json_decode($response);
+				$event_uri = $result->resource_uri; 
+				
+				// ADDRESS
+				$json = '{
+					"event": "' . $event_uri . '",
+					"address": "' . $event['location'] . '",
+					"lat": "' . $event['lat'] . '",
+				    "lng": "' . $event['lng'] . '"
+				}';
+				
+				$ch = curl_init('http://devapi.snapable.com/private_v1/address/');                                                                      
+				curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
+				curl_setopt($ch, CURLOPT_POSTFIELDS, $json);                                                                  
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
+				curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
+				    'Content-Type: application/json',                                                                                
+				    'Content-Length: ' . strlen($json))                                                                       
+				);                                                                                                   
+				
+				$response = curl_exec($ch);
+				$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+				curl_close($ch);
+				
+				if ( $httpcode == 201 )
+				{
+					$result = json_decode($response);
+				
+					return 1;
+				} else {
+					return 0;
+				}
+			} else {
+				return 0;
+			}
+		} else {
+			return 0;
+		}
+	} 
 
 }
