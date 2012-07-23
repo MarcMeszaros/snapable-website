@@ -109,6 +109,7 @@ ul#event-nav  {
 }
 #event-nav li {
 	display: inline;
+	position: relative;
 	padding: 0 5px;
 	border-right: 1px dotted #ccc;
 }
@@ -127,6 +128,53 @@ ul#event-nav  {
 	color: #cc3300;
 	text-decoration: underline;
 }
+
+.event-nav-menu {
+	display: none;
+	position:absolute;
+	width:220px;
+	z-index:100;
+	text-align:left;
+	padding:10px;
+	top: 20px; 
+	left: 0px;
+	background: #ddeef6;
+	border-radius: 3px;
+	-webkit-box-shadow: 1px 1px 5px rgba(50, 50, 50, 0.75);
+	-moz-box-shadow:    1px 1px 5px rgba(50, 50, 50, 0.75);
+	box-shadow:         1px 1px 5px rgba(50, 50, 50, 0.75);
+}
+.event-nav-menu input[type=button] {
+	width: 50px;
+	margin: 10px auto 0 auto;
+	padding-top: 10px;
+}
+#event-nav-menu-share {
+	width: 95px;
+}
+a.menu-open {
+	/*
+	background:#ddeef6!important;
+	color:#666!important;
+	outline:none;
+	*/
+}
+#event-nav-menu-privacy ul {
+	float:left;
+	width: 110px;
+	margin-top: 10px;
+	list-style: none;
+}
+#event-nav-menu-privacy li {
+	float: none;
+	display: block;
+	padding: 0;
+	margin-bottom: 5px;
+	font-size: 12px;
+	line-height: 16px;
+	border-right: none;
+}
+
 
 #event-title {
 	width: 640px;
@@ -197,6 +245,15 @@ ul.photo-share {
 	top: 5px;
 	right: 5px;
 	list-style: none
+}
+ul.photo-share:after {
+	content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+    margin: 0;
+    padding: 0;
 }
 ul.photo-share li {
 	display: inline-block;
