@@ -14,6 +14,9 @@
 	<a id="facebook" href="#">Share</a>
 	<a id="email" href="#">Email</a>
 	
+	<!-- ONLY APPEARS IF IT"S EITHER THE OWNER OF THE GROUP OR TAKER OF THE PHOTO WHO"S VIEWING -->
+	<h2><a id="photo-download" href="#">Download Photo</a></h2>
+	
 </div>
 
 <div class="clearit">&nbsp;</div>

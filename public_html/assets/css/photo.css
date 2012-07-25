@@ -35,6 +35,17 @@ strong { color: #666; }
 #details a:hover {
 	color: #cc3300;
 }
+a#photo-download:link, a#photo-download:visited {
+	color: #fff;
+	font-size: 14px;
+	padding: 5px 15px 3px 27px;
+	background: #3399cc url('/assets/img/icons/download_8x8-wh.png') no-repeat 10px 7px;
+	border-radius: 10px;
+	text-decoration: none;
+}
+a#photo-download:hover {
+	background-color: #cc3300;
+}
 
 a#back:link, a#back:visited {
 	display: block;

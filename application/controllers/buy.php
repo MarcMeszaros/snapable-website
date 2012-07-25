@@ -47,7 +47,7 @@ class Buy extends CI_Controller {
 					
 					if ( $create_event == 1 )
 					{
-						redirect('/event/setup/' . $_POST['event']['url']);
+						redirect('/dashboard'); //redirect('/event/setup/' . $_POST['event']['url']);
 					} else {
 						redirect('/buy/error');
 					}

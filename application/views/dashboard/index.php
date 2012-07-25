@@ -1,104 +1,166 @@
-<h1>It's never been easier to see every moment of your big day.</h1>
-<h2>So what's next?</h2>
-	
-	
-<div id="dash-list">	
-	
-	<h3>Here's a few things you can do to help make your wedding day photos a success.</h3>
-	<h4>Don't worry, you can come back later and complete these!</h4>
-	
-	<ul id="dash-tabs">
-		<li><a href="#before" class="active">Before</a></li>
-		<li><a href="#during">During</a></li>
-		<li><a href="#after">After the Event</a></li>
-	</ul>
-	
-	<div id="tab-before" class="dash-tabs-content">
-	
-		<h5>Share</h5>
-		<p>Your event URL is: <input readonly id="event-url" type="text" value="http://snapable.com/event/<?= $url ?>" />
-			<br />Share on <a href="#">Facebook</a>, <a href="#">Twitter</a> or copy/paste it to share elsewhere.</p>
+
+<!DOCTYPE html>
+<html>
+<head>
+
+	<meta charset="utf-8">
+	<title>Snapable - The easiest way to instantly capture every photo at your wedding without missing a single moment.</title>
+    
+    <meta name="Keywords" content="" /> 
+	<meta name="Description" content="" />
+    
+    <link rel="icon" type="image/vnd.microsoft.icon" href="/favicon.ico" /> 
+	<link rel="SHORTCUT ICON" href="/favicon.ico"/> 
+    
+    <link href='http://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+    <?php if ( isset($css) ) { ?>
+    <link rel="stylesheet" href="/min/c/<?= $css ?>" type="text/css" media="screen" />
+    <?php } ?>
+    <?php if ( isset($js) ) { ?>
+    <script type="text/javascript" src="/min/j/<?= $js ?>"></script>
+    <?php } ?>
+    
+</head>
+
+<body id="top">
+
+	<div id="wrap">
 		
-		<hr />
+		<div class="left">
+			
+			<div id="logo">Snapable</div>
+			
+		</div>
 		
-		<h5>Add and Notify</h5> 
-		<p>Add guests and let them know to get the Snapable app</p>
+		<div class="right">
+			
+			<h1>You're signed up, what now?</h1>
+			
+			<h2>Here's a few things you can do to get the most out of Snapable and help make your wedding day photos a success.</h2>
 		
-		<a href="/event/setup/<?= $url ?>/guests" id="add-guests" class="button" rel="facebox">Add Guests &rarr;</a>
+		</div>
 		
-		<hr />
+		<div class="clearit">&nbsp;</div>
 		
-		<h5>Add Photos</h5>
+		<div class="left">
 		
-		<p>To upload photos go to your <a href="/events/<?= $url ?>">event page</a>, click the "Upload Photos" link under the title, grab the photos you want to upload and drag them into the provided box, they'll upload automagically.</em></p>
-	
-	</div>
-	
-	<div id="tab-during" class="dash-tabs-content">
+			<ul>
+				<li><a href="#before" class="active">Before</a></li>
+				<li><a href="#during">During</a></li>
+				<li><a href="#after">After</a></li>
+				<li><a id="questions-link" href="#questions">Questions?</a></li>
+			</ul>
+			
+			<dl>
+				<dt>Connect:</dt>
+				<dd><a href="http://twitter.com/getsnapable" target="_blank" id="twitter">Twitter</a></dd>
+				<dd><a href="http://facebook.com/snapable" target="_blank" id="facebook">Facebook</a></dd>
+				<dd><a href="#" id="email">Email</a></dd>
+			</dl>
+			
+		</div>
 		
-		<h5>Encourage Guests to Participate</h5>
-		<p>Let guests know how to take part via customized table cards</p>
-		<a href="/event/setup/<?= $url ?>/cards" id="get-table-card" class="button" rel="facebox">Get Table Card &rarr;</a>
-		
-		<hr />
-		
-		<h5>Setup a Slideshow</h5>
-		
-		
-		To create a slideshow <a href="/event/<?= $url ?>">go to your event page</a>, click the slideshow link and follow the instructions.
-		
-	</div>
-	
-	<div id="tab-after" class="dash-tabs-content">
-		
-		<h5>Create Photo Albums</h5>
+		<div class="right">
+			
+			<div id="before" class="content showing">
+			
+				<h3><a href="#share" class="opened">Share</a></h3>
+			
+				<div id="share-content" class="showing">
 				
-		<p>To create photo albums, first upload photos, then go to your <a href="/event/<?= $url ?>">event page</a>, select the photo(s) you want to add to an album, then select the album (or create a new one) you'd like the photo to be a part of.</p>
+					<p>Your event URL is:</p>
 				
-		<hr />
-		
-		<h5>Get prints</h5>
-		
-		<p>To order print, first go to your <a href="/event/<?= $url ?>">event page</a>, then select the photo(s) you want to have printed. Once you've picked all that you want click the orange "Checkout" button on the top right of the screen and follow the instructions.</p>
-		
-		<hr />
-		
-		<h5>Remind your guests</h5>
-		<p>Let your guests know to come view the photos (and allow them to order prints too!)</p>
-		
-		<a href="/event/setup/<?= $url ?>/reminders" id="send-reminders" class="button" rel="facebox">Send Reminders &rarr;</a>
-		
-	</div>
-	
-	
-	<!--
-	<ul>
-		<li>
-			<div class="dash-list-title">Before the event</div>
-			<div class="dash-list-text">
+					<p><input id="event-url" type="text" value="http://snapable.com/event/<?= $url ?>" READONLY /></p>
+
+					<p>Share it on <a href="#">Facebook</a>, <a href="#">Twitter</a>, <a href="#">Email</a>, or wherever you want people to know where they can find photos from your wedding (they’ll update in real-time as they’re taken during the wedding).</p>
+			
+				</div>
+			
+				<h3><a href="#guest" class="closed">Add and notify guests</a></h3>
+			
+				<div id="guest-content" class="hiding">
 				
+					<p>Go to your event page, add your guest list, set their roles* and let them know to get Snapable and share their photos.</p>
+
+					<p><em>* Roles will allow you to set who gets to see certain photos (in case you don’t want Aunt Ida seeing that photos of Uncle Jed dancing with the bridesmaids)</em></p>
 				
+				</div>
+			
+				<h3><a href="#upload" class="closed">Upload photos</a></h3>
+			
+				<div id="upload-content" class="hiding">
 				
+					<p>Go to your event page, click the "Upload Photos" link under the title, grab the photos you want to upload, drag them into the upload box, and click the ‘upload’ button.</p>
+
+					<p>Use this to upload photos of the bride/groom as kids, seed a slideshow, etc.</p>
 				
+				</div>
+			
 				
+			
 			</div>
-		</li>
-		
-		<li>
-			<div class="dash-list-title">During the event</div>
-			<div class="dash-list-text">
+			
+			<div id="during" class="content hiding">
+			
+				<h3><a href="#participate" class="opened">Encourage guests to participate</a></h3>
 				
+				<div id="participate-content" class="showing">
+				
+					<p>Let guests know how to take part via customized table cards. <a href="/event/setup/<?= $url ?>/cards" id="get-table-card" class="button" rel="facebox">Get&nbsp;Table&nbsp;Cards &rarr;</a></p>
+				
+				</div>
+				
+				<h3><a href="#slideshow" class="closed">Setup a slideshow</a></h3>
+				
+				<div id="slideshow-content" class="hiding">
+				
+					<p>To create a slideshow <a href="/event/<?= $url ?>">go to your event page</a>, click the slideshow link and follow the instructions.</p>
+				
+				</div>
+			
 			</div>
-		</li>
+			
+			<div id="after" class="content hiding">
+			
+				<h3><a href="#create" class="opened">Create photo albums</a></h3>
+				
+				<div id="create-content" class="showing">
+				
+					<p>To create photo albums, first upload photos, then go to your <a href="/event/<?= $url ?>">event page</a>, select the photo(s) you want to add to an album, then select the album (or create a new one) you'd like the photo to be a part of.</p>
+				
+				</div>
+				
+				<h3><a href="#get" class="closed">Get prints</a></h3>
+				
+				<div id="get-content" class="hiding">
+				
+					<p>To order print, first go to your <a href="/event/<?= $url ?>">event page</a>, then select the photo(s) you want to have printed. Once you've picked all that you want click the orange "Checkout" button on the top right of the screen and follow the instructions.</p>
+				
+				</div>
+				
+				<h3><a href="#remind" class="closed">Remind your guests</a></h3>
+				
+				<div id="remind-content" class="hiding">
+				
+					<p>Let your guests know to come view the photos (and allow them to order prints too!). <a href="/event/setup/<?= $url ?>/reminders" id="send-reminders" class="button" rel="facebox">Send Reminders &rarr;</a></p>
+				
+				</div>
+			
+			</div>
+			
+			<div id="questions" class="content hiding">
+			
+				<h3>Got a question? We're happy to answer it</h3>
+				
+				<p>EMAIL FORM</p>
+			
+			</div>
+			
+			<a id="event-link" href="/event/<?= $url ?>">Go to your event page</a>
+			
+		</div>
 		
-		<li>
-			<div class="dash-list-title">After the event</div>
-			<div class="dash-list-text">
-								</div>
-			</div>
-		</li>
-	</ul>
-	-->
-	<a id="event-link" href="/event/123">Go To Your Event Page &rarr;</a>
-	
-</div>
+	</div>
+
+</body>
+</html>

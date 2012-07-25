@@ -242,8 +242,9 @@ a.menu-open {
 }
 ul.photo-share {
 	position: absolute;
-	top: 5px;
-	right: 5px;
+	top: 10px;
+	width: 200px;
+	text-align: center;
 	list-style: none
 }
 ul.photo-share:after {
@@ -289,11 +290,13 @@ a.photo-share-email {
 .photo-buttons {
 	position: absolute;
 	top: 85px;
+	width: 200px;
 	text-align: center;
 }
 a.button:link, a.button:visited {
-	display: inline-block;
-	width: 65px;
+	display: block;
+	width: 100px;
+	margin: 0 auto;
 	padding: 7px 5px 5px 5px;
 	text-align: center;
 	font-size: 16px;
@@ -306,12 +309,6 @@ a.button:link, a.button:visited {
 	-moz-box-shadow: 1px 1px 2px 1px #333;
 	-webkit-box-shadow:1px 1px 2px 1px #333;
 	box-shadow:1px 1px 2px 1px #333;
-}
-.button-left {
-	margin-left: 16px;
-}
-.button-right {
-	margin-left: 5px;
 }
 a.button:hover {
 	background: #fff;
