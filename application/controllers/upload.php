@@ -14,8 +14,8 @@ class Upload extends CI_Controller {
 		// max file size in bytes
 		$sizeLimit = 10 * 1024 * 1024;
 		
-		//print_r($_FILES['file']);
-		/*
+		print_r($_FILES['file']);
+		
 		if ( !function_exists('sys_get_temp_dir')) {
 		  function sys_get_temp_dir() {
 		      if( $temp=getenv('TMP') )        return $temp;
@@ -31,7 +31,7 @@ class Upload extends CI_Controller {
 		 }
 		
 		 echo realpath(sys_get_temp_dir());
-		 */
+		 
 		 
 		 
 		$upload_path = '/tmp-files/'; 
