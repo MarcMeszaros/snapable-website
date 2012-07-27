@@ -4,6 +4,11 @@ $(document).ready(function()
 	var uploader = new qq.FileUploader({
         element: document.getElementById('uploadArea'),
         action: '/upload',
+        params: {
+	        event: event_id,
+	        guest: guest_id,
+	        type: type_id
+        },
         debug: true
     }); 
 	

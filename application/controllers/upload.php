@@ -14,8 +14,11 @@ class Upload extends CI_Controller {
 		// max file size in bytes
 		$sizeLimit = 10 * 1024 * 1024;
 		
-		print_r($_FILES['file']);
-		
+		if (is_uploaded_file($_FILES['qqfile']['tmp_name'])) 
+		{
+			echo "File: " . $_FILES['qqfile']['name'] . " actually uploaded.";
+		}
+		/*
 		if ( !function_exists('sys_get_temp_dir')) {
 		  function sys_get_temp_dir() {
 		      if( $temp=getenv('TMP') )        return $temp;
@@ -31,15 +34,15 @@ class Upload extends CI_Controller {
 		 }
 		
 		 echo realpath(sys_get_temp_dir());
+		 */
 		 
-		 
-		 
+		/* 
 		$upload_path = '/tmp-files/'; 
 		if(!is_writable($upload_path))
 		{
 			echo "Upload path is not writeable";
 		}
-		 
+		 */
 		if ( isset($_REQUEST['qqfile']) && isset($_REQUEST['event']) && isset($_REQUEST['guest']) && isset($_REQUEST['type']))
 		{
 			$image = $_REQUEST['image'];
