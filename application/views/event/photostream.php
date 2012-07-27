@@ -1,3 +1,9 @@
+<script type="text/javascript">
+var event_id = "/private_v1/event/1/";
+var guest_id = "/private_v1/guest/1/";
+var type_id = "/private_v1/type/1/";
+</script>
+
 <div id="event-top">
 
 	<div id="event-cover-wrap"><img id="event-cover-image" src="/assets/img/FPO/cover-image.jpg" /></div>
@@ -51,6 +57,7 @@
 </div>
 
 <div id="uploadArea">Drag files into this area to upload.</div>
+
 
 <div class="photo">
 	<div class="photo-overlay">

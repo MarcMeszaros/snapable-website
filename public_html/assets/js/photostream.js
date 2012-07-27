@@ -1,5 +1,12 @@
 $(document).ready(function() 
 {  
+
+	var uploader = new qq.FileUploader({
+        element: document.getElementById('uploadArea'),
+        action: '/upload',
+        debug: true
+    }); 
+	
 	$(".photo-comment").tipsy({fade: true, live: true});
 	
 	$(".photo").hover(

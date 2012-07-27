@@ -1,6 +1,6 @@
 <form name="create_event" method="post" action="/buy/complete">
 
-	<input type="hidden" id="package" name="event[package]" value="<?= $package[0]->package_id ?>" />
+	<input type="hidden" id="package" name="event[package]" value="<?= $package->short_name ?>" />
 	<input type="hidden" id="lat" name="event[lat]" value="0" />
 	<input type="hidden" id="lng" name="event[lng]" value="0" />
 	
@@ -54,9 +54,9 @@
 	
 	<div class="form-column-right form-package-details">
 		
-			<h4><strong>Your Package: </strong><?= $package[0]->name ?> for $<?= $package[0]->price ?></h4>
+			<h4><strong>Your Package: </strong><br /><?= $package->name ?> for $<?= $package->price ?></h4>
 
-			<p>This package includes <strong><?= $package[0]->prints ?> prints</strong>, <strong><?php if ( $package[0]->albums == 0 ) { echo "Unlimited"; } else { echo $package[0]->albums; } ?> online albums</strong> and more.</p>
+			<p>This package includes <strong><?= $package->prints ?> prints</strong>, <strong><?php if ( $package->albums == 0 ) { echo "Unlimited"; } else { echo $package->albums; } ?> online albums</strong> and more.</p>
 			
 	</div>
 	

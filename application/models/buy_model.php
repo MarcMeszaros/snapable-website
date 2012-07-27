@@ -4,8 +4,43 @@ Class Buy_model extends CI_Model
 
 	function getPackageDetails($url)
 	{
-		$details = $this->db->where('url', $url)->where('active', 1)->get('package', 1,0);
-		return $details->result();
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, 'http://devapi.snapable.com/private_v1/package/?format=json'); 
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);                                                               
+		curl_setopt($ch, CURLOPT_TIMEOUT, '3');
+		                                                                                                    
+		$response = curl_exec($ch);
+		$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		curl_close($ch);
+		
+		if ( $httpcode == 200 )
+		{
+			$result = json_decode($response); 
+			
+			foreach ( $result->objects as $r )
+			{
+				
+				if ( $r->short_name == $url)
+				{
+					// short_name, name, price, prints, album
+					return '{
+						"status": 200,
+						"short_name": "' . $r->short_name . '",
+						"name": "' . $r->name . '",
+						"price": "' . $r->price . '",
+						"prints": "' . $r->prints . '",
+						"albums": "' . $r->albums . '"
+					}';
+				}
+			}
+		} else {
+			return '{
+				"status": 404
+			}';
+		}
+		
+		//$details = $this->db->where('url', $url)->where('active', 1)->get('package', 1,0);
+		//return $details->result();
 	}
 	
 	function createEvent($event, $user, $cc, $address)

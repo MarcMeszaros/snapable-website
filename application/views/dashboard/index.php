@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="/min/c/<?= $css ?>" type="text/css" media="screen" />
     <?php } ?>
     <?php if ( isset($js) ) { ?>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="/min/j/<?= $js ?>"></script>
     <?php } ?>
     

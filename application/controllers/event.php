@@ -34,6 +34,9 @@ class Event extends CI_Controller {
   	
   		if ( $segments == 2 )
 		{
+		
+		//// FIND EVENTS
+		
 			if ( $this->uri->segment(2) == "find" )
 			{
 				echo "Find Events";
@@ -43,8 +46,8 @@ class Event extends CI_Controller {
 				echo "&nbsp;";
 				$head = array(
 					'noTagline' => true,
-					'css' => base64_encode('assets/css/tipsy.css,assets/css/setup.css,assets/css/header.css,assets/css/event.css,assets/css/footer.css'),
-					'js' => base64_encode('assets/js/jquery-1.7.2.min.js,assets/js/jquery.tipsy.js,assets/js/photostream.js')	
+					'css' => base64_encode('assets/css/fileuploader.css,assets/css/tipsy.css,assets/css/setup.css,assets/css/header.css,assets/css/event.css,assets/css/footer.css'),
+					'js' => base64_encode('assets/js/fileuploader.js,assets/js/jquery.tipsy.js,assets/js/photostream.js')	
 				);
 				$data = array(
 					'url' => $this->uri->segment(2)
@@ -56,12 +59,13 @@ class Event extends CI_Controller {
 		}
 		else if ( $segments == 3 )
 		{
+			/*
 			if ( $this->uri->segment(2) == "setup" )
 			{
 				echo "&nbsp;";
 				$head = array(
 					'css' => base64_encode('assets/css/setup.css,assets/css/header.css,assets/css/buy.css,assets/css/footer-short.css'),
-					'js' => base64_encode('assets/js/jquery-1.7.2.min.js,assets/js/jquery.timePicker.min.js,assets/js/jquery-ui-1.8.21.custom.min.js,assets/js/buy.js')	
+					'js' => base64_encode('assets/js/jquery.timePicker.min.js,assets/js/jquery-ui-1.8.21.custom.min.js,assets/js/buy.js')	
 				);
 				$data = array(
 					'url' => $this->uri->segment(3)
@@ -70,7 +74,12 @@ class Event extends CI_Controller {
 				$this->load->view('event/setup/index', $data);
 				$this->load->view('common/footer');
 			}
-			else if ( $this->uri->segment(2) == "guests" )
+			else 
+			*/
+			
+			//// ADD GUEST LIST
+			
+			if ( $this->uri->segment(2) == "guests" )
 			{	
 				if ( $this->uri->segment(3) == "add" )
 				{
@@ -89,15 +98,18 @@ class Event extends CI_Controller {
 				show_404();
 			}
 		} 
+		/*
 		else if ( $segments == 4 )
 		{
+		
 			if ( $this->uri->segment(2) == "setup" )
 			{
 				$this->load->view('event/setup/' . $this->uri->segment(4));
 			} else {
 				show_404();
 			}
-		} else {
+		} */
+		else {
 			show_404();
 		}
 	}
