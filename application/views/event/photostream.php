@@ -1,7 +1,7 @@
 <script type="text/javascript">
-var event_id = "/private_v1/event/1/";
-var guest_id = "/private_v1/guest/1/";
-var type_id = "/private_v1/type/1/";
+var eventID = "/private_v1/event/1/";
+var guestID = "/private_v1/guest/1/";
+var typeID = "/private_v1/type/1/";
 </script>
 
 <div id="event-top">
@@ -56,265 +56,269 @@ var type_id = "/private_v1/type/1/";
 	
 </div>
 
-<div id="uploadArea">Drag files into this area to upload.</div>
+<div id="uploadArea"></div>
+<div id="uploadedArea"></div>
+<div class="clearit">&nbsp;</div>
 
+<div id="photoArea">
 
-<div class="photo">
-	<div class="photo-overlay">
-		<ul class="photo-share">
-			<li><a class="photo-share-twitter" href="#">Tweet</a></li>
-			<li><a class="photo-share-facebook" href="#">Share</a></li>
-			<li><a class="photo-share-email" href="#">Email</a></li>
-		</ul>
-		<div class="photo-buttons">
-			<a class="button addto-prints" href="#">Add to Prints</a>
+	<div class="photo">
+		<div class="photo-overlay">
+			<ul class="photo-share">
+				<li><a class="photo-share-twitter" href="#">Tweet</a></li>
+				<li><a class="photo-share-facebook" href="#">Share</a></li>
+				<li><a class="photo-share-email" href="#">Email</a></li>
+			</ul>
+			<div class="photo-buttons">
+				<a class="button addto-prints" href="#">Add to Prints</a>
+			</div>
+			<a class="photo-enlarge" href="/p/123" title="Enlarge">Enlarge</a>
+			<!--<a class="photo-download" href="#" title="Download">Download</a>-->
 		</div>
-		<a class="photo-enlarge" href="/p/123" title="Enlarge">Enlarge</a>
-		<!--<a class="photo-download" href="#" title="Download">Download</a>-->
+		<img src="/assets/img/FPO/event-photo-1.jpg" />
+		<img class="photo-comment" title="Uncle Bob dancing up a storm on the dance floor." src="/assets/img/icons/comment.png" /> Andrew D.	
 	</div>
-	<img src="/assets/img/FPO/event-photo-1.jpg" />
-	<img class="photo-comment" title="Uncle Bob dancing up a storm on the dance floor." src="/assets/img/icons/comment.png" /> Andrew D.	
-</div>
-<div class="photo">
-	<div class="photo-overlay">
-		<ul class="photo-share">
-			<li><a class="photo-share-twitter" href="#">Tweet</a></li>
-			<li><a class="photo-share-facebook" href="#">Share</a></li>
-			<li><a class="photo-share-email" href="#">Email</a></li>
-		</ul>
-		<div class="photo-buttons">
-			<a class="button addto-prints" href="#">Add to Prints</a>
+	<div class="photo">
+		<div class="photo-overlay">
+			<ul class="photo-share">
+				<li><a class="photo-share-twitter" href="#">Tweet</a></li>
+				<li><a class="photo-share-facebook" href="#">Share</a></li>
+				<li><a class="photo-share-email" href="#">Email</a></li>
+			</ul>
+			<div class="photo-buttons">
+				<a class="button addto-prints" href="#">Add to Prints</a>
+			</div>
+			<a class="photo-enlarge" href="/p/123" title="Enlarge">Enlarge</a>
+			<!--<a class="photo-download" href="#" title="Download">Download</a>-->
 		</div>
-		<a class="photo-enlarge" href="/p/123" title="Enlarge">Enlarge</a>
-		<!--<a class="photo-download" href="#" title="Download">Download</a>-->
+		<img src="/assets/img/FPO/event-photo-2.jpg" />
+		Andrew D.	
 	</div>
-	<img src="/assets/img/FPO/event-photo-2.jpg" />
-	Andrew D.	
-</div>
-<div class="photo">
-	<div class="photo-overlay">
-		<ul class="photo-share">
-			<li><a class="photo-share-twitter" href="#">Tweet</a></li>
-			<li><a class="photo-share-facebook" href="#">Share</a></li>
-			<li><a class="photo-share-email" href="#">Email</a></li>
-		</ul>
-		<div class="photo-buttons">
-			<a class="button addto-prints" href="#">Add to Prints</a>
+	<div class="photo">
+		<div class="photo-overlay">
+			<ul class="photo-share">
+				<li><a class="photo-share-twitter" href="#">Tweet</a></li>
+				<li><a class="photo-share-facebook" href="#">Share</a></li>
+				<li><a class="photo-share-email" href="#">Email</a></li>
+			</ul>
+			<div class="photo-buttons">
+				<a class="button addto-prints" href="#">Add to Prints</a>
+			</div>
+			<a class="photo-enlarge" href="/p/123" title="Enlarge">Enlarge</a>
+			<!--<a class="photo-download" href="#" title="Download">Download</a>-->
 		</div>
-		<a class="photo-enlarge" href="/p/123" title="Enlarge">Enlarge</a>
-		<!--<a class="photo-download" href="#" title="Download">Download</a>-->
+		<img src="/assets/img/FPO/event-photo-3.jpg" />
+		Andrew D.	
 	</div>
-	<img src="/assets/img/FPO/event-photo-3.jpg" />
-	Andrew D.	
-</div>
-<div class="photo">
-	<div class="photo-overlay">
-		<ul class="photo-share">
-			<li><a class="photo-share-twitter" href="#">Tweet</a></li>
-			<li><a class="photo-share-facebook" href="#">Share</a></li>
-			<li><a class="photo-share-email" href="#">Email</a></li>
-		</ul>
-		<div class="photo-buttons">
-			<a class="button addto-prints" href="#">Add to Prints</a>
+	<div class="photo">
+		<div class="photo-overlay">
+			<ul class="photo-share">
+				<li><a class="photo-share-twitter" href="#">Tweet</a></li>
+				<li><a class="photo-share-facebook" href="#">Share</a></li>
+				<li><a class="photo-share-email" href="#">Email</a></li>
+			</ul>
+			<div class="photo-buttons">
+				<a class="button addto-prints" href="#">Add to Prints</a>
+			</div>
+			<a class="photo-enlarge" href="/p/123" title="Enlarge">Enlarge</a>
+			<!--<a class="photo-download" href="#" title="Download">Download</a>-->
 		</div>
-		<a class="photo-enlarge" href="/p/123" title="Enlarge">Enlarge</a>
-		<!--<a class="photo-download" href="#" title="Download">Download</a>-->
+		<img src="/assets/img/FPO/event-photo-4.jpg" />
+		Andrew D.	
 	</div>
-	<img src="/assets/img/FPO/event-photo-4.jpg" />
-	Andrew D.	
-</div>
-<div class="photo">
-	<div class="photo-overlay">
-		<ul class="photo-share">
-			<li><a class="photo-share-twitter" href="#">Tweet</a></li>
-			<li><a class="photo-share-facebook" href="#">Share</a></li>
-			<li><a class="photo-share-email" href="#">Email</a></li>
-		</ul>
-		<div class="photo-buttons">
-			<a class="button addto-prints" href="#">Add to Prints</a>
+	<div class="photo">
+		<div class="photo-overlay">
+			<ul class="photo-share">
+				<li><a class="photo-share-twitter" href="#">Tweet</a></li>
+				<li><a class="photo-share-facebook" href="#">Share</a></li>
+				<li><a class="photo-share-email" href="#">Email</a></li>
+			</ul>
+			<div class="photo-buttons">
+				<a class="button addto-prints" href="#">Add to Prints</a>
+			</div>
+			<a class="photo-enlarge" href="/p/123" title="Enlarge">Enlarge</a>
+			<!--<a class="photo-download" href="#" title="Download">Download</a>-->
 		</div>
-		<a class="photo-enlarge" href="/p/123" title="Enlarge">Enlarge</a>
-		<!--<a class="photo-download" href="#" title="Download">Download</a>-->
+		<img src="/assets/img/FPO/event-photo-5.jpg" />
+		Andrew D.	
 	</div>
-	<img src="/assets/img/FPO/event-photo-5.jpg" />
-	Andrew D.	
-</div>
-<div class="photo">
-	<div class="photo-overlay">
-		<ul class="photo-share">
-			<li><a class="photo-share-twitter" href="#">Tweet</a></li>
-			<li><a class="photo-share-facebook" href="#">Share</a></li>
-			<li><a class="photo-share-email" href="#">Email</a></li>
-		</ul>
-		<div class="photo-buttons">
-			<a class="button addto-prints" href="#">Add to Prints</a>
+	<div class="photo">
+		<div class="photo-overlay">
+			<ul class="photo-share">
+				<li><a class="photo-share-twitter" href="#">Tweet</a></li>
+				<li><a class="photo-share-facebook" href="#">Share</a></li>
+				<li><a class="photo-share-email" href="#">Email</a></li>
+			</ul>
+			<div class="photo-buttons">
+				<a class="button addto-prints" href="#">Add to Prints</a>
+			</div>
+			<a class="photo-enlarge" href="/p/123" title="Enlarge">Enlarge</a>
+			<!--<a class="photo-download" href="#" title="Download">Download</a>-->
 		</div>
-		<a class="photo-enlarge" href="/p/123" title="Enlarge">Enlarge</a>
-		<!--<a class="photo-download" href="#" title="Download">Download</a>-->
+		<img src="/assets/img/FPO/event-photo-6.jpg" />
+		Andrew D.	
 	</div>
-	<img src="/assets/img/FPO/event-photo-6.jpg" />
-	Andrew D.	
-</div>
-<div class="photo">
-	<div class="photo-overlay">
-		<ul class="photo-share">
-			<li><a class="photo-share-twitter" href="#">Tweet</a></li>
-			<li><a class="photo-share-facebook" href="#">Share</a></li>
-			<li><a class="photo-share-email" href="#">Email</a></li>
-		</ul>
-		<div class="photo-buttons">
-			<a class="button addto-prints" href="#">Add to Prints</a>
+	<div class="photo">
+		<div class="photo-overlay">
+			<ul class="photo-share">
+				<li><a class="photo-share-twitter" href="#">Tweet</a></li>
+				<li><a class="photo-share-facebook" href="#">Share</a></li>
+				<li><a class="photo-share-email" href="#">Email</a></li>
+			</ul>
+			<div class="photo-buttons">
+				<a class="button addto-prints" href="#">Add to Prints</a>
+			</div>
+			<a class="photo-enlarge" href="/p/123" title="Enlarge">Enlarge</a>
+			<!--<a class="photo-download" href="#" title="Download">Download</a>-->
 		</div>
-		<a class="photo-enlarge" href="/p/123" title="Enlarge">Enlarge</a>
-		<!--<a class="photo-download" href="#" title="Download">Download</a>-->
+		<img src="/assets/img/FPO/event-photo-7.jpg" />
+		Andrew D.	
 	</div>
-	<img src="/assets/img/FPO/event-photo-7.jpg" />
-	Andrew D.	
-</div>
-<div class="photo">
-	<div class="photo-overlay">
-		<ul class="photo-share">
-			<li><a class="photo-share-twitter" href="#">Tweet</a></li>
-			<li><a class="photo-share-facebook" href="#">Share</a></li>
-			<li><a class="photo-share-email" href="#">Email</a></li>
-		</ul>
-		<div class="photo-buttons">
-			<a class="button addto-prints" href="#">Add to Prints</a>
+	<div class="photo">
+		<div class="photo-overlay">
+			<ul class="photo-share">
+				<li><a class="photo-share-twitter" href="#">Tweet</a></li>
+				<li><a class="photo-share-facebook" href="#">Share</a></li>
+				<li><a class="photo-share-email" href="#">Email</a></li>
+			</ul>
+			<div class="photo-buttons">
+				<a class="button addto-prints" href="#">Add to Prints</a>
+			</div>
+			<a class="photo-enlarge" href="/p/123" title="Enlarge">Enlarge</a>
+			<!--<a class="photo-download" href="#" title="Download">Download</a>-->
 		</div>
-		<a class="photo-enlarge" href="/p/123" title="Enlarge">Enlarge</a>
-		<!--<a class="photo-download" href="#" title="Download">Download</a>-->
+		<img src="/assets/img/FPO/event-photo-8.jpg" />
+		Andrew D.	
 	</div>
-	<img src="/assets/img/FPO/event-photo-8.jpg" />
-	Andrew D.	
-</div>
-<div class="photo">
-	<div class="photo-overlay">
-		<ul class="photo-share">
-			<li><a class="photo-share-twitter" href="#">Tweet</a></li>
-			<li><a class="photo-share-facebook" href="#">Share</a></li>
-			<li><a class="photo-share-email" href="#">Email</a></li>
-		</ul>
-		<div class="photo-buttons">
-			<a class="button addto-prints" href="#">Add to Prints</a>
+	<div class="photo">
+		<div class="photo-overlay">
+			<ul class="photo-share">
+				<li><a class="photo-share-twitter" href="#">Tweet</a></li>
+				<li><a class="photo-share-facebook" href="#">Share</a></li>
+				<li><a class="photo-share-email" href="#">Email</a></li>
+			</ul>
+			<div class="photo-buttons">
+				<a class="button addto-prints" href="#">Add to Prints</a>
+			</div>
+			<a class="photo-enlarge" href="/p/123" title="Enlarge">Enlarge</a>
+			<!--<a class="photo-download" href="#" title="Download">Download</a>-->
 		</div>
-		<a class="photo-enlarge" href="/p/123" title="Enlarge">Enlarge</a>
-		<!--<a class="photo-download" href="#" title="Download">Download</a>-->
+		<img src="/assets/img/FPO/event-photo-1.jpg" />
+		<img class="photo-comment" title="Uncle Bob dancing up a storm on the dance floor." src="/assets/img/icons/comment.png" /> Andrew D.	
 	</div>
-	<img src="/assets/img/FPO/event-photo-1.jpg" />
-	<img class="photo-comment" title="Uncle Bob dancing up a storm on the dance floor." src="/assets/img/icons/comment.png" /> Andrew D.	
-</div>
-<div class="photo">
-	<div class="photo-overlay">
-		<ul class="photo-share">
-			<li><a class="photo-share-twitter" href="#">Tweet</a></li>
-			<li><a class="photo-share-facebook" href="#">Share</a></li>
-			<li><a class="photo-share-email" href="#">Email</a></li>
-		</ul>
-		<div class="photo-buttons">
-			<a class="button addto-prints" href="#">Add to Prints</a>
+	<div class="photo">
+		<div class="photo-overlay">
+			<ul class="photo-share">
+				<li><a class="photo-share-twitter" href="#">Tweet</a></li>
+				<li><a class="photo-share-facebook" href="#">Share</a></li>
+				<li><a class="photo-share-email" href="#">Email</a></li>
+			</ul>
+			<div class="photo-buttons">
+				<a class="button addto-prints" href="#">Add to Prints</a>
+			</div>
+			<a class="photo-enlarge" href="/p/123" title="Enlarge">Enlarge</a>
+			<!--<a class="photo-download" href="#" title="Download">Download</a>-->
 		</div>
-		<a class="photo-enlarge" href="/p/123" title="Enlarge">Enlarge</a>
-		<!--<a class="photo-download" href="#" title="Download">Download</a>-->
+		<img src="/assets/img/FPO/event-photo-2.jpg" />
+		Andrew D.	
 	</div>
-	<img src="/assets/img/FPO/event-photo-2.jpg" />
-	Andrew D.	
-</div>
-<div class="photo">
-	<div class="photo-overlay">
-		<ul class="photo-share">
-			<li><a class="photo-share-twitter" href="#">Tweet</a></li>
-			<li><a class="photo-share-facebook" href="#">Share</a></li>
-			<li><a class="photo-share-email" href="#">Email</a></li>
-		</ul>
-		<div class="photo-buttons">
-			<a class="button addto-prints" href="#">Add to Prints</a>
+	<div class="photo">
+		<div class="photo-overlay">
+			<ul class="photo-share">
+				<li><a class="photo-share-twitter" href="#">Tweet</a></li>
+				<li><a class="photo-share-facebook" href="#">Share</a></li>
+				<li><a class="photo-share-email" href="#">Email</a></li>
+			</ul>
+			<div class="photo-buttons">
+				<a class="button addto-prints" href="#">Add to Prints</a>
+			</div>
+			<a class="photo-enlarge" href="/p/123" title="Enlarge">Enlarge</a>
+			<!--<a class="photo-download" href="#" title="Download">Download</a>-->
 		</div>
-		<a class="photo-enlarge" href="/p/123" title="Enlarge">Enlarge</a>
-		<!--<a class="photo-download" href="#" title="Download">Download</a>-->
+		<img src="/assets/img/FPO/event-photo-3.jpg" />
+		Andrew D.	
 	</div>
-	<img src="/assets/img/FPO/event-photo-3.jpg" />
-	Andrew D.	
-</div>
-<div class="photo">
-	<div class="photo-overlay">
-		<ul class="photo-share">
-			<li><a class="photo-share-twitter" href="#">Tweet</a></li>
-			<li><a class="photo-share-facebook" href="#">Share</a></li>
-			<li><a class="photo-share-email" href="#">Email</a></li>
-		</ul>
-		<div class="photo-buttons">
-			<a class="button addto-prints" href="#">Add to Prints</a>
+	<div class="photo">
+		<div class="photo-overlay">
+			<ul class="photo-share">
+				<li><a class="photo-share-twitter" href="#">Tweet</a></li>
+				<li><a class="photo-share-facebook" href="#">Share</a></li>
+				<li><a class="photo-share-email" href="#">Email</a></li>
+			</ul>
+			<div class="photo-buttons">
+				<a class="button addto-prints" href="#">Add to Prints</a>
+			</div>
+			<a class="photo-enlarge" href="/p/123" title="Enlarge">Enlarge</a>
+			<!--<a class="photo-download" href="#" title="Download">Download</a>-->
 		</div>
-		<a class="photo-enlarge" href="/p/123" title="Enlarge">Enlarge</a>
-		<!--<a class="photo-download" href="#" title="Download">Download</a>-->
+		<img src="/assets/img/FPO/event-photo-4.jpg" />
+		Andrew D.	
 	</div>
-	<img src="/assets/img/FPO/event-photo-4.jpg" />
-	Andrew D.	
-</div>
-<div class="photo">
-	<div class="photo-overlay">
-		<ul class="photo-share">
-			<li><a class="photo-share-twitter" href="#">Tweet</a></li>
-			<li><a class="photo-share-facebook" href="#">Share</a></li>
-			<li><a class="photo-share-email" href="#">Email</a></li>
-		</ul>
-		<div class="photo-buttons">
-			<a class="button addto-prints" href="#">Add to Prints</a>
+	<div class="photo">
+		<div class="photo-overlay">
+			<ul class="photo-share">
+				<li><a class="photo-share-twitter" href="#">Tweet</a></li>
+				<li><a class="photo-share-facebook" href="#">Share</a></li>
+				<li><a class="photo-share-email" href="#">Email</a></li>
+			</ul>
+			<div class="photo-buttons">
+				<a class="button addto-prints" href="#">Add to Prints</a>
+			</div>
+			<a class="photo-enlarge" href="/p/123" title="Enlarge">Enlarge</a>
+			<!--<a class="photo-download" href="#" title="Download">Download</a>-->
 		</div>
-		<a class="photo-enlarge" href="/p/123" title="Enlarge">Enlarge</a>
-		<!--<a class="photo-download" href="#" title="Download">Download</a>-->
+		<img src="/assets/img/FPO/event-photo-5.jpg" />
+		Andrew D.	
 	</div>
-	<img src="/assets/img/FPO/event-photo-5.jpg" />
-	Andrew D.	
-</div>
-<div class="photo">
-	<div class="photo-overlay">
-		<ul class="photo-share">
-			<li><a class="photo-share-twitter" href="#">Tweet</a></li>
-			<li><a class="photo-share-facebook" href="#">Share</a></li>
-			<li><a class="photo-share-email" href="#">Email</a></li>
-		</ul>
-		<div class="photo-buttons">
-			<a class="button addto-prints" href="#">Add to Prints</a>
+	<div class="photo">
+		<div class="photo-overlay">
+			<ul class="photo-share">
+				<li><a class="photo-share-twitter" href="#">Tweet</a></li>
+				<li><a class="photo-share-facebook" href="#">Share</a></li>
+				<li><a class="photo-share-email" href="#">Email</a></li>
+			</ul>
+			<div class="photo-buttons">
+				<a class="button addto-prints" href="#">Add to Prints</a>
+			</div>
+			<a class="photo-enlarge" href="/p/123" title="Enlarge">Enlarge</a>
+			<!--<a class="photo-download" href="#" title="Download">Download</a>-->
 		</div>
-		<a class="photo-enlarge" href="/p/123" title="Enlarge">Enlarge</a>
-		<!--<a class="photo-download" href="#" title="Download">Download</a>-->
+		<img src="/assets/img/FPO/event-photo-6.jpg" />
+		Andrew D.	
 	</div>
-	<img src="/assets/img/FPO/event-photo-6.jpg" />
-	Andrew D.	
-</div>
-<div class="photo">
-	<div class="photo-overlay">
-		<ul class="photo-share">
-			<li><a class="photo-share-twitter" href="#">Tweet</a></li>
-			<li><a class="photo-share-facebook" href="#">Share</a></li>
-			<li><a class="photo-share-email" href="#">Email</a></li>
-		</ul>
-		<div class="photo-buttons">
-			<a class="button addto-prints" href="#">Add to Prints</a>
+	<div class="photo">
+		<div class="photo-overlay">
+			<ul class="photo-share">
+				<li><a class="photo-share-twitter" href="#">Tweet</a></li>
+				<li><a class="photo-share-facebook" href="#">Share</a></li>
+				<li><a class="photo-share-email" href="#">Email</a></li>
+			</ul>
+			<div class="photo-buttons">
+				<a class="button addto-prints" href="#">Add to Prints</a>
+			</div>
+			<a class="photo-enlarge" href="/p/123" title="Enlarge">Enlarge</a>
+			<!--<a class="photo-download" href="#" title="Download">Download</a>-->
 		</div>
-		<a class="photo-enlarge" href="/p/123" title="Enlarge">Enlarge</a>
-		<!--<a class="photo-download" href="#" title="Download">Download</a>-->
+		<img src="/assets/img/FPO/event-photo-7.jpg" />
+		Andrew D.	
 	</div>
-	<img src="/assets/img/FPO/event-photo-7.jpg" />
-	Andrew D.	
-</div>
-<div class="photo">
-	<div class="photo-overlay">
-		<ul class="photo-share">
-			<li><a class="photo-share-twitter" href="#">Tweet</a></li>
-			<li><a class="photo-share-facebook" href="#">Share</a></li>
-			<li><a class="photo-share-email" href="#">Email</a></li>
-		</ul>
-		<div class="photo-buttons">
-			<a class="button addto-prints" href="#">Add to Prints</a>
+	<div class="photo">
+		<div class="photo-overlay">
+			<ul class="photo-share">
+				<li><a class="photo-share-twitter" href="#">Tweet</a></li>
+				<li><a class="photo-share-facebook" href="#">Share</a></li>
+				<li><a class="photo-share-email" href="#">Email</a></li>
+			</ul>
+			<div class="photo-buttons">
+				<a class="button addto-prints" href="#">Add to Prints</a>
+			</div>
+			<a class="photo-enlarge" href="/p/123" title="Enlarge">Enlarge</a>
+			<!--<a class="photo-download" href="#" title="Download">Download</a>-->
 		</div>
-		<a class="photo-enlarge" href="/p/123" title="Enlarge">Enlarge</a>
-		<!--<a class="photo-download" href="#" title="Download">Download</a>-->
+		<img src="/assets/img/FPO/event-photo-8.jpg" />
+		Andrew D.	
 	</div>
-	<img src="/assets/img/FPO/event-photo-8.jpg" />
-	Andrew D.	
-</div>
 
+</div>
 
 <div class="clearit">&nbsp;</div>

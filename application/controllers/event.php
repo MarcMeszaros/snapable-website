@@ -47,7 +47,7 @@ class Event extends CI_Controller {
 				$head = array(
 					'noTagline' => true,
 					'css' => base64_encode('assets/css/fileuploader.css,assets/css/tipsy.css,assets/css/setup.css,assets/css/header.css,assets/css/event.css,assets/css/footer.css'),
-					'js' => base64_encode('assets/js/fileuploader.js,assets/js/jquery.tipsy.js,assets/js/photostream.js')	
+					'js' => base64_encode('assets/js/uploader.js,assets/js/jquery.tipsy.js,assets/js/photostream.js')	
 				);
 				$data = array(
 					'url' => $this->uri->segment(2)

@@ -1,5 +1,5 @@
 RewriteEngine on
 
-RewriteCond $1 !^(index\.php|assets|favicon\.ico|tmp-files)
+RewriteCond $1 !^(index\.php|assets|favicon\.ico)
 RewriteRule ^(.*)$ /index.php/$1 [L]
 #RewriteRule ^(_img|_css|_js)/(.*) /application/views/$1/$2 [L] 
