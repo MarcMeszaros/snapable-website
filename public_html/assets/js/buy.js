@@ -10,27 +10,29 @@ function checkEmail(email)
 
 function checkUrl(url)
 {
-	// ajax call to database to find out if url exists already or not
-	var status = false;
-		
-	if ( status == false)
-	{
-		$("#event_url_status").removeClass("url_bad").addClass("url_good");	
-		$("#event_url").removeClass("input-error");
-		$("#event_url_error").fadeOut();		
-	} else {
-		$("#event_url_status").removeClass("url_good").addClass("url_bad");	
-		$("#event_url").addClass("input-error");
-		$("#event_url_error").fadeIn();
-	}
-	return false;
+	$("#event_url_status").removeClass("url_good").removeClass("url_bad").addClass("spinner-16px")
+	$.getJSON("/buy/check", { "url": url }, function(data)
+	{		
+		if ( data['status'] == 404 )
+		{
+			$("#event_url_status").removeClass("url_bad").removeClass("spinner-16px").addClass("url_good");	
+			$("#event_url").removeClass("input-error");
+			$("#event_url_error").fadeOut();	
+			return 1;	
+		} else {
+			$("#event_url_status").removeClass("url_good").removeClass("spinner-16px").addClass("url_bad");	
+			$("#event_url").addClass("input-error");
+			$("#event_url_error").fadeIn();
+			return 0;
+		}
+	});
 }
 
 function geocoder(address)
 {
 	// do geocode to get addresses lat/lng
 	// set #lat and #lng
-	$("#event_location_status").addClass("spinner-16px")
+	$("#event_location_status").removeClass("location_good").removeClass("location_bad").addClass("spinner-16px")
 	$.getJSON("http://where.yahooapis.com/geocode?location=1110+Halton+Terrace,+Kanata,+ON&flags=J&appid=qrVViDXV34GuS1yV7Mi2ya09wffvK6zlXaN1LFLQ3Q7fIXQI2MVhMtLMKQkDWMPP_g--", function(data)
 	{
 		if ( data['ResultSet']['Error'] == 0 )
@@ -42,11 +44,28 @@ function geocoder(address)
 			// set spinner to checkmark
 			$("#event_location_status").removeClass("spinner-16px").addClass("location_good");
 		} else {
+			$("#event_location_status").removeClass("spinner-16px").addClass("location_bad");
 			alert("fail")
 		}
 	});
 	
 	return true;
+}
+
+function userExists(email)
+{
+	$("#email_status").removeClass("email_good").removeClass("email_bad").addClass("spinner-16px")
+	$.getJSON("/buy/check", { "email": email }, function(data)
+	{
+		if ( data['status'] == 404 )
+		{
+			$("#email_status").removeClass("spinner-16px").addClass("email_good");
+			return 1;
+		} else {
+			$("#email_status").removeClass("spinner-16px").addClass("email_bad");
+			return 0;
+		}
+	});
 }
 
 $(document).ready(function() 
@@ -64,6 +83,13 @@ $(document).ready(function()
 		show24Hours: false,
 		separator: ':',
 		step: 30
+	});
+	
+	// check if user has already registered
+	$("#user_email").blur( function()
+	{
+		var is_registered = userExists($(this).val());
+		return is_registered;
 	});
 	
 	// listener to check if url is available
@@ -93,11 +119,11 @@ $(document).ready(function()
 			var title = $("#event_title").val().replace(/ /g,"-").toLowerCase();
 			// check if already in the database
 			var check = checkUrl(title);
-			if ( check == false )
-			{
+			//if ( check == false )
+			//{
 				// write to url input
 				$("#event_url").val(title);
-			}
+			//}
 		} else {
 			$("#event_title").removeClass("input-error");
 			$("#event_title_error").fadeOut();

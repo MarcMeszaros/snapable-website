@@ -28,6 +28,7 @@
   
 			<div class="form-field field-separated">
 				<label for="user_email">Email address <em>(you'll use this to sign in)</em></label>
+				<span id="email_status">&nbsp;</span>
 				<input id="user_email" name="user[email]" size="40" type="text">
 				<div class="field-error" id="user_email_error">You must provide a properly formatted email address.</div>
 			</div>

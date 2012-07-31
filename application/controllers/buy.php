@@ -49,11 +49,29 @@ class Buy extends CI_Controller {
 					{
 						redirect('/dashboard'); //redirect('/event/setup/' . $_POST['event']['url']);
 					} else {
-						redirect('/buy/error');
+						//redirect('/buy/error');
 					}
 				} else {
 					show_404();
 				}
+			} 
+			else if ( $this->uri->segment(2) == "error" )
+			{
+				echo "A problem has occurred.";
+			} 
+			else if ( $this->uri->segment(2) == "check" )
+			{
+				if ( isset($_GET['email']) )
+				{
+					$is_registered = $this->buy_model->checkEmail($_GET['email']);
+				}
+				else if ( isset($_GET['url']) )
+				{
+					$is_registered = $this->buy_model->checkUrl($_GET['url']);
+				} else {
+					$is_registered = '{ "status": 404 }';
+				}
+				echo $is_registered;
 			} else {
 				$data = array(
 					'package' => json_decode($this->buy_model->getPackageDetails($this->uri->segment(2)))

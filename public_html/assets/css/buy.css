@@ -147,8 +147,9 @@ div.ui-datepicker{
 }
 
 #event_location { float: left; width: 325px; }
+#user_email { float: left; width: 325px; }
 #event_url { float: left; width: 216px; }
-#event_location_status, #event_url_status { float: right; width: 16px; margin-left: 5px; }
+#event_location_status, #event_url_status, #email_status { float: right; width: 16px; margin-left: 5px; }
 
 #zip_field input { margin-bottom: 0; }
 
@@ -211,15 +212,18 @@ span.left { float: left; }
 }
 
 
-.location_good, .spinner-16px {
+.location_good, .spinner-16px, .email_good, .email_bad {
 	float: right;
 	margin-top: 7px;
 	width: 16px;
 	height: 16px;
 	overflow: hidden;
 }
-.location_good {
+.location_good, .email_good {
 	background: transparent url('/assets/img/check_alt_16x16.png') no-repeat;
+}
+.location_bad, .email_bad {
+	background: transparent url('/assets/img/x_alt_16x16.png') no-repeat;
 }
 .spinner-16px {
 	background: transparent url('/assets/img/spinner-sm.gif') no-repeat;

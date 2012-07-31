@@ -35,6 +35,7 @@ body {
 	#homeHead {
 		width: 1020px;
 		margin: 0 auto;
+		position: relative;
 	}
 	#cta {
 		width: 1020px;
@@ -46,6 +47,7 @@ body {
 	#homeHead {
 		width: 880px;
 		margin: 0 auto;
+		position: relative;
 	}
 	#cta {
 		width: 880px;
@@ -95,11 +97,12 @@ body {
 }
 
 #headLinks {
-	display: inline;
-	float: right;
-	width: 200px;
+	position: absolute;
+	right: 40px;
+	z-index: 101;
+	width: 350px;
 	text-align: right;
-	margin-top: 32px;
+	margin-top: 5px;
 }
 
 #headLinks a:link, #headLinks a:visited {

@@ -44,6 +44,7 @@
 			<div id="headNav"><a href="#why-use" id="anchor4" class="anchorLink">Why Use Snapable?</a> / <a href="#how-it-works" id="anchor5" class="anchorLink">How It Works</a> / <a href="#packages-pricing" id="anchor6" class="anchorLink">Packages &amp; Pricing</a></div>
 			
 			<div id="headLinks">
+				<a href="/business">Snapable For Business</a>
 				<a href="/event/find">Find An Event</a>
 				<a href="/account">Sign-in</a>
 			</div>

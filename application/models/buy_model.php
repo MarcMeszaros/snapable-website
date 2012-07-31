@@ -17,13 +17,17 @@ Class Buy_model extends CI_Model
 		{
 			$result = json_decode($response); 
 			
+			$json = '{
+						"status": 404
+					}';
+			
 			foreach ( $result->objects as $r )
 			{
 				
 				if ( $r->short_name == $url)
 				{
 					// short_name, name, price, prints, album
-					return '{
+					$json = '{
 						"status": 200,
 						"short_name": "' . $r->short_name . '",
 						"name": "' . $r->name . '",
@@ -33,14 +37,77 @@ Class Buy_model extends CI_Model
 					}';
 				}
 			}
+			
+			return $json;
 		} else {
 			return '{
 				"status": 404
 			}';
 		}
+	}
+	
+	function checkEmail($email)
+	{
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, 'http://devapi.snapable.com/private_v1/user/?email=' . $email . '&format=json'); 
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);                                                               
+		curl_setopt($ch, CURLOPT_TIMEOUT, '3');
+		                                                                                                    
+		$response = curl_exec($ch);
+		$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		curl_close($ch);
 		
-		//$details = $this->db->where('url', $url)->where('active', 1)->get('package', 1,0);
-		//return $details->result();
+		if ( $httpcode == 200 )
+		{
+			$result = json_decode($response);
+			$return = $result->meta->total_count;
+			
+			//$status = '{ "status": 200 }';
+			
+			if ( $return > 0 )
+			{
+				$status = '{ "status": 200 }';
+			} else {
+				$status = '{ "status": 404 }';
+			}
+			//echo $return;
+			return $status;
+		} else {
+			$status = '{ "status": 404 }';
+		}
+		return $status;
+	}
+	
+	function checkUrl($url)
+	{
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, 'http://devapi.snapable.com/private_v1/event/?url=' . $url . '&format=json'); 
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);                                                               
+		curl_setopt($ch, CURLOPT_TIMEOUT, '3');
+		                                                                                                    
+		$response = curl_exec($ch);
+		$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		curl_close($ch);
+		
+		if ( $httpcode == 200 )
+		{
+			$result = json_decode($response);
+			$return = $result->meta->total_count;
+			
+			//$status = '{ "status": 200 }';
+			
+			if ( $return > 0 )
+			{
+				$status = '{ "status": 200 }';
+			} else {
+				$status = '{ "status": 404 }';
+			}
+			//echo $return;
+			return $status;
+		} else {
+			$status = '{ "status": 404 }';
+		}
+		return $status;
 	}
 	
 	function createEvent($event, $user, $cc, $address)
