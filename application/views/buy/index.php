@@ -1,6 +1,6 @@
 <form name="create_event" method="post" action="/buy/complete">
 
-	<input type="hidden" id="package" name="event[package]" value="<?= $package->short_name ?>" />
+	<input type="hidden" id="package" name="event[package]" value="<?= $package->resource_uri ?>" />
 	<input type="hidden" id="lat" name="event[lat]" value="0" />
 	<input type="hidden" id="lng" name="event[lng]" value="0" />
 	

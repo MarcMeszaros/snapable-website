@@ -29,6 +29,7 @@ Class Buy_model extends CI_Model
 					// short_name, name, price, prints, album
 					$json = '{
 						"status": 200,
+						"resource_uri": "' . $r->resource_uri . '",
 						"short_name": "' . $r->short_name . '",
 						"name": "' . $r->name . '",
 						"price": "' . $r->price . '",
@@ -196,9 +197,12 @@ Class Buy_model extends CI_Model
 			$start = date( "Y-m-d", $start_timestamp ) . "T" . date( "H:i:s", $start_timestamp ); // formatted: 2010-11-10T03:07:43
 			$end = date( "Y-m-d", $end_timestamp ) . "T" . date( "H:i:s", $end_timestamp ); 
 			
+			$created = date( "Y-m-d" ) . "T" . date( "H:i:s" );
+			
 			$json = '{
+				"creation_date": "' . $created . '",
 				"user": "' . $user_uri . '",
-				"package": "/private_v1/package/' . $event['package'] . '/",
+				"package": "' . $event['package'] . '",
 				"title": "' . $event['title'] . '",
 			    "url": "' . $event['url'] . '",
 			    "start": "' . $start . '",

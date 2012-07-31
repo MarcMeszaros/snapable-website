@@ -289,6 +289,14 @@ $(document).ready(function()
 		var zip = $("#address_zip").val(); // cannot be blank
 		var agree = 0; // must be checked
 		
+		/*****
+		* 
+		*
+		* CHECK URL AND EMAIL TO ENSURE THEY'RE UNIQUE
+		*
+		*
+		****/
+		
 		if ($('#terms-service').is(':checked')) {
 			agree = 1;
 		}
