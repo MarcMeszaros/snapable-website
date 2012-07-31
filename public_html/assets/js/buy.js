@@ -289,13 +289,7 @@ $(document).ready(function()
 		var zip = $("#address_zip").val(); // cannot be blank
 		var agree = 0; // must be checked
 		
-		/*****
-		* 
-		*
-		* CHECK URL AND EMAIL TO ENSURE THEY'RE UNIQUE
-		*
-		*
-		****/
+		var urlInUse = checkUrl(title);
 		
 		if ($('#terms-service').is(':checked')) {
 			agree = 1;
@@ -319,11 +313,12 @@ $(document).ready(function()
 			$("#user_last_name_error").fadeIn();
 			location.href="#your-details";
 		}
-		else if ( checkEmail(email) == false )
+		else if ( checkEmail(email) == 0 )
 		{
 			$("#user_email").focus();
 			$("#user_email").addClass("input-error");
 			$("#user_email_error").fadeIn();
+			$("#email_status").removeClass("spinner-16px").removeClass("email_good").addClass("email_bad");
 			location.href="#your-details";
 		}
 		else if ( password1 == "" )
@@ -367,6 +362,12 @@ $(document).ready(function()
 			$("#event_location").addClass("input-error");
 			$("#event_location_error").html("We can't seem to locate this address, would you like to <a href='#'>find it on a map</a>?").fadeIn();
 			location.href="#event-details";
+		}
+		else if ( urlInUse == 0 )
+		{
+			$("#event_url_status").removeClass("url_good").removeClass("spinner-16px").addClass("url_bad");	
+			$("#event_url").addClass("input-error");
+			$("#event_url_error").fadeIn();	
 		}
 		else if ( ccname == "" )
 		{
