@@ -1,3 +1,6 @@
+var validEmail = 0;
+var validUrl = 0;
+
 function checkEmail(email) 
 {
 	var filter  = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
@@ -18,11 +21,13 @@ function checkUrl(url)
 			$("#event_url_status").removeClass("url_bad").removeClass("spinner-16px").addClass("url_good");	
 			$("#event_url").removeClass("input-error");
 			$("#event_url_error").fadeOut();	
+			validUrl = 1;
 			return 1;	
 		} else {
 			$("#event_url_status").removeClass("url_good").removeClass("spinner-16px").addClass("url_bad");	
 			$("#event_url").addClass("input-error");
 			$("#event_url_error").fadeIn();
+			validUrl = 0;
 			return 0;
 		}
 	});
@@ -60,9 +65,11 @@ function userExists(email)
 		if ( data['status'] == 404 )
 		{
 			$("#email_status").removeClass("spinner-16px").addClass("email_good");
+			validEmail = 1;
 			return 1;
 		} else {
 			$("#email_status").removeClass("spinner-16px").addClass("email_bad");
+			validEmail = 0;
 			return 0;
 		}
 	});
@@ -262,13 +269,12 @@ $(document).ready(function()
 		}
 		
 		return false;
-	})
+	});
 	
 	// form verification and submission 
 	$("#btn-sign-up").click( function()
 	{
 		// setup variables
-		var package = $("#package").val();
 		var fname = $("#user_first_name").val(); // cannot be blank
 		var lname = $("#user_last_name").val(); // cannot be blank
 		var email = $("#user_email").val(); // cannot be blank and must be valid
@@ -288,8 +294,6 @@ $(document).ready(function()
 		var cvv = $("#creditcard_verification_value").val(); // cannot be blank
 		var zip = $("#address_zip").val(); // cannot be blank
 		var agree = 0; // must be checked
-		
-		var urlInUse = checkUrl(title);
 		
 		if ($('#terms-service').is(':checked')) {
 			agree = 1;
@@ -312,8 +316,8 @@ $(document).ready(function()
 			$("#user_last_name").addClass("input-error");
 			$("#user_last_name_error").fadeIn();
 			location.href="#your-details";
-		}
-		else if ( checkEmail(email) == 0 )
+		}/*
+		else if ( checkEmail(email) == true )
 		{
 			$("#user_email").focus();
 			$("#user_email").addClass("input-error");
@@ -321,6 +325,14 @@ $(document).ready(function()
 			$("#email_status").removeClass("spinner-16px").removeClass("email_good").addClass("email_bad");
 			location.href="#your-details";
 		}
+		else if ( validEmail == 0 )
+		{
+			$("#user_email").focus();
+			$("#user_email").addClass("input-error");
+			$("#user_email_error").fadeIn();
+			$("#email_status").removeClass("spinner-16px").removeClass("email_good").addClass("email_bad");
+			location.href="#your-details";
+		}*/
 		else if ( password1 == "" )
 		{
 			$("#user_password").focus();
@@ -363,7 +375,7 @@ $(document).ready(function()
 			$("#event_location_error").html("We can't seem to locate this address, would you like to <a href='#'>find it on a map</a>?").fadeIn();
 			location.href="#event-details";
 		}
-		else if ( urlInUse == 0 )
+		else if ( validUrl == 0 )
 		{
 			$("#event_url_status").removeClass("url_good").removeClass("spinner-16px").addClass("url_bad");	
 			$("#event_url").addClass("input-error");
@@ -404,6 +416,7 @@ $(document).ready(function()
 	});
 	
 	// save a few more details 
+	/*
 	$("#save-event").click( function()
 	{
 		// save title, description and privacy setting (cover photo and other photos are all saved already)
@@ -438,5 +451,5 @@ $(document).ready(function()
 		}
 		
 	});
-
+	*/
 });

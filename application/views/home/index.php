@@ -46,7 +46,7 @@
 			<div id="headLinks">
 				<a href="/business">Snapable For Business</a>
 				<a href="/event/find">Find An Event</a>
-				<a href="/account">Sign-in</a>
+				<a href="/account">Sign in</a>
 			</div>
 			
 		</div>
