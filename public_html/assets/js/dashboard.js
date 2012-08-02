@@ -56,4 +56,19 @@ $(document).ready(function()
 		}
 	});
 	
+	$(document).on("submit", "form#questionForm", function(e) 
+	{
+		var message = $("textarea[name=message]").val();
+		if ( message == "" || message == "Enter a question, comment or message...")
+		{
+			alert("Forget to include your message?");
+			e.preventDefault();
+			return false;
+		} else {
+			alert(message);
+			e.preventDefault();
+			return false;
+		}
+	});
+	
 });

@@ -151,11 +151,17 @@
 			</div>
 			
 			<div id="questions" class="content hiding">
-			
-				<h3>Got a question? We're happy to answer it</h3>
 				
-				<p>EMAIL FORM</p>
+				<form id="questionForm">
 			
+					<h3>Got a question? We're happy to answer it</h3>
+				
+					<textarea name="message">Enter a question, comment or message...</textarea>
+					
+					<input type="submit" name="submit" value="Send" />
+					
+				</form>
+				
 			</div>
 			
 			<a id="event-link" href="/event/<?= $url ?>">Go to your event page</a>
