@@ -25,7 +25,7 @@
 
 <body id="top">
 
-	<img id="logo" src="/assets/img/logo-indented.png" alt="Snapable" />
+	<img id="#signLogo" src="/assets/img/logo-indented.png" alt="Snapable" />
 
 	<form id="signinWrap" name="signin" action="/account/validate" method="post">
 	

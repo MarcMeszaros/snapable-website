@@ -127,4 +127,33 @@ Class Account_model extends CI_Model
 	        return bin2hex(substr($output, 0, $key_length));
 	}
 	
+	
+	function eventDeets($resource_uri)
+	{
+		$uri_split = explode("/", $resource_uri);
+		
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, 'http://devapi.snapable.com/private_v1/event/?user=' . $uri_split[3] . '&format=json'); 
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);                                                               
+		curl_setopt($ch, CURLOPT_TIMEOUT, '3');
+		                                                                                                    
+		$response = curl_exec($ch);
+		$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		curl_close($ch);
+		
+		if ( $httpcode == 200 )
+		{
+			$result = json_decode($response);
+			return $array = array(
+			    "status" => 200,
+			    "title" => $result->objects[0]->title,
+			    "url" => $result->objects[0]->url,
+			    "start_timedate" => $result->objects[0]->start,
+			    "start_epoch" => strtotime($result->objects[0]->start)
+			);
+		} else {
+			return $array['status'] = 404;
+		}
+	}
+	
 }

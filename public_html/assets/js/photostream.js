@@ -1,3 +1,8 @@
+function sendNotification(type, message)
+{
+	$("#notification").addClass(type).html(message).slideDown().delay(1500).slideUp();
+}
+
 $(document).ready(function() 
 {  
 
@@ -85,24 +90,43 @@ $(document).ready(function()
 		$("#uploadArea").slideToggle("fast");
 	});
 	
-	$(document).on("click", ".addto-album", function(){ 
+	$(document).on("click", ".addto-album", function()
+	{ 
 		alert("Show album menu")
 	});
 	
-	$(document).on("click", ".addto-prints", function(){ 
+	$(document).on("click", ".addto-prints", function()
+	{ 
 		var count = parseFloat($("#in-cart-number").html()) + 1;
 		$("#in-cart-number").html(count);
 		// store reference of photos id somewhere
+		sendNotification("positive", "The photo was added to your cart.");
+	});
+	
+	// SLIDESHOW MENU
+	$("#slideshowBTN").click( function(e)
+	{
+		e.preventDefault();
+		$("#slideshow").slideToggle();
+	});
+	
+	// GUEST MENU
+	$("#guestBTN").click( function(e)
+	{
+		e.preventDefault();
+		$("#guest").slideToggle();
 	});
 	
 	// PRIVACY MENU
-	$("#event-nav-privacy").click(function(e) {          
+	$("#event-nav-privacy").click(function(e) 
+	{          
 		e.preventDefault();
         $("#event-nav-menu-privacy").toggle();
 		$("#event-nav-privacy").toggleClass("menu-open");
     });
 	
-	$("#event-nav-menu-privacy").mouseup(function() {
+	$("#event-nav-menu-privacy").mouseup(function() 
+	{
 		return false
 	});
 	$(document).mouseup(function(e) {
@@ -113,19 +137,114 @@ $(document).ready(function()
 	});
 	
 	// SHARE MENU
-	$("#event-nav-share").click(function(e) {          
+	$("#event-nav-share").click(function(e) 
+	{          
 		e.preventDefault();
         $("#event-nav-menu-share").toggle();
 		$("#event-nav-share").toggleClass("menu-open");
     });
 	
-	$("#event-nav-menu-share").mouseup(function() {
+	$("#event-nav-menu-share").mouseup(function() 
+	{
 		return false
 	});
-	$(document).mouseup(function(e) {
+	$(document).mouseup(function(e) 
+	{
 		if($(e.target).parent("a#event-nav-share").length==0) {
 			$("#event-nav-share").removeClass("menu-open");
 			$("#event-nav-menu-share").hide();
+		}
+	});
+	
+	// INVITE GUESTS
+	
+	$(document).on("click", ".tabs a", function(){
+		var href = $(this).attr("href").substring(1);
+		
+		if ( $(this).parent().attr("class") != "active" )
+		{
+			$(".tabs li").removeClass("active");
+			$(this).parent().addClass("active");
+			$(".tab-content").hide();
+			$("#" + href + "Box").show();
+		}
+	});
+	
+	//$("#guest-link-upload").on("click", function(event) {
+	$(document).on("click", "#guest-link-upload", function(){ 
+		$("#guests-choices").hide();
+		$("#guests-upload").fadeIn("normal");
+		return false;
+	});
+
+	$(document).on("click", "#guest-link-manual", function(){ 
+		$("#guests-choices").hide();
+		$("#guests-manual").fadeIn("normal");
+		return false;
+	});
+	
+	$(document).on("click", "#guests-file-how-to-csv-link", function(){ 
+		$("#guests-file-how-to-csv").fadeIn("normal");
+		return false;
+	});
+	
+	$(document).on("click", ".guests-back-to-choices", function(){ 
+		$("#guests-manual, #guests-upload").hide();
+		$("#guests-choices").fadeIn();
+		return false;
+	});
+	
+	$(document).on("click", "#guests-upload-csv", function(){
+		$("#guests-upload").html("<strong>Your guests have been uploaded.</strong><br />Would you like to compose an email to let them know to download the Snapable app? <a id='notify-guests-yes' href='#'>Yes</a> / <a id='notify-guests-no' href='#'>No</a>");
+		return false;
+	});
+	
+	$(document).on("click", "#notify-guests-yes", function(){
+		$("#overlay-tabs-add").removeClass("active");
+		$("#overlay-tabs-notify").addClass("active");
+		$("#add-guests-wrap").fadeOut("fast", function()
+		{
+			$("#notify-guests").fadeIn("fast");
+		});
+		return false;
+	});
+	
+	
+	/// GUEST LOGIN
+	
+	
+	$('form').submit(function(e) 
+	{
+		var email = $("input[name=email]").val();
+		var pin = $("input[name=pin]").val();
+		
+		var emailReg = new RegExp("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?");
+		
+		if ( emailReg.test(email) == false )
+		{
+			//$("#email-error").fadeIn("fast");
+			$("label[for=email]").css({ "color": "#cc3300" });
+			$("label[for=email] div").fadeIn("fast");
+			$("input[name=email]").addClass("inputError");
+			e.preventDefault();
+			return false;
+		}
+		else if ( pin == "")
+		{
+			$("input[name=email]").removeClass("inputError");
+			$("label[for=email]").css({ "color": "#999" });
+			$("label[for=email] div").fadeOut("fast");
+			
+			$("label[for=pin]").css({ "color": "#cc3300" });
+			$("label[for=pin] div").fadeOut("fast");
+			$("input[name=pin]").addClass("inputError");
+			e.preventDefault();
+			return false;
+		} else {
+			$("label[for=email], label[for=pin]").css({ "color": "#999" });
+			$("input[name=email], input[name=pin]").removeClass("inputError");
+			$("label[for=email] div, label[for=pin] div").fadeOut("fast");
+			return true;
 		}
 	});
 	

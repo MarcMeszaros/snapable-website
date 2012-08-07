@@ -24,7 +24,11 @@
 </head>
 
 <body id="top">
+	
+	<div id="eventCountdown"><?= $days_until ?> Days <?= $days_verb ?> Your Event.</div>
 
+	<div id='signedInBar'><div id='signedInText'>Signed In as <strong><?= $session['fname'] . " " . substr($session['lname'], 0, 1) . "." ?></strong> / <a href='/account/signout'>Sign Out</a></div></div>
+	
 	<div id="wrap">
 		
 		<div class="left">
@@ -46,6 +50,7 @@
 		<div class="left">
 		
 			<ul>
+				<li><a href="/event/<?= $eventDeets['url'] ?>">Your Event</a></li>
 				<li><a href="#before" class="active">Before</a></li>
 				<li><a href="#during">During</a></li>
 				<li><a href="#after">After</a></li>
@@ -70,9 +75,9 @@
 			
 				<div id="share-content" class="showing">
 				
-					<p>Your event URL is:</p>
+					<p>The URL for <strong><?= $eventDeets['title'] ?></strong> is:</p>
 				
-					<p><input id="event-url" type="text" value="http://snapable.com/event/<?= $url ?>" READONLY /></p>
+					<p><input id="event-url" type="text" value="http://snapable.com/event/<?= $eventDeets['url'] ?>" READONLY /></p>
 
 					<p>Share it on <a href="#">Facebook</a>, <a href="#">Twitter</a>, <a href="#">Email</a>, or wherever you want people to know where they can find photos from your wedding (they’ll update in real-time as they’re taken during the wedding).</p>
 			
@@ -108,7 +113,7 @@
 				
 				<div id="participate-content" class="showing">
 				
-					<p>Let guests know how to take part via customized table cards. <a href="/event/setup/<?= $url ?>/cards" id="get-table-card" class="button" rel="facebox">Get&nbsp;Table&nbsp;Cards &rarr;</a></p>
+					<p>Let guests know how to take part via customized table cards. <a href="/event/setup/<?= $eventDeets['url'] ?>/cards" id="get-table-card" class="button" rel="facebox">Get&nbsp;Table&nbsp;Cards &rarr;</a></p>
 				
 				</div>
 				
@@ -116,7 +121,7 @@
 				
 				<div id="slideshow-content" class="hiding">
 				
-					<p>To create a slideshow <a href="/event/<?= $url ?>">go to your event page</a>, click the slideshow link and follow the instructions.</p>
+					<p>To create a slideshow <a href="/event/<?= $eventDeets['url'] ?>">go to your event page</a>, click the slideshow link and follow the instructions.</p>
 				
 				</div>
 			
@@ -128,7 +133,7 @@
 				
 				<div id="create-content" class="showing">
 				
-					<p>To create photo albums, first upload photos, then go to your <a href="/event/<?= $url ?>">event page</a>, select the photo(s) you want to add to an album, then select the album (or create a new one) you'd like the photo to be a part of.</p>
+					<p>To create photo albums, first upload photos, then go to your <a href="/event/<?= $eventDeets['url'] ?>">event page</a>, select the photo(s) you want to add to an album, then select the album (or create a new one) you'd like the photo to be a part of.</p>
 				
 				</div>
 				
@@ -136,7 +141,7 @@
 				
 				<div id="get-content" class="hiding">
 				
-					<p>To order print, first go to your <a href="/event/<?= $url ?>">event page</a>, then select the photo(s) you want to have printed. Once you've picked all that you want click the orange "Checkout" button on the top right of the screen and follow the instructions.</p>
+					<p>To order print, first go to your <a href="/event/<?= $eventDeets['url'] ?>">event page</a>, then select the photo(s) you want to have printed. Once you've picked all that you want click the orange "Checkout" button on the top right of the screen and follow the instructions.</p>
 				
 				</div>
 				
@@ -144,7 +149,7 @@
 				
 				<div id="remind-content" class="hiding">
 				
-					<p>Let your guests know to come view the photos (and allow them to order prints too!). <a href="/event/setup/<?= $url ?>/reminders" id="send-reminders" class="button" rel="facebox">Send Reminders &rarr;</a></p>
+					<p>Let your guests know to come view the photos (and allow them to order prints too!). <a href="/event/setup/<?= $eventDeets['url'] ?>/reminders" id="send-reminders" class="button" rel="facebox">Send Reminders &rarr;</a></p>
 				
 				</div>
 			
@@ -152,11 +157,13 @@
 			
 			<div id="questions" class="content hiding">
 				
-				<form id="questionForm">
+				<form id="questionForm" name="questions" action="/account/email" method="post">
 			
 					<h3>Got a question? We're happy to answer it</h3>
 				
 					<textarea name="message">Enter a question, comment or message...</textarea>
+					
+					<input type="hidden" name="email" value="<?= $session['email'] ?>" />
 					
 					<input type="submit" name="submit" value="Send" />
 					
@@ -164,7 +171,8 @@
 				
 			</div>
 			
-			<a id="event-link" href="/event/<?= $url ?>">Go to your event page</a>
+			<div class="clearit">&nbsp;</div>
+			<a id="event-link" href="/event/<?= $eventDeets['url'] ?>">Go to your event page</a>
 			
 		</div>
 		

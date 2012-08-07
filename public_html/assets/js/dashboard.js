@@ -56,6 +56,23 @@ $(document).ready(function()
 		}
 	});
 	
+	// QUESTIONS FORM
+	
+	$(document).on("focus", "textarea[name=message]", function(e) 
+	{
+		if ( $(this).val() == "Enter a question, comment or message..." )
+		{
+			$(this).val("").css({"color":"#333333"});
+		}
+	});
+	$(document).on("blur", "textarea[name=message]", function(e) 
+	{
+		if ( $(this).val() == "" )
+		{
+			$(this).val("Enter a question, comment or message...").css({"color":"#999"});
+		}
+	});
+	
 	$(document).on("submit", "form#questionForm", function(e) 
 	{
 		var message = $("textarea[name=message]").val();
@@ -65,7 +82,14 @@ $(document).ready(function()
 			e.preventDefault();
 			return false;
 		} else {
-			alert(message);
+			$.post("/account/email", {message:message,email:$("input[name=email]").val()}, function(data){
+				if ( data == "sent" )
+				{
+					$("form#questionForm").html("<h3>Thanks! Your message has been sent</h3><p>We'll be in touch shortly.</p>");
+				} else {
+					alert("An error occurred while trying to send your message. Please email us direct at team@snapable.com");
+				}
+			})	
 			e.preventDefault();
 			return false;
 		}

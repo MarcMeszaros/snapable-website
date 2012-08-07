@@ -16,6 +16,11 @@
     <?php if ( isset($css) ) { ?>
     <link rel="stylesheet" href="/min/c/<?= $css ?>" type="text/css" media="screen" />
     <?php } ?>
+    <?php if ( isset($loggedInBar) )
+		{
+			echo "<style type='text/css'> #homeHeadWrap { height: 100px; } </style>";
+		}
+	?>
     <?php if ( isset($js) ) { ?>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="/min/j/<?= $js ?>"></script>
@@ -25,7 +30,29 @@
 
 <body id="top">
 
+	<div id="notification"></div>
+
 	<div id="homeHeadWrap">
+	
+		<?php if ( isset($loggedInBar) )
+		{
+			if (  $loggedInBar == "owner" )
+			{
+				$name = $this->session->userdata('logged_in')['fname'] . " " . substr($this->session->userdata('logged_in')['lname'], 0,1) . ".";
+				$signout_url = "/account/signout";
+			}
+			else if ( $loggedInBar == "guest" )
+			{
+				$name = $this->session->userdata('guest_login')['name'];
+				$signout_url = "/event/" . $url . "/signout";
+			} else {
+				$name = "Unknown";
+				$signout_url = "unknown";
+			}
+			echo "<div id='signedInBar'><div id='signedInText'>Signed In as <strong>" . $name . "</strong> / <a href='" . $signout_url . "'>Sign Out</a></div></div>";
+		}
+		?>
+		
 		<div id="homeHead">
 			
 			<a id="headLogo" href="/">Snapable</a>

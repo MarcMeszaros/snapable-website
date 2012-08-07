@@ -4,11 +4,15 @@ body {
 	color: #666;
 }
 
-#logo {
+#signLogo {
 	display: block;
 	width: 76px;
 	height: 76px;
 	margin: 25px auto;
+}
+
+#guestSigninTop {
+	height: 40px;
 }
 
 #signinWrap {
@@ -31,7 +35,7 @@ body {
 	text-align: center;
 }
 
-h1 {
+#signinWrap h1 {
 	font-size: 26px;
 	line-height: 30px;
 	color: #000;
@@ -39,22 +43,23 @@ h1 {
 	text-align: center;
 }
 
-h2 {
+#signinWrap h2 {
 	font-size: 14px;
 	line-height: 20px;
 	font-weight: normal;
 	color: #999;
 	text-align: center;
 }
+h2#guestH2 { margin-top: 15px; }
 
-h2 a:link, h2 a:visited {
+#signinWrap h2 a:link, h2 a:visited {
 	color: #006699;
 }
-h2 a:hover {
+#signinWrap h2 a:hover {
 	color: #528a15;
 }
 
-hr {
+#signinWrap hr {
 	border-bottom: 1px dotted #ccc;
 	border-top: none;
 	border-left: none;
@@ -65,19 +70,20 @@ hr {
 	margin-bottom: 20px;
 }
 
-label {
+#signinWrap label {
 	display: block;
 	margin: 10px 0 5px 0;
 	font-size: 14px;
 	color: #999;
+	text-align: center;
 }
-label div {
+#signinWrap label div {
 	display: none;
 	font-weight: bold;
 	color: #cc3300;
 }
 
-input[type=text], input[type=password] {
+#signinWrap input[type=text], #signinWrap input[type=password] {
 	border-radius: 10px;
 	background: #f4f4f4;
 	padding: 10px 10px 8px 10px;
@@ -85,7 +91,12 @@ input[type=text], input[type=password] {
 	line-height: 18px;
 	width: 350px;
 }
-input[type=text]:focus, input[type=password]:focus {
+input#pinInput[type=text] {
+	display: block;
+	width: 80px;
+	margin: 0 auto;
+}
+#signinWrap input[type=text]:focus, #signinWrap input[type=password]:focus {
 	background: #f5ffe8;
 }
 .inputError {
@@ -93,11 +104,11 @@ input[type=text]:focus, input[type=password]:focus {
 	background-color: #ffcccc
 }
 
-input[type=submit] {
+#signinWrap input[type=submit] {
 	display: block;
 	color: #fff;
 	background: #67ac1c;
-	margin-top: 15px;
+	margin: 15px auto 0 auto;
 	padding: 20px 40px 18px 40px;
 	border: none;
 	border-radius: 35px;
@@ -107,7 +118,7 @@ input[type=submit] {
 	font-weight: bold;
 	text-decoration: none;
 }
-input[type=submit]:hover {
+#signinWrap input[type=submit]:hover {
 	background: #528a15;
 	cursor: pointer;
 }

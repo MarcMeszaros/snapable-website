@@ -48,6 +48,8 @@ class Account extends CI_Controller {
 				
 				if ( $validate->status == 200 )
 				{
+					// get users events
+					// http://devapi.snapable.com/private_v1/event/?format=json&user=1
 					// set sessions var to log user in
 					$sess_array = array(
 			          'email' => $validate->email,
@@ -74,15 +76,84 @@ class Account extends CI_Controller {
 	{
 		if($this->session->userdata('logged_in'))
 		{
-			$data = array(
-				'session' => $this->session->userdata('logged_in'), 
-				'css' => base64_encode('assets/css/setup.css,assets/css/dashboard.css'),
-				'js' => base64_encode('assets/js/dashboard.js'),
-				'url' => 'bigger-awesomer-event'
-			);
-			$this->load->view('account/dashboard', $data);
+			// get event details
+			$session_data = $this->session->userdata('logged_in');
+			
+			$event_array = $this->account_model->eventDeets($session_data['resource_uri']);
+			$this->session->set_userdata('event_deets', $event_array);
+			
+			if ( $event_array['status'] == 200 )
+			{
+				$days_until_epoch = $event_array['start_epoch'] - time();
+				$days_until = round($days_until_epoch / 86400);
+				
+				if( $days_until < 0 )
+				{
+					$days_until = substr($days_until, 1);
+					$days_verb = "Since";
+				} else {
+					$days_verb = "Until";
+				}
+				
+				$data = array(
+					'session' => $this->session->userdata('logged_in'), 
+					'css' => base64_encode('assets/css/setup.css,assets/css/dashboard.css'),
+					'js' => base64_encode('assets/js/dashboard.js'),
+					'eventDeets' => $event_array,
+					'days_until' => $days_until,
+					'days_verb' => $days_verb
+				);
+				$this->load->view('account/dashboard', $data);
+			} else {
+				echo "INSERT MESSAGE THAT NO EVENT WAS FOUND FOR THIS PERSON.";
+			}
 		} else {
 			redirect("/account/signin");
+		}
+	}
+	
+	function email()
+	{
+		if ( IS_AJAX && isset($_POST['message']) && isset($_POST['email']) )
+		{
+			$url = 'http://sendgrid.com/';
+			$user = 'snapable';
+			$pass = 'Snapa!23'; 
+			
+			$params = array(
+			    'api_user'  => $user,
+			    'api_key'   => $pass,
+			    'to'        => 'team@snapable.com',
+			    'subject'   => 'Message From Customer',
+			    'html'      => '<p><b>Message:</b></p><p>' . $_POST['message'] . '</p><p>Sent from: ' . $_POST['email'] . '</p>',
+			    'text'      => 'Message: ' . $_POST['message'] . ' / Sent from: ' . $_POST['email'],
+			    'from'      => 'website@snapable.com',
+			  );
+			
+			$request =  $url.'api/mail.send.json';
+			
+			// Generate curl request
+			$session = curl_init($request);
+			// Tell curl to use HTTP POST
+			curl_setopt ($session, CURLOPT_POST, true);
+			// Tell curl that this is the body of the POST
+			curl_setopt ($session, CURLOPT_POSTFIELDS, $params);
+			// Tell curl not to return headers, but do return the response
+			curl_setopt($session, CURLOPT_HEADER, false);
+			curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
+			
+			// obtain response
+			$response = json_decode(curl_exec($session));
+			curl_close($session);
+			
+			if ( $response->message == "success" )
+			{
+				echo "sent";
+			} else {
+				echo "failed";
+			}
+		} else {
+			show_404();
 		}
 	}
 	

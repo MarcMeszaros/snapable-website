@@ -41,20 +41,72 @@ class Event extends CI_Controller {
 			{
 				echo "Find Events";
 			} else {
-				$event_details = $this->event_model->getEventDetailsFromURL($this->uri->segment(2));
+				$event_details = json_decode($this->event_model->getEventDetailsFromURL($this->uri->segment(2)));
 				
 				echo "&nbsp;";
 				$head = array(
 					'noTagline' => true,
-					'css' => base64_encode('assets/css/fileuploader.css,assets/css/tipsy.css,assets/css/setup.css,assets/css/header.css,assets/css/event.css,assets/css/footer.css'),
-					'js' => base64_encode('assets/js/uploader.js,assets/js/jquery.tipsy.js,assets/js/photostream.js')	
+					'css' => base64_encode('assets/css/signin.css,assets/css/fileuploader.css,assets/css/tipsy.css,assets/css/setup.css,assets/css/header.css,assets/css/event.css,assets/css/footer.css'),
+					'js' => base64_encode('assets/js/uploader.js,assets/js/jquery.tipsy.js,assets/js/photostream.js'),
+					'url' => $event_details->event->url	
 				);
+				
+				if ( isset($_GET['error']) )
+				{
+					$error = true;
+				} else {
+					$error = false;
+				}
+				
 				$data = array(
-					'url' => $this->uri->segment(2)
+					'url' => $this->uri->segment(2),
+					'eventDeets' => $event_details->event
 				);
-				$this->load->view('common/header', $head);
-				$this->load->view('event/photostream', $data);
-				$this->load->view('common/footer');
+				
+				if ( $event_details->status == 200 )
+				{
+					if ($this->session->userdata('logged_in'))
+					{
+						$session_owner = $this->session->userdata('logged_in');
+						
+						if ( $session_owner['loggedin'] == true )
+						{
+							$ownerLoggedin = true;
+							$head["loggedInBar"] = "owner"; 
+						} else {
+							$ownerLoggedin = false;
+						}
+					} 
+					else if($this->session->userdata('guest_login'))
+					{
+						$session_guest = $this->session->userdata('guest_login');
+						
+						if ( $session_guest['loggedin'] == true )
+						{
+							$guestLoggedin = true;
+							$head["loggedInBar"] = "guest"; 
+						} else {
+							$guestLoggedin = false;
+						}
+					} else {
+						
+					}
+					
+					if ( $event_details->event->privacy < 6 && ( isset($guestLoggedin) && $guestLoggedin != true ) )
+					{
+						$this->load->view('common/header2', $head);
+						$this->load->view('event/guest_signin', $data);
+						$this->load->view('common/footer');
+					} else {
+						$this->load->view('common/header', $head);
+						$this->load->view('event/photostream', $data);
+						$this->load->view('common/footer');
+					}
+				} else {
+					$this->load->view('common/header', $head);
+					$this->load->view('event/error', $data);
+					$this->load->view('common/footer');
+				}
 			}
 		}
 		else if ( $segments == 3 )
@@ -94,6 +146,12 @@ class Event extends CI_Controller {
 				{
 					echo "saved";
 				}
+			} 
+			else if ( $this->uri->segment(3) == "signout" )
+			{
+				$this->session->unset_userdata('guest_login');
+				//session_destroy();
+				redirect('/event/' . $this->uri->segment(2), 'refresh');
 			} else {
 				show_404();
 			}
@@ -109,7 +167,41 @@ class Event extends CI_Controller {
 				show_404();
 			}
 		} */
-		else {
+		else if ( $segments == 4 )
+		{
+			if ( $this->uri->segment(2) == "guest" )
+			{
+				if ( $this->uri->segment(4) == "validate" && isset($_POST) )
+				{
+					$eventDeets = json_decode($this->event_model->getEventDetailsFromURL($this->uri->segment(3)));
+					
+					if ( $eventDeets->event->enabled == 1 )
+					{
+						if ( isset($_POST['pin']) && $_POST['pin'] == $eventDeets->event->pin )
+						{
+							$validation = json_decode($this->event_model->validateGuest($eventDeets, $_POST['email'], $_POST['pin']));
+							
+							if ( $validation->status == 200 )
+							{
+								$sess_array = array(
+								  'name' => $validation->name,
+						          'email' => $_POST['email'],
+						          'loggedin' => true
+						        );
+						        $this->session->set_userdata('guest_login', $sess_array);
+								redirect("/event/" . $eventDeets->event->url);
+							} else {
+								redirect("/event/" . $eventDeets->event->url . "?error");
+							}
+						} else {
+							redirect("/event/" . $eventDeets->event->url . "?error");
+						}
+					} else {
+						echo "This event has not yet been published by the event owner.";
+					}
+				}
+			}  
+		} else {
 			show_404();
 		}
 	}

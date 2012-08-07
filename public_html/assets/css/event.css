@@ -1,11 +1,29 @@
 /**** STRUCTURE ****/
 body {
+	position: relative;
 	background: #f5fafc;
 	color: #666;
 }
 #restOfPageWrap {
 	margin: 82px auto 0 auto;
 	width: 900px;
+}
+
+#notification {
+	display: none;
+	position: absolute;
+	z-index: 9000;
+	top: 0;
+	width: 100%;
+	font-size: 26px;
+	line-height: 28px;
+	padding: 20px 0;
+	text-align: center;
+}
+#notification.positive {
+	color: #fff;
+	background: #67ac1c;
+	border-bottom: 1px solid #569117;
 }
 
 /**** EVENT TITLE AREA ****/
@@ -565,6 +583,7 @@ Animate the stripes
 
 /**** END CSS LOAD BAR ****/
 
+/********/
 
 .divider {
 	height: 20px;
@@ -589,4 +608,208 @@ h2 {
 	line-height: 30px;
 	color: #3399cc;
 	font-weight: normal;
+}
+h3 {
+	font-size: 18px;
+	line-height: 20px;
+	color: #3399cc;
+	margin-bottom: 40px;
+}
+
+
+
+/**** GUEST & SLIDESHOW UPLOAD AREA ****/
+
+#slideshow, #guest {
+	display: none;
+	background: #fff;
+	border-radius: 5px;
+	margin: 10px;
+	padding: 40px 225px 20px 225px;
+	border: 1px solid #e1e1e1;
+}
+
+#notifyBox {
+	display: none;
+}
+
+ul.tabs {
+	margin: 20px 0 0 0;
+	padding: 0;
+}
+ul.tabs li {
+	display: inline;
+	margin: 0 2px 0 0;
+	padding: 10px 15px 5px 15px;
+	border-top: 1px solid #b6d7e4;
+	border-left: 1px solid #b6d7e4;
+	border-right: 1px solid #b6d7e4;
+	border-bottom: none;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	background: #f5fafc;
+	color: #b6d7e4;
+	font-weight: bold;
+}
+ul.tabs li.fifty {
+	display: inline-block;
+	width: 175px;
+	margin-bottom: -3px;
+}
+ul.tabs li.hundred {
+	display: block;
+	width: 380px;
+	margin-bottom: -3px;
+}
+ul.tabs li.active {
+	border-color: #3399cc;
+	background: #3399cc;
+	color: #fff;
+}
+
+ul.tabs li a:link, ul.tabs li a:visited {
+	color: #b6d7e4;
+	text-decoration: none;
+}
+ul.tabs li a:hover {
+	color: #3399cc;
+}
+ul.tabs li.active a { color: #fff; }
+
+.tab-content {
+	margin-top: 3px;
+	padding: 20px 0;
+	border-top: 1px solid #3399cc;
+	font-size: 13px;
+	line-height: 18px;
+}
+.tab-content a:link, .tab-content a:visited {
+	color: #006699;
+    font-weight: bold;
+}
+.tab-content a:hover {
+	color: #669900;
+}
+
+#guests-choices {
+	margin: 20px auto 0 auto;
+	width: 420px;	
+}
+
+#add-guests-wrap p {
+	margin: 10px 0;
+}
+
+a#guest-link-upload:link, a#guest-link-manual:link, a#guest-link-upload:visited, a#guest-link-manual:visited {
+	display: inline-block;
+	width: 170px;
+	border: 1px solid #ccc;
+	color: #666;
+	border-radius: 5px;
+	padding:60px 10px 10px 10px;
+	font-size: 12px;
+	font-weight: bold;
+	text-align: center;
+	margin: 10px 0;
+	text-decoration: none;
+}
+a#guest-link-upload:link, a#guest-link-upload:visited { 
+	float: left; 
+	margin-left: 10px;
+	background: #e1e1e1 url('/assets/img/icons/upload-file.png') no-repeat center top;
+	}
+a#guest-link-manual:link, a#guest-link-manual:visited { 
+	float: right;
+	margin-right: 10px;
+	background: #e1e1e1 url('/assets/img/icons/copy-paste.png') no-repeat center top;
+	}
+
+a#guest-link-upload:hover, a#guest-link-manual:hover {
+	border: 1px solid #00ccff;
+	background-color: #d0e8ee;
+}
+
+.guests-hide { 
+	display: none; 
+	background: #ffffee;
+	border: 1px solid #E3C27C;
+	border-radius: 5px;
+	padding: 10px;
+	margin: 20px auto 0 auto;
+	width: 420px;
+	}
+.guests-hide p {
+	font-size: 14px;
+	line-height: 18px;
+	margin: 0 0 10px 0;
+}
+	
+#guests-file-uploader {
+	margin: 0 0 10px 0;
+	padding: 5px;
+	background: #f6dca6;
+	border-radius: 3px;
+}	
+
+#guests-file-how-to-csv {
+	display: none;
+	border-top: 1px solid #E3C27C;
+	padding-top: 10px;
+	margin-top: 20px;
+}
+
+.guests-back-to-choices {
+	display: block;
+	width: 50px;
+	margin: 0 auto 5px auto;
+}
+
+#guests-manual textarea {
+	width: 420px;
+	height: 100px;
+	resize: none;
+	border: 1px solid #999;
+	border-radius: 3px;
+	padding: 10px;
+	margin: 10px 0;
+	background: #fff url('/assets/img/textbox-inner-shadow.png') no-repeat;
+	font-size: 14px;
+	line-height: 18px;
+}
+
+#guests-upload-csv {
+	float: right;
+}
+
+#notify-guests {
+	display: none;
+}
+
+#notify-group {
+	float: left;
+	display: inline;
+	width: 120px;
+	padding: 20px 0;
+}
+#notify-group p {
+	margin-bottom: 10px;
+}
+#notify-message {
+	float: right;
+	display: inline;
+	width: 290px;
+	padding: 20px 0;
+	}
+
+#notify-message textarea {
+	width: 265px;
+	height: 100px;
+	resize: none;
+	border: 1px solid #999;
+	border-radius: 3px;
+	padding: 10px;
+	margin: 10px 0;
+	background: #fff url('/assets/img/textbox-inner-shadow.png') no-repeat;
+	font-size: 14px;
+	line-height: 18px;
 }

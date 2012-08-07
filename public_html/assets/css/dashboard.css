@@ -19,6 +19,40 @@ body {
     padding: 0;
 }
 
+#signedInBar {
+	width: 100%;
+	padding: 7px 5px 5px 5px;
+	margin: 0;
+	font-size: 12px;
+	line-height: 16px;
+	color: #999;
+	background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#f4f4f4)); /* for webkit browsers */
+	border-bottom: 1px solid #e1e1e1;
+}
+#signedInText {
+	width: 870px;
+	margin: 0 auto;
+	text-align: center;
+}
+#signedInText a:link, #signedInText a:visited {
+	color: #336699;
+	text-decoration: none;
+}
+#signedInText a:hover {
+	color: #cc3300;
+	text-decoration: underline;
+}
+
+#eventCountdown {
+	padding: 10px;
+	text-align: center;
+	color: #fff;
+	background: #006699;
+	font-size: 22px;
+	line-height: 24px;
+	font-weight: bold;
+}
+
 /**** LEFT ****/
 
 .left {
@@ -183,7 +217,7 @@ textarea {
 	padding: 10px;
 	font-size: 16px;
 	line-height: 20px;
-	color: #000;
+	color: #999;
 	border: 1px solid #ccc;
 	border-radius: 5px;
 	-webkit-box-shadow: inset 2px 2px 2px 0px #dddddd;

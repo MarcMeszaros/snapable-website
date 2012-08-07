@@ -17,7 +17,8 @@ class Site extends CI_Controller {
 	public function contact()
 	{
 		$head = array(
-			'css' => $this->data['css']
+			'css' => $this->data['css'],
+			'url' => 'blank'
 		);
 		$this->load->view('common/header', $head);
 		$this->load->view('site/contact');
@@ -37,7 +38,8 @@ class Site extends CI_Controller {
 	public function terms()
 	{
 		$head = array(
-			'css' => $this->data['css']
+			'css' => $this->data['css'],
+			'url' => 'blank'
 		);
 		$this->load->view('common/header', $head);
 		$this->load->view('site/terms');
@@ -47,7 +49,8 @@ class Site extends CI_Controller {
 	public function privacy()
 	{
 		$head = array(
-			'css' => $this->data['css']
+			'css' => $this->data['css'],
+			'url' => 'blank'
 		);
 		$this->load->view('common/header', $head);
 		$this->load->view('site/privacy');
