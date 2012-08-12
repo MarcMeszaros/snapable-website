@@ -191,6 +191,54 @@ a.closed {
 	background: transparent url('/assets/img/icons/open_8x8.png') no-repeat right top;
 	}
 
+ul#shareLinks {
+	margin: 10px 0;
+}
+ul#shareLinks:after {
+	content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+    margin: 0;
+    padding: 0;
+}
+ul#shareLinks li {
+	float: left;
+	display: inline;
+	margin-right: 5px;
+}
+ul#shareLinks a:link, ul#shareLinks a:visited {
+	display: block;
+	width: 75px;
+	padding: 10px 10px 8px 35px;
+	border-radius: 3px;
+	text-decoration: none;
+	font-weight: bold;
+	color: #fff;
+}
+ul#shareLinks .facebook{
+	background: #3B5998 url('/assets/img/icons/facebook-f.png') no-repeat left bottom;
+}
+ul#shareLinks .twitter{
+	background: #00aced url('/assets/img/icons/twitter-bird.png') no-repeat 7px 9px;
+}
+ul#shareLinks .email{
+	background: #99ccff url('/assets/img/icons/mail_24x18.png') no-repeat 5px 8px;
+}
+ul#shareLinks a:hover {
+	opacity: .8;
+}
+
+#shareViaEmail {
+	display: none;
+	margin: 0 0 20px 0;
+	padding: 20px;
+	background: #eef4f7;
+	border-radius: 5px;
+	border: 1px solid #ccc;
+}
+
 #share-content input[type=text] {
 	border-radius: 10px;
 	background: #edf8ff;
@@ -199,6 +247,28 @@ a.closed {
 	line-height: 18px;
 	width: 450px;
 	text-align: center;
+}
+
+#shareViaEmail input[type=text] {
+	border-radius: 10px;
+	background: #fff;
+	padding: 10px 10px 8px 10px;
+	margin-bottom: 10px;
+	font-size: 16px;
+	line-height: 18px;
+	width: 390px;
+	text-align: left;
+}
+#shareViaFrom { color: #999 }
+
+h3#shareMessageSent {
+	padding: 5px;
+	text-align: center;
+	font-weight: normal;
+	color: #fff;
+	background: #339900;
+	border-radius: 5px;
+	margin-bottom: 10px;
 }
 
 #questionForm {
@@ -223,6 +293,10 @@ textarea {
 	-webkit-box-shadow: inset 2px 2px 2px 0px #dddddd;
     -moz-box-shadow: inset 2px 2px 2px 0px #dddddd;
     box-shadow: inset 2px 2px 2px 0px #dddddd;
+}
+#shareViaEmail  textarea {
+	color: #000;
+	margin-top: 0;
 }
 input[type=submit] {
 	display: block;

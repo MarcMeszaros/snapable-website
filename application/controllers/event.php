@@ -47,8 +47,9 @@ class Event extends CI_Controller {
 				$head = array(
 					'noTagline' => true,
 					'css' => base64_encode('assets/css/signin.css,assets/css/fileuploader.css,assets/css/tipsy.css,assets/css/setup.css,assets/css/header.css,assets/css/event.css,assets/css/footer.css'),
-					'js' => base64_encode('assets/js/uploader.js,assets/js/jquery.tipsy.js,assets/js/photostream.js'),
-					'url' => $event_details->event->url	
+					'js' => base64_encode('assets/js/mustache.js,assets/js/jquery-Mustache.js,assets/js/uploader.js,assets/js/jquery.tipsy.js,assets/js/photostream.js'),
+					'url' => $event_details->event->url,
+					'title' => $event_details->event->title . ", " . $event_details->event->display_timedate . " via Snapable"
 				);
 				
 				if ( isset($_GET['error']) )

@@ -79,7 +79,30 @@
 				
 					<p><input id="event-url" type="text" value="http://snapable.com/event/<?= $eventDeets['url'] ?>" READONLY /></p>
 
-					<p>Share it on <a href="#">Facebook</a>, <a href="#">Twitter</a>, <a href="#">Email</a>, or wherever you want people to know where they can find photos from your wedding (they’ll update in real-time as they’re taken during the wedding).</p>
+					<p>Share it!</p>
+					
+					<ul id="shareLinks">
+						<li><a class="facebook" target="_blank" href="http://www.facebook.com/sharer.php?u=http://snapable.com/event/<?= $eventDeets['url'] ?>">Facebook</a></li>
+						<li><a class="twitter" target="_blank" href="http://twitter.com/share?text=<?= urlencode("Follow the photos on " . date("D M j", $eventDeets['start_epoch']) . " at " .  date("g:i a", $eventDeets['start_epoch']) . " for " . $eventDeets['title'] . " with @getsnapable") ?>&url=http://snapable.com/event/<?= $eventDeets['url'] ?>">Twitter</a></li>
+						<li><a class="email" href="#">Email</a></li>
+					</ul>
+					
+					<form id="shareViaEmail" name="questions">
+			
+						<label for="to">To</label>
+						<input type="text" name="to" value="" />
+						
+						<label for="from">From</label>
+						<input id="shareViaFrom" type="text" READONLY name="from" value="<?= $session['email'] ?>" />
+				
+						<label for="messageBody">Message</label>
+						<textarea name="messageBody"><?= "Follow the photos at http://snapable.com/event/" . $eventDeets['url'] . " on " . date("D M j", $eventDeets['start_epoch']) . " at " .  date("g:i a", $eventDeets['start_epoch']) . " for " . $eventDeets['title'] . " with http://snapable.com" ?></textarea>
+					
+						<input type="submit" name="submit" value="Send" />
+					
+				</form>
+					
+					<p>Or share it wherever you want people to know where they can find photos from your wedding.</p>
 			
 				</div>
 			

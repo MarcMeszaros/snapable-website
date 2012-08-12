@@ -4,10 +4,32 @@ Class Event_model extends CI_Model
 
 	function getEventDetailsFromURL($url)
 	{
+		$length = 8;
+		$nonce = "";
+		while ($length > 0) {
+		    $nonce .= dechex(mt_rand(0,15));
+		    $length -= 1;
+		}
+		
+		$api_key = 'abc123';
+		$api_secret = '123';
+		$verb = 'GET';
+		$path = '/private_v1/event/';
+		$x_path_nonce = $nonce;
+		$x_snap_date = gmdate("Ymd", time()) . 'T' . gmdate("Gis", time()) . 'Z';
+		
+		$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
+		$signature = hash_hmac('sha1', $raw_signature, $api_secret);
+		
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, 'http://devapi.snapable.com/private_v1/event/?url=' . $url . '&format=json'); 
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));                                                                 
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
+		    'Content-Type: application/json',
+		    'X-SNAP-Date: ' . $x_snap_date ,
+		    'X-SNAP-nonce: ' . $x_path_nonce ,
+		    'Authorization: SNAP ' . $api_key . ':' . $signature                                                                       
+		));                                                                   
 		curl_setopt($ch, CURLOPT_TIMEOUT, '3');
 		                                                                                                    
 		$response = curl_exec($ch);
@@ -59,6 +81,40 @@ Class Event_model extends CI_Model
 					$display_timedate = date("D M j, g:i A", $start_epoch) . " to " . date("D M j, g:i A", $end_epoch);
 				}
 				
+				// check if there's any photos
+				$photos = 0;
+				$length = 8;
+				$nonce = "";
+				while ($length > 0) {
+				    $nonce .= dechex(mt_rand(0,15));
+				    $length -= 1;
+				}
+				
+				$path = '/private_v1/photo/schema/';
+				$x_path_nonce = $nonce;
+				$x_snap_date = gmdate("Ymd", time()) . 'T' . gmdate("Gis", time()) . 'Z';
+				
+				$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
+				$signature = hash_hmac('sha1', $raw_signature, $api_secret);
+				
+				$ch = curl_init();
+				curl_setopt($ch, CURLOPT_URL, 'http://devapi.snapable.com' . $path . '?format=json'); 
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
+				curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
+				    'Content-Type: application/json',
+				    'X-SNAP-Date: ' . $x_snap_date ,
+				    'X-SNAP-nonce: ' . $x_path_nonce ,
+				    'Authorization: SNAP ' . $api_key . ':' . $signature                                                                       
+				));                                                                   
+				curl_setopt($ch, CURLOPT_TIMEOUT, '3');
+				                                                                                                    
+				$response = curl_exec($ch);
+				$result = json_decode($response);
+				$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+				curl_close($ch);
+				
+				//echo $response;
+				
 				$event .= '{
 					"enabled":' . $e->enabled . ',
 					"url": "' . $e->url . '",
@@ -72,7 +128,8 @@ Class Event_model extends CI_Model
 					"display_timedate": "' . $display_timedate . '",
 					"resource_uri": "' . $e->resource_uri . '",
 					"user": "' . $e->user . '",
-					"privacy": 3
+					"privacy": 3,
+					"photos": "' . $photos . '"
 				}';
 			}
 			$json = '{
@@ -101,10 +158,32 @@ Class Event_model extends CI_Model
 		$pin = $details->event->pin;
 		$eventID = explode("/", $details->event->resource_uri);
 		
+		$length = 8;
+		$nonce = "";
+		while ($length > 0) {
+		    $nonce .= dechex(mt_rand(0,15));
+		    $length -= 1;
+		}
+		
+		$api_key = 'abc123';
+		$api_secret = '123';
+		$verb = 'GET';
+		$path = '/private_v1/guest/';
+		$x_path_nonce = $nonce;
+		$x_snap_date = gmdate("Ymd", time()) . 'T' . gmdate("Gis", time()) . 'Z';
+		
+		$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
+		$signature = hash_hmac('sha1', $raw_signature, $api_secret);
+		
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, 'http://devapi.snapable.com/private_v1/guest/?email=' . $email . '&event=' . $eventID[3] . '&format=json'); 
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));                                                                 
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
+		    'Content-Type: application/json',
+		    'X-SNAP-Date: ' . $x_snap_date ,
+		    'X-SNAP-nonce: ' . $x_path_nonce ,
+		    'Authorization: SNAP ' . $api_key . ':' . $signature                                                                       
+		));                                                                  
 		curl_setopt($ch, CURLOPT_TIMEOUT, '3');
 		                                                                                                    
 		$response = curl_exec($ch);

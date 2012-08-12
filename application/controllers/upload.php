@@ -40,10 +40,32 @@ class Upload extends CI_Controller {
 				$post_data['type'] = $type;
 				// The Photo
 				$post_data['image'] = "@" . $_FILES['mf_file_uploadArea']['tmp_name'];
+				
+				$length = 8;
+				$nonce = "";
+				while ($length > 0) {
+				    $nonce .= dechex(mt_rand(0,15));
+				    $length -= 1;
+				}
+				
+				$api_key = 'abc123';
+				$api_secret = '123';
+				$verb = 'POST';
+				$path = '/private_v1/photo/';
+				$x_path_nonce = $nonce;
+				$x_snap_date = gmdate("Ymd", time()) . 'T' . gmdate("Gis", time()) . 'Z';
+				
+				$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
+				$signature = hash_hmac('sha1', $raw_signature, $api_secret);
 				 
 				$ch = curl_init();
 				curl_setopt($ch, CURLOPT_URL, $url);
-				curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-type: multipart/form-data'));
+				curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+					'Content-type: multipart/form-data',
+					'X-SNAP-Date: ' . $x_snap_date ,
+					'X-SNAP-nonce: ' . $x_path_nonce ,
+					'Authorization: SNAP ' . $api_key . ':' . $signature 
+		    	));
 				curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
 				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 				

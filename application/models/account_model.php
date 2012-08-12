@@ -4,8 +4,31 @@ Class Account_model extends CI_Model
 
 	function userDetails($email)
 	{
+		$length = 8;
+		$nonce = "";
+		while ($length > 0) {
+		    $nonce .= dechex(mt_rand(0,15));
+		    $length -= 1;
+		}
+		
+		$api_key = 'abc123';
+		$api_secret = '123';
+		$verb = 'GET';
+		$path = '/private_v1/user/';
+		$x_path_nonce = $nonce;
+		$x_snap_date = gmdate("Ymd", time()) . 'T' . gmdate("Gis", time()) . 'Z';
+		
+		$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
+		$signature = hash_hmac('sha1', $raw_signature, $api_secret);
+		
 		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, 'http://devapi.snapable.com/private_v1/user/?email=' . $email . '&format=json'); 
+		curl_setopt($ch, CURLOPT_URL, 'http://devapi.snapable.com' . $path . '?email=' . $email . '&format=json'); 
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
+		    'Content-Type: application/json',
+		    'X-SNAP-Date: ' . $x_snap_date ,
+		    'X-SNAP-nonce: ' . $x_path_nonce ,
+		    'Authorization: SNAP ' . $api_key . ':' . $signature                                                                  
+		));
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);                                                               
 		curl_setopt($ch, CURLOPT_TIMEOUT, '3');
 		                                                                                                    
@@ -62,12 +85,32 @@ Class Account_model extends CI_Model
 	
 	function checkPassword($email,$hash)
 	{
-		$ch = curl_init('http://devapi.snapable.com/private_v1/user/');                                                                
+		$length = 8;
+		$nonce = "";
+		while ($length > 0) {
+		    $nonce .= dechex(mt_rand(0,15));
+		    $length -= 1;
+		}
+		
+		$api_key = 'abc123';
+		$api_secret = '123';
+		$verb = 'GET';
+		$path = '/private_v1/user/';
+		$x_path_nonce = $nonce;
+		$x_snap_date = gmdate("Ymd", time()) . 'T' . gmdate("Gis", time()) . 'Z';
+		
+		$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
+		$signature = hash_hmac('sha1', $raw_signature, $api_secret);
+		
+		$ch = curl_init('http://devapi.snapable.com' . $path);                                                                
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
 		    'Content-Type: application/json',
+		    'X-SNAP-Date: ' . $x_snap_date ,
+		    'X-SNAP-nonce: ' . $x_path_nonce ,
+		    'Authorization: SNAP ' . $api_key . ':' . $signature ,
 		    'X-SNAP-User: ' . $email . ':' . $hash                                                                       
-		));                                                                                                                   
+		)); 
 		
 		$response = curl_exec($ch);
 		$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -132,8 +175,31 @@ Class Account_model extends CI_Model
 	{
 		$uri_split = explode("/", $resource_uri);
 		
+		$length = 8;
+		$nonce = "";
+		while ($length > 0) {
+		    $nonce .= dechex(mt_rand(0,15));
+		    $length -= 1;
+		}
+		
+		$api_key = 'abc123';
+		$api_secret = '123';
+		$verb = 'GET';
+		$path = '/private_v1/event/';
+		$x_path_nonce = $nonce;
+		$x_snap_date = gmdate("Ymd", time()) . 'T' . gmdate("Gis", time()) . 'Z';
+		
+		$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
+		$signature = hash_hmac('sha1', $raw_signature, $api_secret);
+		
 		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, 'http://devapi.snapable.com/private_v1/event/?user=' . $uri_split[3] . '&format=json'); 
+		curl_setopt($ch, CURLOPT_URL, 'http://devapi.snapable.com/private_v1/event/?user=' . $uri_split[3] . '&format=json');
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
+		    'Content-Type: application/json',
+		    'X-SNAP-Date: ' . $x_snap_date ,
+		    'X-SNAP-nonce: ' . $x_path_nonce ,
+		    'Authorization: SNAP ' . $api_key . ':' . $signature                                                                       
+		));  
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);                                                               
 		curl_setopt($ch, CURLOPT_TIMEOUT, '3');
 		                                                                                                    

@@ -6,7 +6,7 @@
 	
 	<h1>&#8220;Uncle Bob dancing up a storm on the dance floor.&#8221;</h1>
 	
-	From the photo album “<a href="#">Andrew’s Big Ass Album</a>”, taken <strong>June 29</strong> at “<a href="#">Andrew’s Big Awesome Event</a>” by <strong>Andrew D.</strong>
+	<!--From the photo album “<a href="#">Andrew’s Big Ass Album</a>”, t-->Taken <strong>June 29</strong> at “<a href="#">Andrew’s Big Awesome Event</a>” by <strong>Andrew D.</strong>
 	
 	<h2>Share:</h2>
 	

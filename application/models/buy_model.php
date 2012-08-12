@@ -4,9 +4,32 @@ Class Buy_model extends CI_Model
 
 	function getPackageDetails($url)
 	{
+		$length = 8;
+		$nonce = "";
+		while ($length > 0) {
+		    $nonce .= dechex(mt_rand(0,15));
+		    $length -= 1;
+		}
+		
+		$api_key = 'abc123';
+		$api_secret = '123';
+		$verb = 'GET';
+		$path = '/private_v1/package/';
+		$x_path_nonce = $nonce;
+		$x_snap_date = gmdate("Ymd", time()) . 'T' . gmdate("Gis", time()) . 'Z';
+		
+		$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
+		$signature = hash_hmac('sha1', $raw_signature, $api_secret);
+		
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, 'http://devapi.snapable.com/private_v1/package/?format=json'); 
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);                                                               
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);   
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
+		    'Content-Type: application/json',
+		    'X-SNAP-Date: ' . $x_snap_date ,
+		    'X-SNAP-nonce: ' . $x_path_nonce ,
+		    'Authorization: SNAP ' . $api_key . ':' . $signature                                                                       
+		));                                                             
 		curl_setopt($ch, CURLOPT_TIMEOUT, '3');
 		                                                                                                    
 		$response = curl_exec($ch);
@@ -49,9 +72,31 @@ Class Buy_model extends CI_Model
 	
 	function checkEmail($email)
 	{
+		$length = 8;
+		$nonce = "";
+		while ($length > 0) {
+		    $nonce .= dechex(mt_rand(0,15));
+		    $length -= 1;
+		}
+		
+		$api_key = 'abc123';
+		$api_secret = '123';
+		$verb = 'GET';
+		$path = '/private_v1/user/';
+		$x_path_nonce = $nonce;
+		$x_snap_date = gmdate("Ymd", time()) . 'T' . gmdate("Gis", time()) . 'Z';
+		
+		$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
+		$signature = hash_hmac('sha1', $raw_signature, $api_secret);
+		
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, 'http://devapi.snapable.com/private_v1/user/?email=' . $email . '&format=json'); 
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);                                                               
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);  
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
+		    'X-SNAP-Date: ' . $x_snap_date ,
+		    'X-SNAP-nonce: ' . $x_path_nonce ,
+		    'Authorization: SNAP ' . $api_key . ':' . $signature                                                                       
+		));                                                                   
 		curl_setopt($ch, CURLOPT_TIMEOUT, '3');
 		                                                                                                    
 		$response = curl_exec($ch);
@@ -81,9 +126,31 @@ Class Buy_model extends CI_Model
 	
 	function checkUrl($url)
 	{
+		$length = 8;
+		$nonce = "";
+		while ($length > 0) {
+		    $nonce .= dechex(mt_rand(0,15));
+		    $length -= 1;
+		}
+		
+		$api_key = 'abc123';
+		$api_secret = '123';
+		$verb = 'GET';
+		$path = '/private_v1/event/';
+		$x_path_nonce = $nonce;
+		$x_snap_date = gmdate("Ymd", time()) . 'T' . gmdate("Gis", time()) . 'Z';
+		
+		$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
+		$signature = hash_hmac('sha1', $raw_signature, $api_secret);
+		
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, 'http://devapi.snapable.com/private_v1/event/?url=' . $url . '&format=json'); 
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);                                                               
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);    
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
+		    'X-SNAP-Date: ' . $x_snap_date ,
+		    'X-SNAP-nonce: ' . $x_path_nonce ,
+		    'Authorization: SNAP ' . $api_key . ':' . $signature                                                                       
+		));                                                                 
 		curl_setopt($ch, CURLOPT_TIMEOUT, '3');
 		                                                                                                    
 		$response = curl_exec($ch);
@@ -152,13 +219,33 @@ Class Buy_model extends CI_Model
 		    "terms": true
 		}';
 		
+		$length = 8;
+		$nonce = "";
+		while ($length > 0) {
+		    $nonce .= dechex(mt_rand(0,15));
+		    $length -= 1;
+		}
+		
+		$api_key = 'abc123';
+		$api_secret = '123';
+		$verb = 'POST';
+		$path = '/private_v1/user/';
+		$x_path_nonce = $nonce;
+		$x_snap_date = gmdate("Ymd", time()) . 'T' . gmdate("Gis", time()) . 'Z';
+		
+		$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
+		$signature = hash_hmac('sha1', $raw_signature, $api_secret);
+		
 		$ch = curl_init('http://devapi.snapable.com/private_v1/user/');                                                                      
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $json);                                                                  
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
 		    'Content-Type: application/json',                                                                                
-		    'Content-Length: ' . strlen($json))                                                                       
+		    'Content-Length: ' . strlen($json)),                                                            
+		    'X-SNAP-Date: ' . $x_snap_date ,
+		    'X-SNAP-nonce: ' . $x_path_nonce ,
+		    'Authorization: SNAP ' . $api_key . ':' . $signature                                                                        
 		);                                                                                                                   
 		
 		$response = curl_exec($ch);
@@ -211,14 +298,24 @@ Class Buy_model extends CI_Model
 			    "enabled": true
 			}';
 			
+			$path = '/private_v1/event/';
+			$x_path_nonce = $nonce;
+			$x_snap_date = gmdate("Ymd", time()) . 'T' . gmdate("Gis", time()) . 'Z';
+			
+			$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
+			$signature = hash_hmac('sha1', $raw_signature, $api_secret);
+			
 			$ch = curl_init('http://devapi.snapable.com/private_v1/event/');                                                                      
 			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
 			curl_setopt($ch, CURLOPT_POSTFIELDS, $json);                                                                  
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
 			curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
-			    'Content-Type: application/json',                                                                                
-			    'Content-Length: ' . strlen($json))                                                                       
-			);                                                                                                                                
+		    	'Content-Type: application/json',                                                                                
+		    	'Content-Length: ' . strlen($json)),                                                            
+		    	'X-SNAP-Date: ' . $x_snap_date ,
+		    	'X-SNAP-nonce: ' . $x_path_nonce ,
+		    	'Authorization: SNAP ' . $api_key . ':' . $signature                                                                        
+		    );                                                                                                                                 
 			 
 			$response = curl_exec($ch);                                                                                
 			$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -238,14 +335,24 @@ Class Buy_model extends CI_Model
 				    "lng": "' . $event['lng'] . '"
 				}';
 				
+				$path = '/private_v1/address/';
+				$x_path_nonce = $nonce;
+				$x_snap_date = gmdate("Ymd", time()) . 'T' . gmdate("Gis", time()) . 'Z';
+				
+				$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
+				$signature = hash_hmac('sha1', $raw_signature, $api_secret);
+				
 				$ch = curl_init('http://devapi.snapable.com/private_v1/address/');                                                                      
 				curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
 				curl_setopt($ch, CURLOPT_POSTFIELDS, $json);                                                                  
 				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
 				curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
 				    'Content-Type: application/json',                                                                                
-				    'Content-Length: ' . strlen($json))                                                                       
-				);                                                                                                   
+				    'Content-Length: ' . strlen($json)),                                                            
+				    'X-SNAP-Date: ' . $x_snap_date ,
+				    'X-SNAP-nonce: ' . $x_path_nonce ,
+				    'Authorization: SNAP ' . $api_key . ':' . $signature                                                                        
+				);                                                                                                  
 				
 				$response = curl_exec($ch);
 				$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);

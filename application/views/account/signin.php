@@ -25,7 +25,7 @@
 
 <body id="top">
 
-	<img id="#signLogo" src="/assets/img/logo-indented.png" alt="Snapable" />
+	<img id="signLogo" src="/assets/img/logo-indented.png" alt="Snapable" />
 
 	<form id="signinWrap" name="signin" action="/account/validate" method="post">
 	
@@ -56,8 +56,8 @@
 		<hr />
 		
 		
-		<a id="forgotPassword" href="/account/forgot">Forgot your password?</a>
 		<input type="submit" name="submit" value="Sign in" />
+		<a id="forgotPassword" href="/account/forgot">Forgot your password?</a>
 		
 	</form>
 

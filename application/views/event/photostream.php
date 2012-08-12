@@ -2,6 +2,7 @@
 var eventID = "<?= $eventDeets->resource_uri ?>";
 var guestID = "/private_v1/guest/1/";
 var typeID = "/private_v1/type/1/";
+var photos = <?= $eventDeets->photos ?>
 </script>
 
 <div id="event-top">
@@ -168,6 +169,7 @@ var typeID = "/private_v1/type/1/";
 
 <div id="photoArea">
 
+<?php /*
 	<div class="photo">
 		<div class="photo-overlay">
 			<ul class="photo-share">
@@ -424,7 +426,7 @@ var typeID = "/private_v1/type/1/";
 		<img src="/assets/img/FPO/event-photo-8.jpg" />
 		Andrew D.	
 	</div>
-
+*/ ?>
 </div>
 
 <div class="clearit">&nbsp;</div>

@@ -3,9 +3,56 @@ function sendNotification(type, message)
 	$("#notification").addClass(type).html(message).slideDown().delay(1500).slideUp();
 }
 
+var slideCount = 1;
+function firstRunSlideshow()
+{
+	$("#eventFirstRunText .displayMe").fadeOut("normal", function()
+    {
+    	if ( slideCount == 5 )
+    	{
+	    	$(this).removeClass("displayMe")
+	    	$("#uploadText").fadeIn("normal").addClass("displayMe");
+	    	$("a.blue").removeClass("blue");
+	    	$("#uploadDot").addClass("blue"); 
+	    	slideCount = 1;
+    	} else {
+	    	$(this).removeClass("displayMe").next("li").fadeIn("normal").addClass("displayMe");
+	    	$("a.blue").removeClass("blue").next("a").addClass("blue"); 
+	    	slideCount++;
+	    } 
+    })
+}
+
 $(document).ready(function() 
 {  
-
+	
+	if ( photos > 0 )
+	{
+		alert("get photos for event (show loader while doing so)");
+	} else {
+		$("#photoArea").addClass("noPhotos");
+		
+		var viewData = { name: 'Andrew' };
+		$.Mustache.load('/assets/js/templates.html').done(function () 
+		{
+	        $('#photoArea').mustache('event-first-run', viewData);
+	        // start dot cycle
+	        setInterval ( "firstRunSlideshow()", 5000 );
+	        // set dot buttons
+	        $(document).on("click", "#eventFirstRunDots a", function()
+	        {  
+	        	var clicked = $(this).attr("href").substring(1);
+	        	$("#eventFirstRunDots a").removeClass("blue");
+	        	$(this).addClass("blue");
+	        	$("#eventFirstRunText .displayMe").fadeOut("normal", function()
+	        	{
+		        	$(this).removeClass("displayMe");
+		        	$("#" + clicked + "Text").fadeIn("normal").addClass("displayMe");
+	        	})
+	        });
+		});
+	}
+	
 	/*** PHOTO UPLOADER ****/
 	var errors="";
 	

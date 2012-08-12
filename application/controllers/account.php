@@ -114,20 +114,43 @@ class Account extends CI_Controller {
 	
 	function email()
 	{
-		if ( IS_AJAX && isset($_POST['message']) && isset($_POST['email']) )
+		if ( IS_AJAX && isset($_POST['type']) && isset($_POST['message']) )
 		{
 			$url = 'http://sendgrid.com/';
 			$user = 'snapable';
 			$pass = 'Snapa!23'; 
 			
+			if ( isset($_POST['to']) ) {
+				$to = $_POST['to'];
+			} else {
+				$to = "team@snapable.com";
+			}
+			
+			if ( isset($_POST['from']) ) {
+				$from = $_POST['from'];
+			} else {
+				$from = "website@snapable.com";
+			}
+			
+			if ( $_POST['type'] == "question" )
+			{
+				$subject = 'Message From Customer';
+				$message_html = '<p><b>Message:</b></p><p>' . $_POST['message'] . '</p><p>Sent from: ' . $_POST['email'] . '</p>';
+				$message_text = 'Message: ' . $_POST['message'] . ' / Sent from: ' . $_POST['email'];
+			} else {
+				$subject = 'Follow my event @ Snapable!';
+				$message_html = $_POST['message'];
+				$message_text = $_POST['message'];
+			}
+			
 			$params = array(
 			    'api_user'  => $user,
 			    'api_key'   => $pass,
-			    'to'        => 'team@snapable.com',
-			    'subject'   => 'Message From Customer',
-			    'html'      => '<p><b>Message:</b></p><p>' . $_POST['message'] . '</p><p>Sent from: ' . $_POST['email'] . '</p>',
-			    'text'      => 'Message: ' . $_POST['message'] . ' / Sent from: ' . $_POST['email'],
-			    'from'      => 'website@snapable.com',
+			    'to'        => $to,
+			    'subject'   => $subject,
+			    'html'      => $message_html,
+			    'text'      => $message_text,
+			    'from'      => $from,
 			  );
 			
 			$request =  $url.'api/mail.send.json';

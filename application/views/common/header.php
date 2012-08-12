@@ -4,7 +4,7 @@
 <head>
 
 	<meta charset="utf-8">
-	<title>Snapable - The easiest way to instantly capture every photo at your wedding without missing a single moment.</title>
+	<title><?php if ( isset($title) ) { echo $title; } else { echo "Snapable - The easiest way to instantly capture every photo at your wedding without missing a single moment."; } ?></title>
     
     <meta name="Keywords" content="" /> 
 	<meta name="Description" content="" />
@@ -40,16 +40,19 @@
 			{
 				$name = $this->session->userdata('logged_in')['fname'] . " " . substr($this->session->userdata('logged_in')['lname'], 0,1) . ".";
 				$signout_url = "/account/signout";
+				$dash_link = "<a href='/account/dashboard'>Dashboard</a> / ";
 			}
 			else if ( $loggedInBar == "guest" )
 			{
 				$name = $this->session->userdata('guest_login')['name'];
 				$signout_url = "/event/" . $url . "/signout";
+				$dash_link = "";
 			} else {
 				$name = "Unknown";
 				$signout_url = "unknown";
+				$dash_link = "";
 			}
-			echo "<div id='signedInBar'><div id='signedInText'>Signed In as <strong>" . $name . "</strong> / <a href='" . $signout_url . "'>Sign Out</a></div></div>";
+			echo "<div id='signedInBar'><div id='signedInText'>Signed In as <strong>" . $name . "</strong> / " . $dash_link . "<a href='" . $signout_url . "'>Sign Out</a></div></div>";
 		}
 		?>
 		

@@ -124,12 +124,11 @@ input#pinInput[type=text] {
 }
 
 a#forgotPassword:link, a#forgotPassword:visited {
-	position: absolute;
-	z-index: 2;
-	right: 20px;
+	display: block;
 	margin-top: 40px;
 	font-size: 12px;
 	color: #006699;
+	text-align: center;
 }
 a#forgotPassword:hover {
 	color: #528a15;

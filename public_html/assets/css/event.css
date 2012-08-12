@@ -221,6 +221,82 @@ a.menu-open {
 	resize: none;
 }
 
+.noPhotos {
+	position: relative;
+	background-image:url(/assets/img/firstrun-overlay.jpg);
+	width:900px;
+	height:728px;
+}
+
+#eventFirstRun {
+	position: absolute;
+	z-index: 2;
+}
+#eventFirstRunText {
+	list-style: none;
+}
+#eventFirstRunText li {
+		display: none;
+}
+#eventFirstRunText li.displayMe {
+	display: block;
+	width: 720px;
+	height: 200px;
+	padding: 125px 90px 40px 90px;
+	text-align: center;
+}
+#eventFirstRun h1 {
+	font-size: 42px;
+	line-height: 48px;
+	color: #333;
+	font-weight: bold;
+}
+#eventFirstRun h2 {
+	font-size: 42px;
+	line-height: 48px;
+	color: #3399cc;
+	font-weight: bold;
+}
+#eventFirstRun h3 {
+	font-size: 22px;
+	line-height: 28px;
+	color: #999;
+	font-weight: normal;
+}
+#eventFirstRunDots {
+	list-style: none;
+	width: 150px;
+	margin: 0 auto;
+}
+#eventFirstRunDots a {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	margin: 0 5px;
+	overflow: hidden;
+	background: transparent url('/assets/img/dotGrey.png') no-repeat;
+	text-indent: -8000px;
+}
+#eventFirstRunDots a.blue {
+	background-image: url('/assets/img/dotBlue.png');
+}
+#guestsText {
+	background: transparent url('/assets/img/firstrun/arrowGuests.png') no-repeat 20px 0;
+}
+#shareText {
+	background: transparent url('/assets/img/firstrun/arrowShare.png') no-repeat 20px 5px;
+}
+#privacyText {
+	background: transparent url('/assets/img/firstrun/arrowPrivacy.png') no-repeat 20px 5px;
+}
+#slideshowText {
+	background: transparent url('/assets/img/firstrun/arrowSlideshow.png') no-repeat 100px 10px;
+}
+#uploadText {
+	background: transparent url('/assets/img/firstrun/arrowUpload.png') no-repeat 45px 10px;
+}
+
+
 .photo {
 	float: left;
 	display: inline;
