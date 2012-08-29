@@ -179,6 +179,7 @@ class Upload extends CI_Controller {
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 			
 			$response = curl_exec($ch);
+			unlink($_SERVER['DOCUMENT_ROOT'] . "/tmp-files/" . $filename);
 			echo '{"status":200,"result":' . $response . '}';
 		} else {
 			show_404();
