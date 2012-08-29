@@ -38,13 +38,20 @@
 		{
 			if (  $loggedInBar == "owner" )
 			{
-				$name = $this->session->userdata('logged_in')['fname'] . " " . substr($this->session->userdata('logged_in')['lname'], 0,1) . ".";
+				/*
+				print_r($this->session->userdata('logged_in'));
+				
+				Array ( [email] => andrew@snapable.com [fname] => Andrew [lname] => Draper [resource_uri] => /private_v1/user/92/ [loggedin] => 1 )
+				*/
+				$arr = $this->session->userdata('logged_in');
+				$name = $arr['fname'] . " " . substr($arr['lname'], 0,1) . ".";
 				$signout_url = "/account/signout";
 				$dash_link = "<a href='/account/dashboard'>Dashboard</a> / ";
 			}
 			else if ( $loggedInBar == "guest" )
 			{
-				$name = $this->session->userdata('guest_login')['name'];
+				$arr = $this->session->userdata('logged_in');
+				$name = $arr['name'];
 				$signout_url = "/event/" . $url . "/signout";
 				$dash_link = "";
 			} else {

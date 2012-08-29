@@ -18,43 +18,47 @@ class Site extends CI_Controller {
 	{
 		$head = array(
 			'css' => $this->data['css'],
-			'url' => 'blank'
+			'url' => 'blank',
+			'active' => 'contact'
 		);
-		$this->load->view('common/header', $head);
+		$this->load->view('common/header-site', $head);
 		$this->load->view('site/contact');
-		$this->load->view('common/footer');
+		$this->load->view('common/footer-site');
 	}
 	
 	public function faq()
 	{	
 		$data = array(
-			'css' => $this->data['css']
+			'css' => $this->data['css'],
+			'active' => 'faq'
 		);
-		$this->load->view('common/header', $data);
+		$this->load->view('common/header-site', $data);
 		$this->load->view('site/faq');
-		$this->load->view('common/footer');
+		$this->load->view('common/footer-site');
 	}
 	
 	public function terms()
 	{
 		$head = array(
 			'css' => $this->data['css'],
-			'url' => 'blank'
+			'url' => 'blank',
+			'active' => 'terms'
 		);
-		$this->load->view('common/header', $head);
+		$this->load->view('common/header-site', $head);
 		$this->load->view('site/terms');
-		$this->load->view('common/footer');
+		$this->load->view('common/footer-site');
 	}
 	
 	public function privacy()
 	{
 		$head = array(
 			'css' => $this->data['css'],
-			'url' => 'blank'
+			'url' => 'blank',
+			'active' => 'privacy'
 		);
-		$this->load->view('common/header', $head);
+		$this->load->view('common/header-site', $head);
 		$this->load->view('site/privacy');
-		$this->load->view('common/footer');
+		$this->load->view('common/footer-site');
 	}
 }
 

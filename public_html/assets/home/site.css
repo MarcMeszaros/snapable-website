@@ -143,6 +143,12 @@ a#facebook {
 a#pinterest {
 	background: transparent url('img/icons/16px/pinterest.png') no-repeat 8px 5px;
 }
+.copyright {
+	margin-top: 50px;
+	color: #999;
+	font-size: 12px;
+	font-weight: normal;
+}
 
 /**** RIGHT ****/
 
