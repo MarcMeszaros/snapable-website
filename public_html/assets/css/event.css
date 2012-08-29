@@ -296,6 +296,27 @@ a.menu-open {
 	background: transparent url('/assets/img/firstrun/arrowUpload.png') no-repeat 45px 10px;
 }
 
+.loadMoreWrap:before {
+	content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+a.loadMore:link, a.loadMore:visited {
+	display: block;
+	margin: 10px auto;
+	width: 146px;
+	height: 40px;
+	text-indent: -8000px;
+	background: transparent url('/assets/img/btnLoadMore.png') no-repeat;
+}
+a.loadMore:hover {
+	opacity: 0.8;
+}
 
 .photo {
 	float: left;
@@ -888,4 +909,139 @@ a#guest-link-upload:hover, a#guest-link-manual:hover {
 	background: #fff url('/assets/img/textbox-inner-shadow.png') no-repeat;
 	font-size: 14px;
 	line-height: 18px;
+}
+
+/**** OVERLAY CROPPING PHOTO ****/
+
+#cropInstructions {
+	margin: 20px 40px;
+	padding: 20px;
+	color: #333;
+	background: #f4f4f4;
+	border: 1px solid #e1e1e1;
+	border-radius: 5px;
+	font-size: 16px;
+	line-height: 22px;
+	font-weight: bold;
+	text-align: center;
+}
+
+a#cropDone:link, a#cropDone:visited {
+	display: block;
+	color: #fff;
+	background: #67ac1c;
+	margin: 20px auto;
+	padding: 20px 40px 18px 40px;
+	border-radius: 35px;
+	width: 50px;
+	text-align: center;
+	font-weight: bold;
+	text-decoration: none;
+}
+a#cropDone:hover {
+	background: #528a15;
+}
+
+#cropLoader { display: none; padding: 40px; text-align: center; font-weight: bold; }
+
+/*** PHOTO OVERLAY ****/
+
+.photoOverlay {
+	width: 820px;
+	margin: 0 10px 10px 10px;
+	padding: 15px;
+	background: #f5fafc;	
+	border-radius: 5px;
+	border: 1px solid #bccfd6;
+}
+
+#photo {
+	float: right;
+	display: inline;
+	padding: 14px;
+	width: 494px;
+	height: 501px;
+	background: transparent url('/assets/img/bg-photo.png') no-repeat;
+}
+#details {
+	float: left;
+	display: inline;
+	width: 225px;
+	padding-left: 10px;
+	margin-top: 25px;
+	font-size: 14px;
+	line-height: 26px;
+	color: #999;
+}
+strong { color: #666; }
+#details a:link, #details a:visited {
+	color: #3399cc;
+	font-size: 16px;
+}
+#details a:hover {
+	color: #cc3300;
+}
+a#photo-download:link, a#photo-download:visited {
+	color: #fff;
+	font-size: 14px;
+	padding: 5px 15px 3px 27px;
+	background: #3399cc url('/assets/img/icons/download_8x8-wh.png') no-repeat 10px 7px;
+	border-radius: 10px;
+	text-decoration: none;
+}
+a#photo-download:hover {
+	background-color: #cc3300;
+}
+
+a#back:link, a#back:visited {
+	display: none;
+	width: 75px;
+	font-size: 20px;
+	text-align: center;
+	color: #fff;	
+	background: #35789b;
+	border-radius: 5px;
+	text-decoration: none;
+	padding: 5px 10px 2px 10px;
+	margin-bottom: 25px;
+}
+a#back:hover {
+	color: #fff;
+	background: #cc3300;
+	border-radius: 5px;
+}
+
+.photoOverlay h1 {
+	font-size: 18px;
+	line-height: 24px;
+	color: #333;
+	margin: 40px 0 20px 0;
+	font-weight: normal;
+	font-family: georgia, times, times new roman, serif;
+	font-style: italic;
+}
+.photoOverlay h2 {
+	font-size: 14px;
+	line-height: 16px;
+	color: #999;
+	margin: 40px 0 10px 0;
+	font-weight: normal;
+}
+
+a#twitter, a#facebook, a#email {
+	display: inline-block;
+	width: 32px;
+	height: 32px;
+	margin-right: 5px;
+	text-indent: -8000px;
+	overflow: hidden;
+}
+a#twitter {
+	background: transparent url('/assets/img/icons/32px/twitter-2.png') no-repeat;
+}
+a#facebook {
+	background: transparent url('/assets/img/icons/32px/facebook.png') no-repeat;
+}
+a#email {
+	background: transparent url('/assets/img/icons/32px/email.png') no-repeat;
 }

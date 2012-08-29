@@ -14,7 +14,7 @@
 
 <h2>Copyrights & Trademarks</h2>
 
-<p>All web site design, text, graphics and arrangements are © <b>Snapable</b>, 2010 except where noted. <b>Snapable</b> web site and all content provided on the <b>Snapable</b> web site is protected by copyright, trademark, and other applicable intellectual property and proprietary rights laws, and is owned, controlled, and/or licensed by <b>Snapable</b> </p>
+<p>All web site design, text, graphics and arrangements are © <b>Snapable</b>, 2012 except where noted. <b>Snapable</b> web site and all content provided on the <b>Snapable</b> web site is protected by copyright, trademark, and other applicable intellectual property and proprietary rights laws, and is owned, controlled, and/or licensed by <b>Snapable</b> </p>
 
 <p>No information or material from the <b>Snapable</b> web site may be copied, reproduced, republished, uploaded, posted, transmitted, or distributed in any way whatsoever except that you may download one copy of the materials on any single computer, for your personal, non-commercial home use only, provided you keep intact all copyright and proprietary notices. You agree that you do not acquire any ownership rights in any downloaded content. You agree to abide by all copyright notices, information and restrictions contained in any content on the <b>Snapable</b> web site and any content accessed through the <b>Snapable</b> web site. </p>
 

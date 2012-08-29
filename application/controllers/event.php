@@ -46,8 +46,8 @@ class Event extends CI_Controller {
 				echo "&nbsp;";
 				$head = array(
 					'noTagline' => true,
-					'css' => base64_encode('assets/css/signin.css,assets/css/fileuploader.css,assets/css/tipsy.css,assets/css/setup.css,assets/css/header.css,assets/css/event.css,assets/css/footer.css'),
-					'js' => base64_encode('assets/js/mustache.js,assets/js/jquery-Mustache.js,assets/js/uploader.js,assets/js/jquery.tipsy.js,assets/js/photostream.js'),
+					'css' => base64_encode('assets/css/signin.css,assets/css/fileuploader.css,assets/css/jquery.jcrop.css,assets/css/facebox.css,assets/css/tipsy.css,assets/css/setup.css,assets/css/header.css,assets/css/event.css,assets/css/footer.css'),
+					'js' => base64_encode('assets/js/mustache.js,assets/js/jquery-Mustache.js,assets/js/jquery.jcrop.js,assets/js/uploader.js,assets/js/facebox.js,assets/js/jquery.tipsy.js,assets/js/photostream.js'),
 					'url' => $event_details->event->url,
 					'title' => $event_details->event->title . ", " . $event_details->event->display_timedate . " via Snapable"
 				);
@@ -153,6 +153,21 @@ class Event extends CI_Controller {
 				$this->session->unset_userdata('guest_login');
 				//session_destroy();
 				redirect('/event/' . $this->uri->segment(2), 'refresh');
+			}
+			else if ( $this->uri->segment(3) == "slideshow" )
+			{
+				$event_details = json_decode($this->event_model->getEventDetailsFromURL($this->uri->segment(2)));
+				
+				echo "&nbsp;";
+				$data = array(
+					'noTagline' => true,
+					'css' => base64_encode('assets/css/setup.css,assets/css/slideshow.css'),
+					'js' => base64_encode('assets/js/slideshow.js'),
+					'url' => $event_details->event->url,
+					'title' => $event_details->event->title . ", " . $event_details->event->display_timedate . " via Snapable"
+				);
+				
+				$this->load->view('event/slideshow', $data);
 			} else {
 				show_404();
 			}
@@ -187,6 +202,7 @@ class Event extends CI_Controller {
 								$sess_array = array(
 								  'name' => $validation->name,
 						          'email' => $_POST['email'],
+						          'type' => $validation->type,
 						          'loggedin' => true
 						        );
 						        $this->session->set_userdata('guest_login', $sess_array);
@@ -202,6 +218,11 @@ class Event extends CI_Controller {
 					}
 				}
 			}  
+			else if ( $this->uri->segment(2) == "get" && $this->uri->segment(3) == "photos" && IS_AJAX )
+			{
+				$photos = $this->event_model->getEventsPhotos($this->uri->segment(4));
+				echo $photos; 
+			} 
 		} else {
 			show_404();
 		}

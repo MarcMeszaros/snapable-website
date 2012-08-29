@@ -39,6 +39,7 @@ class Account extends CI_Controller {
 		{
 			// check if email is registered
 			$userDeets = json_decode($this->account_model->userDetails($_POST['email']));
+			
 			if ( $userDeets->status == 200 )
 			{
 				// create password hash				

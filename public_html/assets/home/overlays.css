@@ -1,0 +1,78 @@
+/**** OVERLAYS ****/
+
+#signupWrap {
+	width: 310px;
+	padding: 20px;
+	margin-bottom: 10px;
+	background: #f5fafc;
+	border-radius: 5px;
+	border: 1px solid #dbe9ef;
+}
+#signupWrap h1 {
+	font-size: 26px;
+	line-height: 30px;
+	color: #425357;
+	margin-bottom: 15px;
+}
+#signupWrap h2 {
+	font-size: 16px;
+	line-height: 24px;
+	color: #666;
+	margin-bottom: 20px;
+}
+#signupWrap h3 {
+	font-size: 14px;
+	line-height: 18px;
+	color: #666;
+	margin-bottom: 20px;
+	font-weight: normal;
+}
+
+#signupWrap label {
+  display:block;
+  color:#425357;
+  font-size:16px;
+  padding:0 0 5px 1px;
+  font-weight: bold;
+}
+#signupWrap hr {
+  margin: 20px 0px;
+  height: 1px;
+  border-top: 0;
+  border-right: 0;
+  border-left: 0;
+  border-bottom: 1px dotted #ccc;
+}
+#signupWrap input[type=text] {
+  width: 300px;
+  font-size:14px;
+  padding:5px;
+  background-color:#fff;
+  border-radius: 5px;
+  -webkit-transition: background-color 1s linear;
+}
+#signupWrap select, #signupWrap option {
+	font-size: 14px;
+	padding: 5px;
+}
+
+#signupWrap input[type=submit] {
+	display: block;
+	cursor: pointer;
+	color: #fff;
+	background: #67ac1c;
+	padding: 10px 20px 8px 20px;
+	margin: 0 auto;
+	border-radius: 20px;
+	width: 120px;
+	text-align: center;
+	font-size: 16px;
+	font-weight: bold;
+	text-decoration: none;
+	border: none;
+}
+#signupWrap input[type=submit]:hover {
+	background: #528a15;
+}
+
+#share { display: none; }

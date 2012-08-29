@@ -26,16 +26,91 @@ function firstRunSlideshow()
 $(document).ready(function() 
 {  
 	
+	var photoJSON = '{ "objects": [';
+	
 	if ( photos > 0 )
-	{
-		alert("get photos for event (show loader while doing so)");
+	{	
+		// Display Loader
+		$("#photoArea").css({"text-align":"center","font-weight":"bold"}).html("<div id='photoRetriever'>Retrieving Photos...<div class='bar'><span></span></div></div>");
+		// Get photos for event
+		var eid = eventID.split("/");
+		$.getJSON('/event/get/photos/' + eid[3], function(json) {
+			if ( json.status == 200 )
+			{
+				var count = 1;
+				$("#photoRetriever").css({"display":"none"});
+				$.Mustache.load('/assets/js/templates.html').done(function () 
+				{
+					$.each(json.response.objects, function(key, val) {
+						
+						if ( count <= 12 )
+						{
+							var resource_uri = val.resource_uri.split("/");
+							var caption_icon = "comment.png";
+							if ( !val.caption )
+							{
+								caption_icon = "blank.png";
+							}
+							
+							var viewData = { 
+								url: '/p/' + resource_uri[3],
+								photo: '/p/get/' + resource_uri[3] + '/200x200',
+								caption: val.caption,
+								caption_icon: caption_icon,
+								photographer: val.author_name 
+							};
+							$('#photoArea').mustache('event-list-photo', viewData);
+						} else {	
+							var caption = val.caption.replace(/"/g,"'");
+							
+							photoJSON += '{' +
+				                '"author_name": "' + val.author_name + '",' +
+				                '"caption": "' + caption + '",' +
+				                '"event": "' + val.event + '",' +
+				                '"guest": "' + val.guest + '",' +
+				                '"metrics": "' + val.metrics + '",' +
+				                '"resource_uri": "' + val.resource_uri + '",' +
+				                '"streamable": ' + val.streamable + ',' +
+				                '"timestamp": "' + val.timestamp + '",' +
+				                '"type": "' + val.type + '"' +
+				            '},';
+						}
+						count++;
+					});
+
+					if ( photoJSON.substr(-1, 1) == "," )
+					{
+						photoJSON = photoJSON.slice(0, -1);
+					}
+					photoJSON += '],' + '"count": ' + count + '}';
+					
+					if ( photos > 12 )
+					{
+						$("#photoArea").append("<div class='loadMoreWrap'><a class='loadMore' href='#" + count + "'>Load More</a></div>");
+					}
+					
+					// Trigger photo overlay code
+					$(".photo").hover(
+					  function () {
+					    $(".photo-overlay", this).fadeIn("fast");
+					  },
+					  function () {
+					    $(".photo-overlay", this).fadeOut("fast");
+					  }
+					); 
+					$('a.photo-enlarge').facebox();
+				});
+			} else {
+				// hide loader and display error
+				$("#photoArea").html("Something went wrong while fetching the photos for this event.");
+			}
+		});
 	} else {
 		$("#photoArea").addClass("noPhotos");
 		
-		var viewData = { name: 'Andrew' };
 		$.Mustache.load('/assets/js/templates.html').done(function () 
 		{
-	        $('#photoArea').mustache('event-first-run', viewData);
+	        $('#photoArea').mustache('event-first-run');
 	        // start dot cycle
 	        setInterval ( "firstRunSlideshow()", 5000 );
 	        // set dot buttons
@@ -71,40 +146,24 @@ $(document).ready(function()
 			$("#uploadedArea").empty();
 		},
 		
-		start		: function(result){		
-			$("#uploadedArea").append("<div id='FILE"+result.fileno+"' class='files'>Uploading Photo <div class='filesSmText'>This will just take a moment</div><div id='PRO"+result.fileno+"' class='bar'><span></span></div></div>");	
+		start		: function(result){	
+			$("#uploadedArea").css({"display":"block"}).append("<div id='FILE"+result.filename+"' class='files'>Uploading Photo <div class='filesSmText'>This will just take a moment</div><div id='PRO"+result.filename+"' class='bar'><span></span></div></div>");	
 		},
 
 		loaded		: function(result){
-			$("#PRO"+result.fileno).remove();
+			$("#PRO"+result.filename).remove();
 			var resultText = "Upload complete.";
+			
 			if( result.status != 200 )
 			{
 				resulttext = "Your photo didn't completely upload.";
-			}
-			$("#FILE"+result.fileno).html(resultText).delay("1500").fadeOut("normal", function()
-			{
-				$("#photoArea").prepend("<div class='photo photoHidden'>" +
-					"<div class='photo-overlay'>" +
-						"<ul class='photo-share'>" +
-						"<li><a class='photo-share-twitter' href='#'>Tweet</a></li>" +
-						"<li><a class='photo-share-facebook' href='#'>Share</a></li>" +
-						"<li><a class='photo-share-email' href='#'>Email</a></li>" +
-					"</ul>" +
-					"<div class='photo-buttons'>" +
-						"<a class='button addto-prints' href='#'>Add to Prints</a>" +
-					"</div>" +
-					"<a class='photo-enlarge' href='/p/123' title='Enlarge'>Enlarge</a>" +
-				"</div>" +
-				"<img src='/assets/img/FPO/event-photo-1.jpg' />" +
-				"<img class='photo-comment' title='Uncle Bob dancing up a storm on the dance floor.' src='/assets/img/icons/comment.png' /> Andrew D." +	
-				"</div>");
-				$("#photoArea .photo:first-child").fadeIn("fast");
-			});			
+			} else {
+				jQuery.facebox({ ajax: '/upload/crop/' + result.image + '/' + result.width + '/' +result.height });
+			}			
 		},
 
 		progress	: function(result){
-			$("#PRO"+result.fileno).css("width", result.perc+"%");
+			$("#PRO"+result.filename).css("width", result.perc+"%");
 		},
 
 		error		: function(error){
@@ -121,16 +180,85 @@ $(document).ready(function()
 	
 	/**** OTHER ****/
 	
-	$(".photo-comment").tipsy({fade: true, live: true});
+	$(document).on("click", ".loadMore", function(e)
+	{ 
+		e.preventDefault();
+		
+		var photoObj = jQuery.parseJSON(photoJSON);
+		photoJSON = '{ "objects": [';
+		var count = 1;
+		
+		$(".loadMoreWrap").html("<span></span>").addClass("bar");
+		
+		$.Mustache.load('/assets/js/templates.html').done(function () 
+		{
+			$.each(photoObj.objects, function(key, val) {
+				
+				if ( count <= 12 )
+				{
+					var resource_uri = val.resource_uri.split("/");
+					var caption_icon = "comment.png";
+					if ( val.caption == "" )
+					{
+						caption_icon = "blank.png";
+					}
+					var viewData = { 
+						url: '/p/' + resource_uri[3],
+						photo: '/p/get/' + resource_uri[3] + '/200x200',
+						caption: val.caption,
+						caption_icon: caption_icon,
+						photographer: val.author_name 
+					};
+					$('#photoArea').mustache('event-list-photo', viewData);
+				} else {
+					// LATHER, RINSE, REPEAT
+					var caption = val.caption.replace(/"/g,"'");
+					photoJSON += '{' +
+		                '"author_name": "' + val.author_name + '",' +
+		                '"caption": "' + caption + '",' +
+		                '"event": "' + val.event + '",' +
+		                '"guest": "' + val.guest + '",' +
+		                '"metrics": "' + val.metrics + '",' +
+		                '"resource_uri": "' + val.resource_uri + '",' +
+		                '"streamable": ' + val.streamable + ',' +
+		                '"timestamp": "' + val.timestamp + '",' +
+		                '"type": "' + val.type + '"' +
+		            '},';
+				}
+				count++;
+			});
+			$(".loadMoreWrap").remove();
+			
+			if ( photoJSON.substr(-1, 1) == "," )
+			{
+				photoJSON = photoJSON.slice(0, -1);
+			}
+			photoJSON += '],' + '"count": ' + count + '}';
+			
+			var countCheck = jQuery.parseJSON(photoJSON);
+						
+			if ( jQuery.isEmptyObject(countCheck.objects) == false )
+			{
+				$("#photoArea").append("<div class='loadMoreWrap'><a class='loadMore' href='#" + count + "'>Load More</a></div>");
+			} else {
+				
+			}
+			
+			// Trigger photo overlay code
+			$(".photo").hover(
+			  function () {
+			    $(".photo-overlay", this).fadeIn("fast");
+			  },
+			  function () {
+			    $(".photo-overlay", this).fadeOut("fast");
+			  }
+			); 
+			$('a.photo-enlarge').facebox();
+		});
+		return false;
+	});
 	
-	$(".photo").hover(
-	  function () {
-	    $(".photo-overlay", this).fadeIn("fast");
-	  },
-	  function () {
-	    $(".photo-overlay", this).fadeOut("fast");
-	  }
-	); 
+	$(".photo-comment").tipsy({fade: true, live: true});
 	
 	$("#uploadBTN").click( function()
 	{

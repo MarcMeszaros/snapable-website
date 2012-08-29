@@ -66,6 +66,7 @@ Class Event_model extends CI_Model
 			    ]
 			}
 			*/
+			
 			$event = "";
 			foreach ( $result->objects as $e )
 			{
@@ -73,6 +74,8 @@ Class Event_model extends CI_Model
 				// if start and end dates are different days $display_timedate is in the format "Tue July 31, 7 PM to Thu Aug 2, 9PM"
 				$start_epoch = strtotime($e->start);
 				$end_epoch = strtotime($e->end);
+				
+				$eventID = explode("/", $e->resource_uri);
 				
 				if ( date("m-d", $start_epoch) == date("m-d", $end_epoch) )
 				{
@@ -82,7 +85,7 @@ Class Event_model extends CI_Model
 				}
 				
 				// check if there's any photos
-				$photos = 0;
+				
 				$length = 8;
 				$nonce = "";
 				while ($length > 0) {
@@ -90,7 +93,7 @@ Class Event_model extends CI_Model
 				    $length -= 1;
 				}
 				
-				$path = '/private_v1/photo/schema/';
+				$path = '/private_v1/photo/';
 				$x_path_nonce = $nonce;
 				$x_snap_date = gmdate("Ymd", time()) . 'T' . gmdate("Gis", time()) . 'Z';
 				
@@ -98,7 +101,7 @@ Class Event_model extends CI_Model
 				$signature = hash_hmac('sha1', $raw_signature, $api_secret);
 				
 				$ch = curl_init();
-				curl_setopt($ch, CURLOPT_URL, 'http://devapi.snapable.com' . $path . '?format=json'); 
+				curl_setopt($ch, CURLOPT_URL, 'http://devapi.snapable.com' . $path . '?event=2&format=json'); 
 				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
 				curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
 				    'Content-Type: application/json',
@@ -112,8 +115,6 @@ Class Event_model extends CI_Model
 				$result = json_decode($response);
 				$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 				curl_close($ch);
-				
-				//echo $response;
 				
 				$event .= '{
 					"enabled":' . $e->enabled . ',
@@ -129,7 +130,7 @@ Class Event_model extends CI_Model
 					"resource_uri": "' . $e->resource_uri . '",
 					"user": "' . $e->user . '",
 					"privacy": 3,
-					"photos": "' . $photos . '"
+					"photos": "' . $e->photo_count . '"
 				}';
 			}
 			$json = '{
@@ -149,6 +150,44 @@ Class Event_model extends CI_Model
 		}
 		//$details = $this->db->where('url', $url)->where('active', 1)->get('event', 1,0);
 		// check if there's a positive result
+	}
+	
+	function getEventsPhotos($id)
+	{
+		$length = 8;
+		$nonce = "";
+		while ($length > 0) {
+		    $nonce .= dechex(mt_rand(0,15));
+		    $length -= 1;
+		}
+		
+		$api_key = 'abc123';
+		$api_secret = '123';
+		$verb = 'GET';
+		$path = '/private_v1/photo/';
+		$x_path_nonce = $nonce;
+		$x_snap_date = gmdate("Ymd", time()) . 'T' . gmdate("Gis", time()) . 'Z';
+		
+		$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
+		$signature = hash_hmac('sha1', $raw_signature, $api_secret);
+		
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, 'http://devapi.snapable.com' . $path . '?event=' . $id . '&format=json'); 
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
+		    'Content-Type: application/json',
+		    'X-SNAP-Date: ' . $x_snap_date ,
+		    'X-SNAP-nonce: ' . $x_path_nonce ,
+		    'Authorization: SNAP ' . $api_key . ':' . $signature                                                                       
+		));                                                                  
+		curl_setopt($ch, CURLOPT_TIMEOUT, '3');
+		                                                                                                    
+		$response = curl_exec($ch);
+		
+		return '{
+					"status": 200,
+					"response": ' . $response . '
+				}';
 	}
 	
 	function validateGuest($details, $email, $pin)
@@ -197,7 +236,8 @@ Class Event_model extends CI_Model
 		{
 			$json = '{
 				"status": 200,
-				"name": "' . $result->objects[0]->name . '"
+				"name": "' . $result->objects[0]->name . '",
+				"type": "3"
 			}';
 		} else {
 			$json = '{

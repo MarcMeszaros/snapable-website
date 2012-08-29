@@ -14,7 +14,7 @@ var photos = <?= $eventDeets->photos ?>
 		<ul id="event-nav">
 			<li><span>Photostream</span></li>
 			<li><a id="uploadBTN" href="#">Upload Photos</a></li>
-			<li><a href="#slideshow" id="slideshowBTN">Slideshow</a></li>
+			<li><a href="/event/<?= $eventDeets->url ?>/slideshow">Slideshow</a></li>
 			<li><a href="#guest" id="guestBTN">Invite Guests</a></li>
 			<li>
 				<a id="event-nav-share" href="#">Share</a>
@@ -60,10 +60,6 @@ var photos = <?= $eventDeets->photos ?>
 <div id="uploadArea"></div>
 <div id="uploadedArea"></div>
 <div class="clearit">&nbsp;</div>
-
-<div id="slideshow">
-	<h3>Configure Slideshow</h3>
-</div>
 
 <div id="guest">
 	<h3>Invite Guests</h3>

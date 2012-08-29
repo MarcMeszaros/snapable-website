@@ -1,12 +1,17 @@
-<div id="photo"><img src="<?= $photo ?>" width="480" height="480" alt="Photo" /></div>
+<div id="photo"><img src="/p/get/<?= $photo_id ?>/480x480" width="480" height="480" alt="Photo" /></div>
 
 <div id="details">
 	
-	<a id="back" href="/if-clicked-on-from-album-or-photostream-link-back-to-it">‹ Back</a>
+	<a id="back" href="<a href="/event/<?= $event_url ?>">‹ Back</a>
 	
-	<h1>&#8220;Uncle Bob dancing up a storm on the dance floor.&#8221;</h1>
+	<?php 
+	if ( $caption != "" )
+	{
+		echo "<h1>&#8220;" . $caption . "&#8221;</h1>";
+	}
+	?>
 	
-	<!--From the photo album “<a href="#">Andrew’s Big Ass Album</a>”, t-->Taken <strong>June 29</strong> at “<a href="#">Andrew’s Big Awesome Event</a>” by <strong>Andrew D.</strong>
+	<!--From the photo album “<a href="#">Andrew’s Big Ass Album</a>”, t-->Taken <strong><?= $date ?></strong><br />at “<a href="/event/<?= $event_url ?>"><?= $event_name ?></a>”<br />by <strong><?= $photographer ?></strong>
 	
 	<h2>Share:</h2>
 	
@@ -15,7 +20,7 @@
 	<a id="email" href="#">Email</a>
 	
 	<!-- ONLY APPEARS IF IT"S EITHER THE OWNER OF THE GROUP OR TAKER OF THE PHOTO WHO"S VIEWING -->
-	<h2><a id="photo-download" href="#">Download Photo</a></h2>
+	<!--<h2><a id="photo-download" href="#">Download Photo</a></h2>-->
 	
 </div>
 
