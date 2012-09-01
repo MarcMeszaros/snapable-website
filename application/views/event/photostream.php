@@ -14,7 +14,10 @@ var photos = <?= $eventDeets->photos ?>
 		<ul id="event-nav">
 			<li><span>Photostream</span></li>
 			<li><a id="uploadBTN" href="#">Upload Photos</a></li>
-			<li><a href="/event/<?= $eventDeets->url ?>/slideshow">Slideshow</a></li>
+			<?php if ( $eventDeets->photos > 0 )
+			{
+				echo '<li><a href="/event/' . $eventDeets->url . '/slideshow">Slideshow</a></li>';
+			} ?>
 			<li><a href="#guest" id="guestBTN">Invite Guests</a></li>
 			<li>
 				<a id="event-nav-share" href="#">Share</a>
@@ -62,6 +65,7 @@ var photos = <?= $eventDeets->photos ?>
 <div class="clearit">&nbsp;</div>
 
 <div id="guest">
+	<!--
 	<h3>Invite Guests</h3>
 	
 	<ul class="tabs">
@@ -83,12 +87,6 @@ var photos = <?= $eventDeets->photos ?>
 	
 			<a id="guest-link-manual" href="#">
 	
-				<!--
-				<textarea>Name, Email, Type</textarea>
-				<input type="button" value="Add Guests" />
-				* One guest per line
-				-->
-				
 				Copy/Paste or Input Manually
 				
 			</a>
@@ -161,6 +159,7 @@ var photos = <?= $eventDeets->photos ?>
 		<div class="clearit">&nbsp;</div>
 		
 	</div>
+	-->
 </div>
 
 <div id="photoArea">

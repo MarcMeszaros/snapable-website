@@ -826,8 +826,7 @@ a#guest-link-upload:hover, a#guest-link-manual:hover {
 	background-color: #d0e8ee;
 }
 
-.guests-hide { 
-	display: none; 
+.guests-options-wrap { 
 	background: #ffffee;
 	border: 1px solid #E3C27C;
 	border-radius: 5px;
@@ -835,7 +834,7 @@ a#guest-link-upload:hover, a#guest-link-manual:hover {
 	margin: 20px auto 0 auto;
 	width: 420px;
 	}
-.guests-hide p {
+.guests-options-wrap p {
 	font-size: 14px;
 	line-height: 18px;
 	margin: 0 0 10px 0;
@@ -861,7 +860,7 @@ a#guest-link-upload:hover, a#guest-link-manual:hover {
 	margin: 0 auto 5px auto;
 }
 
-#guests-manual textarea {
+#guest-choices textarea {
 	width: 420px;
 	height: 100px;
 	resize: none;
@@ -909,6 +908,22 @@ a#guest-link-upload:hover, a#guest-link-manual:hover {
 	background: #fff url('/assets/img/textbox-inner-shadow.png') no-repeat;
 	font-size: 14px;
 	line-height: 18px;
+}
+
+a.buttonBox:link, a.buttonBox:visited {
+	display: block;
+	color: #fff;
+	background: #67ac1c;
+	margin: 5px auto;
+	padding: 10px 20px 9px 20px;
+	border-radius: 10px;
+	width: 100px;
+	text-align: center;
+	font-weight: bold;
+	text-decoration: none;
+}
+a.buttonBox:hover {
+	background: #528a15;
 }
 
 /**** OVERLAY CROPPING PHOTO ****/

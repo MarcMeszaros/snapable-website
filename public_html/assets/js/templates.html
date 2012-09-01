@@ -17,6 +17,7 @@
 	</div>
 </script>
 
+
 <script id="event-first-run" type="text/html">
 	<div id="eventFirstRun">
 		<ul id="eventFirstRunText">
@@ -54,4 +55,105 @@
 			<a id="privacyDot" href="#privacy">Privacy</a>
 		</div>
 	</div>
+</script>
+
+
+<script id="invite-guests" type="text/html">
+	<h3>Invite Guests</h3>
+	
+	<ul class="tabs">
+		<li class="active"><a href="#add">Add</a></li><li><a href="#notify">Notify</a></li>
+	</ul>
+	
+	<div id="addBox" class="tab-content">{{>guest-addbox}}</div>
+	<div id="notifyBox" class="tab-content">{{>guest-notifybox}}</div>	
+</script>
+
+
+<script id="guest-addbox" type="text/html">
+	<p>Add guests and let them know to download the Snapable mobile app before your big day. <em>Include their type* to give more access to some guests.</em></p>
+	
+	<p><em><a name="guest-type"></a><strong>* Types include: </strong>Organizer, Bride/Groom, Wedding Party, Family, Guest</em></p>
+	
+	<div id="guest-choices">{{>guest-options}}</div>
+</script>
+
+<script id="guest-notifybox" type="text/html">
+	<p>Let your guests know to download Snapable in advance.</p>
+		
+	<div id="notify-group">
+	
+		<p><strong>Notify:</strong></p>
+		
+		<p>
+			<input type="checkbox" name="privacy-setting" value="2" /> Bride/Groom
+			<br /><input type="checkbox" name="privacy-setting" value="3" /> Wedding party
+			<br /><input type="checkbox" name="privacy-setting" value="4" /> Family
+			<br /><input type="checkbox" name="privacy-setting" value="5" CHECKED /> All Guests
+		</p>
+	</div>		
+	<div id="notify-message">
+		<p>ADD EMAIL TEMPLATE TO SHOW FULL MESSAGE</p>
+		
+		<textarea>Message</textarea>
+	</div>
+	<div class="clearit">&nbsp;</div>
+</script>
+
+
+<script id="guest-options">
+	<a id="guest-link-upload" href="#">
+	
+		Upload from File			
+	
+	</a>
+
+	<a id="guest-link-manual" href="#">
+
+		<!--
+		<textarea>Name, Email, Type</textarea>
+		<input type="button" value="Add Guests" />
+		* One guest per line
+		-->
+		
+		Copy/Paste or Input Manually
+		
+	</a>
+	
+	<div class="clearit">&nbsp;</div>
+</script>
+
+<script id="guest-upload" type="text/html">
+	<a class="guests-back-to-choices" href="#">‹ Back</a>
+			
+	<p><strong>Select a CSV</strong> file from your computer and <strong>click upload</strong>.</p>
+	
+	<form id="guests-file-uploader"><input type="file" accept="text/csv" id="guests-csv-input" name="guests-file-input" /> <input id="guests-upload-csv" type="button" value="Upload" /></form>
+	
+	<p><em>The expected format is <strong>Name, Email, Type</strong></em></p>	
+	
+	<p>&rarr; <a href="#" id="guests-file-how-to-csv-link">How-to Save a CSV file</a> &nbsp; &nbsp; &rarr; <a href="#">Download a Sample CSV file</a></p>		
+	
+	<div id="guests-file-how-to-csv">
+	
+		<p><strong>Saving a CSV File from Microsoft Excel</strong></p>
+
+		<p>Select <strong>Save As</strong>strong from the <strong>File</strong> menu.</p> 
+
+		<p>In the window that opens, under the file browser, you'll see a drop down called <strong>Save as type</strong>, you can select CSV (Comma Delimited). Name your file, and click <strong>Save.</strong></p>
+
+		<p><em>You will usually get a warning from Excel telling you that a CSV file does not support multiple files types. You can ignore this and simply select <strong>Ok</strong>.</em></p>
+
+	</div>
+</script>
+
+<script id="guest-manual" type="text/html">
+	<a class="guests-back-to-choices" href="#">‹ Back</a>
+			
+			Copy/paste (or type) your guests below then click "Done".
+			<br /><em>The expected format is <strong>Name, Email, Type</strong> (one per line)</em>
+			
+			<textarea></textarea>
+			
+			<a class="buttonBox" href="#">Done</a>
 </script>

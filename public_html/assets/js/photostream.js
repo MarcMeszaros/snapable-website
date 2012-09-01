@@ -289,8 +289,15 @@ $(document).ready(function()
 	$("#guestBTN").click( function(e)
 	{
 		e.preventDefault();
-		$("#guest").slideToggle();
+		
+		$.Mustache.load('/assets/js/templates.html').done(function () 
+		{
+			$('#guest').mustache('invite-guests',"",{method: "html"});
+			$("#guest").slideToggle();
+		});
+		//$("#guest").slideToggle();
 	});
+	
 	
 	// PRIVACY MENU
 	$("#event-nav-privacy").click(function(e) 
@@ -347,16 +354,18 @@ $(document).ready(function()
 	
 	//$("#guest-link-upload").on("click", function(event) {
 	$(document).on("click", "#guest-link-upload", function(){ 
-		$("#guests-choices").hide();
-		$("#guests-upload").fadeIn("normal");
+		$.Mustache.load('/assets/js/templates.html').done(function () 
+		{
+			$("#guest-choices").hide().mustache("guest-upload", "", {method: "html"}).addClass("guests-options-wrap").fadeIn("normal");
+		});
 		return false;
 	});
 
 	$(document).on("click", "#guest-link-manual", function(){ 
-		$("#guests-choices").hide();
-		$("#guests-manual").fadeIn("normal");
+		$("#guest-choices").hide().mustache("guest-manual", "", {method: "html"}).addClass("guests-options-wrap").fadeIn("normal");
 		return false;
 	});
+	
 	
 	$(document).on("click", "#guests-file-how-to-csv-link", function(){ 
 		$("#guests-file-how-to-csv").fadeIn("normal");
@@ -364,13 +373,41 @@ $(document).ready(function()
 	});
 	
 	$(document).on("click", ".guests-back-to-choices", function(){ 
-		$("#guests-manual, #guests-upload").hide();
-		$("#guests-choices").fadeIn();
+		//$("#guests-manual, #guests-upload").hide();
+		//$("#guests-choices").fadeIn();
+		$("#guest-choices").hide().mustache("guest-options", "", {method: "html"}).removeClass("guests-options-wrap").fadeIn("normal");
 		return false;
 	});
 	
-	$(document).on("click", "#guests-upload-csv", function(){
+	$(document).on("click", "#guests-upload-csv", function(e){
+		e.preventDefault();
+		
+		var ext = $('#guests-csv-input').val().split('.').pop().toLowerCase();
+		if($.inArray(ext, ['csv']) == -1) {
+		    alert("Sorry, this doesn't appear to be a CSV file");
+		} else {
+			var iframe = $('<iframe name="postCSViframe" id="postCSViframe" style="display: none" />');
+
+            $("body").append(iframe);
+
+            var form = $('#guests-file-uploader');
+            form.attr("action", "/upload/csv");
+            form.attr("method", "post");
+            form.attr("enctype", "multipart/form-data");
+            form.attr("encoding", "multipart/form-data");
+            form.attr("target", "postCSViframe");
+            form.attr("file", $('#guests-csv-input').val());
+            form.submit();
+
+            $("#postCSViframe").load(function () {
+                iframeContents = $("#postCSViframe")[0].contentWindow.document.body.innerHTML;
+                $("#textarea").html(iframeContents);
+            });
+			
+		}
+		/*
 		$("#guests-upload").html("<strong>Your guests have been uploaded.</strong><br />Would you like to compose an email to let them know to download the Snapable app? <a id='notify-guests-yes' href='#'>Yes</a> / <a id='notify-guests-no' href='#'>No</a>");
+		*/
 		return false;
 	});
 	

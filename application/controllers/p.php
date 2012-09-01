@@ -82,7 +82,7 @@ class P extends CI_Controller {
 				$verb = 'GET';
 				$path = '/private_v1/photo/' . $this->uri->segment(3) . '/';
 				$x_path_nonce = $nonce;
-				$x_snap_date = gmdate("Ymd", time()) . 'T' . gmdate("Gis", time()) . 'Z';
+				$x_snap_date = gmdate("Ymd", time()) . 'T' . gmdate("His", time()) . 'Z';
 				
 				$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
 				$signature = hash_hmac('sha1', $raw_signature, $api_secret);
@@ -124,7 +124,7 @@ class P extends CI_Controller {
 				$verb = 'GET';
 				$path = '/private_v1/photo/' . $this->uri->segment(3) . '/';
 				$x_path_nonce = $nonce;
-				$x_snap_date = gmdate("Ymd", time()) . 'T' . gmdate("Gis", time()) . 'Z';
+				$x_snap_date = gmdate("Ymd", time()) . 'T' . gmdate("His", time()) . 'Z';
 				
 				$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
 				$signature = hash_hmac('sha1', $raw_signature, $api_secret);

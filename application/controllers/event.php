@@ -162,7 +162,7 @@ class Event extends CI_Controller {
 				$data = array(
 					'noTagline' => true,
 					'css' => base64_encode('assets/css/setup.css,assets/css/slideshow.css'),
-					'js' => base64_encode('assets/js/slideshow.js'),
+					'js' => base64_encode('assets/js/jquery.cycle.all.js,assets/js/slideshow.js'),
 					'url' => $event_details->event->url,
 					'title' => $event_details->event->title . ", " . $event_details->event->display_timedate . " via Snapable"
 				);

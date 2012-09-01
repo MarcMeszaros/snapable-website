@@ -162,7 +162,7 @@ class Upload extends CI_Controller {
 			$verb = 'POST';
 			$path = '/private_v1/photo/';
 			$x_path_nonce = $nonce;
-			$x_snap_date = gmdate("Ymd", time()) . 'T' . gmdate("Gis", time()) . 'Z';
+			$x_snap_date = gmdate("Ymd", time()) . 'T' . gmdate("His", time()) . 'Z';
 			
 			$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
 			$signature = hash_hmac('sha1', $raw_signature, $api_secret);
@@ -183,6 +183,99 @@ class Upload extends CI_Controller {
 			echo '{"status":200,"result":' . $response . '}';
 		} else {
 			show_404();
+		}
+	}
+	
+	
+	function csv()
+	{
+		// list of valid extensions, ex. array("jpeg", "xml", "bmp")
+		$allowedExtensions = array("csv","CSV");
+		// max file size in bytes
+		$sizeLimit = 10 * 1024 * 1024;
+		
+		/*
+		[guests-file-input] => Array
+        (
+            [name] => email_sample.csv
+            [type] => text/csv
+            [tmp_name] => /Applications/MAMP/tmp/php/phpZuotbf
+            [error] => 0
+            [size] => 113
+        )
+        */
+		if ( isset($_FILES['guests-file-input']) )
+		{
+			$filename = $_FILES['guests-file-input']['name']; // Get the name of the file (including file extension).
+			$ext = substr($filename, strpos($filename,'.')+1, strlen($filename)-1); // Get the extension from the filename.
+			$tmp_file = $_FILES['guests-file-input']['tmp_name'];
+			
+			$server_path = $_SERVER['DOCUMENT_ROOT'] . "/tmp-files/";
+	        $new_filename = time() . "-" . preg_replace("/[^A-Za-z0-9.]/", "", $filename);
+			move_uploaded_file($_FILES["guests-file-input"]["tmp_name"],
+  $server_path . $new_filename);  
+	         
+	        $content = false;
+	        $p_NamedFields = false;
+	        $fields = "";            /** columns names retrieved after parsing */ 
+	        $separator = ',';    /** separator used to explode each line */
+	        $enclosure = '"';    /** enclosure used to decorate each field */
+	        $max_row_size = 4096;    /** maximum row size to be used for decoding */
+	        
+	        if (($handle = fopen($server_path . $new_filename, 'r')) === false) {
+			    die('Error opening file');
+			}
+			
+			$headers = fgetcsv($handle, 1024, ',');
+			$complete = array();
+			
+			while ($row = fgetcsv($handle, 1024, ',')) {
+			    $complete[] = array_combine($headers, $row);
+			}
+			
+			fclose($handle);
+			
+			echo json_encode($complete);
+	        
+	        /*
+	        $file = fopen($server_path . $new_filename, 'r');
+	        
+	        if($p_NamedFields) {
+	            $fields = fgetcsv($file, $max_row_size, $separator, $enclosure);
+	        }
+	        
+	        while( ($row = fgetcsv($file, $max_row_size, $separator, $enclosure)) != false ) {            
+	            if( $row[0] != null ) { // skip empty lines
+	                if( !$content ) {
+	                    $content = array();
+	                }
+	                if( $p_NamedFields ) {
+	                    $items = array();
+	                    
+	                    // I prefer to fill the array with values of defined fields
+	                    foreach( $fields as $id => $field ) {
+	                        if( isset($row[$id]) ) {
+	                            $items[$field] = $row[$id];    
+	                        }
+	                    }
+	                    $content[] = $items;
+	                } else {
+	                    $content[] = $row;
+	                }
+	            }
+	        }
+	        
+	        fclose($file);
+	        echo "done";
+	        print_r($content); 
+	        */
+	         //$csv_data = $this->csvreader->parse_file($server_path . $new_filename);
+	         //print_r($csv_data);
+	         
+	         //$data['csvData'] = $this->csvreader->parse_file($tmp_file);  
+	         //$this->load->view('csv_view', $data);
+		} else {
+			echo "Big Fat Fail";
 		}
 	}
 }

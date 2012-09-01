@@ -16,7 +16,7 @@ Class Event_model extends CI_Model
 		$verb = 'GET';
 		$path = '/private_v1/event/';
 		$x_path_nonce = $nonce;
-		$x_snap_date = gmdate("Ymd", time()) . 'T' . gmdate("Gis", time()) . 'Z';
+		$x_snap_date = gmdate("Ymd", time()) . 'T' . gmdate("His", time()) . 'Z';
 		
 		$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
 		$signature = hash_hmac('sha1', $raw_signature, $api_secret);
@@ -95,7 +95,7 @@ Class Event_model extends CI_Model
 				
 				$path = '/private_v1/photo/';
 				$x_path_nonce = $nonce;
-				$x_snap_date = gmdate("Ymd", time()) . 'T' . gmdate("Gis", time()) . 'Z';
+				$x_snap_date = gmdate("Ymd", time()) . 'T' . gmdate("His", time()) . 'Z';
 				
 				$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
 				$signature = hash_hmac('sha1', $raw_signature, $api_secret);
@@ -166,7 +166,7 @@ Class Event_model extends CI_Model
 		$verb = 'GET';
 		$path = '/private_v1/photo/';
 		$x_path_nonce = $nonce;
-		$x_snap_date = gmdate("Ymd", time()) . 'T' . gmdate("Gis", time()) . 'Z';
+		$x_snap_date = gmdate("Ymd", time()) . 'T' . gmdate("His", time()) . 'Z';
 		
 		$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
 		$signature = hash_hmac('sha1', $raw_signature, $api_secret);
@@ -209,7 +209,7 @@ Class Event_model extends CI_Model
 		$verb = 'GET';
 		$path = '/private_v1/guest/';
 		$x_path_nonce = $nonce;
-		$x_snap_date = gmdate("Ymd", time()) . 'T' . gmdate("Gis", time()) . 'Z';
+		$x_snap_date = gmdate("Ymd", time()) . 'T' . gmdate("His", time()) . 'Z';
 		
 		$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
 		$signature = hash_hmac('sha1', $raw_signature, $api_secret);
