@@ -16,7 +16,7 @@ Class Account_model extends CI_Model
 		$verb = 'GET';
 		$path = '/private_v1/user/';
 		$x_path_nonce = $nonce;
-		$x_snap_date = gmdate("Ymd", time()) . 'T' . gmdate("gis", time()) . 'Z';
+		$x_snap_date = gmdate("c");
 		
 		$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
 		$signature = hash_hmac('sha1', $raw_signature, $api_secret);
@@ -97,7 +97,7 @@ Class Account_model extends CI_Model
 		$verb = 'GET';
 		$path = '/private_v1/user/';
 		$x_path_nonce = $nonce;
-		$x_snap_date = gmdate("Ymd", time()) . 'T' . gmdate("gis", time()) . 'Z';
+		$x_snap_date = gmdate("c");
 		
 		$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
 		$signature = hash_hmac('sha1', $raw_signature, $api_secret);
@@ -187,7 +187,7 @@ Class Account_model extends CI_Model
 		$verb = 'GET';
 		$path = '/private_v1/event/';
 		$x_path_nonce = $nonce;
-		$x_snap_date = gmdate("Ymd", time()) . 'T' . gmdate("gis", time()) . 'Z';
+		$x_snap_date = gmdate("c");
 		
 		$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
 		$signature = hash_hmac('sha1', $raw_signature, $api_secret);
