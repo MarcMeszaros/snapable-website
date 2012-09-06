@@ -258,7 +258,7 @@ Class Signup_model extends CI_Model
 			$json = '{
 				"creation_date": "' . $created . '",
 				"user": "' . $user_uri . '",
-				"package": "/private_v1/package/5/",
+				"package": "/private_v1/package/1/",
 				"title": "' . $event['title'] . '",
 			    "url": "' . $event['url'] . '",
 			    "start": "' . $start . '",
