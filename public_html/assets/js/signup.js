@@ -38,7 +38,7 @@ function geocoder(address)
 	// do geocode to get addresses lat/lng
 	// set #lat and #lng
 	$("#event_location_status").removeClass("location_good").removeClass("location_bad").addClass("spinner-16px")
-	$.getJSON("http://where.yahooapis.com/geocode?location=1110+Halton+Terrace,+Kanata,+ON&flags=J&appid=qrVViDXV34GuS1yV7Mi2ya09wffvK6zlXaN1LFLQ3Q7fIXQI2MVhMtLMKQkDWMPP_g--", function(data)
+	$.getJSON("http://where.yahooapis.com/geocode?location=" + encodeURIComponent(address) + "&flags=J&appid=qrVViDXV34GuS1yV7Mi2ya09wffvK6zlXaN1LFLQ3Q7fIXQI2MVhMtLMKQkDWMPP_g--", function(data)
 	{
 		if ( data['ResultSet']['Error'] == 0 )
 		{
@@ -50,7 +50,6 @@ function geocoder(address)
 			$("#event_location_status").removeClass("spinner-16px").addClass("location_good");
 		} else {
 			$("#event_location_status").removeClass("spinner-16px").addClass("location_bad");
-			alert("fail")
 		}
 	});
 	
