@@ -140,7 +140,7 @@ class Upload extends CI_Controller {
 						
 			// URL on which we have to post data
 			
-			$url = "http://devapi.snapable.com/private_v1/photo/";
+			$url = API_HOST . "/private_v1/photo/";
 			
 			// Data to send
 			$post_data = array();
@@ -157,8 +157,8 @@ class Upload extends CI_Controller {
 			    $length -= 1;
 			}
 			
-			$api_key = 'abc123';
-			$api_secret = '123';
+			$api_key = API_KEY;
+			$api_secret = API_SECRET;
 			$verb = 'POST';
 			$path = '/private_v1/photo/';
 			$x_path_nonce = $nonce;

@@ -11,8 +11,8 @@ Class Event_model extends CI_Model
 		    $length -= 1;
 		}
 		
-		$api_key = 'abc123';
-		$api_secret = '123';
+		$api_key = API_KEY;;
+		$api_secret = API_SECRET;
 		$verb = 'GET';
 		$path = '/private_v1/event/';
 		$x_path_nonce = $nonce;
@@ -22,7 +22,7 @@ Class Event_model extends CI_Model
 		$signature = hash_hmac('sha1', $raw_signature, $api_secret);
 		
 		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, 'http://devapi.snapable.com/private_v1/event/?url=' . $url . '&format=json'); 
+		curl_setopt($ch, CURLOPT_URL, API_HOST . '/private_v1/event/?url=' . $url . '&format=json'); 
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
 		    'Content-Type: application/json',
@@ -101,7 +101,7 @@ Class Event_model extends CI_Model
 				$signature = hash_hmac('sha1', $raw_signature, $api_secret);
 				
 				$ch = curl_init();
-				curl_setopt($ch, CURLOPT_URL, 'http://devapi.snapable.com' . $path . '?event=2&format=json'); 
+				curl_setopt($ch, CURLOPT_URL, API_HOST . '' . $path . '?event=2&format=json'); 
 				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
 				curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
 				    'Content-Type: application/json',
@@ -161,8 +161,8 @@ Class Event_model extends CI_Model
 		    $length -= 1;
 		}
 		
-		$api_key = 'abc123';
-		$api_secret = '123';
+		$api_key = API_KEY;;
+		$api_secret = API_SECRET;
 		$verb = 'GET';
 		$path = '/private_v1/photo/';
 		$x_path_nonce = $nonce;
@@ -172,7 +172,7 @@ Class Event_model extends CI_Model
 		$signature = hash_hmac('sha1', $raw_signature, $api_secret);
 		
 		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, 'http://devapi.snapable.com' . $path . '?event=' . $id . '&format=json'); 
+		curl_setopt($ch, CURLOPT_URL, API_HOST . '' . $path . '?event=' . $id . '&format=json'); 
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
 		    'Content-Type: application/json',
@@ -204,8 +204,8 @@ Class Event_model extends CI_Model
 		    $length -= 1;
 		}
 		
-		$api_key = 'abc123';
-		$api_secret = '123';
+		$api_key = API_KEY;;
+		$api_secret = API_SECRET;
 		$verb = 'GET';
 		$path = '/private_v1/guest/';
 		$x_path_nonce = $nonce;
@@ -215,7 +215,7 @@ Class Event_model extends CI_Model
 		$signature = hash_hmac('sha1', $raw_signature, $api_secret);
 		
 		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, 'http://devapi.snapable.com/private_v1/guest/?email=' . $email . '&event=' . $eventID[3] . '&format=json'); 
+		curl_setopt($ch, CURLOPT_URL, API_HOST . '/private_v1/guest/?email=' . $email . '&event=' . $eventID[3] . '&format=json'); 
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
 		    'Content-Type: application/json',
@@ -248,6 +248,14 @@ Class Event_model extends CI_Model
 	}
 	
 	
+	function guestCount($event_id)
+	{
+		$num = 0;
+		
+		return $num;
+	}
+	
+	
 	function addGuests($post)
 	{
 		ini_set('auto_detect_line_endings', true);
@@ -259,6 +267,7 @@ Class Event_model extends CI_Model
 		$col2 = $post['col2'];
 		$col3 = $post['col3'];
 		
+		$event_id = explode("/", $event_uri);
 		/*
 		Array
 		(
@@ -269,123 +278,160 @@ Class Event_model extends CI_Model
 		)
 		*/
 		
-		$server_path = $_SERVER['DOCUMENT_ROOT'] . "/tmp-files/";
-	    $row_data = "";
-		$guest_count = 0;
+		// GET LIST OF CURRENT GUESTS
 		
-		if (($handle = fopen($server_path . $file, "r")) !== FALSE) 
+		$length = 8;
+		$nonce = "";
+		while ($length > 0) {
+		    $nonce .= dechex(mt_rand(0,15));
+		    $length -= 1;
+		}
+		
+		$api_key = API_KEY;;
+		$api_secret = API_SECRET;
+		$verb = 'GET';
+		$path = '/private_v1/guest/';
+		$x_path_nonce = $nonce;
+		$x_snap_date = gmdate("c");
+		
+		$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
+		$signature = hash_hmac('sha1', $raw_signature, $api_secret);
+		
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, API_HOST . '/private_v1/guest/?event=' . $event_id[3] . '&format=json'); 
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
+		    'Content-Type: application/json',
+		    'X-SNAP-Date: ' . $x_snap_date ,
+		    'X-SNAP-nonce: ' . $x_path_nonce ,
+		    'Authorization: SNAP ' . $api_key . ':' . $signature                                                                       
+		));                                                                  
+		curl_setopt($ch, CURLOPT_TIMEOUT, '3');
+		                                                                                                    
+		$response = curl_exec($ch);
+		$result = json_decode($response);
+		$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		curl_close($ch);
+		
+		if ( $httpcode == 200 )
 		{
-			while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) 
+			$existing_guests = $result->meta->total_count;
+			if ( $existing_guests > 0 )
 			{
-				$num = count($data);
-			    $numnum = 1;
-				$email = "unknown";
-				$name = "unknown";
-		        $type_uri = "/private_v1/type/5/";
-			    $row_data .= "{";
-			    $empty = false;
 				
-				for ($c=0; $c < $num; $c++) 
+			} 
+			
+			/*
+			$server_path = $_SERVER['DOCUMENT_ROOT'] . "/tmp-files/";
+		    $row_data = "";
+			$guest_count = 0;
+			
+			if (($handle = fopen($server_path . $file, "r")) !== FALSE) 
+			{
+				while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) 
 				{
-					if ( $numnum <= 3 && strtolower($data[$c]) != "name" && strtolower($data[$c]) != "email" && strtolower($data[$c]) != "type" && strtolower($data[$c]) != "email address" && strtolower($data[$c]) != "guest type" && strtolower($data[$c]) != "guest_type" && strtolower($data[$c]) != "guest-type" )
-				    {
-						if( preg_match("^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$^", $data[$c]) > 0)
-		        	    {
-		        	    	// is email
-		        	    	$email = $data[$c];
-		        	    } else {
-			        	    // isn't, check if guest
-			        	    $types = array("organizer","bride/groom","wedding party","family","guest"); // SWITCH TO FILL ARRAY FROM API AND ENSURE THEY'RE LOWERCASE!!!!
-			        	    if ( in_array(strtolower($data[$c]), $types) )
-			        	    {
-			        	    	// is guest type
-			        	    	$type = strtolower($data[$c]);
-			        	    	// convert type into resource_uri
-				        	    switch ($type) {
-								    case "organizer":
-								        $type_uri = "/private_v1/type/1/";
-								        break;
-								    case "bride/groom":
-								        $type_uri = "/private_v1/type/2/";
-								        break;
-								    case "wedding party":
-								        $type_uri = "/private_v1/type/3/";
-								        break;
-								    case "family":
-								        $type_uri = "/private_v1/type/4/";
-								        break;
-								    case "guest":
-								        $type_uri = "/private_v1/type/5/";
-								        break;
-								}
-			        	    } else {
-			        	    	// isn't guest or email, must be a name
-				        	    $name = $data[$c];
-			        	    }
-		        	    }
-					}
-				}
-				
-				if ( $email != "unknown" )
-				{
-	        	    $json = '{
-						"email": "' . $email . '",
-						"event": "' . $event_uri . '",
-						"name": "' . $name . '",
-						"type": "' . $type_uri . '"
-					}';
+					$num = count($data);
+				    $numnum = 1;
+					$email = "unknown";
+					$name = "unknown";
+			        $type_uri = "/private_v1/type/5/";
+				    $row_data .= "{";
+				    $empty = false;
 					
-					$length = 8;
-					$nonce = "";
-					while ($length > 0) {
-					    $nonce .= dechex(mt_rand(0,15));
-					    $length -= 1;
-					}
-					
-					$api_key = 'abc123';
-					$api_secret = '123';
-					$verb = 'POST';
-					$path = '/private_v1/guest/';
-					$x_path_nonce = $nonce;
-					$x_snap_date = gmdate("c");
-					
-					$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
-					$signature = hash_hmac('sha1', $raw_signature, $api_secret);
-					
-					$ch = curl_init();
-					curl_setopt($ch, CURLOPT_URL, 'http://devapi.snapable.com/private_v1/guest/'); 
-					curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
-					curl_setopt($ch, CURLOPT_POSTFIELDS, $json);                                                                  
-					curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
-					curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
-					    'Content-Type: application/json',                                                                            
-					    'Content-Length: ' . strlen($json), 
-					    'X-SNAP-Date: ' . $x_snap_date ,
-					    'X-SNAP-nonce: ' . $x_path_nonce ,
-					    'Authorization: SNAP ' . $api_key . ':' . $signature                                                                       
-					));                                                                   
-					curl_setopt($ch, CURLOPT_TIMEOUT, '3');
-					$response = curl_exec($ch);
-					$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-					curl_close($ch);
-					
-					if ( $httpcode == 201 )
+					for ($c=0; $c < $num; $c++) 
 					{
-						$guest_count++;
+						if ( $numnum <= 3 && strtolower($data[$c]) != "name" && strtolower($data[$c]) != "email" && strtolower($data[$c]) != "type" && strtolower($data[$c]) != "email address" && strtolower($data[$c]) != "guest type" && strtolower($data[$c]) != "guest_type" && strtolower($data[$c]) != "guest-type" )
+					    {
+							if( preg_match("^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$^", $data[$c]) > 0)
+			        	    {
+			        	    	// is email
+			        	    	$email = $data[$c];
+			        	    } else {
+				        	    // isn't, check if guest
+				        	    $types = array("organizer","bride/groom","wedding party","family","guest"); // SWITCH TO FILL ARRAY FROM API AND ENSURE THEY'RE LOWERCASE!!!!
+				        	    if ( in_array(strtolower($data[$c]), $types) )
+				        	    {
+				        	    	// is guest type
+				        	    	$type = strtolower($data[$c]);
+				        	    	// convert type into resource_uri
+					        	    switch ($type) {
+									    case "organizer":
+									        $type_uri = "/private_v1/type/1/";
+									        break;
+									    case "bride/groom":
+									        $type_uri = "/private_v1/type/2/";
+									        break;
+									    case "wedding party":
+									        $type_uri = "/private_v1/type/3/";
+									        break;
+									    case "family":
+									        $type_uri = "/private_v1/type/4/";
+									        break;
+									    case "guest":
+									        $type_uri = "/private_v1/type/5/";
+									        break;
+									}
+				        	    } else {
+				        	    	// isn't guest or email, must be a name
+					        	    $name = $data[$c];
+				        	    }
+			        	    }
+						}
+					}
+					
+					if ( $email != "unknown" )
+					{
+		        	    $json = '{
+							"email": "' . $email . '",
+							"event": "' . $event_uri . '",
+							"name": "' . $name . '",
+							"type": "' . $type_uri . '"
+						}';
+						
+						// if email address is not already a guest add
+						
+						$verb = 'POST';
+						$x_path_nonce = $nonce;
+						$x_snap_date = gmdate("c");
+						
+						$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
+						$signature = hash_hmac('sha1', $raw_signature, $api_secret);
+						
+						$ch = curl_init();
+						curl_setopt($ch, CURLOPT_URL, API_HOST . '/private_v1/guest/'); 
+						curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
+						curl_setopt($ch, CURLOPT_POSTFIELDS, $json);                                                                  
+						curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
+						curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
+						    'Content-Type: application/json',                                                                            
+						    'Content-Length: ' . strlen($json), 
+						    'X-SNAP-Date: ' . $x_snap_date ,
+						    'X-SNAP-nonce: ' . $x_path_nonce ,
+						    'Authorization: SNAP ' . $api_key . ':' . $signature                                                                       
+						));                                                                   
+						curl_setopt($ch, CURLOPT_TIMEOUT, '3');
+						$response = curl_exec($ch);
+						$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+						curl_close($ch);
+						
+						if ( $httpcode == 201 )
+						{
+							$guest_count++;
+						}
 					}
 				}
-			}
-		    fclose($handle);
-		    
-		    $rows = substr($row_data, 0, -1);
-			
-			unlink($server_path . $file);
-			
-			return '{
-				"status": 200,
-				"guest_count": ' . $guest_count . ',
-				"row_count": ' . $num . '
-			}';
+			    fclose($handle);
+			    
+			    $rows = substr($row_data, 0, -1);
+				
+				unlink($server_path . $file);
+				
+				return '{
+					"status": 200,
+					"guest_count": ' . $guest_count . ',
+					"row_count": ' . $num . '
+				}';
+			}*/
 		} else {
 			return '{ "status": 404 }';
 		}

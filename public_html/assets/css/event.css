@@ -863,6 +863,9 @@ a#guest-link-upload:hover, a#guest-link-manual:hover {
 .choiceBox, #notify-wrap {
 	margin: 20px auto;
 }
+.choiceBox {
+	width: 420px;
+}
 .csvParse {
 	width: 100%;
 	margin: 20px 0;

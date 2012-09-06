@@ -4,7 +4,7 @@ Class Photo_model extends CI_Model
 
 	function deets($id)
 	{
-		$url = "http://devapi.snapable.com/private_v1/photo/" . $id . "/";
+		$url = API_HOST . "/private_v1/photo/" . $id . "/";
 			
 		$length = 8;
 		$nonce = "";
@@ -13,8 +13,8 @@ Class Photo_model extends CI_Model
 		    $length -= 1;
 		}
 		
-		$api_key = 'abc123';
-		$api_secret = '123';
+		$api_key = API_KEY;
+		$api_secret = API_SECRET;
 		$verb = 'GET';
 		$path = '/private_v1/photo/' . $id . '/';
 		$x_path_nonce = $nonce;
@@ -52,8 +52,8 @@ Class Photo_model extends CI_Model
 			    $length -= 1;
 			}
 			
-			$api_key = 'abc123';
-			$api_secret = '123';
+			$api_key = API_KEY;
+			$api_secret = API_SECRET;
 			$verb = 'GET';
 			$path = '/private_v1/event/' . $event[3] . '/';
 			$x_path_nonce = $nonce;
@@ -63,7 +63,7 @@ Class Photo_model extends CI_Model
 			$signature = hash_hmac('sha1', $raw_signature, $api_secret);
 			
 			$ch = curl_init();
-			curl_setopt($ch, CURLOPT_URL, 'http://devapi.snapable.com/private_v1/event/' . $event[3] . '/'); 
+			curl_setopt($ch, CURLOPT_URL, API_HOST . '/private_v1/event/' . $event[3] . '/'); 
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
 			curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
 			    'Content-Type: application/json',

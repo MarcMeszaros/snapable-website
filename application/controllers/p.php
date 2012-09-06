@@ -68,7 +68,7 @@ class P extends CI_Controller {
 			if ( $this->uri->segment(2) == "get" )
 			{
 				//http://devapi.snapable.com/private_v1/photo/schema/
-				$url = "http://devapi.snapable.com/private_v1/photo/" . $this->uri->segment(3) . "/";
+				$url = API_HOST . "/private_v1/photo/" . $this->uri->segment(3) . "/";
 			
 				$length = 8;
 				$nonce = "";
@@ -77,8 +77,8 @@ class P extends CI_Controller {
 				    $length -= 1;
 				}
 				
-				$api_key = 'abc123';
-				$api_secret = '123';
+				$api_key = API_KEY;
+				$api_secret = API_SECRET;
 				$verb = 'GET';
 				$path = '/private_v1/photo/' . $this->uri->segment(3) . '/';
 				$x_path_nonce = $nonce;
@@ -110,7 +110,7 @@ class P extends CI_Controller {
 			if ( $this->uri->segment(2) == "get" )
 			{
 				//http://devapi.snapable.com/private_v1/photo/schema/
-				$url = "http://devapi.snapable.com/private_v1/photo/" . $this->uri->segment(3) . "/";
+				$url = API_HOST . "/private_v1/photo/" . $this->uri->segment(3) . "/";
 			
 				$length = 8;
 				$nonce = "";
@@ -119,8 +119,8 @@ class P extends CI_Controller {
 				    $length -= 1;
 				}
 				
-				$api_key = 'abc123';
-				$api_secret = '123';
+				$api_key = API_KEY;
+				$api_secret = API_SECRET;
 				$verb = 'GET';
 				$path = '/private_v1/photo/' . $this->uri->segment(3) . '/';
 				$x_path_nonce = $nonce;
