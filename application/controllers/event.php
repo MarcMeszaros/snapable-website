@@ -137,6 +137,12 @@ class Event extends CI_Controller {
 				if ( $this->uri->segment(3) == "add" )
 				{
 					$this->load->view('event/guests-add');
+				} else if ( $this->uri->segment(3) == "notify" )
+				{
+					$data = array(
+						'display' => "inline"
+					);
+					$this->load->view('email/guest_notification', $data);
 				} else {
 					show_404();
 				}

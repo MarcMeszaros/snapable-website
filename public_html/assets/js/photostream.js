@@ -25,7 +25,7 @@ function firstRunSlideshow()
 
 $(document).ready(function() 
 {  
-	
+	var csvFilename = "";
 	var photoJSON = '{ "objects": [';
 	
 	if ( photos > 0 )
@@ -294,6 +294,11 @@ $(document).ready(function()
 		{
 			$('#guest').mustache('invite-guests',"",{method: "html"});
 			$("#guest").slideToggle();
+			// get notification template and drop in place
+			$.get('/event/guests/notify', function(data) 
+			{
+				$("#notify-message").html(data);
+			});
 		});
 		//$("#guest").slideToggle();
 	});
@@ -401,7 +406,66 @@ $(document).ready(function()
 
             $("#postCSViframe").load(function () {
                 iframeContents = $("#postCSViframe")[0].contentWindow.document.body.innerHTML;
-                $("#textarea").html(iframeContents);
+                var guestJSON = jQuery.parseJSON(iframeContents);
+                
+                if ( guestJSON.status == 200 )
+                {
+                	csvFilename = guestJSON.filename;
+                	
+                	$.Mustache.load('/assets/js/templates.html').done(function () 
+                	{
+                		var viewData = { 
+							var: 'data', 
+						};
+	                	$("#guest-choices").removeClass("choiceBox").addClass("csvParse").mustache('guest-csv-parse', viewData, {method: "html"});
+	                	
+	                	var emailHeader = guestJSON.header.email.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+	                	var nameHeader = guestJSON.header.name.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+	                	var guestHeader = guestJSON.header.type.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+	                	
+	                	$("#csvHeader" + emailHeader).val("email");
+	                	$("#csvHeader" + nameHeader).val("name");
+	                	$("#csvHeader" + guestHeader).val("type");
+	                	
+	                	// populated each row with the correct data (use template: guest-csv-row)
+	                	
+	                	$.each(guestJSON.rows, function(key, val) 
+	                	{
+	                		var emailRow = emailHeader.toLowerCase();
+	                		var nameRow = nameHeader.toLowerCase();
+	                		var guestRow = guestHeader.toLowerCase();
+	                		
+	                		$.each(val, function(k, v) 
+	                		{
+		                		if ( k == emailRow )
+		                		{
+			                		var emailData = { 
+				                		text: v 
+				                	};
+				                	$("#row" + emailHeader + "Contents").mustache('guest-csv-row', emailData);	
+		                		}
+		                		else if ( k == nameRow )
+		                		{
+			                		var nameData = { 
+				                		text: v 
+				                	};
+				                	$("#row" + nameHeader + "Contents").mustache('guest-csv-row', nameData);	
+		                		}
+		                		else if ( k == guestRow )
+		                		{
+			                		var guestData = { 
+				                		text: v 
+				                	};
+				                	$("#row" + guestHeader + "Contents").mustache('guest-csv-row', guestData);	
+		                		}	
+	                		})
+	                	});
+	                	
+	                });
+                } else {
+	                alert("Sad Trombone, it seems we couldn't read the file you uploaded.");
+                }
+                
             });
 			
 		}
@@ -409,6 +473,36 @@ $(document).ready(function()
 		$("#guests-upload").html("<strong>Your guests have been uploaded.</strong><br />Would you like to compose an email to let them know to download the Snapable app? <a id='notify-guests-yes' href='#'>Yes</a> / <a id='notify-guests-no' href='#'>No</a>");
 		*/
 		return false;
+	});
+	
+	$(document).on("click", "#csvAllDone", function(e)
+	{
+		e.preventDefault();
+		
+		if ( csvFilename != "" )
+		{
+			$("#allDoneWrap").html("<img src='/assets/img/spinner_32px.gif' />");
+			$.post("/parse/csv", { event:eventID, file:csvFilename, col1:$("#csvHeaderOne").val(), col2:$("#csvHeaderTwo").val(), col3:$("#csvHeaderThree").val() }, function(data)
+			{
+				var json = jQuery.parseJSON(data);
+				
+				if ( json.status == 200 )
+				{
+					// switch tab to notify and show content
+					$("#addTab").removeClass("active");
+					$("#notifyTab").addClass("active");
+					$("#addBox").fadeOut("fast", function()
+					{
+						$("#notifyBox").fadeIn("fast");
+					});
+				} else {
+					alert("We weren't able to complete the upload of your guest list at this time.");
+					$("#allDoneWrap").html("<a id='csvAllDone' href='#'>All Done </a>");
+				}
+			});
+		} else {
+			alert("We weren't able to complete the upload of your guest list at this time.");
+		}
 	});
 	
 	$(document).on("click", "#notify-guests-yes", function(){

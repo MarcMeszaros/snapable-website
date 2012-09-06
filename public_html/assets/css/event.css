@@ -717,12 +717,12 @@ h3 {
 
 /**** GUEST & SLIDESHOW UPLOAD AREA ****/
 
-#slideshow, #guest {
+#guest {
 	display: none;
 	background: #fff;
 	border-radius: 5px;
 	margin: 10px;
-	padding: 40px 225px 20px 225px;
+	padding: 40px/* 225px 20px 225px*/;
 	border: 1px solid #e1e1e1;
 }
 
@@ -787,12 +787,12 @@ ul.tabs li.active a { color: #fff; }
 .tab-content a:hover {
 	color: #669900;
 }
-
+/*
 #guests-choices {
 	margin: 20px auto 0 auto;
 	width: 420px;	
 }
-
+*/
 #add-guests-wrap p {
 	margin: 10px 0;
 }
@@ -860,6 +860,58 @@ a#guest-link-upload:hover, a#guest-link-manual:hover {
 	margin: 0 auto 5px auto;
 }
 
+.choiceBox, #notify-wrap {
+	margin: 20px auto;
+}
+.csvParse {
+	width: 100%;
+	margin: 20px 0;
+	border: none;
+	background: none;
+}
+#csvRow1, #csvRow2, #csvRow3 {
+	float: left;
+	display: inline;
+	background: #ffffee;
+	border: 1px solid #E3C27C;
+	border-radius: 5px;
+	padding: 20px 10px 10px 10px;
+	margin-right: 20px;
+	width: 220px;
+	text-align: center;
+}
+#csvRow1 ul, #csvRow2 ul, #csvRow3 ul {
+	list-style: none;
+	margin: 20px 0;
+	padding-top: 10px;
+	border-top: 1px solid #E3C27C;
+	font-size: 12px;
+	line-height: 14px;
+	color: #333;
+}
+#csvRow1 li, #csvRow2 li, #csvRow3 li {
+	margin-bottom: 5px;
+	padding-bottom: 5px;
+	border-bottom: 1px dotted #E3C27C;
+}
+#guest-choices h3 { font-weight: normal; margin-bottom: 20px; }
+#guest-choices h3 strong { color: #3399cc; }
+
+#csvAllDone {
+	display: block;
+	margin: 20px auto;
+	text-indent: -8000px;
+	background: transparent url('/assets/img/all_done.png') no-repeat;
+	width: 273px;
+	height: 75px;
+}
+#allDoneWrap img {
+	display: block;
+	margin: 63px auto 20px auto;
+	width: 32px;
+	height: 32px;
+}
+
 #guest-choices textarea {
 	width: 420px;
 	height: 100px;
@@ -893,18 +945,22 @@ a#guest-link-upload:hover, a#guest-link-manual:hover {
 #notify-message {
 	float: right;
 	display: inline;
-	width: 290px;
-	padding: 20px 0;
+	width: 560px;
+	padding: 20px;
+	border-radius: 10px;
+	border: 1px solid #ccc;
+	background: #eeeeee;
 	}
 
 #notify-message textarea {
-	width: 265px;
+	display: block;
+	width: 520px;
 	height: 100px;
 	resize: none;
 	border: 1px solid #999;
 	border-radius: 3px;
 	padding: 10px;
-	margin: 10px 0;
+	margin: 10px auto;
 	background: #fff url('/assets/img/textbox-inner-shadow.png') no-repeat;
 	font-size: 14px;
 	line-height: 18px;

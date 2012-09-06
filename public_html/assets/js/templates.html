@@ -62,7 +62,8 @@
 	<h3>Invite Guests</h3>
 	
 	<ul class="tabs">
-		<li class="active"><a href="#add">Add</a></li><li><a href="#notify">Notify</a></li>
+		<li class="active" id="addTab"><a href="#add">Add</a></li>
+		<li id="notifyTab"><a href="#notify">Notify</a></li>
 	</ul>
 	
 	<div id="addBox" class="tab-content">{{>guest-addbox}}</div>
@@ -73,31 +74,30 @@
 <script id="guest-addbox" type="text/html">
 	<p>Add guests and let them know to download the Snapable mobile app before your big day. <em>Include their type* to give more access to some guests.</em></p>
 	
-	<p><em><a name="guest-type"></a><strong>* Types include: </strong>Organizer, Bride/Groom, Wedding Party, Family, Guest</em></p>
+	<p><em><a name="guest-type"></a><strong>* Types include: </strong>Organizer, Bride/Groom, Wedding Party, Family, or Guest</em></p>
 	
-	<div id="guest-choices">{{>guest-options}}</div>
+	<div id="guest-choices" class="choiceBox">{{>guest-options}}</div>
 </script>
 
 <script id="guest-notifybox" type="text/html">
 	<p>Let your guests know to download Snapable in advance.</p>
-		
-	<div id="notify-group">
 	
-		<p><strong>Notify:</strong></p>
+	<div id="notify-wrap">	
+		<div id="notify-group">
 		
-		<p>
-			<input type="checkbox" name="privacy-setting" value="2" /> Bride/Groom
-			<br /><input type="checkbox" name="privacy-setting" value="3" /> Wedding party
-			<br /><input type="checkbox" name="privacy-setting" value="4" /> Family
-			<br /><input type="checkbox" name="privacy-setting" value="5" CHECKED /> All Guests
-		</p>
-	</div>		
-	<div id="notify-message">
-		<p>ADD EMAIL TEMPLATE TO SHOW FULL MESSAGE</p>
-		
-		<textarea>Message</textarea>
+			<p><strong>Send email to:</strong></p>
+			
+			<p>
+				<input type="checkbox" name="privacy-setting" value="2" /> Bride/Groom
+				<br /><input type="checkbox" name="privacy-setting" value="3" /> Wedding party
+				<br /><input type="checkbox" name="privacy-setting" value="4" /> Family
+				<br /><input type="checkbox" name="privacy-setting" value="5" CHECKED /> All Guests
+			</p>
+			<p><a href="#" id="do-notify-guests">Send Email(s)</a></p>
+		</div>		
+		<div id="notify-message"></div>
+		<div class="clearit">&nbsp;</div>
 	</div>
-	<div class="clearit">&nbsp;</div>
 </script>
 
 
@@ -132,7 +132,7 @@
 	
 	<p><em>The expected format is <strong>Name, Email, Type</strong></em></p>	
 	
-	<p>&rarr; <a href="#" id="guests-file-how-to-csv-link">How-to Save a CSV file</a> &nbsp; &nbsp; &rarr; <a href="#">Download a Sample CSV file</a></p>		
+	<p>&rarr; <a href="#" id="guests-file-how-to-csv-link">How-to Save a CSV file</a> &nbsp; &nbsp; &rarr; <a href="/assets/csv_sample.csv">Download a Sample CSV file</a></p>		
 	
 	<div id="guests-file-how-to-csv">
 	
@@ -156,4 +156,45 @@
 			<textarea></textarea>
 			
 			<a class="buttonBox" href="#">Done</a>
+</script>
+
+<script id="guest-csv-parse" type="text/html">
+	<h3><strong>Almost done. </strong>Now match the columns in your uploaded file to the correct categories below.</h3>
+
+	<div class="csvRow" id="csvRow1">
+		<select id="csvHeaderOne">
+			<option value="email">Email</option>
+			<option value="name">Name</option>
+			<option value="type">Guest Type</option>
+		</select>
+		
+		<ul id="rowOneContents"></ul>
+	</div>
+	
+	<div class="csvRow" id="csvRow2">
+		<select id="csvHeaderTwo">
+			<option value="email">Email</option>
+			<option value="name">Name</option>
+			<option value="type">Guest Type</option>
+		</select>
+		
+		<ul id="rowTwoContents"></ul>
+	</div>
+	
+	<div class="csvRow" id="csvRow3">
+		<select id="csvHeaderThree">
+			<option value="email">Email</option>
+			<option value="name">Name</option>
+			<option value="type">Guest Type</option>
+		</select>
+		
+		<ul id="rowThreeContents"></ul>
+	</div>
+	
+	<div class="clearit">&nbsp;</div>
+	<div id="allDoneWrap"><a id="csvAllDone" href="#">All Done </a></div>
+</script>
+
+<script id="guest-csv-row" type="text/html">
+	<li>{{text}}</li>
 </script>
