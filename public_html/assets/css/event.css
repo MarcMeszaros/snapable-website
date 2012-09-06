@@ -32,6 +32,24 @@ body {
 	margin-bottom: 25px;
 }
 
+#event-pin {
+	float: right;
+	display: inline;
+	width: 100px;
+	margin-top: 17px;
+	padding: 10px 10px 5px 10px;
+	text-align: center;
+	font-size: 16px;
+	line-height: 20px;
+	color: #fff;
+	background: #006699;
+	border-radius: 10px;
+}
+#event-pin div {
+	font-size: 30px;
+	line-height: 32px;
+	}
+
 #checkout-buttons {
 	float: right;
 	display: inline;

@@ -315,6 +315,21 @@ input[type=submit]:hover {
 	background: #336699;
 	cursor: pointer;
 }
+input#event-url {
+	margin-bottom: 20px;
+}
+
+#event-pin {
+	margin: 20px auto;
+	width: 200px;
+	padding: 20px;
+	text-align: center;
+	font-size: 36px;
+	line-height: 38px;
+	color: #fff;
+	background: #006699;
+	border-radius: 10px;
+}
 	
 /**** BOTTOM ****/
 

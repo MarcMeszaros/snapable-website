@@ -50,6 +50,11 @@ var photos = <?= $eventDeets->photos ?>
 		</ul>
 	</div>
 	
+	<div id="event-pin">
+		Event PIN:
+		<div><?= $eventDeets->pin ?></div>
+	</div>
+	<!--
 	<div id="checkout-buttons">
 		<div id="in-cart">
 			<div id="in-cart-number">0</div>
@@ -57,7 +62,7 @@ var photos = <?= $eventDeets->photos ?>
 		</div>
 		<a id="checkout" href="#">Checkout</a>
 	</div>
-	
+	-->
 </div>
 
 <div id="uploadArea"></div>

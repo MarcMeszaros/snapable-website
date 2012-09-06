@@ -214,6 +214,7 @@ Class Account_model extends CI_Model
 			    "status" => 200,
 			    "title" => $result->objects[0]->title,
 			    "url" => $result->objects[0]->url,
+			    "pin" => $result->objects[0]->pin,
 			    "start_timedate" => $result->objects[0]->start,
 			    "start_epoch" => strtotime($result->objects[0]->start)
 			);

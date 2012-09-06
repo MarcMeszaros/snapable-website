@@ -78,6 +78,10 @@
 					<p>The URL for <strong><?= $eventDeets['title'] ?></strong> is:</p>
 				
 					<p><input id="event-url" type="text" value="http://snapable.com/event/<?= $eventDeets['url'] ?>" READONLY /></p>
+					
+					<h2>If you set your event to private your guests will require this Event PIN to take photos:</h2>
+					
+					<div id="event-pin"><?= $eventDeets['pin'] ?></div>
 
 					<p>Share it!</p>
 					
