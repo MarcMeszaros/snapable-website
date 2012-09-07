@@ -18,7 +18,22 @@ var photos = <?= $eventDeets->photos ?>
 			{
 				echo '<li><a href="/event/' . $eventDeets->url . '/slideshow">Slideshow</a></li>';
 			} ?>
+
+			<?php
+				// get session vars
+				$session_owner = $this->session->userdata('logged_in');
+				$session_guest = $this->session->userdata('guest_login');
+				
+				// check if user is logged in		
+				$ownerLoggedin = ( $session_owner['loggedin'] == true ) ? true : false;
+				$guestLoggedin = ( $session_guest['loggedin'] == true ) ? true : false;
+			?>
+
+			<?php if ($ownerLoggedin): ?>
 			<li><a href="#guest" id="guestBTN">Invite Guests</a></li>
+			<?php endif; ?>
+			
+			<?php if ($eventDeets->privacy == 6): ?>
 			<li>
 				<a id="event-nav-share" href="#">Share</a>
 				<div id="event-nav-menu-share" class="event-nav-menu">
@@ -27,6 +42,9 @@ var photos = <?= $eventDeets->photos ?>
 					<a class="photo-share-email" href="#">Email</a>
 				</div>
 			</li>
+			<?php endif; ?>
+
+			<?php if ($ownerLoggedin): ?>
 			<li>
 				<a id="event-nav-privacy" href="#">Privacy</a>
 				<div id="event-nav-menu-privacy" class="event-nav-menu">
@@ -47,6 +65,7 @@ var photos = <?= $eventDeets->photos ?>
 					<input type="button" value="Save" />
 				</div>
 			</li>
+		<?php endif; ?>
 		</ul>
 	</div>
 	
