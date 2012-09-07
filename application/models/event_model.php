@@ -97,7 +97,7 @@ Class Event_model extends CI_Model
 					"display_timedate": "' . $display_timedate . '",
 					"resource_uri": "' . $e->resource_uri . '",
 					"user": "' . $e->user . '",
-					"privacy": 3,
+					"privacy": ' . substr($e->type, -2, 1) . ',
 					"photos": "' . $e->photo_count . '"
 				}';
 			}
