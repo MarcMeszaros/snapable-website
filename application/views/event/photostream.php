@@ -49,17 +49,13 @@ var photos = <?= $eventDeets->photos ?>
 				<a id="event-nav-privacy" href="#">Privacy</a>
 				<div id="event-nav-menu-privacy" class="event-nav-menu">
 					
-					<p>Select the groups you'd like to be able to see photos that are uploaded.</p>
+					<p>Select if photos are private and viewable by guests only or if all photos are public.</p>
 					
 					<ul>
-						<li><input type="checkbox" name="privacy-setting" value="1" /> Only You</li>
-						<li><input type="checkbox" name="privacy-setting" value="2" /> Bride/Groom</li>
-						<li><input type="checkbox" name="privacy-setting" value="3" /> Wedding party</li>
+						<li><input type="radio" name="privacy-setting" value="0" <?php echo ($eventDeets->privacy < 6) ? 'checked="checked"':''; ?>/> Private</li>
 					</ul>
 					<ul>
-						<li><input type="checkbox" name="privacy-setting" value="4" /> Family</li>
-						<li><input type="checkbox" name="privacy-setting" value="5" /> All Guests</li>
-						<li><input type="checkbox" name="privacy-setting" value="6" CHECKED /> Public</li>
+						<li><input type="radio" name="privacy-setting" value="1" <?php echo ($eventDeets->privacy == 6) ? 'checked="checked"':''; ?>/> Public</li>
 					</ul>
 					<div class="clearit">&nbsp;</div>
 					<input type="button" value="Save" />
@@ -69,10 +65,12 @@ var photos = <?= $eventDeets->photos ?>
 		</ul>
 	</div>
 	
+	<?php if($eventDeets->privacy < 6): ?>
 	<div id="event-pin">
 		Event PIN:
 		<div><?= $eventDeets->pin ?></div>
 	</div>
+	<?php endif;?>
 	<!--
 	<div id="checkout-buttons">
 		<div id="in-cart">
