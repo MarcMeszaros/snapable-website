@@ -50,7 +50,7 @@
 			}
 			else if ( $loggedInBar == "guest" )
 			{
-				$arr = $this->session->userdata('logged_in');
+				$arr = $this->session->userdata('guest_login');
 				$name = $arr['name'];
 				$signout_url = "/event/" . $url . "/signout";
 				$dash_link = "";
