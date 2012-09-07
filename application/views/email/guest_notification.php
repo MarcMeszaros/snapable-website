@@ -232,7 +232,7 @@
                                                         	{
 	                                                        	if ( $display == "inline" )
 	                                                        	{
-		                                                        	echo "<textarea>Enter a message for your guests.</textarea>";
+		                                                        	echo "<textarea id='notify-custom-message'>Enter a message for your guests.</textarea>";
 	                                                        	} 
                                                         	}
                                                         	?>

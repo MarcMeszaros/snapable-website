@@ -298,6 +298,15 @@ $(document).ready(function()
 			$.get('/event/guests/notify', function(data) 
 			{
 				$("#notify-message").html(data);
+				// check if event has guests, hide 'send email' button if it doesn't
+				
+				$.get('/event/guests/count', { resource_uri:eventID }, function(count)
+				{
+					if ( count == 0 )
+					{
+						$("#do-notify-wrap").html("No guests have been invited yet.");
+					}
+				});
 			});
 		});
 		//$("#guest").slideToggle();
@@ -493,6 +502,15 @@ $(document).ready(function()
 					$("#notifyTab").addClass("active");
 					$("#addBox").fadeOut("fast", function()
 					{
+						$.get('/event/guests/count', { resource_uri:eventID }, function(count)
+						{
+							if ( count == 0 )
+							{
+								$("#do-notify-wrap").html("No guests have been invited yet.");
+							} else {
+								$("#do-notify-wrap").html('<a href="#" id="do-notify-guests">Send Email(s)</a>');
+							}
+						});
 						$("#notifyBox").fadeIn("fast");
 					});
 				} else {
@@ -504,6 +522,47 @@ $(document).ready(function()
 			alert("We weren't able to complete the upload of your guest list at this time.");
 		}
 	});
+	
+	
+	$(document).on("focus", "#notify-custom-message", function(e)
+	{
+		if ( $(this).val() == "Enter a message for your guests." )
+		{
+			$(this).val("").css({"color":"#333333"});
+		} 
+	});
+	$(document).on("blur", "#notify-custom-message", function(e)
+	{
+		if ( $(this).val() == "" )
+		{
+			$(this).val("Enter a message for your guests.").css({"color":"#999"});
+		} 
+	});
+	$(document).on("click", "#do-notify-guests", function(e)
+	{
+		// get checkboxes checked and message
+		var sendTo = new Array();
+        $("input:checkbox[name=notify-type]:checked").each(function(){
+            var val = $(this).val();
+            sendTo.push(val);
+        });
+		var message = $("#notify-custom-message").val();
+		
+		if ( message == "" )
+		{
+			alert("You haven't supplied a message for your guests.")
+		}
+		else if ( sendTo.length === 0 )
+		{
+			alert("You haven't selected any of the guests to invite to use Snapable!");
+		} else {
+			$.post("/event/send/invites", { resource_uri:eventID, message:message, sendto:sendTo }, function(data)
+			{
+				alert("replace notify area with notification that invites were sent")
+			});
+		}
+	});
+	
 	
 	$(document).on("click", "#notify-guests-yes", function(){
 		$("#overlay-tabs-add").removeClass("active");

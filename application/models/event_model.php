@@ -248,10 +248,50 @@ Class Event_model extends CI_Model
 	}
 	
 	
-	function guestCount($event_id)
+	function guestCount($resource_uri)
 	{
-		$num = 0;
+		$event = explode("/", $resource_uri);
+		$eventID = $event[3];
 		
+		$length = 8;
+		$nonce = "";
+		while ($length > 0) {
+		    $nonce .= dechex(mt_rand(0,15));
+		    $length -= 1;
+		}
+		
+		$api_key = API_KEY;;
+		$api_secret = API_SECRET;
+		$verb = 'GET';
+		$path = '/private_v1/guest/';
+		$x_path_nonce = $nonce;
+		$x_snap_date = gmdate("c");
+		
+		$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
+		$signature = hash_hmac('sha1', $raw_signature, $api_secret);
+		
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, API_HOST . '/private_v1/guest/?event=' . $eventID . '&format=json'); 
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
+		    'Content-Type: application/json',
+		    'X-SNAP-Date: ' . $x_snap_date ,
+		    'X-SNAP-nonce: ' . $x_path_nonce ,
+		    'Authorization: SNAP ' . $api_key . ':' . $signature                                                                       
+		));                                                                  
+		curl_setopt($ch, CURLOPT_TIMEOUT, '3');
+		                                                                                                    
+		$response = curl_exec($ch);
+		$result = json_decode($response);
+		$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		curl_close($ch);
+		
+		if ( $httpcode == 200 )
+		{
+			$num = $result->meta->total_count;
+		} else {
+			$num = 0;
+		}
 		return $num;
 	}
 	
@@ -447,5 +487,110 @@ Class Event_model extends CI_Model
 			return '{ "status": 404 }';
 		}
 	}
+	
+	
+	function sendInvite($post)
+	{
+		if ( isset($post['message']) && isset($post['sendTo']) )
+		{
+			$message = $post['message'];
+			$sendTo = $post['sendto'];
+			
+			$privacy_level = max($sendTo);
+			
+			// get guests
+			
+			$length = 8;
+			$nonce = "";
+			while ($length > 0) {
+			    $nonce .= dechex(mt_rand(0,15));
+			    $length -= 1;
+			}
+			
+			$api_key = API_KEY;;
+			$api_secret = API_SECRET;
+			$verb = 'GET';
+			$path = '/private_v1/guest/';
+			$x_path_nonce = $nonce;
+			$x_snap_date = gmdate("c");
+			
+			$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
+			$signature = hash_hmac('sha1', $raw_signature, $api_secret);
+			
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL, API_HOST . '/private_v1/guest/?event=' . $event_id[3] . '&format=json'); 
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
+			curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
+			    'Content-Type: application/json',
+			    'X-SNAP-Date: ' . $x_snap_date ,
+			    'X-SNAP-nonce: ' . $x_path_nonce ,
+			    'Authorization: SNAP ' . $api_key . ':' . $signature                                                                       
+			));                                                                  
+			curl_setopt($ch, CURLOPT_TIMEOUT, '3');
+			                                                                                                    
+			$response = curl_exec($ch);
+			$result = json_decode($response);
+			$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+			curl_close($ch);
+			
+			if ( $httpcode == 200 && $result->meta->total_count > 0 )
+			{
+				$url = 'http://sendgrid.com/';
+				$user = 'snapable';
+				$pass = 'Snapa!23'; 
+				
+				if ( isset($_POST['from']) ) {
+					$from = $_POST['from'];
+				} else {
+					$from = "website@snapable.com";
+				}
+				
+				$subject = 'At [EVENT NAME] use Snapable!';
+				
+				
+				if ( isset($_POST['to']) ) {
+					$to = $_POST['to'];
+				} else {
+					$to = "team@snapable.com";
+				}
+				
+				$message_html = '<p><b>Message:</b></p><p>' . $_POST['message'] . '</p><p>Sent from: ' . $_POST['email'] . '</p>';
+				$message_text = 'Message: ' . $_POST['message'] . ' / Sent from: ' . $_POST['email'];
+				
+				$params = array(
+				    'api_user'  => $user,
+				    'api_key'   => $pass,
+				    'to'        => $to,
+				    'subject'   => $subject,
+				    'html'      => $message_html,
+				    'text'      => $message_text,
+				    'from'      => $from,
+				  );
+				
+				$request =  $url.'api/mail.send.json';
+				
+				// Generate curl request
+				$session = curl_init($request);
+				// Tell curl to use HTTP POST
+				curl_setopt ($session, CURLOPT_POST, true);
+				// Tell curl that this is the body of the POST
+				curl_setopt ($session, CURLOPT_POSTFIELDS, $params);
+				// Tell curl not to return headers, but do return the response
+				curl_setopt($session, CURLOPT_HEADER, false);
+				curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
+				
+				// obtain response
+				$response = json_decode(curl_exec($session));
+				curl_close($session);
+				
+				return 'sent';
+			} else {
+				return 'failed';
+			}
+		} else {
+			return 'failed';
+		}
+	}
+	
 
 }

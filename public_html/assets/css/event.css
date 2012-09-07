@@ -1004,6 +1004,21 @@ a.buttonBox:hover {
 	background: #528a15;
 }
 
+#do-notify-wrap {
+	margin: 5px 0;
+	color: #999;
+	font-size: 12px;
+	line-height: 16px;
+}
+
+#do-notify-guests {
+	display: block;
+	width: 120px;
+	height: 33px;
+	text-indent: -8000px;
+	background: transparent url('/assets/img/btnSendEmail.png') no-repeat;
+}
+
 /**** OVERLAY CROPPING PHOTO ****/
 
 #cropInstructions {

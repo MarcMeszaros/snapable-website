@@ -137,12 +137,17 @@ class Event extends CI_Controller {
 				if ( $this->uri->segment(3) == "add" )
 				{
 					$this->load->view('event/guests-add');
-				} else if ( $this->uri->segment(3) == "notify" )
+				} 
+				else if ( $this->uri->segment(3) == "notify" && IS_AJAX )
 				{
 					$data = array(
 						'display' => "inline"
 					);
 					$this->load->view('email/guest_notification', $data);
+				} 
+				else if ( $this->uri->segment(3) == "count" && IS_AJAX )
+				{
+					echo $this->event_model->guestCount($_GET['resource_uri']);
 				} else {
 					show_404();
 				}
@@ -174,6 +179,10 @@ class Event extends CI_Controller {
 				);
 				
 				$this->load->view('event/slideshow', $data);
+			} 
+			else if ( $this->uri->segment(3) == "invites" && IS_AJAX )
+			{
+				echo $this->event_model->sendInvite($_POST);
 			} else {
 				show_404();
 			}
