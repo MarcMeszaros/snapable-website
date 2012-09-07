@@ -325,6 +325,11 @@ $(document).ready(function()
 	{
 		return false
 	});
+
+	$("#event-nav-menu-privacy input[type='button']").click(function(e){
+		alert('save me obi wan kenobi');
+	});
+
 	$(document).mouseup(function(e) {
 		if($(e.target).parent("a#event-nav-privacy").length==0) {
 			$("#event-nav-privacy").removeClass("menu-open");
