@@ -93,7 +93,7 @@ class Event extends CI_Controller {
 						
 					}
 					
-					if ( $event_details->event->privacy < 6 && ( isset($guestLoggedin) && $guestLoggedin != true ) )
+					if ( $event_details->event->privacy < 6 && ( !isset($guestLoggedin) || $guestLoggedin != true ) )
 					{
 						$this->load->view('common/header2', $head);
 						$this->load->view('event/guest_signin', $data);
