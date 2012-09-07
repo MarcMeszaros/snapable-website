@@ -985,6 +985,7 @@ a#guest-link-upload:hover, a#guest-link-manual:hover {
 	background: #fff url('/assets/img/textbox-inner-shadow.png') no-repeat;
 	font-size: 14px;
 	line-height: 18px;
+	color: #999;
 }
 
 a.buttonBox:link, a.buttonBox:visited {
