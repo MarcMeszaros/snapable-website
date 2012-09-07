@@ -93,7 +93,8 @@ class Event extends CI_Controller {
 						
 					}
 					
-					if ( $event_details->event->privacy < 6 && ( !isset($guestLoggedin) || $guestLoggedin != true ) )
+					// show the correct loggin screen if required
+					if ($event_details->event->privacy < 6 && ((!isset($guestLoggedin) || $guestLoggedin != true) && (!isset($ownerLoggedin) || $ownerLoggedin != true)))
 					{
 						$this->load->view('common/header2', $head);
 						$this->load->view('event/guest_signin', $data);
