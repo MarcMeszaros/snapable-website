@@ -792,10 +792,55 @@ Class Event_model extends CI_Model
 				$guestJSON = "";
 				foreach ( $result->objects as $r )
 				{
+					// get type text
+					$api_key = API_KEY;;
+					$api_secret = API_SECRET;
+					$verb = 'GET';
+					$path = '/private_v1/type/';
+					$x_path_nonce = $nonce;
+					$x_snap_date = gmdate("c");
+					
+					$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
+					$signature = hash_hmac('sha1', $raw_signature, $api_secret);
+		
+					$ch = curl_init();
+					curl_setopt($ch, CURLOPT_URL, 'http://devapi.snapable.com/private_v1/type/?format=json'); 
+					curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
+					curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
+					    'Content-Type: application/json',
+					    'X-SNAP-Date: ' . $x_snap_date ,
+					    'X-SNAP-nonce: ' . $x_path_nonce ,
+					    'Authorization: SNAP ' . $api_key . ':' . $signature                                                                       
+					));                                                                  
+					curl_setopt($ch, CURLOPT_TIMEOUT, '3');
+					                                                                                                    
+					$response = curl_exec($ch);
+					$type_result = json_decode($response);
+					$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+					curl_close($ch);
+					
+					if ( $httpcode == 200 )
+					{
+						if ( $type_result->meta->total_count > 0 )
+						{
+							foreach ( $type_result->objects as $t )
+							{
+								if ( $t->resource_uri == $r->type )
+								{
+									$type = $t->name;
+								}
+							}
+						} else {
+							$type = "Guest";
+						}
+					} else {
+						$type = "Guest";
+					}
+					
 					$guestJSON .= '{
 						"name": "' . $r->name . '",
 						"email": "' . $r->email . '",
-						"type": "' . $r->type . '"
+						"type": "' . $type . '"
 					},';
 				}
 				$guestJSON = substr($guestJSON, 0, -1);

@@ -1024,6 +1024,54 @@ a.buttonBox:hover {
 	background: transparent url('/assets/img/btnSendEmail.png') no-repeat;
 }
 
+/**** GUEST LIST ****/
+
+#guestlistBox ul {
+	padding: 50px;
+	list-style: none;
+	font-size: 14px;
+	line-height: 16px;
+}
+#guestlistBox li {
+	margin-bottom: 10px;
+	padding-bottom: 10px;
+	border-bottom: 1px dotted #ccc;
+}
+#guestlistBox li:after {
+	content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+#guestlistBox a:link, #guestlistBox a:visited {
+	color: #336699;
+	text-decoration: none;
+	font-weight: normal;
+}
+#guestlistBox a:hover {
+	color: #cc3300;
+	text-decoration: underline;
+}
+
+.guest-name {
+	float: left;
+	width: 206px;
+	color: #222222;
+}
+.guest-email {
+	float: left;
+	width: 206px;
+	margin: 0 40px;	
+}
+.guest-type {
+	float: right;
+	width: 206px;
+}
+
 /**** OVERLAY CROPPING PHOTO ****/
 
 #cropInstructions {
