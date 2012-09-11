@@ -366,9 +366,45 @@ $(document).ready(function()
 		{
 			$(".tabs li").removeClass("active");
 			$(this).parent().addClass("active");
-			$(".tab-content").hide();
-			$("#" + href + "Box").show();
+			
+			if ( href == "guestlist" )
+			{
+				$(".tab-content").hide();
+				$("#" + href + "Box").html("<div class='bar'><span></span></div>").show();
+				
+				// get guest list
+				var eid = eventID.split("/");
+				$.getJSON('/event/get/guests/' + eid[3], function(json) {
+					if ( json.status == 200 )
+					{
+						$.Mustache.load('/assets/js/templates.html').done(function () 
+						{
+							$("#" + href + "Box").fadeOut("fast", function()
+							{
+								// format results and then fadeIn
+								$("#" + href + "Box").html("<ul></ul>");
+								$.each(json.guests, function(key, val) 
+								{
+									var viewData = { 
+										name: val.name,
+										email: val.email,
+										type: val.type 
+									};
+									$("#" + href + "Box ul").mustache("guest-list", viewData);
+								});
+								$("#" + href + "Box").fadeIn("normal");
+							});
+						});
+					} else {
+						$("#" + href + "Box").html("You haven't added any guests to your event.");
+					}
+				});
+			} else {
+				$(".tab-content").hide();
+				$("#" + href + "Box").show();
+			}
 		}
+		return false;
 	});
 	
 	//$("#guest-link-upload").on("click", function(event) {
@@ -553,7 +589,7 @@ $(document).ready(function()
         });
 		var message = $("#notify-custom-message").val();
 		
-		if ( message == "" )
+		if ( message == "" || message == "Enter a message for your guests." )
 		{
 			alert("You haven't supplied a message for your guests.")
 		}
@@ -563,13 +599,19 @@ $(document).ready(function()
 		} else {
 			$.post("/event/send/invites", { resource_uri:eventID, message:message, sendto:sendTo }, function(data)
 			{
-				alert("replace notify area with notification that invites were sent")
+				if ( data == "sent" )
+				{
+					sendNotification("positive","Your invitations were successfully sent.");
+				} else {
+					alert("Sad trombone. We weren't able to email your guests the invitations, contact us and we'll be happy to help.");
+				}
 			});
 		}
 	});
 	
 	
-	$(document).on("click", "#notify-guests-yes", function(){
+	$(document).on("click", "#notify-guests-yes", function()
+	{
 		$("#overlay-tabs-add").removeClass("active");
 		$("#overlay-tabs-notify").addClass("active");
 		$("#add-guests-wrap").fadeOut("fast", function()
@@ -579,6 +621,41 @@ $(document).ready(function()
 		return false;
 	});
 	
+	$(document).on("click", "#guests-manual-done", function()
+	{
+		// check if there's anything in the textbox
+		if ( $("#guests-manual-textarea").val() == "" )
+		{
+			alert("It doesn't look like you've invited anyone to your event.");
+			$("#guests-manual-textarea").focus();
+		} else {
+			$.post("/parse/text", { eventURI:eventID, message:$("#guests-manual-textarea").val() }, function(data)
+			{
+				var json = jQuery.parseJSON(data);
+				if ( json.status == 200 )
+				{
+					// switch tab to notify and show content
+					$("#addTab").removeClass("active");
+					$("#notifyTab").addClass("active");
+					$("#addBox").fadeOut("fast", function()
+					{
+						$.get('/event/guests/count', { resource_uri:eventID }, function(count)
+						{
+							if ( count == 0 )
+							{
+								$("#do-notify-wrap").html("No guests have been invited yet.");
+							} else {
+								$("#do-notify-wrap").html('<a href="#" id="do-notify-guests">Send Email(s)</a>');
+							}
+						});
+						$("#notifyBox").fadeIn("fast");
+					});
+				} else {
+					alert("We weren't able to complete the upload of your guest list at this time.");
+				}
+			});
+		}
+	});
 	
 	/// GUEST LOGIN
 	

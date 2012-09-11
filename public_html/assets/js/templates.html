@@ -64,17 +64,19 @@
 	<ul class="tabs">
 		<li class="active" id="addTab"><a href="#add">Add</a></li>
 		<li id="notifyTab"><a href="#notify">Notify</a></li>
+		<li id="guestsTab"><a href="#guestlist">Guest List</a></li>
 	</ul>
 	
 	<div id="addBox" class="tab-content">{{>guest-addbox}}</div>
 	<div id="notifyBox" class="tab-content">{{>guest-notifybox}}</div>	
+	<div id="guestlistBox" class="tab-content">Guest List</div>	
 </script>
 
 
 <script id="guest-addbox" type="text/html">
 	<p>Add guests and let them know to download the Snapable mobile app before your big day. <em>Include their type* to give more access to some guests.</em></p>
 	
-	<p><em><a name="guest-type"></a><strong>* Types include: </strong>Organizer, Bride/Groom, Wedding Party, Family, or Guest</em></p>
+	<h3><em><a name="guest-type"></a><strong>* Types include: </strong>Organizer, Bride/Groom, Wedding Party, Family, or Guest</em></h3>
 	
 	<div id="guest-choices" class="choiceBox">{{>guest-options}}</div>
 </script>
@@ -153,9 +155,9 @@
 			Copy/paste (or type) your guests below then click "Done".
 			<br /><em>The expected format is <strong>Name, Email, Type</strong> (one per line)</em>
 			
-			<textarea></textarea>
+			<textarea id="guests-manual-textarea"></textarea>
 			
-			<a class="buttonBox" href="#">Done</a>
+			<a class="buttonBox" id="guests-manual-done" href="#">Done</a>
 </script>
 
 <script id="guest-csv-parse" type="text/html">
@@ -197,4 +199,8 @@
 
 <script id="guest-csv-row" type="text/html">
 	<li>{{text}}</li>
+</script>
+
+<script id="guest-list" type="text/html">
+	<li><div class="guest-name">{{name}}</div><div class="guest-email">{{email}}</div><div class="guest-type">{{type}}</div></li>
 </script>

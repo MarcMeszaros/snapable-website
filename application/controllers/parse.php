@@ -23,4 +23,34 @@ class Parse extends CI_Controller {
 		}
 	}
 	
+	function text()
+	{
+		if ( isset($_POST['message']) )
+		{
+			$message = explode("\n", $_POST['message']);
+			if ( empty($message) )
+			{
+				echo '{ "status":404 }';
+			} else {
+				$added = 0;
+				foreach ( $message as $m )
+				{
+					$status = $this->event_model->addManualGuests($m,$_POST['eventURI']);
+					if ( $status > 0)
+					{
+						$added++;
+					}
+				}
+				if ( $added > 0 )
+				{
+					echo '{ "status":200 }';
+				} else {
+					echo '{ "status":404 }';
+				}
+			}
+		} else {
+			echo '{ "status":404 }';
+		}
+	}
+	
 }

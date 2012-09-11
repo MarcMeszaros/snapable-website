@@ -25,6 +25,11 @@ body {
 	background: #67ac1c;
 	border-bottom: 1px solid #569117;
 }
+#notification.caution {
+	color: #fff;
+	background: #E3C27C;
+	border-bottom: 1px solid #c5a96e;
+}
 
 /**** EVENT TITLE AREA ****/
 
@@ -744,7 +749,7 @@ h3 {
 	border: 1px solid #e1e1e1;
 }
 
-#notifyBox {
+#notifyBox, #guestlistBox {
 	display: none;
 }
 

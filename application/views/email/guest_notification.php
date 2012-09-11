@@ -234,6 +234,10 @@
 	                                                        	{
 		                                                        	echo "<textarea id='notify-custom-message'>Enter a message for your guests.</textarea>";
 	                                                        	} 
+	                                                        	else if ( $display == "email" )
+	                                                        	{
+		                                                        	echo $name . '<b>' . $fromname . ' has sent you this message:</b><br /><br />' . $message;
+	                                                        	}
                                                         	}
                                                         	?>
                                                         </td>

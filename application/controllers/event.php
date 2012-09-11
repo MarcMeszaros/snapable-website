@@ -239,6 +239,11 @@ class Event extends CI_Controller {
 				$photos = $this->event_model->getEventsPhotos($this->uri->segment(4));
 				echo $photos; 
 			} 
+			else if ( $this->uri->segment(2) == "get" && $this->uri->segment(3) == "guests" && IS_AJAX )
+			{
+				$guests = $this->event_model->getGuests($this->uri->segment(4));
+				echo $guests;
+			}
 		} else {
 			show_404();
 		}
