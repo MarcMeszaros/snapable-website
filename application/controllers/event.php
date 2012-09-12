@@ -40,6 +40,13 @@ class Event extends CI_Controller {
 			if ( $this->uri->segment(2) == "find" )
 			{
 				echo "Find Events";
+			} 
+			else if ( $this->uri->segment(2) == "privacy" && IS_AJAX && isset($_POST) )
+			{
+				$event_uri = $_POST['event'];
+				$setting = $_POST['selected'];
+				
+				echo $this->event_model->updatePrivacy($event_uri, $setting);
 			} else {
 				$event_details = json_decode($this->event_model->getEventDetailsFromURL($this->uri->segment(2)));
 				

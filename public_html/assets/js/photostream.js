@@ -326,8 +326,21 @@ $(document).ready(function()
 		return false
 	});
 
-	$("#event-nav-menu-privacy input[type='button']").click(function(e){
-		alert('save me obi wan kenobi');
+	$(document).on("click", "#event-nav-menu-privacy input[type='button']", function(e)
+	{
+		var privacy_selected = $("input[name=privacy-setting]:checked").val();
+		$("#privacySaveWrap").html("<img src='/assets/img/spinner_blue_sm.gif' />");
+		$.post("/event/privacy", { event:eventID, selected:privacy_selected }, function(data)
+		{
+			var json = jQuery.parseJSON(data);
+			if ( json.status = 202 )
+			{
+				sendNotification("positive", "Your privacy settings have been updated.");
+				$("#privacySaveWrap").html("<input type='button' value='Save' />");
+			} else {
+				alert("This is embarassing, something went wrong on our end and we weren't able to change your privacy setting—never fear, we're on it!");
+			}
+		});
 	});
 
 	$(document).mouseup(function(e) {
@@ -359,7 +372,8 @@ $(document).ready(function()
 	
 	// INVITE GUESTS
 	
-	$(document).on("click", ".tabs a", function(){
+	$(document).on("click", ".tabs a", function()
+	{
 		var href = $(this).attr("href").substring(1);
 		
 		if ( $(this).parent().attr("class") != "active" )

@@ -34,14 +34,14 @@ var photos = <?= $eventDeets->photos ?>
 			<?php endif; ?>
 			
 			<?php if ($eventDeets->privacy == 6): ?>
-			<li>
+			<!--<li>
 				<a id="event-nav-share" href="#">Share</a>
 				<div id="event-nav-menu-share" class="event-nav-menu">
 					<a class="photo-share-twitter" href="#">Tweet</a> 
 					<a class="photo-share-facebook" href="#">Share</a> 
 					<a class="photo-share-email" href="#">Email</a>
 				</div>
-			</li>
+			</li>-->
 			<?php endif; ?>
 
 			<?php if ($ownerLoggedin): ?>
@@ -58,7 +58,7 @@ var photos = <?= $eventDeets->photos ?>
 						<li><input type="radio" name="privacy-setting" value="1" <?php echo ($eventDeets->privacy == 6) ? 'checked="checked"':''; ?>/> Public</li>
 					</ul>
 					<div class="clearit">&nbsp;</div>
-					<input type="button" value="Save" />
+					<div id='privacySaveWrap'><input type="button" value="Save" /></div>
 				</div>
 			</li>
 		<?php endif; ?>

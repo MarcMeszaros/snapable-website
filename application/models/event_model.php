@@ -804,7 +804,7 @@ Class Event_model extends CI_Model
 					$signature = hash_hmac('sha1', $raw_signature, $api_secret);
 		
 					$ch = curl_init();
-					curl_setopt($ch, CURLOPT_URL, 'http://devapi.snapable.com/private_v1/type/?format=json'); 
+					curl_setopt($ch, CURLOPT_URL, API_HOST . '/private_v1/type/?format=json'); 
 					curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
 					curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
 					    'Content-Type: application/json',
@@ -855,6 +855,64 @@ Class Event_model extends CI_Model
 			$json = '{ "status": 404 }';
 		}
 		return $json;
+	}
+	
+	
+	function updatePrivacy($event_uri, $setting)
+	{
+		if ( $setting == 0 )
+		{
+			$type_uri = "/private_v1/type/5/";	
+		} else {
+			$type_uri = "/private_v1/type/6/";
+		}
+		
+		$json = '{
+			"type": "' . $type_uri . '"
+		}';
+		
+		$length = 8;
+		$nonce = "";
+		while ($length > 0) {
+		    $nonce .= dechex(mt_rand(0,15));
+		    $length -= 1;
+		}
+		
+		$api_key = API_KEY;;
+		$api_secret = API_SECRET;
+		$verb = 'PUT';
+		$path = $event_uri;
+		$x_path_nonce = $nonce;
+		$x_snap_date = gmdate("c");
+		
+		$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
+		$signature = hash_hmac('sha1', $raw_signature, $api_secret);
+       
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, API_HOST . $event_uri);                                                                   
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $json);   
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");  
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
+		    'Content-Type: application/json',
+		    'X-SNAP-Date: ' . $x_snap_date ,
+		    'X-SNAP-nonce: ' . $x_path_nonce ,
+		    'Authorization: SNAP ' . $api_key . ':' . $signature                                                                       
+		));                          
+ 
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+               
+        if(!$response) {
+            return '{
+	        	"status": 404
+	        }';
+        } else {
+        	return '{
+	        	"status": ' . $httpcode . '
+	        }';
+        }
 	}
 	
 

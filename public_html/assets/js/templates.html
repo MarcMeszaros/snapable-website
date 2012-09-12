@@ -1,6 +1,20 @@
 <script id="event-list-photo" type="text/html">
 	<div class="photo">
 		<div class="photo-overlay">
+			<div class="photo-buttons">
+				<a class="button addto-prints" href="#">Add to Prints</a>
+			</div>
+			<a class="photo-enlarge" href="{{url}}" title="Enlarge">Enlarge</a>
+			<!--<a class="photo-download" href="#" title="Download">Download</a>-->
+		</div>
+		<img src="{{photo}}" />
+		<img class="photo-comment" title="{{caption}}" src="/assets/img/icons/{{caption_icon}}" /> {{photographer}}	
+	</div>
+</script>
+
+<script id="event-list-photo-with-sharing" type="text/html">
+	<div class="photo">
+		<div class="photo-overlay">
 			<ul class="photo-share">
 				<li><a class="photo-share-twitter" href="#">Tweet</a></li>
 				<li><a class="photo-share-facebook" href="#">Share</a></li>
