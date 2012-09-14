@@ -23,10 +23,33 @@ function firstRunSlideshow()
     })
 }
 
+function createCookie(name,value,days) {
+	if (days) {
+		var date = new Date();
+		date.setTime(date.getTime()+(days*24*60*60*1000));
+		var expires = "; expires="+date.toGMTString();
+	}
+	else var expires = "";
+	document.cookie = name+"="+value+expires+"; path=/";
+}
+function readCookie(name) {
+	var nameEQ = name + "=";
+	var ca = document.cookie.split(';');
+	for(var i=0;i < ca.length;i++) {
+		var c = ca[i];
+		while (c.charAt(0)==' ') c = c.substring(1,c.length);
+		if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+	}
+	return null;
+}
+
+
 $(document).ready(function() 
 {  
 	var csvFilename = "";
 	var photoJSON = '{ "objects": [';
+	var photoArr = new Array();
+	createCookie('phCart', '','90');
 	
 	if ( photos > 0 )
 	{	
@@ -52,7 +75,8 @@ $(document).ready(function()
 								caption_icon = "blank.png";
 							}
 							
-							var viewData = { 
+							var viewData = {
+								id: resource_uri[3], 
 								url: '/p/' + resource_uri[3],
 								photo: '/p/get/' + resource_uri[3] + '/200x200',
 								caption: val.caption,
@@ -203,6 +227,7 @@ $(document).ready(function()
 						caption_icon = "blank.png";
 					}
 					var viewData = { 
+						id: resource_uri[3], 
 						url: '/p/' + resource_uri[3],
 						photo: '/p/get/' + resource_uri[3] + '/200x200',
 						caption: val.caption,
@@ -212,8 +237,10 @@ $(document).ready(function()
 					$('#photoArea').mustache('event-list-photo', viewData);
 				} else {
 					// LATHER, RINSE, REPEAT
+					var resource_uri = val.resource_uri.split("/");
 					var caption = val.caption.replace(/"/g,"'");
 					photoJSON += '{' +
+		                '"id": "' + resource_uri[3] + '",' +
 		                '"author_name": "' + val.author_name + '",' +
 		                '"caption": "' + caption + '",' +
 		                '"event": "' + val.event + '",' +
@@ -274,8 +301,46 @@ $(document).ready(function()
 	{ 
 		var count = parseFloat($("#in-cart-number").html()) + 1;
 		$("#in-cart-number").html(count);
+		$(this).parent().parent().parent().addClass("photoInCart");
+		$(this).removeClass("addto-prints").addClass("removefrom-prints").html("Remove from Prints");
 		// store reference of photos id somewhere
+		var photoCart = readCookie('phCart');
+		var photoID = $(this).attr("href").substring(1);
+		
+		if ( photoCart != null )
+		{
+			var addID = photoCart + "," + photoID;
+			createCookie('phCart', addID,'90');
+		} else {
+			createCookie('phCart', photoID,'90');	
+		}
+		//
 		sendNotification("positive", "The photo was added to your cart.");
+	});
+	$(document).on("click", ".removefrom-prints", function()
+	{ 
+		var count = parseFloat($("#in-cart-number").html()) - 1;
+		if ( count < 0 )
+		{
+			count = 0;
+		}
+		$("#in-cart-number").html(count);
+		$(this).parent().parent().parent().removeClass("photoInCart");
+		$(this).removeClass("removefrom-prints").addClass("addto-prints").html("Add to Prints");
+		// remove reference from cart
+		var photoCart = readCookie('phCart');
+		var photoArr = photoCart.split(",");
+		var photoID = $(this).attr("href").substring(1);
+		var inPhotoArr = photoArr.indexOf(photoID);
+		if ( inPhotoArr >= 0 )
+		{
+			// remove from array
+			photoArr.splice(inPhotoArr,1);
+			var newIDstring = photoArr.toString();
+			createCookie('phCart', newIDstring,'90');
+		}
+		//
+		sendNotification("caution", "The photo was removed from your cart.");
 	});
 	
 	// SLIDESHOW MENU
@@ -668,6 +733,20 @@ $(document).ready(function()
 					alert("We weren't able to complete the upload of your guest list at this time.");
 				}
 			});
+		}
+	});
+	
+	/// CHECKOUT 
+	
+	$('#checkout').click( function(e)
+	{
+		e.preventDefault();
+		var photos_in_cart = parseFloat($("#in-cart-number").html());
+		if ( photos_in_cart == 0 )
+		{
+			alert("You haven't added any photos yet.");
+		} else {
+			
 		}
 	});
 	

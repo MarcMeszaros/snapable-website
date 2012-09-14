@@ -12,12 +12,6 @@ var photos = <?= $eventDeets->photos ?>
 		<h1><?= $eventDeets->display_timedate ?></h1>
 		<h2><?= $eventDeets->title ?></h2>
 		<ul id="event-nav">
-			<li><span>Photostream</span></li>
-			<li><a id="uploadBTN" href="#">Upload Photos</a></li>
-			<?php if ( $eventDeets->photos > 0 )
-			{
-				echo '<li><a href="/event/' . $eventDeets->url . '/slideshow">Slideshow</a></li>';
-			} ?>
 
 			<?php
 				// get session vars
@@ -28,6 +22,14 @@ var photos = <?= $eventDeets->photos ?>
 				$ownerLoggedin = ( $session_owner['loggedin'] == true ) ? true : false;
 				$guestLoggedin = ( $session_guest['loggedin'] == true ) ? true : false;
 			?>
+			<li><span>Photostream</span></li>
+			<?php if ($eventDeets->privacy <= 5): ?>
+			<li><a id="uploadBTN" href="#">Upload Photos</a></li>
+			<?php endif; ?>
+			<?php if ( $eventDeets->photos > 0 )
+			{
+				echo '<li><a href="/event/' . $eventDeets->url . '/slideshow">Slideshow</a></li>';
+			} ?>
 
 			<?php if ($ownerLoggedin): ?>
 			<li><a href="#guest" id="guestBTN">Invite Guests</a></li>

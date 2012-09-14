@@ -25,10 +25,50 @@
 
 <body id="top">
 
+	<div id="notification"></div>
+
 	<div id="homeHeadWrap">
+		<?php if ( isset($loggedInBar) )
+		{
+			if (  $loggedInBar == "owner" )
+			{
+				/*
+				print_r($this->session->userdata('logged_in'));
+				
+				Array ( [email] => andrew@snapable.com [fname] => Andrew [lname] => Draper [resource_uri] => /private_v1/user/92/ [loggedin] => 1 )
+				*/
+				$arr = $this->session->userdata('logged_in');
+				$name = $arr['fname'] . " " . substr($arr['lname'], 0,1) . ".";
+				$signout_url = "/account/signout";
+				$dash_link = "<a href='/account/dashboard'>Dashboard</a> / ";
+			}
+			else if ( $loggedInBar == "guest" )
+			{
+				$arr = $this->session->userdata('guest_login');
+				$name = $arr['name'];
+				$signout_url = "/event/" . $url . "/signout";
+				$dash_link = "";
+			} else {
+				$name = "Unknown";
+				$signout_url = "unknown";
+				$dash_link = "";
+			}
+			echo "<div id='signedInBar'><div id='signedInText'>Signed In as <strong>" . $name . "</strong> / " . $dash_link . "<a href='" . $signout_url . "'>Sign Out</a></div></div>";
+		}
+		?>
 		<div id="homeHead">
-			
+			<?php if ( $type == "event" ) { ?>
+			<div id="checkout-buttons">
+				<div id="in-cart">
+					<div id="in-cart-number">0</div>
+					Photos in cart
+				</div>
+				<a id="checkout" href="#">Checkout</a>
+			</div>
+			<a id="headLogo" href="/">Snapable</a>
+			<?php } else { ?>
 			<a id="centeredLogo" href="/">Snapable</a>
+			<?php } ?>
 			
 		</div>
 	</div>

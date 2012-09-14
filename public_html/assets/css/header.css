@@ -3,7 +3,7 @@
 	z-index: 3;
 	top: 0;
 	width: 100%;
-	height: 65px;
+	height: 95px;
 	background: #fff;
 	border-bottom: 1px solid #999;
 	/*
@@ -55,8 +55,8 @@
 	display: block;
 	width: 281px;
 	height: 76px;
-	margin: 12px auto 0 auto;
-	background: transparent url('/assets/img/snapable-lrg.png') no-repeat;
+	margin: 6px auto 0 auto;
+	background: transparent url('/assets/img/snapable-sm.png') no-repeat center top;
 	text-indent: -8000px;
 	overflow: hidden;
 }
@@ -111,4 +111,55 @@
 }
 #headLinks a:hover {
 	background: #3399cc;
+}
+
+/**** CHECKOUT LINKS ****/
+
+#checkout-buttons {
+	float: right;
+	display: inline;
+	width: 210px;
+	height: 60px;
+	padding-top: 5px;
+}
+#checkout-buttons:after {
+	content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+    margin: 0;
+    padding: 0;
+}
+#in-cart {
+	float: left;
+	display: inline-block;
+	width: 89px;
+	height: 55px;
+	background: #ffcc99;
+	color: #999;
+	font-size: 11px;
+	line-height: 13px;
+	text-align: center;
+	
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+}
+#in-cart-number {
+	padding: 2px 0 0 0;
+	color: #fff;
+	font-size: 32px;
+	line-height: 34px;
+}
+#checkout {
+	float: right;
+	display: inline-block;
+	width: 120px;
+	height: 55px;
+	overflow: hidden;
+	text-indent: -8000px;
+	background: #ff6600 url('/assets/img/checkout.png') no-repeat center center;
+	
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
 }

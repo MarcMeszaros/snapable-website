@@ -55,47 +55,6 @@ body {
 	line-height: 32px;
 	}
 
-#checkout-buttons {
-	float: right;
-	display: inline;
-	width: 210px;
-	height: 60px;
-}
-#checkout-buttons:after {
-	content: ".";
-    display: block;
-    height: 0;
-    clear: both;
-    visibility: hidden;
-    margin: 0;
-    padding: 0;
-}
-#in-cart {
-	float: left;
-	display: inline-block;
-	width: 89px;
-	height: 60px;
-	background: #ffcc99;
-	color: #999;
-	font-size: 11px;
-	line-height: 13px;
-	text-align: center;
-}
-#in-cart-number {
-	padding: 4px 0 0 0;
-	color: #fff;
-	font-size: 40px;
-	line-height: 42px;
-}
-#checkout {
-	float: right;
-	display: inline-block;
-	width: 120px;
-	height: 60px;
-	overflow: hidden;
-	text-indent: -8000px;
-	background: #ff6600 url('/assets/img/checkout.png') no-repeat;
-}
 
 #setup-wrap {
 	width: 790px;
@@ -442,8 +401,6 @@ a.button:link, a.button:visited {
 	font-size: 16px;
 	line-height: 18px;
 	color: #fff;
-	background: #66ccff;
-	border: 2px solid #52b0df;
 	text-decoration: none;
 	border-radius: 8px;
 	-moz-box-shadow: 1px 1px 2px 1px #333;
@@ -1205,4 +1162,19 @@ a#facebook {
 }
 a#email {
 	background: transparent url('/assets/img/icons/32px/email.png') no-repeat;
+}
+
+/**** CHECKOUT / CART STUFF ****/
+
+.photoInCart {
+	color: #666;
+	background-color: #ffcc99;
+}
+.addto-prints {
+	background: #66ccff;
+	border: 2px solid #52b0df;
+}
+.removefrom-prints {
+	background: #ff3300;
+	border: 2px solid #cc3300;
 }
