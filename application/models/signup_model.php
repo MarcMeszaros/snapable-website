@@ -193,6 +193,8 @@ Class Signup_model extends CI_Model
 	        */
 	    
 	    // USER
+	    $email_address = $user['email'];
+	    
 	    $json = '{
 			"billing_zip": "00000",
 		    "email": "' . $user['email'] . '",
@@ -353,8 +355,8 @@ Class Signup_model extends CI_Model
 					$from = 'Snapable@snapable.com';
 					
 					$subject = 'Say Cheese, a Snapable Sign-up!';
-					$message_html = '<p><b>Woot!</b> ' . $user['email'] . ' just signed up to Snapable.</p><p>Their event starts ' . date( "Y-m-d", $start_timestamp ) . " @ " . date( "H:i:s", $start_timestamp ) . ' until ' . date( "Y-m-d", $end_timestamp ) . " @ " . date( "H:i:s", $end_timestamp ) . '.</p>';
-					$message_text = 'Woot! ' . $user['email'] . ' just signed up to Snapable. Their event starts ' . date( "Y-m-d", $start_timestamp ) . " @ " . date( "H:i:s", $start_timestamp ) . ' until ' . date( "Y-m-d", $end_timestamp ) . " @ " . date( "H:i:s", $end_timestamp ) . '.';
+					$message_html = '<p><b>Woot!</b> ' . $email_address . ' just signed up to Snapable.</p><p>Their event starts ' . date( "Y-m-d", $start_timestamp ) . " @ " . date( "H:i:s", $start_timestamp ) . ' until ' . date( "Y-m-d", $end_timestamp ) . " @ " . date( "H:i:s", $end_timestamp ) . '.</p>';
+					$message_text = 'Woot! ' . $email_address . ' just signed up to Snapable. Their event starts ' . date( "Y-m-d", $start_timestamp ) . " @ " . date( "H:i:s", $start_timestamp ) . ' until ' . date( "Y-m-d", $end_timestamp ) . " @ " . date( "H:i:s", $end_timestamp ) . '.';
 					
 					$params = array(
 					    'api_user'  => $user,
