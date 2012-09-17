@@ -218,3 +218,14 @@
 <script id="guest-list" type="text/html">
 	<li><div class="guest-name">{{name}}</div><div class="guest-email"><a href="mailto:{{email}}">{{email}}</a></div><div class="guest-type">{{type}}</div></li>
 </script>
+
+<script id="checkout-photo" type="text/html">
+	<div class="photo">
+		<div class="photo-overlay">
+			<div class="photo-buttons">
+				<a class="button removefrom-prints" href="#{{id}}">Remove from Prints</a>
+			</div>
+		</div>
+		<img src="{{photo}}" />
+	</div>
+</script>

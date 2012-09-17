@@ -49,7 +49,7 @@ $(document).ready(function()
 	var csvFilename = "";
 	var photoJSON = '{ "objects": [';
 	var photoArr = new Array();
-	createCookie('phCart', '','90');
+	//createCookie('phCart', '','90');
 	
 	if ( photos > 0 )
 	{	
@@ -746,7 +746,7 @@ $(document).ready(function()
 		{
 			alert("You haven't added any photos yet.");
 		} else {
-			
+			window.location = "/checkout";
 		}
 	});
 	

@@ -4,7 +4,7 @@
 <head>
 
 	<meta charset="utf-8">
-	<title>Snapable - The easiest way to instantly capture every photo at your wedding without missing a single moment.</title>
+	<title><?php if ( isset($title) ) { echo $title; } else { echo "Snapable - The easiest way to instantly capture every photo at your wedding without missing a single moment."; } ?></title>
     
     <meta name="Keywords" content="" /> 
 	<meta name="Description" content="" />
@@ -57,7 +57,10 @@
 		}
 		?>
 		<div id="homeHead">
-			<?php if ( $type == "event" ) { ?>
+			<?php if ( isset($type) && $type == "checkout" ) { ?>
+			<div id="eventBackWrap"><a id="eventBack" href="<?= $url ?>">‹ Back to Event</a></div>
+			<?php } ?>
+			<?php if ( isset($type) && $type == "event" ) { ?>
 			<div id="checkout-buttons">
 				<div id="in-cart">
 					<div id="in-cart-number">0</div>
