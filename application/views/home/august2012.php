@@ -62,10 +62,14 @@
 			
 			<div id="logo">Snapable. Every moment at your wedding in photos</div>
 			
-			<ul id="nav">
-				<li><a href="signup" class="ajax" onClick="_gaq.push(['_trackEvent', 'Signups', 'Clicked', 'Signup (Header)']);">Sign-up</a></li>
+			<ul id="subnav">
+				<li><a href="/account">Login</a></li>
 				<li><a href="http://blog.snapable.com/" target="_blank">Blog</a></li>
 				<li><a href="#packages-pricing" class="anchorLink">Upgrades</a></li>
+			</ul>
+			
+			<ul id="nav">
+				<li><a href="signup" class="ajax" onClick="_gaq.push(['_trackEvent', 'Signups', 'Clicked', 'Signup (Header)']);">Sign-up</a></li>
 				<li><a href="#how-it-works" class="anchorLink">How It Works</a></li>
 				<li><a href="#why-use" class="anchorLink">Why Use Snapable?</a></li>
 			</ul>

@@ -4,7 +4,7 @@
 <head>
 
 	<meta charset="utf-8">
-	<title>Snapable - The easiest way to instantly capture every photo at your wedding without missing a single moment.</title>
+	<title>Dashboard / Snapable</title>
     
     <meta name="Keywords" content="" /> 
 	<meta name="Description" content="" />
@@ -20,6 +20,22 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="/min/j/<?= $js ?>"></script>
     <?php } ?>
+    <script type="text/javascript">
+<?php if ( $_SERVER['HTTP_HOST'] == "snapable.com" || $_SERVER['HTTP_HOST'] == "www.snapable.com" ) { ?>  
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-295382-36']);
+	  _gaq.push(['_setDomainName', 'snapable.com']);
+	  _gaq.push(['_trackPageview']);
+	
+	  (function() {
+	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+ <?php } else { ?> 
+ 	var _gaq = _gaq || [];
+ <?php } ?>
+	</script>
     
 </head>
 
@@ -114,9 +130,9 @@
 			
 				<div id="guest-content" class="hiding">
 				
-					<p>Go to your event page, add your guest list, set their roles* and let them know to get Snapable and share their photos.</p>
+					<p>Go to your event page, click "Invite Guests", upload or input manually your guests name, email address and their role in the wedding (Organizer, Bride/Groom, Wedding Party, Family, or Guest), customize a message to them (or don't) and send emails to them to let them know to use Snapable at your wedding.</p>
 
-					<p><em>* Roles will allow you to set who gets to see certain photos (in case you don’t want Aunt Ida seeing that photos of Uncle Jed dancing with the bridesmaids)</em></p>
+					<!--<p><em>* Roles will allow you to set who gets to see certain photos (in case you don’t want Aunt Ida seeing that photos of Uncle Jed dancing with the bridesmaids)</em></p>-->
 				
 				</div>
 			
@@ -140,7 +156,7 @@
 				
 				<div id="participate-content" class="showing">
 				
-					<p>Let guests know how to take part via customized table cards. <a href="/event/setup/<?= $eventDeets['url'] ?>/cards" id="get-table-card" class="button" rel="facebox">Get&nbsp;Table&nbsp;Cards &rarr;</a></p>
+					<p>If you haven't emailed your guests about Snapable (or there's guests that weren't on the list) use our custom table cards (see example) to inform them at the event. <a href="mailto:team@snapable.com">Email us</a> (<a href="mailto:team@snapable.com">team@snapable.com</a>) with how many cards you'll need, any custom messages you'd like to include and where you'd like the cards to be shipped.</p>
 				
 				</div>
 				
@@ -176,7 +192,7 @@
 				
 				<div id="remind-content" class="hiding">
 				
-					<p>Let your guests know to come view the photos (and allow them to order prints too!). <a href="/event/setup/<?= $eventDeets['url'] ?>/reminders" id="send-reminders" class="button" rel="facebox">Send Reminders &rarr;</a></p>
+					<p><strong>Coming soon!</strong>: Let your guests know to come view the photos (and allow them to order prints too!). <!--<a href="/event/setup/<?= $eventDeets['url'] ?>/reminders" id="send-reminders" class="button" rel="facebox">Send Reminders &rarr;</a>--></p>
 				
 				</div>
 			

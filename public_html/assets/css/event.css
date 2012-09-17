@@ -247,7 +247,7 @@ a.menu-open {
 }
 #eventFirstRunDots {
 	list-style: none;
-	width: 150px;
+	width: /*150px;*/ 60px;
 	margin: 0 auto;
 }
 #eventFirstRunDots a {
@@ -263,7 +263,7 @@ a.menu-open {
 	background-image: url('/assets/img/dotBlue.png');
 }
 #guestsText {
-	background: transparent url('/assets/img/firstrun/arrowGuests.png') no-repeat 20px 0;
+	background: transparent url('/assets/img/firstrun/arrowGuests-2.png') no-repeat 55px 30px;
 }
 #shareText {
 	background: transparent url('/assets/img/firstrun/arrowShare.png') no-repeat 20px 5px;

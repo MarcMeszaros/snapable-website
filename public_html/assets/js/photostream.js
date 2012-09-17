@@ -8,7 +8,7 @@ function firstRunSlideshow()
 {
 	$("#eventFirstRunText .displayMe").fadeOut("normal", function()
     {
-    	if ( slideCount == 5 )
+    	if ( slideCount >= 2 )
     	{
 	    	$(this).removeClass("displayMe")
 	    	$("#uploadText").fadeIn("normal").addClass("displayMe");
@@ -140,6 +140,12 @@ $(document).ready(function()
 	        // set dot buttons
 	        $(document).on("click", "#eventFirstRunDots a", function()
 	        {  
+	        	if ( $(this).attr("id") == "uploadDot" )
+	        	{
+		        	slideCount = 1;
+	        	} else {
+		        	slideCount = 2;
+	        	}
 	        	var clicked = $(this).attr("href").substring(1);
 	        	$("#eventFirstRunDots a").removeClass("blue");
 	        	$(this).addClass("blue");

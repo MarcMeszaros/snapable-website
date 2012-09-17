@@ -250,8 +250,8 @@ Class Signup_model extends CI_Model
 			
 			$start_timestamp = strtotime($event['start_date'] . " " . $event['start_time']);
 		    $end_timestamp = strtotime($event['end_date'] . " " . $event['end_time']);
-			$start = date( "Y-m-d", $start_timestamp ) . "T" . date( "H:i:s", $start_timestamp ); // formatted: 2010-11-10T03:07:43
-			$end = date( "Y-m-d", $end_timestamp ) . "T" . date( "H:i:s", $end_timestamp ); 
+			$start = gmdate( "c", $start_timestamp ); //date( "Y-m-d", $start_timestamp ) . "T" . date( "H:i:s", $start_timestamp ); // formatted: 2010-11-10T03:07:43
+			$end = gmdate( "c", $end_timestamp ); //date( "Y-m-d", $end_timestamp ) . "T" . date( "H:i:s", $end_timestamp ); 
 			
 			$created = date( "Y-m-d" ) . "T" . date( "H:i:s" );
 			
@@ -342,7 +342,48 @@ Class Signup_model extends CI_Model
 			        $this->session->set_userdata('logged_in', $sess_array);
 			        
 					$result = json_decode($response);
-				
+					
+					// SEND SIGN-UP NOTIFICATION EMAIL
+	
+					$url = 'http://sendgrid.com/';
+					$user = 'snapable';
+					$pass = 'Snapa!23'; 
+					
+					$to = 'marketing@snapable.com';
+					$from = 'Snapable@snapable.com';
+					
+					$subject = 'Say Cheese, a Snapable Sign-up!';
+					$message_html = '<p><b>Woot!</b> ' . $user['email'] . ' just signed up to Snapable.</p><p>Their event starts ' . date( "Y-m-d", $start_timestamp ) . " @ " . date( "H:i:s", $start_timestamp ) . ' until ' . date( "Y-m-d", $end_timestamp ) . " @ " . date( "H:i:s", $end_timestamp ) . '.</p>';
+					$message_text = 'Woot! ' . $user['email'] . ' just signed up to Snapable. Their event starts ' . date( "Y-m-d", $start_timestamp ) . " @ " . date( "H:i:s", $start_timestamp ) . ' until ' . date( "Y-m-d", $end_timestamp ) . " @ " . date( "H:i:s", $end_timestamp ) . '.';
+					
+					$params = array(
+					    'api_user'  => $user,
+					    'api_key'   => $pass,
+					    'to'        => $to,
+					    'subject'   => $subject,
+					    'html'      => $message_html,
+					    'text'      => $message_text,
+					    'from'      => $from,
+					  );
+					
+					$request =  $url.'api/mail.send.json';
+					
+					// Generate curl request
+					$session = curl_init($request);
+					// Tell curl to use HTTP POST
+					curl_setopt ($session, CURLOPT_POST, true);
+					// Tell curl that this is the body of the POST
+					curl_setopt ($session, CURLOPT_POSTFIELDS, $params);
+					// Tell curl not to return headers, but do return the response
+					curl_setopt($session, CURLOPT_HEADER, false);
+					curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
+					
+					// obtain response
+					$response = json_decode(curl_exec($session));
+					curl_close($session);
+					
+					echo "sent";
+					
 					return 1;
 				} else {
 					return 0;
