@@ -66,6 +66,12 @@ body {
 	background: transparent url('/assets/home/img/logo.png') no-repeat;
 	text-indent: -8000px;
 }
+#appstore {
+	float: right;
+	display: inline;
+	margin-top: 20px;
+	width: 120px;
+}
 
 ul#subnav {
 	display: inline;
@@ -139,6 +145,15 @@ ul#nav {
 	height: 640px;
 	margin: 0 auto;
 	color: #fff;
+}
+
+#appstore {
+	position: absolute;
+	top: 90px;
+	right: 110px;
+	z-index: 900;
+	width: 117px;
+	height: 40px;
 }
 
 #headline {

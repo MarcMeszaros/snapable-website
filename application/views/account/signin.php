@@ -73,7 +73,7 @@
 		
 		
 		<input type="submit" name="submit" value="Sign in" />
-		<a id="forgotPassword" href="/account/forgot">Forgot your password?</a>
+		<a id="forgotPassword" href="/account/reset">Forgot your password?</a>
 		
 	</form>
 

@@ -64,6 +64,14 @@ $(document).ready(function()
 				$("#photoRetriever").css({"display":"none"});
 				$.Mustache.load('/assets/js/templates.html').done(function () 
 				{
+					// check if any photos are in the cart
+					var photoCart = readCookie('phCart');
+					var photoArr = new Array();
+					if ( photoCart != null )
+					{
+						photoArr = photoCart.split(",");
+						$("#in-cart-number").html(photoArr.length);
+					}
 					$.each(json.response.objects, function(key, val) {
 						
 						if ( count <= 12 )
@@ -75,13 +83,27 @@ $(document).ready(function()
 								caption_icon = "blank.png";
 							}
 							
+							var inPhotoArr = photoArr.indexOf(resource_uri[3]);
+							var photoClass = "";
+							var buttonClass = "addto-prints";
+							var buttonText = "Add to Prints";
+							if ( inPhotoArr >= 0 )
+							{
+								photoClass = " photoInCart";
+								buttonClass = "removefrom-prints";
+								buttonText = "Remove from Prints";
+							}
+							
 							var viewData = {
 								id: resource_uri[3], 
 								url: '/p/' + resource_uri[3],
 								photo: '/p/get/' + resource_uri[3] + '/200x200',
 								caption: val.caption,
 								caption_icon: caption_icon,
-								photographer: val.author_name 
+								photographer: val.author_name,
+								photoClass: photoClass,
+								buttonClass: buttonClass,
+								buttonText: buttonText 
 							};
 							$('#photoArea').mustache('event-list-photo', viewData);
 						} else {	

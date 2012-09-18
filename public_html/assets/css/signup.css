@@ -66,6 +66,7 @@ section { margin-left: 20px; margin-bottom: 25px; }
 
 
 .form-fields hr {
+	clear: both;
   width: 350px;
   margin: 5px 0px 13px 0px;
   height: 1px;

@@ -47,7 +47,6 @@ var photos = <?= $eventDeets->photos ?>
 			<?php endif; ?>
 
 			<?php if ($ownerLoggedin): ?>
-			<!--
 			<li>
 				<a id="event-nav-privacy" href="#">Privacy</a>
 				<div id="event-nav-menu-privacy" class="event-nav-menu">
@@ -64,7 +63,6 @@ var photos = <?= $eventDeets->photos ?>
 					<div id='privacySaveWrap'><input type="button" value="Save" /></div>
 				</div>
 			</li>
-			-->
 		<?php endif; ?>
 		</ul>
 	</div>
