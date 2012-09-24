@@ -161,7 +161,7 @@ div.ui-datepicker{
 
 #event_location { float: left; width: 325px; }
 #user_email { float: left; width: 325px; }
-#event_url { float: left; width: 216px; }
+#event_url { float: left; width: 175px; }
 #event_location_status, #event_url_status, #email_status { float: right; width: 16px; margin-left: 5px; }
 
 #zip_field input { margin-bottom: 0; }

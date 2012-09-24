@@ -160,11 +160,11 @@
 					
 					<div class="form-field">
 						<label for="event_url">Pick a custom URL</label>
-						<span class="info left">snapable.com/</span><input id="event_url" name="event[url]" type="text" />
+						<span class="info left">snapable.com/event/</span><input id="event_url" name="event[url]" type="text" />
 						<span id="event_url_status">&nbsp;</span>
 						<div class="clearit">&nbsp;</div>
 						<div class="field-error" id="event_url_error">This URL is already in use.</div>
-						<div class="form-field_hint">Example: http://snapable.com/<b>my-big-fat-greek-wedding</div>
+						<div class="form-field_hint">Example: http://snapable.com/event/<b>my-big-fat-greek-wedding</div>
 					</div>
 					<div class="clearit">&nbsp;</div>
 				</div>
