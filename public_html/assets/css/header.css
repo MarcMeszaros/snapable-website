@@ -40,6 +40,7 @@
 #homeHead {
 	width: 920px;
 	margin: 0 auto;
+	position: relative;
 }
 #headLogo {
 	display: inline-block;
@@ -118,7 +119,7 @@
 #checkout-buttons {
 	float: right;
 	display: inline;
-	width: 210px;
+	width: 329px;
 	height: 60px;
 	padding-top: 5px;
 }
@@ -131,6 +132,71 @@
     margin: 0;
     padding: 0;
 }
+#upgradeChoices {
+	float: left;
+	display: inline-block;
+	width: 117px;
+	height: 37px;
+	padding-top: 18px;
+	text-align: center;
+	background: #ff6600;
+	border-right: 1px solid #fff;
+	
+	font-weight: bold;
+	font-size: 16px;
+	line-height: 20px;
+	color: #fff;
+	text-shadow: -1px -1px -1px #666;
+	text-decoration: none;
+	
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+	
+	background-image: linear-gradient(bottom, rgb(233,97,0) 50%, rgb(241,108,0) 50%);
+	background-image: -o-linear-gradient(bottom, rgb(233,97,0) 50%, rgb(241,108,0) 50%);
+	background-image: -moz-linear-gradient(bottom, rgb(233,97,0) 50%, rgb(241,108,0) 50%);
+	background-image: -webkit-linear-gradient(bottom, rgb(233,97,0) 50%, rgb(241,108,0) 50%);
+	background-image: -ms-linear-gradient(bottom, rgb(233,97,0) 50%, rgb(241,108,0) 50%);
+	
+	background-image: -webkit-gradient(
+		linear,
+		left bottom,
+		left top,
+		color-stop(0.5, rgb(233,97,0)),
+		color-stop(0.5, rgb(241,108,0))
+	);
+}
+#upgradeChoicesMenu {
+	display: none;
+	position:absolute;
+	width:300px;
+	z-index:100;
+	text-align:left;
+	padding:10px;
+	top: 52px; 
+	right: 110px;
+	/*
+	background: #ddeef6;
+	border-radius: 3px;
+	-webkit-box-shadow: 1px 1px 5px rgba(50, 50, 50, 0.75);
+	-moz-box-shadow:    1px 1px 5px rgba(50, 50, 50, 0.75);
+	box-shadow:         1px 1px 5px rgba(50, 50, 50, 0.75);
+	*/
+}
+.upgradeMenuTop {
+	width: 300px;
+	height: 14px;
+	background: transparent url('/assets/img/triangle_orange.png') no-repeat center center;
+}
+.upgradeMenuWrap {
+	background: #ec6c00;
+	border-radius: 5px;	
+	padding: 5px;
+	-webkit-box-shadow: 0px 1px 3px rgba(50, 50, 50, 0.75);
+	-moz-box-shadow:    0px 1px 3px rgba(50, 50, 50, 0.75);
+	box-shadow:         0px 1px 3px rgba(50, 50, 50, 0.75);
+}
+
 #in-cart {
 	float: left;
 	display: inline-block;
@@ -141,12 +207,9 @@
 	font-size: 11px;
 	line-height: 13px;
 	text-align: center;
-	
-	border-top-left-radius: 5px;
-	border-bottom-left-radius: 5px;
 }
 #in-cart-number {
-	padding: 2px 0 0 0;
+	padding: 4px 0 0 0;
 	color: #fff;
 	font-size: 32px;
 	line-height: 34px;
@@ -162,4 +225,102 @@
 	
 	border-top-right-radius: 5px;
 	border-bottom-right-radius: 5px;
+}
+
+
+
+.upgradeMenuContents {
+	background: #fff;
+	border-radius: 3px;
+	padding: 2px;
+	list-style: none;
+}
+
+.upgradeMenuContents li {
+	padding-bottom: 2px;
+	margin-bottom: 2px;
+	border-bottom: 1px dotted #ccc;
+}
+.upgradeMenuContents li:last-child {
+	border-bottom: none;
+	padding-bottom: 0;
+	margin-bottom: 0;
+}
+.upgradeMenuContents li:after {
+	content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+    margin: 0;
+    padding: 0;
+}
+.upgradeLeft {
+	float: left;
+	display: inline;
+	width: 140px;
+	padding: 14px 14px 0 14px;
+	color: #ccc;
+}
+.upgradeRight {
+	float: right;
+	display: inline;
+	width: 116px;
+}
+
+.upgradeTitle {
+	font-size: 24px;
+	line-height: 26px;
+	color: #ccc;
+}
+.upgradeTitle span {
+	color: #333;
+	font-weight: bold;
+}
+
+.smBoxTop {
+	padding: 0  0 0 7px;
+	/*background: transparent url('/assets/home/img/sm-box.png') no-repeat;*/
+	text-align: center;
+	font-size: 32px;
+	line-height: 28px;
+	color: #333;
+	font-weight: bold;
+}
+.smBoxPrints { 
+	/*margin-top: 5px;*/
+	font-size: 18px;
+	line-height: 20px;
+	color: #999;
+	font-weight: normal;
+}
+.smBoxPrice {
+	font-size: 32px;
+	line-height: 26px;
+	color: #367a9e;
+	font-weight: bold;
+	text-align: center;
+	background: transparent url('/assets/home/img/sm-grey-box.png') no-repeat;
+	padding: 10px 5px;
+}
+.smBoxPrice div {
+	margin-top: 10px;
+	font-size: 14px;
+	line-height: 16px;
+	color: #666;
+}
+.smBoxPrice div span { color: #ff9900; }
+
+.smBoxSmPrint {
+	font-size: 12px;
+	text-align: center;
+	color: #999;
+}
+
+a.addUpgrade {
+	display: block;
+	width: 58px;
+	height: 26px;
+	text-indent: -8000px;
+	background: transparent url('/assets/img/addSM.png') no-repeat;
 }

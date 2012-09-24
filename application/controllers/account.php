@@ -23,12 +23,19 @@ class Account extends CI_Controller {
 		} else {
 			$error = false;
 		}
+		if ( isset($_GET['reset']) )
+		{
+			$reset = true;
+		} else {
+			$reset = false;
+		}
 		
     	echo "&nbsp;";  
 		$data = array(
 			'css' => base64_encode('assets/css/setup.css,assets/css/signin.css'),
 			'js' => base64_encode('assets/js/signin.js'),
-			'error' => $error
+			'error' => $error,
+			'reset' => $reset
 		);
 		$this->load->view('account/signin', $data);
 	}
@@ -186,6 +193,79 @@ class Account extends CI_Controller {
 		$this->session->unset_userdata('logged_in');
 		//session_destroy();
 		redirect('/account/dashboard', 'refresh');
+	}
+	
+	function reset($nonce = NULL)
+	{
+		
+		echo "&nbsp;";  
+		$data = array(
+			'css' => base64_encode('assets/css/setup.css,assets/css/signin.css')
+		);
+		
+		if ( $nonce == NULL )
+		{
+			if ( isset($_GET['error']) )
+			{
+				$data['error'] = "<div id='error'>We weren't able to reset your password<br />Please try again.</div>";
+			} else {
+				$data['error'] = "";
+			}
+			$this->load->view('account/reset', $data);
+		} else {
+			$data['nonce'] = $nonce;
+			$this->load->view('account/new_password', $data);
+		}
+	}
+	
+	function doreset()
+	{
+		if ( isset($_POST) && isset($_POST['email']) )
+		{
+			$userDeets = json_decode($this->account_model->userDetails($_POST['email']));
+			
+			if ( $userDeets->status == 200 )
+			{
+				$resource_uri = explode("/", $userDeets->resource_uri);
+				$nonce = json_decode($this->account_model->doReset($resource_uri[3]));
+				
+				if ( $nonce = 1 )
+				{
+					echo "&nbsp;";  
+					$data = array(
+						'css' => base64_encode('assets/css/setup.css,assets/css/signin.css')
+					);
+					$this->load->view('account/email_sent', $data);
+				} else {
+					redirect("/account/reset?error");
+				}
+			} else {
+				echo '{
+					"status": 404
+				}';
+			}
+		} else {
+			echo '{
+				"status": 404
+			}';
+		}
+	}
+	
+	function password()
+	{
+		if ( isset($_POST['password']) && isset($_POST['nonce']) )
+		{
+			$reset = $this->account_model->completeReset($_POST['password'], $_POST['nonce']); 
+			
+			if ( $reset == 0 )
+			{
+				redirect("/account/reset/?error");
+			} else {
+				redirect("/account/signin?reset");
+			}
+		} else {
+			show_404();
+		}
 	}
 }
 

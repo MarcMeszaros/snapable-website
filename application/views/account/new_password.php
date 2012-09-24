@@ -16,10 +16,40 @@
     <?php if ( isset($css) ) { ?>
     <link rel="stylesheet" href="/min/c/<?= $css ?>" type="text/css" media="screen" />
     <?php } ?>
-    <?php if ( isset($js) ) { ?>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
-    <script type="text/javascript" src="/min/j/<?= $js ?>"></script>
-    <?php } ?>
+    <script type="text/javascript">
+	$(document).ready(function() 
+	{
+		$('form').submit(function(e) {
+			var pass = $("input[name=password]").val();
+			
+			if ( pass == "")
+			{
+				$("label[for=password]").css({ "color": "#cc3300" });
+				$("label[for=password] div.error2").fadeOut("fast");
+				$("label[for=password] div.error1").fadeIn("fast");
+				$("input[name=password]").addClass("inputError");
+				e.preventDefault();
+				return false;
+			}
+			else if ( pass.length < 6 )
+			{
+				$("label[for=password]").css({ "color": "#cc3300" });
+				$("label[for=password] div.error1").fadeOut("fast");
+				$("label[for=password] div.error2").fadeIn("fast");
+				$("input[name=password]").addClass("inputError");
+				e.preventDefault();
+				return false;
+			} else {
+				$("label[for=password]").css({ "color": "#999" });
+				$("input[name=password]").removeClass("inputError");
+				$("label[for=password] div.error1, label[for=password] div.error2").fadeOut("fast");
+				return true;
+			}
+			return false;
+		});
+	});     
+    </script>
     <script type="text/javascript">
 <?php if ( $_SERVER['HTTP_HOST'] == "snapable.com" || $_SERVER['HTTP_HOST'] == "www.snapable.com" ) { ?>  
 	  var _gaq = _gaq || [];
@@ -43,27 +73,12 @@
 
 	<img id="signLogo" src="/assets/img/logo-indented.png" alt="Snapable" />
 
-	<form id="signinWrap" name="signin" action="/account/validate" method="post">
+	<form id="signinWrap" name="signin" action="/account/password" method="post">
 	
-		<h1>Sign in to your account</h1>
-		<h2>Don't have an account? <a href="/#packages">Sign-up here</a></h2>
+		<h1>Reset your password</h1>
+		<h2>Enter a new password and click "Reset".</h2>
 		
 		<hr />
-		
-		<?php 
-		if ( $error == true ) {
-			echo "<div id='error'>Incorrect password or email address.</div>";	
-		} 
-		if ( $reset == true ) {
-			echo "<div id='reset'>Your password was successfully reset.</div>";	
-		} 
-		?>
-		
-		<label for="email">
-			Email Address
-			<div>This doesn't look like a proper email address</div>
-		</label>
-		<input type="text" name="email" />
 		
 		<label for="password">
 			Password
@@ -71,12 +86,12 @@
 			<div class="error2">Your password must be 6 or more characters</div>
 		</label>
 		<input type="password" name="password" />
+		<input type="hidden" name="nonce" value="<?= $nonce ?>" />
 		
 		<hr />
 		
 		
-		<input type="submit" name="submit" value="Sign in" />
-		<a id="forgotPassword" href="/account/reset">Forgot your password?</a>
+		<input type="submit" name="submit" value="Reset" />
 		
 	</form>
 

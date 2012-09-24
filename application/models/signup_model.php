@@ -351,7 +351,7 @@ Class Signup_model extends CI_Model
 					$user = 'snapable';
 					$pass = 'Snapa!23'; 
 					
-					$to = 'marketing@snapable.com';
+					$to = 'team@snapable.com';
 					$from = 'Snapable@snapable.com';
 					
 					$subject = 'Say Cheese, a Snapable Sign-up!';

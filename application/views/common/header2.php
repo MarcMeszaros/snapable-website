@@ -76,14 +76,21 @@
 			<?php if ( isset($type) && $type == "checkout" ) { ?>
 			<div id="eventBackWrap"><a id="eventBack" href="<?= $url ?>">‹ Back to Event</a></div>
 			<?php } ?>
-			<?php if ( isset($type) && $type == "event" ) { ?>
-			<!--<div id="checkout-buttons">
+			<?php if ( isset($type) && $type == "event" && isset($loggedInBar) && $loggedInBar == "owner" && $_SERVER['HTTP_HOST'] == "snapable" ) { ?>
+			<div id="upgradeChoicesMenu">
+				<div class="upgradeMenuTop">&nbsp;</div>
+				<div class="upgradeMenuWrap">
+					<ul class="upgradeMenuContents"></ul>
+				</div>
+			</div>
+			<div id="checkout-buttons">
+				<a id="upgradeChoices" href="#">See Upgrades</a>
 				<div id="in-cart">
 					<div id="in-cart-number">0</div>
 					Photos in cart
 				</div>
 				<a id="checkout" href="#">Checkout</a>
-			</div>-->
+			</div>
 			<a id="headLogo" href="/">Snapable</a>
 			<?php } else { ?>
 			<a id="centeredLogo" href="/">Snapable</a>

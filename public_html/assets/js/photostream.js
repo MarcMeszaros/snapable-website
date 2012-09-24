@@ -145,6 +145,38 @@ $(document).ready(function()
 					  }
 					); 
 					$('a.photo-enlarge').facebox();
+					
+					// LOAD UPGRADE MENU
+					
+					
+					var upgradesJSON = '{"upgrades": [{ "id": 1, "titleDrk": "Single", "titleLgt": "Prints", "desc": "Pay-as-you-go", "type": "Prints", "qty": 1, "addBTN": 0, "price": 1, "shipping": 3},{ "id": 2, "titleDrk": "12", "titleLgt": "Prints", "desc": "", "type": "Prints", "qty": 12, "addBTN": 1, "price": 11, "shipping": 0},{ "id": 3, "titleDrk": "24", "titleLgt": "Prints", "desc": "", "type": "Prints", "qty": 24, "addBTN": 1, "price": 19, "shipping": 0},{ "id": 4, "titleDrk": "36", "titleLgt": "Prints", "desc": "", "type": "Prints", "qty": 36, "addBTN": 1, "price": 27, "shipping": 0}]}';
+					var upgradeObj = jQuery.parseJSON(upgradesJSON);
+					
+					$.each(upgradeObj.upgrades, function(key, val) {
+						
+						if ( val.shipping == 0 )
+						{
+							uShipping = '<span>Free Shipping</span>';
+						} else {
+							uShipping = "$" + val.shipping + " Shipping";
+						}
+						
+						var addBTNhtml = val.desc;
+						if ( val.addBTN > 0 )
+						{
+							addBTNhtml = "<a class='addUpgrade' href='#' rel='" + val.id + "'>Add</a>";
+						}
+					
+						var viewData = {
+							id: val.id, 
+							titleDrk: val.titleDrk,
+							titleLgt: val.titleLgt,
+							desc: addBTNhtml,
+							price: val.price,
+							shipping: uShipping
+						};
+						$('.upgradeMenuContents').mustache('upgrade-list', viewData);
+					});
 				});
 			} else {
 				// hide loader and display error
@@ -228,6 +260,13 @@ $(document).ready(function()
 				errors = "";
 			}
 		}
+	});
+	
+	/**** ADD UPGRADE BUTTON ****/
+	$(document).on("click", ".addUpgrade", function(e)
+	{
+		var id = $(this).attr("rel");
+		alert(id)
 	});
 	
 	/**** OTHER ****/
@@ -404,6 +443,14 @@ $(document).ready(function()
 		});
 		//$("#guest").slideToggle();
 	});
+	
+	// UPGRADES MENU
+	$("#upgradeChoices").click(function(e) 
+	{          
+		e.preventDefault();
+        $("#upgradeChoicesMenu").toggle();
+		//$("#event-nav-privacy").toggleClass("menu-open");
+    });
 	
 	
 	// PRIVACY MENU

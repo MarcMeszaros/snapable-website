@@ -35,6 +35,14 @@ body {
 	text-align: center;
 }
 
+#reset {
+	color: #222222;
+	background: #99cc33;
+	padding: 10px;
+	border-radius: 5px;
+	text-align: center;
+}
+
 #signinWrap h1 {
 	font-size: 26px;
 	line-height: 30px;
