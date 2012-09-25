@@ -175,7 +175,7 @@ $(document).ready(function()
 							price: val.price,
 							shipping: uShipping
 						};
-						$('.upgradeMenuContents').mustache('upgrade-list', viewData);
+						$('#upgradeChoicesMenu .menuContents').mustache('upgrade-list', viewData);
 					});
 				});
 			} else {
@@ -262,12 +262,6 @@ $(document).ready(function()
 		}
 	});
 	
-	/**** ADD UPGRADE BUTTON ****/
-	$(document).on("click", ".addUpgrade", function(e)
-	{
-		var id = $(this).attr("rel");
-		alert(id)
-	});
 	
 	/**** OTHER ****/
 	
@@ -448,9 +442,37 @@ $(document).ready(function()
 	$("#upgradeChoices").click(function(e) 
 	{          
 		e.preventDefault();
+		$("#checkoutMenu").hide();
+		
         $("#upgradeChoicesMenu").toggle();
 		//$("#event-nav-privacy").toggleClass("menu-open");
     });
+	
+	/**** SHOW CHECKOUT BUTTON ****/
+	
+	$('#checkout').click( function(e)
+	{
+		e.preventDefault();
+		$("#upgradeChoicesMenu").hide();
+		
+		var photos_in_cart = parseFloat($("#in-cart-number").html());
+		if ( photos_in_cart == 0 )
+		{
+			alert("You haven't added any photos yet.");
+		} else {
+			// GET SELECTED PHOTOS
+			// #checkoutPhotos
+			var photoCart = readCookie('phCart');
+			var photoArr = new Array();
+			if ( photoCart != null )
+			{
+				photoArr = photoCart.split(",");
+				//$("#checkoutMenu").toggle();
+			} else {
+				alert("You haven't added any photos yet.");
+			}
+		}
+	});
 	
 	
 	// PRIVACY MENU
@@ -808,20 +830,6 @@ $(document).ready(function()
 					alert("We weren't able to complete the upload of your guest list at this time.");
 				}
 			});
-		}
-	});
-	
-	/// CHECKOUT 
-	
-	$('#checkout').click( function(e)
-	{
-		e.preventDefault();
-		var photos_in_cart = parseFloat($("#in-cart-number").html());
-		if ( photos_in_cart == 0 )
-		{
-			alert("You haven't added any photos yet.");
-		} else {
-			window.location = "/checkout";
 		}
 	});
 	

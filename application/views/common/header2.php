@@ -80,7 +80,13 @@
 			<div id="upgradeChoicesMenu">
 				<div class="upgradeMenuTop">&nbsp;</div>
 				<div class="upgradeMenuWrap">
-					<ul class="upgradeMenuContents"></ul>
+					<ul class="menuContents"></ul>
+				</div>
+			</div>
+			<div id="checkoutMenu">
+				<div class="checkoutMenuTop">&nbsp;</div>
+				<div class="checkoutMenuWrap">
+					<ul class="menuContents"><li id="checkoutPhotos">Display Selected Photos & cost</li></ul>
 				</div>
 			</div>
 			<div id="checkout-buttons">

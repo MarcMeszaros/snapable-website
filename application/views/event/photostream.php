@@ -31,9 +31,9 @@ var photos = <?= $eventDeets->photos ?>
 				echo '<li><a href="/event/' . $eventDeets->url . '/slideshow">Slideshow</a></li>';
 			} ?>
 
-			<?php if ($ownerLoggedin): ?>
+			<?php if ( $logged_in_user_resource_uri == $eventDeets->user ) { ?>
 			<li><a href="#guest" id="guestBTN">Invite Guests</a></li>
-			<?php endif; ?>
+			<?php } ?>
 			
 			<?php if ($eventDeets->privacy == 6): ?>
 			<!--<li>
@@ -46,7 +46,7 @@ var photos = <?= $eventDeets->photos ?>
 			</li>-->
 			<?php endif; ?>
 
-			<?php if ($ownerLoggedin): ?>
+			<?php if ( $logged_in_user_resource_uri == $eventDeets->user ): ?>
 			<li>
 				<a id="event-nav-privacy" href="#">Privacy</a>
 				<div id="event-nav-menu-privacy" class="event-nav-menu">

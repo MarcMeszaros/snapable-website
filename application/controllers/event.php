@@ -80,7 +80,9 @@ class Event extends CI_Controller {
 						
 						if ( $session_owner['loggedin'] == true )
 						{
+							$session_event = $this->session->userdata('event_deets');
 							$ownerLoggedin = true;
+							$data["logged_in_user_resource_uri"] = $session_owner['resource_uri'];
 							$head["loggedInBar"] = "owner"; 
 						} else {
 							$ownerLoggedin = false;

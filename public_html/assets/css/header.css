@@ -182,20 +182,52 @@
 	-moz-box-shadow:    1px 1px 5px rgba(50, 50, 50, 0.75);
 	box-shadow:         1px 1px 5px rgba(50, 50, 50, 0.75);
 	*/
-}
-.upgradeMenuTop {
-	width: 300px;
-	height: 14px;
-	background: transparent url('/assets/img/triangle_orange.png') no-repeat center center;
-}
-.upgradeMenuWrap {
-	background: #ec6c00;
-	border-radius: 5px;	
-	padding: 5px;
-	-webkit-box-shadow: 0px 1px 3px rgba(50, 50, 50, 0.75);
-	-moz-box-shadow:    0px 1px 3px rgba(50, 50, 50, 0.75);
-	box-shadow:         0px 1px 3px rgba(50, 50, 50, 0.75);
-}
+	}
+	.upgradeMenuTop {
+		width: 300px;
+		height: 14px;
+		background: transparent url('/assets/img/triangle_orange.png') no-repeat center center;
+	}
+	.upgradeMenuWrap {
+		background: #ec6c00;
+		border-radius: 5px;	
+		padding: 5px;
+		-webkit-box-shadow: 0px 1px 3px rgba(50, 50, 50, 0.75);
+		-moz-box-shadow:    0px 1px 3px rgba(50, 50, 50, 0.75);
+		box-shadow:         0px 1px 3px rgba(50, 50, 50, 0.75);
+	}
+
+#checkoutMenu {
+	display: none;
+	position:absolute;
+	width:300px;
+	z-index:100;
+	text-align:left;
+	padding:10px;
+	top: 52px; 
+	right: -100px;
+	/*
+	background: #ddeef6;
+	border-radius: 3px;
+	-webkit-box-shadow: 1px 1px 5px rgba(50, 50, 50, 0.75);
+	-moz-box-shadow:    1px 1px 5px rgba(50, 50, 50, 0.75);
+	box-shadow:         1px 1px 5px rgba(50, 50, 50, 0.75);
+	*/
+	}
+	.checkoutMenuTop {
+		width: 300px;
+		height: 14px;
+		background: transparent url('/assets/img/triangle_orange.png') no-repeat center center;
+	}
+	.checkoutMenuWrap {
+		background: #ec6c00;
+		border-radius: 5px;	
+		padding: 5px;
+		-webkit-box-shadow: 0px 1px 3px rgba(50, 50, 50, 0.75);
+		-moz-box-shadow:    0px 1px 3px rgba(50, 50, 50, 0.75);
+		box-shadow:         0px 1px 3px rgba(50, 50, 50, 0.75);
+	}
+
 
 #in-cart {
 	float: left;
@@ -229,24 +261,24 @@
 
 
 
-.upgradeMenuContents {
+.menuContents {
 	background: #fff;
 	border-radius: 3px;
 	padding: 2px;
 	list-style: none;
 }
 
-.upgradeMenuContents li {
+.menuContents li {
 	padding-bottom: 2px;
 	margin-bottom: 2px;
 	border-bottom: 1px dotted #ccc;
 }
-.upgradeMenuContents li:last-child {
+.menuContents li:last-child {
 	border-bottom: none;
 	padding-bottom: 0;
 	margin-bottom: 0;
 }
-.upgradeMenuContents li:after {
+.menuContents li:after {
 	content: ".";
     display: block;
     height: 0;

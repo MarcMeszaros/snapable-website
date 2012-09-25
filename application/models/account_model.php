@@ -211,13 +211,16 @@ Class Account_model extends CI_Model
 		if ( $httpcode == 200 )
 		{
 			$result = json_decode($response);
+			
 			return $array = array(
 			    "status" => 200,
+			    "resource_uri" => $result->objects[0]->resource_uri,
 			    "title" => $result->objects[0]->title,
 			    "url" => $result->objects[0]->url,
 			    "pin" => $result->objects[0]->pin,
 			    "start_timedate" => $result->objects[0]->start,
-			    "start_epoch" => strtotime($result->objects[0]->start)
+			    "start_epoch" => strtotime($result->objects[0]->start),
+			    "owner_resource_uri" => $result->objects[0]->user
 			);
 		} else {
 			return $array['status'] = 404;
