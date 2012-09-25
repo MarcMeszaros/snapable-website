@@ -21,9 +21,16 @@ var photos = <?= $eventDeets->photos ?>
 				// check if user is logged in		
 				$ownerLoggedin = ( $session_owner['loggedin'] == true ) ? true : false;
 				$guestLoggedin = ( $session_guest['loggedin'] == true ) ? true : false;
+				
+				if ( $logged_in_user_resource_uri == $eventDeets->user ) 
+				{
+					$show_upload = true;
+				} else {
+					$show_upload = false;
+				}
 			?>
 			<li><span>Photostream</span></li>
-			<?php if ($eventDeets->privacy <= 5): ?>
+			<?php if ($eventDeets->privacy <= 5 && $show_upload == true ): ?>
 			<li><a id="uploadBTN" href="#">Upload Photos</a></li>
 			<?php endif; ?>
 			<?php if ( $eventDeets->photos > 0 )
