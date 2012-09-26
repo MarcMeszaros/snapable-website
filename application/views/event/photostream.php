@@ -22,7 +22,7 @@ var photos = <?= $eventDeets->photos ?>
 				$ownerLoggedin = ( $session_owner['loggedin'] == true ) ? true : false;
 				$guestLoggedin = ( $session_guest['loggedin'] == true ) ? true : false;
 				
-				if ( $logged_in_user_resource_uri == $eventDeets->user ) 
+				if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ) 
 				{
 					$show_upload = true;
 				} else {
@@ -38,7 +38,7 @@ var photos = <?= $eventDeets->photos ?>
 				echo '<li><a href="/event/' . $eventDeets->url . '/slideshow">Slideshow</a></li>';
 			} ?>
 
-			<?php if ( $logged_in_user_resource_uri == $eventDeets->user ) { ?>
+			<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ) { ?>
 			<li><a href="#guest" id="guestBTN">Invite Guests</a></li>
 			<?php } ?>
 			
@@ -53,7 +53,7 @@ var photos = <?= $eventDeets->photos ?>
 			</li>-->
 			<?php endif; ?>
 
-			<?php if ( $logged_in_user_resource_uri == $eventDeets->user ): ?>
+			<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ): ?>
 			<li>
 				<a id="event-nav-privacy" href="#">Privacy</a>
 				<div id="event-nav-menu-privacy" class="event-nav-menu">
