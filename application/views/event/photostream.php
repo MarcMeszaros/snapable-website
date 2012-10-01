@@ -1,7 +1,24 @@
+<?php
+	// get session vars
+	$session_owner = $this->session->userdata('logged_in');
+	$session_guest = $this->session->userdata('guest_login');
+	
+	// check if user is logged in		
+	$ownerLoggedin = ( $session_owner['loggedin'] == true ) ? true : false;
+	$guestLoggedin = ( $session_guest['loggedin'] == true ) ? true : false;
+	
+	if ( (isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user) || $guestLoggedin ) 
+	{
+		$show_upload = true;
+	} else {
+		$show_upload = false;
+	}
+?>
+
 <script type="text/javascript">
 var eventID = "<?= $eventDeets->resource_uri ?>";
-var guestID = "/private_v1/guest/1/";
-var typeID = "/private_v1/type/1/";
+var guestID = "/private_v1/guest/<?php echo (isset($session_guest['id']))? $session_guest['id']: '1'; ?>/";
+var typeID = "/private_v1/type/<?php echo (isset($session_guest['type']))? $session_guest['type']: '1'; ?>/";
 var photos = <?= $eventDeets->photos ?>
 </script>
 
@@ -13,22 +30,6 @@ var photos = <?= $eventDeets->photos ?>
 		<h2><?= $eventDeets->title ?></h2>
 		<ul id="event-nav">
 
-			<?php
-				// get session vars
-				$session_owner = $this->session->userdata('logged_in');
-				$session_guest = $this->session->userdata('guest_login');
-				
-				// check if user is logged in		
-				$ownerLoggedin = ( $session_owner['loggedin'] == true ) ? true : false;
-				$guestLoggedin = ( $session_guest['loggedin'] == true ) ? true : false;
-				
-				if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ) 
-				{
-					$show_upload = true;
-				} else {
-					$show_upload = false;
-				}
-			?>
 			<li><span>Photostream</span></li>
 			<?php if ($eventDeets->privacy <= 5 && $show_upload == true ): ?>
 			<li><a id="uploadBTN" href="#">Upload Photos</a></li>

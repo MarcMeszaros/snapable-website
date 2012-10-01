@@ -205,7 +205,8 @@ Class Event_model extends CI_Model
 			$json = '{
 				"status": 200,
 				"name": "' . $result->objects[0]->name . '",
-				"type": "3"
+				"type": "' . substr($result->objects[0]->type, -2, 1) . '",
+				"resource_uri": "' . $result->objects[0]->resource_uri . '"
 			}';
 		} else {
 			$json = '{

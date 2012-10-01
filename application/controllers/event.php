@@ -95,7 +95,8 @@ class Event extends CI_Controller {
 						if ( $session_guest['loggedin'] == true )
 						{
 							$guestLoggedin = true;
-							$head["loggedInBar"] = "guest"; 
+							$head["loggedInBar"] = "guest";
+							$data['typeID'] = $session_guest['type'];
 						} else {
 							$guestLoggedin = false;
 						}
@@ -225,7 +226,9 @@ class Event extends CI_Controller {
 							
 							if ( $validation->status == 200 )
 							{
+								$guestID = explode("/", $validation->resource_uri);
 								$sess_array = array(
+								  'id' => $guestID[3],
 								  'name' => $validation->name,
 						          'email' => $_POST['email'],
 						          'type' => $validation->type,
@@ -266,10 +269,12 @@ class Event extends CI_Controller {
 
 								// the guest was properly created, set the session
 								if ($httpcode == 201) {
+									$guestID = explode("/", $response->objects[0]->resource_uri);
 									$sess_array = array(
+									  'id' => $guestID[3],
 									  'name' => '',
 							          'email' => $_POST['email'],
-							          'type' => '/private_v1/type/5/',
+							          'type' => '5',
 							          'loggedin' => true
 							        );
 							        $this->session->set_userdata('guest_login', $sess_array);
