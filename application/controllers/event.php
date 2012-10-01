@@ -233,7 +233,54 @@ class Event extends CI_Controller {
 						        );
 						        $this->session->set_userdata('guest_login', $sess_array);
 								redirect("/event/" . $eventDeets->event->url);
-							} else {
+							} 
+							else if ( $validation->status == 404 ) {
+								$json_array = array(
+									"email" => $_POST['email'],
+									"event" => $eventDeets->event->resource_uri,
+									"type" => "/private_v1/type/5/",
+								);
+								$json = json_encode($json_array);
+								
+								// if email address is not already a guest add
+								$verb = 'POST';
+								$path = '/private_v1/guest/';
+								$sign = SnapApi::sign($verb, $path);
+								
+								$ch = curl_init();
+								curl_setopt($ch, CURLOPT_URL, API_HOST . $path); 
+								curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $verb);                                                                     
+								curl_setopt($ch, CURLOPT_POSTFIELDS, $json);                                                                  
+								curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
+								curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
+								    'Content-Type: application/json',                                                                            
+								    'Content-Length: ' . strlen($json), 
+								    'X-SNAP-Date: ' . $sign['x_snap_date'],
+								    'X-SNAP-nonce: ' . $sign['x_snap_nonce'],
+								    'Authorization: SNAP ' . $sign['api_key'] . ':' . $sign['signature']                                                                       
+								));                                                                   
+								curl_setopt($ch, CURLOPT_TIMEOUT, '3');
+								$response = curl_exec($ch);
+								$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+								curl_close($ch);
+
+								// the guest was properly created, set the session
+								if ($httpcode == 201) {
+									$sess_array = array(
+									  'name' => '',
+							          'email' => $_POST['email'],
+							          'type' => '/private_v1/type/5/',
+							          'loggedin' => true
+							        );
+							        $this->session->set_userdata('guest_login', $sess_array);
+									redirect("/event/" . $eventDeets->event->url);
+								} 
+								// there was an error creating the guest
+								else {
+									redirect("/event/" . $eventDeets->event->url . "?error");
+								}
+							} 
+							else {
 								redirect("/event/" . $eventDeets->event->url . "?error");
 							}
 						} else {
