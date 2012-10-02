@@ -1,0 +1,5 @@
+# ignore OSX files
+.DS_Store
+
+# /www/themes/weddingrepublic/images/
+public_html/tmp-files/*
