@@ -204,34 +204,21 @@ Class Signup_model extends CI_Model
 		    "terms": true
 		}';
 		
-		$length = 8;
-		$nonce = "";
-		while ($length > 0) {
-		    $nonce .= dechex(mt_rand(0,15));
-		    $length -= 1;
-		}
-		
-		$api_key = API_KEY;
-		$api_secret = API_SECRET;
 		$verb = 'POST';
 		$path = '/private_v1/user/';
-		$x_path_nonce = $nonce;
-		$x_snap_date = gmdate("c");
-		
-		$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
-		$signature = hash_hmac('sha1', $raw_signature, $api_secret);
-		
+		$sign = SnapApi::sign($verb, $path);
+
 		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, API_HOST . '/private_v1/user/'); 
-		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
+		curl_setopt($ch, CURLOPT_URL, API_HOST . $path); 
+		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $verb);                                                                     
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $json);                                                                  
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
 		    'Content-Type: application/json',                                                                            
 		    'Content-Length: ' . strlen($json), 
-		    'X-SNAP-Date: ' . $x_snap_date ,
-		    'X-SNAP-nonce: ' . $x_path_nonce ,
-		    'Authorization: SNAP ' . $api_key . ':' . $signature                                                                       
+		    'X-SNAP-Date: ' . $sign['x_snap_date'],
+		    'X-SNAP-nonce: ' . $sign['x_snap_nonce'],
+		    'Authorization: SNAP ' . $sign['api_key'] . ':' . $sign['signature']                                                                       
 		));                                                                   
 		curl_setopt($ch, CURLOPT_TIMEOUT, '3');
 		$response = curl_exec($ch);
@@ -270,24 +257,21 @@ Class Signup_model extends CI_Model
 			    "enabled": true
 			}';
 			
+			$verb = 'POST';
 			$path = '/private_v1/event/';
-			$x_path_nonce = $nonce;
-			$x_snap_date = gmdate("c");
-			
-			$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
-			$signature = hash_hmac('sha1', $raw_signature, $api_secret);
+			$sign = SnapApi::sign($verb, $path);
 			
 			$ch = curl_init();
-			curl_setopt($ch, CURLOPT_URL, API_HOST . '/private_v1/event/'); 
-			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
+			curl_setopt($ch, CURLOPT_URL, API_HOST . $path); 
+			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $verb);                                                                     
 			curl_setopt($ch, CURLOPT_POSTFIELDS, $json);                                                                  
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
 			curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
 			    'Content-Type: application/json',                                                                            
 			    'Content-Length: ' . strlen($json), 
-			    'X-SNAP-Date: ' . $x_snap_date ,
-			    'X-SNAP-nonce: ' . $x_path_nonce ,
-			    'Authorization: SNAP ' . $api_key . ':' . $signature                                                                       
+			    'X-SNAP-Date: ' . $sign['x_snap_date'],
+			    'X-SNAP-nonce: ' . $sign['x_snap_nonce'],
+			    'Authorization: SNAP ' . $sign['api_key'] . ':' . $sign['signature']                                                                       
 			));                                                                   
 			curl_setopt($ch, CURLOPT_TIMEOUT, '3'); 
 			$response = curl_exec($ch);                                                                                
@@ -296,7 +280,7 @@ Class Signup_model extends CI_Model
 			
 			if ( $httpcode == 201 )
 			{
-				
+
 				$result = json_decode($response);
 				$event_uri = $result->resource_uri; 
 				
@@ -308,30 +292,56 @@ Class Signup_model extends CI_Model
 				    "lng": "' . $event['lng'] . '"
 				}';
 				
+				$verb = 'POST';
 				$path = '/private_v1/address/';
-				$x_path_nonce = $nonce;
-				$x_snap_date = gmdate("c");
-				
-				$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
-				$signature = hash_hmac('sha1', $raw_signature, $api_secret);
-				
+				$sign = SnapApi::sign($verb, $path);
+
 				$ch = curl_init();
-				curl_setopt($ch, CURLOPT_URL, API_HOST . '/private_v1/address/'); 
-				curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
+				curl_setopt($ch, CURLOPT_URL, API_HOST . $path); 
+				curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $verb);                                                                     
 				curl_setopt($ch, CURLOPT_POSTFIELDS, $json);                                                                  
 				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
 				curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
 				    'Content-Type: application/json',                                                                            
 				    'Content-Length: ' . strlen($json), 
-				    'X-SNAP-Date: ' . $x_snap_date ,
-				    'X-SNAP-nonce: ' . $x_path_nonce ,
-				    'Authorization: SNAP ' . $api_key . ':' . $signature                                                                       
+				    'X-SNAP-Date: ' . $sign['x_snap_date'],
+				    'X-SNAP-nonce: ' . $sign['x_snap_nonce'],
+				    'Authorization: SNAP ' . $sign['api_key'] . ':' . $sign['signature']                                                                       
 				));                                                                   
 				curl_setopt($ch, CURLOPT_TIMEOUT, '3'); 
 				$response = curl_exec($ch);                                                                                
 				$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-				curl_close($ch);  
+				curl_close($ch);
+
+				// add the user as the first guest
+				$json_array = array(
+					'event' => $event_uri,
+					'type' => '/private_v1/type/1/',
+					'email' => $user['email'],
+				    'name' => $user['first_name'] . ' ' . $user['last_name'],
+				);
+				$json = json_encode($json_array);
 				
+				$verb = 'POST';
+				$path = '/private_v1/guest/';
+				$sign = SnapApi::sign($verb, $path);
+
+				$ch = curl_init();
+				curl_setopt($ch, CURLOPT_URL, API_HOST . $path); 
+				curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $verb);                                                                     
+				curl_setopt($ch, CURLOPT_POSTFIELDS, $json);                                                                  
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
+				curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
+				    'Content-Type: application/json',                                                                            
+				    'Content-Length: ' . strlen($json), 
+				    'X-SNAP-Date: ' . $sign['x_snap_date'],
+				    'X-SNAP-nonce: ' . $sign['x_snap_nonce'],
+				    'Authorization: SNAP ' . $sign['api_key'] . ':' . $sign['signature']                                                                       
+				));                                                                   
+				curl_setopt($ch, CURLOPT_TIMEOUT, '3');
+				curl_exec($ch);
+				curl_close($ch);
+
 				if ( $httpcode == 201 )
 				{
 					$sess_array = array(
