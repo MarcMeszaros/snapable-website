@@ -2,7 +2,7 @@
 	// get session vars
 	$session_owner = $this->session->userdata('logged_in');
 	$session_guest = $this->session->userdata('guest_login');
-	
+
 	// check if user is logged in		
 	$ownerLoggedin = ( $session_owner['loggedin'] == true ) ? true : false;
 	$guestLoggedin = ( $session_guest['loggedin'] == true ) ? true : false;
@@ -13,11 +13,19 @@
 	} else {
 		$show_upload = false;
 	}
+
+	$guestID = '';
+	if (isset($session_owner['guest_id'])) {
+		$guestID = $session_owner['guest_id'];
+	} 
+	else if (isset($session_guest['id'])) {
+		$guestID = $session_guest['id'];
+	}
 ?>
 
 <script type="text/javascript">
 var eventID = "<?= $eventDeets->resource_uri ?>";
-var guestID = "/private_v1/guest/<?php echo (isset($session_guest['id']))? $session_guest['id']: '1'; ?>/";
+var guestID = "/private_v1/guest/<?= $guestID ?>/";
 var typeID = "/private_v1/type/<?php echo (isset($session_guest['type']))? $session_guest['type']: '1'; ?>/";
 var photos = <?= $eventDeets->photos ?>
 </script>

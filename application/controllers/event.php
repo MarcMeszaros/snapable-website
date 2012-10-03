@@ -83,7 +83,38 @@ class Event extends CI_Controller {
 							$session_event = $this->session->userdata('event_deets');
 							$ownerLoggedin = true;
 							$data["logged_in_user_resource_uri"] = $session_owner['resource_uri'];
-							$head["loggedInBar"] = "owner"; 
+							$head["loggedInBar"] = "owner";
+
+							// get the owner guest_id
+							// if email address is not already a guest add
+							$verb = 'GET';
+							$path = '/private_v1/guest/';
+							$sign = SnapApi::sign($verb, $path);
+
+							$eventID = explode("/",$event_details->event->resource_uri);
+							$ch = curl_init();
+							curl_setopt($ch, CURLOPT_URL, API_HOST . $path . '?event='.$eventID[3].'&email='.$session_owner['email']); 
+							//curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $verb);                                                                     
+							//curl_setopt($ch, CURLOPT_POSTFIELDS, $json);                                                                  
+							curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
+							curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
+							    'Content-Type: application/json', 
+							    'X-SNAP-Date: ' . $sign['x_snap_date'],
+							    'X-SNAP-nonce: ' . $sign['x_snap_nonce'],
+							    'Authorization: SNAP ' . $sign['api_key'] . ':' . $sign['signature']                                                                       
+							));                                                                   
+							curl_setopt($ch, CURLOPT_TIMEOUT, '3');
+							$response = curl_exec($ch);
+							$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+							curl_close($ch);
+							$response = json_decode($response);
+				
+							// the guest was properly created, set the session
+							if ($httpcode == 200) {
+								$guestID = explode("/", $response->objects[0]->resource_uri);
+								$session_owner['guest_id'] = $guestID[3];
+						        $this->session->set_userdata('logged_in', $session_owner);
+							}
 						} else {
 							$ownerLoggedin = false;
 						}
