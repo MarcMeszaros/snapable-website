@@ -113,7 +113,9 @@ $(document).ready(function()
 	$('#event_url').keyup(function() {
 		// replace spaces with dashes change uppercase to lowercase
 		var new_title = $("#event_url").val().replace(/&/g,"and");
-		var title = new_title.replace(/ /g,"-").toLowerCase();
+		new_title = new_title.replace(/ /g,"-");
+		new_title = new_title.replace(/[^a-zA-Z0-9_-]/g,"");
+		var title = new_title.toLowerCase();
 		// check if already in the database
 		$("#event_url").val(title);
 		checkUrl($("#event_url").val());
@@ -139,7 +141,9 @@ $(document).ready(function()
 		{
 			// replace spaces with dashes change uppercase to lowercase
 			var new_title = $("#event_title").val().replace(/&/g,"and");
-			var title = new_title.replace(/ /g,"-").toLowerCase();
+			new_title = new_title.replace(/ /g,"-");
+			new_title = new_title.replace(/[^a-zA-Z0-9_-]/g,"");
+			var title = new_title.toLowerCase();
 			// check if already in the database
 			var check = checkUrl(title);
 			//if ( check == false )
