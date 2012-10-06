@@ -18,7 +18,11 @@
  * NOTE: If you change these, also change the error_reporting() code below
  *
  */
+if ($_SERVER['HTTP_HOST'] == 'snapable.com' || $_SERVER['HTTP_HOST'] == 'www.snapable.com') {
+	define('ENVIRONMENT', 'production');
+} else {
 	define('ENVIRONMENT', 'development');
+}
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING
