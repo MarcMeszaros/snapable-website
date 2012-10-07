@@ -43,4 +43,64 @@ class SnapApi {
             'api_key' => self::$api_key,
         );
     }
+
+    /**
+     * Send an API request and return the results in an array.
+     */
+    public static function send($verb, $path, $params=array(), $headers=array()) {
+        // create the curl object and signature
+        $ch = curl_init();
+        $sign = self::sign($verb, $path);
+
+        // add some extra headers
+        $headers['Accept'] = 'application/json';
+        $headers['X-SNAP-Date'] = $sign['x_snap_date'];
+        $headers['X-SNAP-nonce'] = $sign['x_snap_nonce'];
+        $headers['Authorization'] = 'SNAP '.$sign['api_key'].':'. $sign['signature'];
+
+        // if it's a GET request, put params in query string
+        if ($verb == 'GET') {
+            $paramArray = array();
+            foreach ($params as $key => $value) {
+                $paramArray[] = $key.'='.$value;
+            }
+            $paramString = implode('&', $paramArray);
+            $queryString = (isset($paramString) && count($paramString) > 0)? '?'.$paramString:'';
+            curl_setopt($ch, CURLOPT_URL, API_HOST . $path . $queryString); 
+        } else {
+            // json encode the params
+            $json = json_encode($params);
+            $headers['Content-Length'] = strlen($json);
+            $headers['Content-Type'] = 'application/json';
+
+            // modify the request to include the json in body
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $verb);
+            curl_setopt($ch, CURLOPT_URL, API_HOST . $path);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
+        } 
+
+        // format the headers before appending
+        $headersArray = array();
+        foreach ($headers as $key => $value) {
+            $headersArray[] = $key.': '.$value;
+        }
+
+        // set various curl parameters
+        curl_setopt($ch, CURLOPT_TIMEOUT, '3');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headersArray);
+
+        // execute the request and parse response
+        $response = curl_exec($ch);
+        $response = str_replace('false', '"0"', $response);
+        $response = str_replace('true', '"1"', $response);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        // return the response string and response code in an array
+        return array(
+            'response' => $response,
+            'code' => $httpcode,
+        );
+    }
 }
