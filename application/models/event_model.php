@@ -4,40 +4,18 @@ Class Event_model extends CI_Model
 
 	function getEventDetailsFromURL($url)
 	{
-		$length = 8;
-		$nonce = "";
-		while ($length > 0) {
-		    $nonce .= dechex(mt_rand(0,15));
-		    $length -= 1;
-		}
-		
-		$api_key = API_KEY;;
-		$api_secret = API_SECRET;
 		$verb = 'GET';
 		$path = '/private_v1/event/';
-		$x_path_nonce = $nonce;
-		$x_snap_date = gmdate("Ymd", time()) . 'T' . gmdate("His", time()) . 'Z';
-		
-		$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
-		$signature = hash_hmac('sha1', $raw_signature, $api_secret);
-		
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, API_HOST . '/private_v1/event/?url=' . $url . '&format=json'); 
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
-		    'Content-Type: application/json',
-		    'X-SNAP-Date: ' . $x_snap_date ,
-		    'X-SNAP-nonce: ' . $x_path_nonce ,
-		    'Authorization: SNAP ' . $api_key . ':' . $signature                                                                       
-		));                                                                   
-		curl_setopt($ch, CURLOPT_TIMEOUT, '3');
+		$params = array(
+			'url' => $url,
+		);
+		$resp = SnapApi::send($verb, $path, $params);
 		                                                                                                    
-		$response = curl_exec($ch);
+		$response = $resp['response'];
 		$response = str_replace("false", "\"0\"", $response);
 		$response = str_replace("true", "\"1\"", $response);
 		$result = json_decode($response);
-		$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-		curl_close($ch);
+		$httpcode = $resp['code'];
 		
 		if ( $httpcode == 200 && $result->meta->total_count > 0 )
 		{
@@ -122,35 +100,14 @@ Class Event_model extends CI_Model
 	
 	function getEventsPhotos($id)
 	{
-		$length = 8;
-		$nonce = "";
-		while ($length > 0) {
-		    $nonce .= dechex(mt_rand(0,15));
-		    $length -= 1;
-		}
-		
-		$api_key = API_KEY;;
-		$api_secret = API_SECRET;
 		$verb = 'GET';
 		$path = '/private_v1/photo/';
-		$x_path_nonce = $nonce;
-		$x_snap_date = gmdate("Ymd", time()) . 'T' . gmdate("His", time()) . 'Z';
-		
-		$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
-		$signature = hash_hmac('sha1', $raw_signature, $api_secret);
-		
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, API_HOST . '' . $path . '?event=' . $id . '&format=json'); 
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
-		    'Content-Type: application/json',
-		    'X-SNAP-Date: ' . $x_snap_date ,
-		    'X-SNAP-nonce: ' . $x_path_nonce ,
-		    'Authorization: SNAP ' . $api_key . ':' . $signature                                                                       
-		));                                                                  
-		curl_setopt($ch, CURLOPT_TIMEOUT, '3');
-		                                                                                                    
-		$response = curl_exec($ch);
+		$params = array(
+			'event' => $id,
+		);
+		$resp = SnapApi::send($verb, $path, $params);
+
+		$response = $resp['response'];
 		
 		return '{
 					"status": 200,
@@ -164,41 +121,20 @@ Class Event_model extends CI_Model
 		$privacy = $details->event->privacy;
 		$pin = $details->event->pin;
 		$eventID = explode("/", $details->event->resource_uri);
-		
-		$length = 8;
-		$nonce = "";
-		while ($length > 0) {
-		    $nonce .= dechex(mt_rand(0,15));
-		    $length -= 1;
-		}
-		
-		$api_key = API_KEY;;
-		$api_secret = API_SECRET;
+
 		$verb = 'GET';
 		$path = '/private_v1/guest/';
-		$x_path_nonce = $nonce;
-		$x_snap_date = gmdate("Ymd", time()) . 'T' . gmdate("His", time()) . 'Z';
-		
-		$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
-		$signature = hash_hmac('sha1', $raw_signature, $api_secret);
-		
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, API_HOST . '/private_v1/guest/?email=' . $email . '&event=' . $eventID[3] . '&format=json'); 
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
-		    'Content-Type: application/json',
-		    'X-SNAP-Date: ' . $x_snap_date ,
-		    'X-SNAP-nonce: ' . $x_path_nonce ,
-		    'Authorization: SNAP ' . $api_key . ':' . $signature                                                                       
-		));                                                                  
-		curl_setopt($ch, CURLOPT_TIMEOUT, '3');
-		                                                                                                    
-		$response = curl_exec($ch);
+		$params = array(
+			'email' => $email,
+			'event' => $eventID[3],
+		);
+		$resp = SnapApi::send($verb, $path, $params);
+
+		$response = $resp['response'];
 		$response = str_replace("false", "\"0\"", $response);
 		$response = str_replace("true", "\"1\"", $response);
 		$result = json_decode($response);
-		$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-		curl_close($ch);
+		$httpcode = $resp['code'];
 		
 		if ( $httpcode == 200 && $result->meta->total_count > 0 )
 		{
@@ -222,39 +158,17 @@ Class Event_model extends CI_Model
 		$event = explode("/", $resource_uri);
 		$eventID = $event[3];
 		
-		$length = 8;
-		$nonce = "";
-		while ($length > 0) {
-		    $nonce .= dechex(mt_rand(0,15));
-		    $length -= 1;
-		}
-		
-		$api_key = API_KEY;;
-		$api_secret = API_SECRET;
 		$verb = 'GET';
 		$path = '/private_v1/guest/';
-		$x_path_nonce = $nonce;
-		$x_snap_date = gmdate("c");
-		
-		$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
-		$signature = hash_hmac('sha1', $raw_signature, $api_secret);
-		
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, API_HOST . '/private_v1/guest/?event=' . $eventID . '&format=json'); 
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
-		    'Content-Type: application/json',
-		    'X-SNAP-Date: ' . $x_snap_date ,
-		    'X-SNAP-nonce: ' . $x_path_nonce ,
-		    'Authorization: SNAP ' . $api_key . ':' . $signature                                                                       
-		));                                                                  
-		curl_setopt($ch, CURLOPT_TIMEOUT, '3');
-		                                                                                                    
-		$response = curl_exec($ch);
+		$params = array(
+			'event' => $eventID,
+		);
+		$resp = SnapApi::send($verb, $path, $params);
+
+		$response = $resp['response'];
 		$result = json_decode($response);
-		$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-		curl_close($ch);
-		
+		$httpcode = $resp['code'];
+
 		if ( $httpcode == 200 )
 		{
 			$num = $result->meta->total_count;
@@ -288,39 +202,16 @@ Class Event_model extends CI_Model
 		*/
 		
 		// GET LIST OF CURRENT GUESTS
-		
-		$length = 8;
-		$nonce = "";
-		while ($length > 0) {
-		    $nonce .= dechex(mt_rand(0,15));
-		    $length -= 1;
-		}
-		
-		$api_key = API_KEY;;
-		$api_secret = API_SECRET;
 		$verb = 'GET';
 		$path = '/private_v1/guest/';
-		$x_path_nonce = $nonce;
-		$x_snap_date = gmdate("c");
-		
-		$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
-		$signature = hash_hmac('sha1', $raw_signature, $api_secret);
-		
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, API_HOST . '/private_v1/guest/?event=' . $event_id[3] . '&format=json'); 
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
-		    'Content-Type: application/json',
-		    'X-SNAP-Date: ' . $x_snap_date ,
-		    'X-SNAP-nonce: ' . $x_path_nonce ,
-		    'Authorization: SNAP ' . $api_key . ':' . $signature                                                                       
-		));                                                                  
-		curl_setopt($ch, CURLOPT_TIMEOUT, '3');
-		                                                                                                    
-		$response = curl_exec($ch);
+		$params = array(
+			'event' => $event_id[3],
+		);
+		$resp = SnapApi::send($verb, $path, $params);
+
+		$response = $resp['response'];
 		$result = json_decode($response);
-		$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-		curl_close($ch);
+		$httpcode = $resp['code'];
 		
 		if ( $httpcode == 200 )
 		{
@@ -394,39 +285,20 @@ Class Event_model extends CI_Model
 						{
 							if ( !in_array($email, $emails))
 							{
-				        	    $json = '{
-									"email": "' . $email . '",
-									"event": "' . $event_uri . '",
-									"name": "' . $name . '",
-									"type": "' . $type_uri . '"
-								}';
-								
-								// if email address is not already a guest add
-								
+				        	    // if email address is not already a guest add
 								$verb = 'POST';
-								$x_path_nonce = $nonce;
-								$x_snap_date = gmdate("c");
-								
-								$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
-								$signature = hash_hmac('sha1', $raw_signature, $api_secret);
-								
-								$ch = curl_init();
-								curl_setopt($ch, CURLOPT_URL, API_HOST . '/private_v1/guest/'); 
-								curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
-								curl_setopt($ch, CURLOPT_POSTFIELDS, $json);                                                                  
-								curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
-								curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
-								    'Content-Type: application/json',                                                                            
-								    'Content-Length: ' . strlen($json), 
-								    'X-SNAP-Date: ' . $x_snap_date ,
-								    'X-SNAP-nonce: ' . $x_path_nonce ,
-								    'Authorization: SNAP ' . $api_key . ':' . $signature                                                                       
-								));                                                                   
-								curl_setopt($ch, CURLOPT_TIMEOUT, '3');
-								$response = curl_exec($ch);
-								$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-								curl_close($ch);
-								
+								$path = '/private_v1/guest/';
+								$params = array(
+									"email" => $email,
+									"event" => $event_uri,
+									"name" => $name,
+									"type" => $type_uri,
+								);
+								$resp = SnapApi::send($verb, $path, $params);
+
+								$response = $resp['response'];
+								$httpcode = $resp['code'];
+
 								if ( $httpcode == 201 )
 								{
 									$guest_count++;
@@ -475,39 +347,16 @@ Class Event_model extends CI_Model
 				$privacy_level = max($sendTo);
 				
 				// get guests
-				
-				$length = 8;
-				$nonce = "";
-				while ($length > 0) {
-				    $nonce .= dechex(mt_rand(0,15));
-				    $length -= 1;
-				}
-				
-				$api_key = API_KEY;;
-				$api_secret = API_SECRET;
 				$verb = 'GET';
 				$path = '/private_v1/guest/';
-				$x_path_nonce = $nonce;
-				$x_snap_date = gmdate("c");
-				
-				$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
-				$signature = hash_hmac('sha1', $raw_signature, $api_secret);
-				
-				$ch = curl_init();
-				curl_setopt($ch, CURLOPT_URL, API_HOST . '/private_v1/guest/?event=' . $event_id[3] . '&format=json'); 
-				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
-				curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
-				    'Content-Type: application/json',
-				    'X-SNAP-Date: ' . $x_snap_date ,
-				    'X-SNAP-nonce: ' . $x_path_nonce ,
-				    'Authorization: SNAP ' . $api_key . ':' . $signature                                                                       
-				));                                                                  
-				curl_setopt($ch, CURLOPT_TIMEOUT, '3');
-				                                                                                                    
-				$response = curl_exec($ch);
+				$params = array(
+					'event' => $event_id[3],
+				);
+				$resp = SnapApi::send($verb, $path, $params);
+
+				$response = $resp['response'];
 				$result = json_decode($response);
-				$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-				curl_close($ch);
+				$httpcode = $resp['code'];
 				
 				if ( $httpcode == 200 && $result->meta->total_count > 0 )
 				{
@@ -605,39 +454,16 @@ Class Event_model extends CI_Model
 			$guest_count = 0;
 			
 			// GET LIST OF CURRENT GUESTS
-		
-			$length = 8;
-			$nonce = "";
-			while ($length > 0) {
-			    $nonce .= dechex(mt_rand(0,15));
-			    $length -= 1;
-			}
-			
-			$api_key = API_KEY;;
-			$api_secret = API_SECRET;
 			$verb = 'GET';
 			$path = '/private_v1/guest/';
-			$x_path_nonce = $nonce;
-			$x_snap_date = gmdate("c");
-			
-			$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
-			$signature = hash_hmac('sha1', $raw_signature, $api_secret);
-			
-			$ch = curl_init();
-			curl_setopt($ch, CURLOPT_URL, API_HOST . '/private_v1/guest/?event=' . $event_id[3] . '&format=json'); 
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
-			curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
-			    'Content-Type: application/json',
-			    'X-SNAP-Date: ' . $x_snap_date ,
-			    'X-SNAP-nonce: ' . $x_path_nonce ,
-			    'Authorization: SNAP ' . $api_key . ':' . $signature                                                                       
-			));                                                                  
-			curl_setopt($ch, CURLOPT_TIMEOUT, '3');
-			                                                                                                    
-			$response = curl_exec($ch);
+			$params = array(
+				'event' => $event_id[3],
+			);
+			$resp = SnapApi::send($verb, $path, $params);
+
+			$response = $resp['response'];
 			$result = json_decode($response);
-			$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-			curl_close($ch);
+			$httpcode = $resp['code'];
 			
 			if ( $httpcode == 200 )
 			{
@@ -701,39 +527,19 @@ Class Event_model extends CI_Model
 		        	    // check if email is already registered as a guest
 		        	    if ( !in_array($email, $emails) )
 		        	    {
-			        	    // add to database
-			        	    $json = '{
-								"email": "' . $email . '",
-								"event": "' . $event_uri . '",
-								"name": "' . $name . '",
-								"type": "' . $type_uri . '"
-							}';
-							
-							// if email address is not already a guest add
-							
+			        	    // add to database	
 							$verb = 'POST';
-							$x_path_nonce = $nonce;
-							$x_snap_date = gmdate("c");
-							
-							$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
-							$signature = hash_hmac('sha1', $raw_signature, $api_secret);
-							
-							$ch = curl_init();
-							curl_setopt($ch, CURLOPT_URL, API_HOST . '/private_v1/guest/'); 
-							curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
-							curl_setopt($ch, CURLOPT_POSTFIELDS, $json);                                                                  
-							curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
-							curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
-							    'Content-Type: application/json',                                                                            
-							    'Content-Length: ' . strlen($json), 
-							    'X-SNAP-Date: ' . $x_snap_date ,
-							    'X-SNAP-nonce: ' . $x_path_nonce ,
-							    'Authorization: SNAP ' . $api_key . ':' . $signature                                                                       
-							));                                                                   
-							curl_setopt($ch, CURLOPT_TIMEOUT, '3');
-							$response = curl_exec($ch);
-							$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-							curl_close($ch);
+							$path = '/private_v1/guest/';
+							$params = array(
+								"email" => $email,
+								"event" => $event_uri,
+								"name" => $name,
+								"type" => $type_uri,
+							);
+							$resp = SnapApi::send($verb, $path, $params);
+
+							$response = $resp['response'];
+							$httpcode = $resp['code'];
 							
 							if ( $httpcode == 201 )
 							{
@@ -754,39 +560,17 @@ Class Event_model extends CI_Model
 	
 	function getGuests($eventID)
 	{
-		$length = 8;
-		$nonce = "";
-		while ($length > 0) {
-		    $nonce .= dechex(mt_rand(0,15));
-		    $length -= 1;
-		}
-		
-		$api_key = API_KEY;;
-		$api_secret = API_SECRET;
 		$verb = 'GET';
 		$path = '/private_v1/guest/';
-		$x_path_nonce = $nonce;
-		$x_snap_date = gmdate("c");
-		
-		$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
-		$signature = hash_hmac('sha1', $raw_signature, $api_secret);
-		
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, API_HOST . '/private_v1/guest/?event=' . $eventID . '&format=json'); 
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
-		    'Content-Type: application/json',
-		    'X-SNAP-Date: ' . $x_snap_date ,
-		    'X-SNAP-nonce: ' . $x_path_nonce ,
-		    'Authorization: SNAP ' . $api_key . ':' . $signature                                                                       
-		));                                                                  
-		curl_setopt($ch, CURLOPT_TIMEOUT, '3');
-		                                                                                                    
-		$response = curl_exec($ch);
+		$params = array(
+			'event' => $eventID,
+		);
+		$resp = SnapApi::send($verb, $path, $params);
+
+		$response = $resp['response'];
 		$result = json_decode($response);
-		$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-		curl_close($ch);
-		
+		$httpcode = $resp['code'];
+
 		if ( $httpcode == 200 )
 		{
 			if ( $result->meta->total_count > 0 )
@@ -795,31 +579,13 @@ Class Event_model extends CI_Model
 				foreach ( $result->objects as $r )
 				{
 					// get type text
-					$api_key = API_KEY;;
-					$api_secret = API_SECRET;
 					$verb = 'GET';
 					$path = '/private_v1/type/';
-					$x_path_nonce = $nonce;
-					$x_snap_date = gmdate("c");
-					
-					$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
-					$signature = hash_hmac('sha1', $raw_signature, $api_secret);
-		
-					$ch = curl_init();
-					curl_setopt($ch, CURLOPT_URL, API_HOST . '/private_v1/type/?format=json'); 
-					curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
-					curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
-					    'Content-Type: application/json',
-					    'X-SNAP-Date: ' . $x_snap_date ,
-					    'X-SNAP-nonce: ' . $x_path_nonce ,
-					    'Authorization: SNAP ' . $api_key . ':' . $signature                                                                       
-					));                                                                  
-					curl_setopt($ch, CURLOPT_TIMEOUT, '3');
-					                                                                                                    
-					$response = curl_exec($ch);
+					$resp = SnapApi::send($verb, $path);
+
+					$response = $resp['response'];
 					$type_result = json_decode($response);
-					$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-					curl_close($ch);
+					$httpcode = $resp['code'];
 					
 					if ( $httpcode == 200 )
 					{
@@ -868,43 +634,16 @@ Class Event_model extends CI_Model
 		} else {
 			$type_uri = "/private_v1/type/6/";
 		}
-		
-		$json = '{
-			"type": "' . $type_uri . '"
-		}';
-		
-		$length = 8;
-		$nonce = "";
-		while ($length > 0) {
-		    $nonce .= dechex(mt_rand(0,15));
-		    $length -= 1;
-		}
-		
-		$api_key = API_KEY;;
-		$api_secret = API_SECRET;
+
 		$verb = 'PUT';
 		$path = $event_uri;
-		$x_path_nonce = $nonce;
-		$x_snap_date = gmdate("c");
-		
-		$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
-		$signature = hash_hmac('sha1', $raw_signature, $api_secret);
-       
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, API_HOST . $event_uri);                                                                   
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $json);   
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");  
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
-		    'Content-Type: application/json',
-		    'X-SNAP-Date: ' . $x_snap_date ,
-		    'X-SNAP-nonce: ' . $x_path_nonce ,
-		    'Authorization: SNAP ' . $api_key . ':' . $signature                                                                       
-		));                          
- 
-        $response = curl_exec($ch);
-        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
+		$params = array(
+			"type" => $type_uri,
+		);
+		$resp = SnapApi::send($verb, $path, $params);
+
+        $response = $resp['response'];
+        $httpcode = $resp['code'];
                
         if(!$response) {
             return '{

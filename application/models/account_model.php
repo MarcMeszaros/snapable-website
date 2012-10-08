@@ -4,37 +4,15 @@ Class Account_model extends CI_Model
 
 	function userDetails($email)
 	{
-		$length = 8;
-		$nonce = "";
-		while ($length > 0) {
-		    $nonce .= dechex(mt_rand(0,15));
-		    $length -= 1;
-		}
-		
-		$api_key = API_KEY;
-		$api_secret = API_SECRET;
 		$verb = 'GET';
 		$path = '/private_v1/user/';
-		$x_path_nonce = $nonce;
-		$x_snap_date = gmdate("c");
-		
-		$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
-		$signature = hash_hmac('sha1', $raw_signature, $api_secret);
-		
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, API_HOST . '' . $path . '?email=' . $email . '&format=json'); 
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
-		    'Content-Type: application/json',
-		    'X-SNAP-Date: ' . $x_snap_date ,
-		    'X-SNAP-nonce: ' . $x_path_nonce ,
-		    'Authorization: SNAP ' . $api_key . ':' . $signature                                                                  
-		));
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);                                                               
-		curl_setopt($ch, CURLOPT_TIMEOUT, '3');
+		$params = array(
+			'email' => $email,
+		);
+		$resp = SnapApi::send($verb, $path, $params);
 		                                                                                                    
-		$response = curl_exec($ch);
-		$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-		curl_close($ch);
+		$response = $resp['response'];
+		$httpcode = $resp['code'];
 		
 		if ( $httpcode == 200 )
 		{
@@ -86,36 +64,16 @@ Class Account_model extends CI_Model
 	
 	function checkPassword($email,$hash)
 	{
-		$length = 8;
-		$nonce = "";
-		while ($length > 0) {
-		    $nonce .= dechex(mt_rand(0,15));
-		    $length -= 1;
-		}
-		
-		$api_key = API_KEY;
-		$api_secret = API_SECRET;
 		$verb = 'GET';
 		$path = '/private_v1/user/';
-		$x_path_nonce = $nonce;
-		$x_snap_date = gmdate("c");
+		$params = array();
+		$headers = array(
+			'X-SNAP-User' => $email . ':' . $hash,
+		);
+		$resp = SnapApi::send($verb, $path, $params, $headers);
 		
-		$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
-		$signature = hash_hmac('sha1', $raw_signature, $api_secret);
-		
-		$ch = curl_init(API_HOST . '' . $path);                                                                
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
-		    'Content-Type: application/json',
-		    'X-SNAP-Date: ' . $x_snap_date ,
-		    'X-SNAP-nonce: ' . $x_path_nonce ,
-		    'Authorization: SNAP ' . $api_key . ':' . $signature ,
-		    'X-SNAP-User: ' . $email . ':' . $hash                                                                       
-		)); 
-		
-		$response = curl_exec($ch);
-		$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-		curl_close($ch);
+		$response = $resp['response'];
+		$httpcode = $resp['code'];
 		
 		if ( $httpcode == 200 )
 		{
@@ -176,37 +134,15 @@ Class Account_model extends CI_Model
 	{
 		$uri_split = explode("/", $resource_uri);
 		
-		$length = 8;
-		$nonce = "";
-		while ($length > 0) {
-		    $nonce .= dechex(mt_rand(0,15));
-		    $length -= 1;
-		}
-		
-		$api_key = API_KEY;
-		$api_secret = API_SECRET;
 		$verb = 'GET';
 		$path = '/private_v1/event/';
-		$x_path_nonce = $nonce;
-		$x_snap_date = gmdate("c");
-		
-		$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
-		$signature = hash_hmac('sha1', $raw_signature, $api_secret);
-		
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, API_HOST . '/private_v1/event/?user=' . $uri_split[3] . '&format=json');
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
-		    'Content-Type: application/json',
-		    'X-SNAP-Date: ' . $x_snap_date ,
-		    'X-SNAP-nonce: ' . $x_path_nonce ,
-		    'Authorization: SNAP ' . $api_key . ':' . $signature                                                                       
-		));  
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);                                                               
-		curl_setopt($ch, CURLOPT_TIMEOUT, '3');
+		$params = array(
+			'user' => $uri_split[3],
+		);
+		$resp = SnapApi::send($verb, $path, $params);
 		                                                                                                    
-		$response = curl_exec($ch);
-		$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-		curl_close($ch);
+		$response = $resp['response'];
+		$httpcode = $resp['code'];
 		
 		if ( $httpcode == 200 )
 		{
@@ -229,44 +165,16 @@ Class Account_model extends CI_Model
 	
 	
 	function doReset($user_id)
-	{
-		$json = '{
-			"url": "https://snapable.com/account/reset/"
-		}';
-		
-		$length = 8;
-		$nonce = "";
-		while ($length > 0) {
-		    $nonce .= dechex(mt_rand(0,15));
-		    $length -= 1;
-		}
-		
-		$api_key = API_KEY;
-		$api_secret = API_SECRET;
+	{	
 		$verb = 'POST';
 		$path = '/private_v1/user/' . $user_id . '/passwordreset/';
-		$x_path_nonce = $nonce;
-		$x_snap_date = gmdate("c");
-		
-		$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
-		$signature = hash_hmac('sha1', $raw_signature, $api_secret);
-		
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, API_HOST . '/private_v1/user/' . $user_id . '/passwordreset/');
-		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
-		    'Content-Type: application/json',
-		    'X-SNAP-Date: ' . $x_snap_date ,
-		    'X-SNAP-nonce: ' . $x_path_nonce ,
-		    'Authorization: SNAP ' . $api_key . ':' . $signature                                                                  
-		));
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);                                                               
-		curl_setopt($ch, CURLOPT_TIMEOUT, '3');
-		                                                                                                    
-		$response = curl_exec($ch);
-		$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-		curl_close($ch);
+		$params = array(
+			"url" => "https://snapable.com/account/reset/",
+		);
+		$resp = SnapApi::send($verb, $path, $params);
+
+		$response = $resp['response'];
+		$httpcode = $resp['code'];
 		
 		if ( $httpcode == 201 )
 		{
@@ -278,83 +186,31 @@ Class Account_model extends CI_Model
 	
 	function completeReset($password, $password_nonce)
 	{
-		$length = 8;
-		$nonce = "";
-		while ($length > 0) {
-		    $nonce .= dechex(mt_rand(0,15));
-		    $length -= 1;
-		}
-		
-		$api_key = API_KEY;
-		$api_secret = API_SECRET;
 		$verb = 'GET';
 		$path = '/private_v1/user/passwordreset/' . $password_nonce . '/';
-		$x_path_nonce = $nonce;
-		$x_snap_date = gmdate("c");
-		
-		$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
-		$signature = hash_hmac('sha1', $raw_signature, $api_secret);
-		
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, API_HOST . '/private_v1/user/passwordreset/' . $password_nonce . '/');
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
-		    'Content-Type: application/json',
-		    'X-SNAP-Date: ' . $x_snap_date ,
-		    'X-SNAP-nonce: ' . $x_path_nonce ,
-		    'Authorization: SNAP ' . $api_key . ':' . $signature                                                                       
-		));  
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);                                                               
-		curl_setopt($ch, CURLOPT_TIMEOUT, '3');
-		                                                                                                    
-		$response = curl_exec($ch);
-		$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-		curl_close($ch);
+		$resp = SnapApi::send($verb, $path, $params);
+
+		$response = $resp['response'];
+		$httpcode = $resp['code'];
 		
 		if ( $httpcode == 200 )
 		{
 			$result = json_decode($response);
 			$email = $result->email;
 			$resource_uri = explode("/", $result->resource_uri);
-			
-			$json = '{
-				"password": "' . $password . '"
-			}';
-			
-			$x_snap_user = $email . ":" . $password_nonce;
-			
-			$length = 8;
-			$nonce = "";
-			while ($length > 0) {
-			    $nonce .= dechex(mt_rand(0,15));
-			    $length -= 1;
-			}
-			
-			$api_key = API_KEY;;
-			$api_secret = API_SECRET;
+
 			$verb = 'PUT';
 			$path = '/private_v1/user/' . $resource_uri[3] . '/';
-			$x_path_nonce = $nonce;
-			$x_snap_date = gmdate("c");
-			
-			$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
-			$signature = hash_hmac('sha1', $raw_signature, $api_secret);
-	       
-	        $ch = curl_init();
-	        curl_setopt($ch, CURLOPT_URL, API_HOST . $path);                                                                   
-			curl_setopt($ch, CURLOPT_POSTFIELDS, $json);   
-	        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-	        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");  
-			curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
-			    'Content-Type: application/json',
-			    'X-SNAP-Date: ' . $x_snap_date ,
-			    'X-SNAP-nonce: ' . $x_path_nonce ,
-			    'Authorization: SNAP ' . $api_key . ':' . $signature,
-			    'X-SNAP-user: ' . $x_snap_user                                                                       
-			));                          
+			$params = array(
+				"password" => $password,
+			);
+			$header = array(
+				'X-SNAP-User' => $email . ":" . $password_nonce,
+			);
+			$resp = SnapApi::send($verb, $path, $params, $headers);
 	 
-	        $response = curl_exec($ch);
-	        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-	        curl_close($ch);
+	        $response = $resp['response'];
+	        $httpcode = $resp['code'];
 	               
 	        if($httpcode == 202) {
 	            return 1;
