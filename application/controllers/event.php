@@ -84,29 +84,20 @@ class Event extends CI_Controller {
 							$ownerLoggedin = true;
 							$data["logged_in_user_resource_uri"] = $session_owner['resource_uri'];
 							$head["loggedInBar"] = "owner";
+							$eventID = explode("/",$event_details->event->resource_uri);
 
 							// get the owner guest_id
 							// if email address is not already a guest add
 							$verb = 'GET';
 							$path = '/private_v1/guest/';
-							$sign = SnapApi::sign($verb, $path);
+							$params = array(
+								'event' => $eventID[3],
+								'email' => $session_owner['email'],
+							);
+							$resp = SnapApi::send($verb, $path, $params);
 
-							$eventID = explode("/",$event_details->event->resource_uri);
-							$ch = curl_init();
-							curl_setopt($ch, CURLOPT_URL, API_HOST . $path . '?event='.$eventID[3].'&email='.$session_owner['email']); 
-							//curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $verb);                                                                     
-							//curl_setopt($ch, CURLOPT_POSTFIELDS, $json);                                                                  
-							curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
-							curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
-							    'Content-Type: application/json', 
-							    'X-SNAP-Date: ' . $sign['x_snap_date'],
-							    'X-SNAP-nonce: ' . $sign['x_snap_nonce'],
-							    'Authorization: SNAP ' . $sign['api_key'] . ':' . $sign['signature']                                                                       
-							));                                                                   
-							curl_setopt($ch, CURLOPT_TIMEOUT, '3');
-							$response = curl_exec($ch);
-							$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-							curl_close($ch);
+							$response = $resp['response'];
+							$httpcode = $resp['code'];
 							$response = json_decode($response);
 				
 							// the guest was properly created, set the session
@@ -269,34 +260,19 @@ class Event extends CI_Controller {
 								redirect("/event/" . $eventDeets->event->url);
 							} 
 							else if ( $validation->status == 404 ) {
-								$json_array = array(
-									"email" => $_POST['email'],
-									"event" => $eventDeets->event->resource_uri,
-									"type" => "/private_v1/type/5/",
-								);
-								$json = json_encode($json_array);
 								
 								// if email address is not already a guest add
 								$verb = 'POST';
 								$path = '/private_v1/guest/';
-								$sign = SnapApi::sign($verb, $path);
+								$params = array(
+									"email" => $_POST['email'],
+									"event" => $eventDeets->event->resource_uri,
+									"type" => "/private_v1/type/5/",
+								);
+								$resp = SnapApi::send($verb, $path, $params);
 								
-								$ch = curl_init();
-								curl_setopt($ch, CURLOPT_URL, API_HOST . $path); 
-								curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $verb);                                                                     
-								curl_setopt($ch, CURLOPT_POSTFIELDS, $json);                                                                  
-								curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
-								curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
-								    'Content-Type: application/json',                                                                            
-								    'Content-Length: ' . strlen($json), 
-								    'X-SNAP-Date: ' . $sign['x_snap_date'],
-								    'X-SNAP-nonce: ' . $sign['x_snap_nonce'],
-								    'Authorization: SNAP ' . $sign['api_key'] . ':' . $sign['signature']                                                                       
-								));                                                                   
-								curl_setopt($ch, CURLOPT_TIMEOUT, '3');
-								$response = curl_exec($ch);
-								$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-								curl_close($ch);
+								$response = $resp['response'];
+								$httpcode = $resp['code'];
 
 								// the guest was properly created, set the session
 								if ($httpcode == 201) {

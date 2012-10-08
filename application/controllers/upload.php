@@ -138,47 +138,22 @@ class Upload extends CI_Controller {
 			imagecopyresampled($dst_r, $img_r, 0, 0, $orig_x, $orig_y, $targ_w, $targ_h, $orig_w, $orig_h);
 			imagejpeg($dst_r, $_SERVER['DOCUMENT_ROOT'] . "/tmp-files/" . $filename, $jpeg_quality);
 						
-			// URL on which we have to post data
-			
-			$url = API_HOST . "/private_v1/photo/";
-			
-			// Data to send
-			$post_data = array();
-			$post_data['event'] = $_POST['event'];
-			$post_data['guest'] = $_POST['guest'];
-			$post_data['type'] = $_POST['type'];
-			// The Photo
-			$post_data['image'] = "@" . $_SERVER['DOCUMENT_ROOT'] . "/tmp-files/" . $filename;
-			
-			$length = 8;
-			$nonce = "";
-			while ($length > 0) {
-			    $nonce .= dechex(mt_rand(0,15));
-			    $length -= 1;
-			}
-			
-			$api_key = API_KEY;
-			$api_secret = API_SECRET;
 			$verb = 'POST';
 			$path = '/private_v1/photo/';
-			$x_path_nonce = $nonce;
-			$x_snap_date = gmdate("Ymd", time()) . 'T' . gmdate("His", time()) . 'Z';
+			// Data to send
+			$params = array(
+				'event' => $_POST['event'],
+				'guest' => $_POST['guest'],
+				'type' => $_POST['type'],
+				// The Photo
+				'image' => "@" . $_SERVER['DOCUMENT_ROOT'] . "/tmp-files/" . $filename,
+			);
+			$headers = array(
+				'Content-Type' => 'multipart/form-data',
+			);
+			$resp = SnapApi::send($verb, $path, $params, $headers);
 			
-			$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
-			$signature = hash_hmac('sha1', $raw_signature, $api_secret);
-			 
-			$ch = curl_init();
-			curl_setopt($ch, CURLOPT_URL, $url);
-			curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-				'Content-type: multipart/form-data',
-				'X-SNAP-Date: ' . $x_snap_date ,
-				'X-SNAP-nonce: ' . $x_path_nonce ,
-				'Authorization: SNAP ' . $api_key . ':' . $signature 
-	    	));
-			curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-			
-			$response = curl_exec($ch);
+			$response = $resp['response'];
 			unlink($_SERVER['DOCUMENT_ROOT'] . "/tmp-files/" . $filename);
 			echo '{"status":200,"result":' . $response . '}';
 		} else {
