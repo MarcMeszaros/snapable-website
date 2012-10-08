@@ -67,39 +67,16 @@ class P extends CI_Controller {
 		{
 			if ( $this->uri->segment(2) == "get" )
 			{
-				//http://devapi.snapable.com/private_v1/photo/schema/
-				$url = API_HOST . "/private_v1/photo/" . $this->uri->segment(3) . "/";
-			
-				$length = 8;
-				$nonce = "";
-				while ($length > 0) {
-				    $nonce .= dechex(mt_rand(0,15));
-				    $length -= 1;
-				}
-				
-				$api_key = API_KEY;
-				$api_secret = API_SECRET;
 				$verb = 'GET';
 				$path = '/private_v1/photo/' . $this->uri->segment(3) . '/';
-				$x_path_nonce = $nonce;
-				$x_snap_date = gmdate("Ymd", time()) . 'T' . gmdate("His", time()) . 'Z';
-				
-				$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
-				$signature = hash_hmac('sha1', $raw_signature, $api_secret);
-				 
-				$ch = curl_init();
-				curl_setopt($ch, CURLOPT_URL, $url);
-				curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-					'Accept: image/jpeg',
-					'X-SNAP-Date: ' . $x_snap_date ,
-					'X-SNAP-nonce: ' . $x_path_nonce ,
-					'Authorization: SNAP ' . $api_key . ':' . $signature 
-		    	));
-				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-				
-				$response = curl_exec($ch);
-				
-				header('Content-Type: image/jpeg');
+				$params = array();
+				$headers = array(
+					'Accept' => 'image/jpeg',
+				);
+				$resp = SnapApi::send($verb, $path, $params, $headers);
+
+				$response = $resp['response'];
+
 				echo $response;
 			} else {
 				show_404();
@@ -109,39 +86,18 @@ class P extends CI_Controller {
 		{
 			if ( $this->uri->segment(2) == "get" )
 			{
-				//http://devapi.snapable.com/private_v1/photo/schema/
-				$url = API_HOST . "/private_v1/photo/" . $this->uri->segment(3) . "/";
-			
-				$length = 8;
-				$nonce = "";
-				while ($length > 0) {
-				    $nonce .= dechex(mt_rand(0,15));
-				    $length -= 1;
-				}
-				
-				$api_key = API_KEY;
-				$api_secret = API_SECRET;
 				$verb = 'GET';
 				$path = '/private_v1/photo/' . $this->uri->segment(3) . '/';
-				$x_path_nonce = $nonce;
-				$x_snap_date = gmdate("Ymd", time()) . 'T' . gmdate("His", time()) . 'Z';
-				
-				$raw_signature = $api_key . $verb . $path . $x_path_nonce . $x_snap_date;
-				$signature = hash_hmac('sha1', $raw_signature, $api_secret);
-				 
-				$ch = curl_init();
-				curl_setopt($ch, CURLOPT_URL, $url . '?size=' . $this->uri->segment(4) );
-				curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-					'Accept: image/jpeg',
-					'X-SNAP-Date: ' . $x_snap_date ,
-					'X-SNAP-nonce: ' . $x_path_nonce ,
-					'Authorization: SNAP ' . $api_key . ':' . $signature 
-		    	));
-				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-				
-				$response = curl_exec($ch);
-				
-				header('Content-Type: image/jpeg');
+				$params = array(
+					'size' => $this->uri->segment(4),
+				);
+				$headers = array(
+					'Accept' => 'image/jpeg',
+				);
+				$resp = SnapApi::send($verb, $path, $params, $headers);
+
+				$response = $resp['response'];
+
 				echo $response;
 			} else {
 				show_404();

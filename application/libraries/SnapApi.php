@@ -5,6 +5,7 @@
  */
 class SnapApi {
 
+    private static $api_host = API_HOST;
     private static $api_key = API_KEY;
     private static $api_secret = API_SECRET;
 
@@ -68,7 +69,7 @@ class SnapApi {
             }
             $paramString = implode('&', $paramArray);
             $queryString = (isset($paramString) && count($paramString) > 0)? '?'.$paramString:'';
-            curl_setopt($ch, CURLOPT_URL, API_HOST . $path . $queryString); 
+            curl_setopt($ch, CURLOPT_URL, self::$api_host . $path . $queryString);
         } else {
             if (isset($headers['Content-Type']) && $headers['Content-Type'] == 'multipart/form-data' && count($params) > 0) {
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
@@ -82,7 +83,7 @@ class SnapApi {
 
             // modify the request to include the json in body
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $verb);
-            curl_setopt($ch, CURLOPT_URL, API_HOST . $path);
+            curl_setopt($ch, CURLOPT_URL, self::$api_host . $path);
         } 
 
         // merge and replace default headers with passed in parameter
