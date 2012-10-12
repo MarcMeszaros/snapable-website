@@ -5,7 +5,7 @@ Class Account_model extends CI_Model
 	function userDetails($email)
 	{
 		$verb = 'GET';
-		$path = '/private_v1/user/';
+		$path = '/user/';
 		$params = array(
 			'email' => $email,
 		);
@@ -65,7 +65,7 @@ Class Account_model extends CI_Model
 	function checkPassword($email,$hash)
 	{
 		$verb = 'GET';
-		$path = '/private_v1/user/';
+		$path = '/user/';
 		$params = array();
 		$headers = array(
 			'X-SNAP-User' => $email . ':' . $hash,
@@ -135,7 +135,7 @@ Class Account_model extends CI_Model
 		$uri_split = explode("/", $resource_uri);
 		
 		$verb = 'GET';
-		$path = '/private_v1/event/';
+		$path = '/event/';
 		$params = array(
 			'user' => $uri_split[3],
 		);
@@ -167,7 +167,7 @@ Class Account_model extends CI_Model
 	function doReset($user_id)
 	{	
 		$verb = 'POST';
-		$path = '/private_v1/user/' . $user_id . '/passwordreset/';
+		$path = '/user/' . $user_id . '/passwordreset/';
 		$params = array(
 			"url" => "https://snapable.com/account/reset/",
 		);
@@ -187,7 +187,7 @@ Class Account_model extends CI_Model
 	function completeReset($password, $password_nonce)
 	{
 		$verb = 'GET';
-		$path = '/private_v1/user/passwordreset/' . $password_nonce . '/';
+		$path = '/user/passwordreset/' . $password_nonce . '/';
 		$resp = SnapApi::send($verb, $path, $params);
 
 		$response = $resp['response'];
@@ -200,7 +200,7 @@ Class Account_model extends CI_Model
 			$resource_uri = explode("/", $result->resource_uri);
 
 			$verb = 'PUT';
-			$path = '/private_v1/user/' . $resource_uri[3] . '/';
+			$path = '/user/' . $resource_uri[3] . '/';
 			$params = array(
 				"password" => $password,
 			);

@@ -4,10 +4,10 @@ Class Photo_model extends CI_Model
 
 	function deets($id)
 	{
-		$url = API_HOST . "/private_v1/photo/" . $id . "/";
+		//$url = API_HOST . "/private_v1/photo/" . $id . "/";
 
 		$verb = 'GET';
-		$path = '/private_v1/photo/' . $id . '/';
+		$path = '/photo/' . $id . '/';
 		$resp = SnapApi::send($verb, $path);
 
 		$response = $resp['response'];
@@ -23,7 +23,7 @@ Class Photo_model extends CI_Model
 			$event = explode("/", $request->event);
 
 			$verb = 'GET';
-			$path = '/private_v1/event/' . $event[3] . '/';
+			$path = '/event/' . $event[3] . '/';
 			$resp = SnapApi::send($verb, $path);
 
 			$response = $resp['response'];

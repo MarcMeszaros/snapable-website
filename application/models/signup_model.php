@@ -5,7 +5,7 @@ Class Signup_model extends CI_Model
 	function getPackageDetails($url)
 	{
 		$verb = 'GET';
-		$path = '/private_v1/package/';
+		$path = '/package/';
 		$resp = SnapApi::send($verb, $path);
 
 		$response = $resp['response'];
@@ -48,7 +48,7 @@ Class Signup_model extends CI_Model
 	function checkEmail($email)
 	{
 		$verb = 'GET';
-		$path = '/private_v1/user/';
+		$path = '/user/';
 		$params = array(
 			'email' => $email,
 		);
@@ -81,7 +81,7 @@ Class Signup_model extends CI_Model
 	function checkUrl($url)
 	{
 		$verb = 'GET';
-		$path = '/private_v1/event/';
+		$path = '/event/';
 		$params = array(
 			'url' => $url,
 		);
@@ -129,7 +129,7 @@ Class Signup_model extends CI_Model
 	    $email_address = $user['email'];
 
 		$verb = 'POST';
-		$path = '/private_v1/user/';
+		$path = '/user/';
 		$params = array(
 			"billing_zip" => "00000",
 		    "email" => $user['email'],
@@ -162,17 +162,17 @@ Class Signup_model extends CI_Model
 			$created = date( "Y-m-d" ) . "T" . date( "H:i:s" );
 			
 			$verb = 'POST';
-			$path = '/private_v1/event/';
+			$path = '/event/';
 			$params = array(
 				"creation_date" => $created,
 				"user" => $user_uri,
-				"package" => "/private_v1/package/1/",
+				"package" => "/".SnapApi::$api_version."/package/1/",
 				"title" => $event['title'],
 			    "url" => $event['url'],
 			    "start" => $start,
 			    "end" => $end,
 			    "pin" => $event_pin,
-			    "type" => "/private_v1/type/5/",
+			    "type" => "/".SnapApi::$api_version."/type/5/",
 			    "enabled" => true,
 			);
 			$resp = SnapApi::send($verb, $path, $params);
@@ -188,7 +188,7 @@ Class Signup_model extends CI_Model
 				
 				// ADDRESS
 				$verb = 'POST';
-				$path = '/private_v1/address/';
+				$path = '/address/';
 				$params = array(
 					"event" => $event_uri,
 					"address" => $event['location'],
@@ -202,10 +202,10 @@ Class Signup_model extends CI_Model
 
 				// add the user as the first guest
 				$verb = 'POST';
-				$path = '/private_v1/guest/';
+				$path = '/guest/';
 				$params = array(
 					'event' => $event_uri,
-					'type' => '/private_v1/type/1/',
+					'type' => '/'.SnapApi::$api_version.'/type/1/',
 					'email' => $user['email'],
 				    'name' => $user['first_name'] . ' ' . $user['last_name'],
 				);

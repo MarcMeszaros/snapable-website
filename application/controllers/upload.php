@@ -139,7 +139,7 @@ class Upload extends CI_Controller {
 			imagejpeg($dst_r, $_SERVER['DOCUMENT_ROOT'] . "/tmp-files/" . $filename, $jpeg_quality);
 						
 			$verb = 'POST';
-			$path = '/private_v1/photo/';
+			$path = '/photo/';
 			// Data to send
 			$params = array(
 				'event' => $_POST['event'],

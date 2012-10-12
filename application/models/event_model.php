@@ -5,7 +5,7 @@ Class Event_model extends CI_Model
 	function getEventDetailsFromURL($url)
 	{
 		$verb = 'GET';
-		$path = '/private_v1/event/';
+		$path = '/event/';
 		$params = array(
 			'url' => $url,
 		);
@@ -101,7 +101,7 @@ Class Event_model extends CI_Model
 	function getEventsPhotos($id)
 	{
 		$verb = 'GET';
-		$path = '/private_v1/photo/';
+		$path = '/photo/';
 		$params = array(
 			'event' => $id,
 		);
@@ -123,7 +123,7 @@ Class Event_model extends CI_Model
 		$eventID = explode("/", $details->event->resource_uri);
 
 		$verb = 'GET';
-		$path = '/private_v1/guest/';
+		$path = '/guest/';
 		$params = array(
 			'email' => $email,
 			'event' => $eventID[3],
@@ -159,7 +159,7 @@ Class Event_model extends CI_Model
 		$eventID = $event[3];
 		
 		$verb = 'GET';
-		$path = '/private_v1/guest/';
+		$path = '/guest/';
 		$params = array(
 			'event' => $eventID,
 		);
@@ -203,7 +203,7 @@ Class Event_model extends CI_Model
 		
 		// GET LIST OF CURRENT GUESTS
 		$verb = 'GET';
-		$path = '/private_v1/guest/';
+		$path = '/guest/';
 		$params = array(
 			'event' => $event_id[3],
 		);
@@ -236,7 +236,7 @@ Class Event_model extends CI_Model
 					    $numnum = 1;
 						$email = "unknown";
 						$name = "unknown";
-				        $type_uri = "/private_v1/type/5/";
+				        $type_uri = "/".SnapApi::$api_version."/type/5/";
 					    $row_data .= "{";
 					    $empty = false;
 						
@@ -258,19 +258,19 @@ Class Event_model extends CI_Model
 					        	    	// convert type into resource_uri
 						        	    switch ($type) {
 										    case "organizer":
-										        $type_uri = "/private_v1/type/1/";
+										        $type_uri = "/".SnapApi::$api_version."/type/1/";
 										        break;
 										    case "bride/groom":
-										        $type_uri = "/private_v1/type/2/";
+										        $type_uri = "/".SnapApi::$api_version."/type/2/";
 										        break;
 										    case "wedding party":
-										        $type_uri = "/private_v1/type/3/";
+										        $type_uri = "/".SnapApi::$api_version."/type/3/";
 										        break;
 										    case "family":
-										        $type_uri = "/private_v1/type/4/";
+										        $type_uri = "/".SnapApi::$api_version."/type/4/";
 										        break;
 										    case "guest":
-										        $type_uri = "/private_v1/type/5/";
+										        $type_uri = "/".SnapApi::$api_version."/type/5/";
 										        break;
 										}
 					        	    } else {
@@ -287,7 +287,7 @@ Class Event_model extends CI_Model
 							{
 				        	    // if email address is not already a guest add
 								$verb = 'POST';
-								$path = '/private_v1/guest/';
+								$path = '/guest/';
 								$params = array(
 									"email" => $email,
 									"event" => $event_uri,
@@ -348,7 +348,7 @@ Class Event_model extends CI_Model
 				
 				// get guests
 				$verb = 'GET';
-				$path = '/private_v1/guest/';
+				$path = '/guest/';
 				$params = array(
 					'event' => $event_id[3],
 				);
@@ -455,7 +455,7 @@ Class Event_model extends CI_Model
 			
 			// GET LIST OF CURRENT GUESTS
 			$verb = 'GET';
-			$path = '/private_v1/guest/';
+			$path = '/guest/';
 			$params = array(
 				'event' => $event_id[3],
 			);
@@ -482,7 +482,7 @@ Class Event_model extends CI_Model
 					$listArr = explode(",", $list);
 					$email = "unknown";
 					$name = "unknown";
-					$type_uri = "/private_v1/type/5/";
+					$type_uri = "/".SnapApi::$api_version."/type/5/";
 				
 					foreach ( $listArr as $l )
 					{
@@ -501,19 +501,19 @@ Class Event_model extends CI_Model
 			        	    	// convert type into resource_uri
 				        	    switch ($type) {
 								    case "organizer":
-								        $type_uri = "/private_v1/type/1/";
+								        $type_uri = "/".SnapApi::$api_version."/type/1/";
 								        break;
 								    case "bride/groom":
-								        $type_uri = "/private_v1/type/2/";
+								        $type_uri = "/".SnapApi::$api_version."/type/2/";
 								        break;
 								    case "wedding party":
-								        $type_uri = "/private_v1/type/3/";
+								        $type_uri = "/".SnapApi::$api_version."/type/3/";
 								        break;
 								    case "family":
-								        $type_uri = "/private_v1/type/4/";
+								        $type_uri = "/".SnapApi::$api_version."/type/4/";
 								        break;
 								    case "guest":
-								        $type_uri = "/private_v1/type/5/";
+								        $type_uri = "/".SnapApi::$api_version."/type/5/";
 								        break;
 								}
 			        	    } else {
@@ -529,7 +529,7 @@ Class Event_model extends CI_Model
 		        	    {
 			        	    // add to database	
 							$verb = 'POST';
-							$path = '/private_v1/guest/';
+							$path = '/guest/';
 							$params = array(
 								"email" => $email,
 								"event" => $event_uri,
@@ -561,7 +561,7 @@ Class Event_model extends CI_Model
 	function getGuests($eventID)
 	{
 		$verb = 'GET';
-		$path = '/private_v1/guest/';
+		$path = '/guest/';
 		$params = array(
 			'event' => $eventID,
 		);
@@ -580,7 +580,7 @@ Class Event_model extends CI_Model
 				{
 					// get type text
 					$verb = 'GET';
-					$path = '/private_v1/type/';
+					$path = '/type/';
 					$resp = SnapApi::send($verb, $path);
 
 					$response = $resp['response'];
@@ -630,9 +630,9 @@ Class Event_model extends CI_Model
 	{
 		if ( $setting == 0 )
 		{
-			$type_uri = "/private_v1/type/5/";	
+			$type_uri = "/".SnapApi::$api_version."/type/5/";	
 		} else {
-			$type_uri = "/private_v1/type/6/";
+			$type_uri = "/".SnapApi::$api_version."/type/6/";
 		}
 
 		$verb = 'PUT';
@@ -663,7 +663,7 @@ Class Event_model extends CI_Model
 	{
 		// get type text
 		$verb = 'GET';
-		$path = '/private_v1/event/';
+		$path = '/event/';
 		$resp = SnapApi::send($verb, $path, $params);
 
 		return array(

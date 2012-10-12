@@ -5,7 +5,8 @@
  */
 class SnapApi {
 
-    private static $api_host = API_HOST;
+    public static $api_host = API_HOST;
+    public static $api_version = 'private_v1';
     private static $api_key = API_KEY;
     private static $api_secret = API_SECRET;
 
@@ -33,6 +34,10 @@ class SnapApi {
      * the required parts required to build the API call.
      */
     public static function sign($verb, $path) {
+        $path = (substr($path, 0, 1) == '/') ? substr($path, 1, strlen($path)-1):$path; // remove the leading '/' if it exists
+        $path = (substr($path, -1, 1) == '/') ? substr($path, 0, strlen($path)-1):$path; // remove the trailling '/' if it exists
+        $path = '/'.self::$api_version.'/'.$path.'/'; // build the path with the API version
+
         $x_snap_nonce = self::getNonce();
         $x_snap_date = self::getDate();
         $raw_signature = self::$api_key . $verb . $path . $x_snap_nonce . $x_snap_date;
@@ -52,6 +57,10 @@ class SnapApi {
         // create the curl object and signature
         $ch = curl_init();
         $sign = self::sign($verb, $path);
+
+        $path = (substr($path, 0, 1) == '/') ? substr($path, 1, strlen($path)-1):$path; // remove the leading '/' if it exists
+        $path = (substr($path, -1, 1) == '/') ? substr($path, 0, strlen($path)-1):$path; // remove the trailling '/' if it exists
+        $path = '/'.self::$api_version.'/'.$path.'/'; // build the path with the API version
 
         // define default headers
         $defaultHeaders = array(

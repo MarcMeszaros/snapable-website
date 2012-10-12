@@ -50,7 +50,7 @@ class Event extends CI_Controller {
 			} else {
 				$event_details = json_decode($this->event_model->getEventDetailsFromURL($this->uri->segment(2)));
 				
-				echo "&nbsp;";
+				//echo "&nbsp;";
 				$head = array(
 					'noTagline' => true,
 					'css' => base64_encode('assets/css/signin.css,assets/css/fileuploader.css,assets/css/jquery.jcrop.css,assets/css/facebox.css,assets/css/tipsy.css,assets/css/setup.css,assets/css/header.css,assets/css/event.css,assets/css/footer.css'),
@@ -89,7 +89,7 @@ class Event extends CI_Controller {
 							// get the owner guest_id
 							// if email address is not already a guest add
 							$verb = 'GET';
-							$path = '/private_v1/guest/';
+							$path = '/guest/';
 							$params = array(
 								'event' => $eventID[3],
 								'email' => $session_owner['email'],
@@ -263,11 +263,11 @@ class Event extends CI_Controller {
 								
 								// if email address is not already a guest add
 								$verb = 'POST';
-								$path = '/private_v1/guest/';
+								$path = '/guest/';
 								$params = array(
 									"email" => $_POST['email'],
 									"event" => $eventDeets->event->resource_uri,
-									"type" => "/private_v1/type/5/",
+									"type" => "/".SnapApi::$api_version."/type/5/",
 								);
 								$resp = SnapApi::send($verb, $path, $params);
 								

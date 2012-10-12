@@ -5,7 +5,7 @@ Class Buy_model extends CI_Model
 	function getPackageDetails($url)
 	{
 		$verb = 'GET';
-		$path = '/private_v1/package/';
+		$path = '/package/';
 		$resp = SnapApi::send($verb, $path);
 
 		$response = $resp['response'];
@@ -48,7 +48,7 @@ Class Buy_model extends CI_Model
 	function checkEmail($email)
 	{
 		$verb = 'GET';
-		$path = '/private_v1/user/';
+		$path = '/user/';
 		$params = array(
 			'email' => $email,
 		);
@@ -81,7 +81,7 @@ Class Buy_model extends CI_Model
 	function checkUrl($url)
 	{
 		$verb = 'GET';
-		$path = '/private_v1/event/';
+		$path = '/event/';
 		$params = array(
 			'url' => $url,
 		);
@@ -144,7 +144,7 @@ Class Buy_model extends CI_Model
 	    
 	    // USER
 		$verb = 'POST';
-		$path = '/private_v1/user/';
+		$path = '/user/';
 		$params = array(
 			"billing_zip" => (isset($address['zip'])? $address['zip']:'',
 		    "email" => $user['email'],
@@ -193,7 +193,7 @@ Class Buy_model extends CI_Model
 			$created = date( "Y-m-d" ) . "T" . date( "H:i:s" );
 			
 			$verb = 'POST';
-			$path = '/private_v1/event/';
+			$path = '/event/';
 			$params = array(
 				"creation_date" => $created,
 				"user" => $user_uri,
@@ -218,7 +218,7 @@ Class Buy_model extends CI_Model
 				
 				// ADDRESS
 				$verb = 'POST';
-				$path = '/private_v1/address/';
+				$path = '/address/';
 				$params = array(
 					"event" => $event_uri,
 					"address" => $event['location'],

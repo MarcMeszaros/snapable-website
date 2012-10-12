@@ -68,7 +68,7 @@ class P extends CI_Controller {
 			if ( $this->uri->segment(2) == "get" )
 			{
 				$verb = 'GET';
-				$path = '/private_v1/photo/' . $this->uri->segment(3) . '/';
+				$path = '/photo/' . $this->uri->segment(3) . '/';
 				$params = array();
 				$headers = array(
 					'Accept' => 'image/jpeg',
@@ -87,7 +87,7 @@ class P extends CI_Controller {
 			if ( $this->uri->segment(2) == "get" )
 			{
 				$verb = 'GET';
-				$path = '/private_v1/photo/' . $this->uri->segment(3) . '/';
+				$path = '/photo/' . $this->uri->segment(3) . '/';
 				$params = array(
 					'size' => $this->uri->segment(4),
 				);
