@@ -41,6 +41,18 @@
 $route['default_controller'] = "home";
 $route['404_override'] = '';
 
+// == custom routes ==
+
+// event controller
+$route['event/find'] = 'event/find'; // exception for the event name
+$route['event/privacy'] = 'event/privacy'; // exception for the event name
+
+$route['event/get/(:any)'] = 'event/get_tasks/$1';
+$route['event/guest/(:any)'] = 'event/guest_tasks/$1';
+$route['event/details/(:any)'] = 'event/details_tasks/$1';
+$route['event/(:any)/(:any)'] = 'event/event_tasks/$2';
+$route['event/(:any)'] = 'event/load_event/$1';
+
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

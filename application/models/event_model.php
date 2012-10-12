@@ -635,8 +635,9 @@ Class Event_model extends CI_Model
 			$type_uri = "/".SnapApi::$api_version."/type/6/";
 		}
 
+		$eventParts = explode('/',$event_uri);
 		$verb = 'PUT';
-		$path = $event_uri;
+		$path = '/event/'.$eventParts[3].'/';
 		$params = array(
 			"type" => $type_uri,
 		);
