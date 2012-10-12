@@ -33,7 +33,7 @@ class Internal extends CI_Controller {
         
         $params = array(
             'end__gte' => gmdate('c'),
-            'order_by' => 'end',
+            'order_by' => 'start',
         );
         $resp = $this->event_model->query($params);
         $data['events'] = $resp['response']['objects'];
