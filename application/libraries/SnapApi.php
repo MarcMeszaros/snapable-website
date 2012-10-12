@@ -65,7 +65,7 @@ class SnapApi {
         if ($verb == 'GET') {
             $paramArray = array();
             foreach ($params as $key => $value) {
-                $paramArray[] = $key.'='.$value;
+                $paramArray[] = urlencode($key).'='.urlencode($value);
             }
             $paramString = implode('&', $paramArray);
             $queryString = (isset($paramString) && count($paramString) > 0)? '?'.$paramString:'';
