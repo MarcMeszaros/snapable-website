@@ -43,6 +43,8 @@ $route['404_override'] = '';
 
 // == custom routes ==
 
+// buy controller
+
 // event controller
 $route['event/find'] = 'event/find'; // exception for the event name
 $route['event/privacy'] = 'event/privacy'; // exception for the event name
@@ -53,6 +55,10 @@ $route['event/details/(:any)'] = 'event/details_tasks/$1';
 $route['event/(:any)/(:any)'] = 'event/event_tasks/$2';
 $route['event/(:any)'] = 'event/load_event/$1';
 
+// p controller
+$route['p/(:num)'] = 'p/load_photo/$1';
+$route['p/get/(:num)/(:any)'] = 'p/get_photo/$1/$2';
+$route['p/get/(:num)'] = 'p/get_photo/$1';
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

@@ -61,19 +61,19 @@ class Checkout extends CI_Controller {
 		$this->data = array(
 			'photos' => $cartContents
 		);		    	
-}
+	}
 
-public function index()
-{
-	if ( isset($_COOKIE['phCart']) )
+	public function index()
 	{
-		$step = array(
-			'step' => 'review'
-		);
-		
-		$this->load->view('common/header2', $this->head);
-		$this->load->view('checkout/steps', $step);
-		$this->load->view('checkout/index', $this->data);
+		if ( isset($_COOKIE['phCart']) )
+		{
+			$step = array(
+				'step' => 'review'
+			);
+			
+			$this->load->view('common/header2', $this->head);
+			$this->load->view('checkout/steps', $step);
+			$this->load->view('checkout/index', $this->data);
 			$this->load->view('common/footer');
 		} else {
 			echo "no cookies.";

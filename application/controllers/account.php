@@ -17,18 +17,8 @@ class Account extends CI_Controller {
 	{
 		$segments = $this->uri->total_segments();
 		
-		if ( $segments == 3 && $this->uri->segment(3) == "error" )
-		{
-			$error = true;
-		} else {
-			$error = false;
-		}
-		if ( isset($_GET['reset']) )
-		{
-			$reset = true;
-		} else {
-			$reset = false;
-		}
+		$error = ( $segments == 3 && $this->uri->segment(3) == "error" ) ? true:false;
+		$reset = ( isset($_GET['reset']) ) ? true:false;
 		
     	echo "&nbsp;";  
 		$data = array(
@@ -128,17 +118,8 @@ class Account extends CI_Controller {
 			$user = 'snapable';
 			$pass = 'Snapa!23'; 
 			
-			if ( isset($_POST['to']) ) {
-				$to = $_POST['to'];
-			} else {
-				$to = "team@snapable.com";
-			}
-			
-			if ( isset($_POST['from']) ) {
-				$from = $_POST['from'];
-			} else {
-				$from = "website@snapable.com";
-			}
+			$to = ( isset($_POST['to']) ) ? $_POST['to']:"team@snapable.com";
+			$from = ( isset($_POST['from']) ) ? $_POST['from']:"website@snapable.com";
 			
 			if ( $_POST['type'] == "question" )
 			{

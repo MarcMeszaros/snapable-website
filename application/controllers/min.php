@@ -11,48 +11,25 @@ class Min extends CI_Controller {
     	//$this->load->model('photo_model','',TRUE);		    	
 	}
 
-	
-	function _remap($method)
-	{
-		$param_offset = 2;
-		
-		// Default to index
-		if ( ! method_exists($this, $method))
-		{
-		// We need one more param
-		$param_offset = 1;
-		$method = 'index';
-		}
-		
-		// Since all we get is $method, load up everything else in the URI
-		$params = array_slice($this->uri->rsegment_array(), $param_offset);
-		
-		// Call the determined method with all params
-		call_user_func_array(array($this, $method), $params);
-	} 
-	 
 	public function index()
 	{
-		$segments = $this->uri->total_segments();
-		
-  		if ( $segments == 3 )
-		{
-			$files = base64_decode($this->uri->segment(3));
-			$combine = explode(",",$files);
-			
-			if ( $this->uri->segment(2) == "c" )
-			{
-				header('Content-type: text/css');
-			} 
-			else if ( $this->uri->segment(2) == "j" )
-			{
-				header("Content-type: application/javascript");
-			}
-			echo $this->minify->combine_files($combine);
-		} else {
-			show_404();
-		}
+		show_404();
 	}
+
+	public function c($base64_files) {
+		$files = base64_decode($base64_files);
+		$combine = explode(",",$files);
+		header('Content-Type: text/css');
+		echo $this->minify->combine_files($combine);
+	}
+
+	public function j($base64_files) {
+		$files = base64_decode($base64_files);
+		$combine = explode(",",$files);
+		header('Content-Type: application/javascript');
+		echo $this->minify->combine_files($combine);
+	}
+
 }
 
 /* End of file welcome.php */
