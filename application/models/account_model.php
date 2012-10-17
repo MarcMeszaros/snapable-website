@@ -204,7 +204,7 @@ Class Account_model extends CI_Model
 			$params = array(
 				"password" => $password,
 			);
-			$header = array(
+			$headers = array(
 				'X-SNAP-User' => $email . ":" . $password_nonce,
 			);
 			$resp = SnapApi::send($verb, $path, $params, $headers);
