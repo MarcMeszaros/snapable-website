@@ -43,13 +43,13 @@ function readCookie(name) {
 	return null;
 }
 
-
 $(document).ready(function() 
 {  
 	var csvFilename = "";
 	var photoJSON = '{ "objects": [';
 	var photoArr = new Array();
 	//createCookie('phCart', '','90');
+	
 	
 	if ( photos > 0 )
 	{	
@@ -164,7 +164,7 @@ $(document).ready(function()
 						var addBTNhtml = val.desc;
 						if ( val.addBTN > 0 )
 						{
-							addBTNhtml = "<a class='addUpgrade' href='#' rel='" + val.id + "'>Add</a>";
+							addBTNhtml = "<div class='addUpgradeWrap'><a class='addUpgrade' href='#' rel='" + val.id + "'>Add</a></div>";
 						}
 					
 						var viewData = {
@@ -447,8 +447,26 @@ $(document).ready(function()
         $("#upgradeChoicesMenu").toggle();
 		//$("#event-nav-privacy").toggleClass("menu-open");
     });
+    
+    $(document).on("click", ".addUpgrade", function()
+	{
+		var upgrade_id = $(this).attr("rel");
+		
+		var upgradeCookie = readCookie('upgrades');
+		
+		if ( upgradeCookie != null )
+		{
+			newString = upgradeCookie + "," + upgrade_id;
+			createCookie('upgrades', newString,'90');
+		} else {
+			createCookie('upgrades', upgrade_id,'90');
+		}
+		$(this).closest(".addUpgradeWrap").html("Added.");
+	});
 	
 	/**** SHOW CHECKOUT BUTTON ****/
+	
+	
 	
 	$('#checkout').click( function(e)
 	{
@@ -460,19 +478,140 @@ $(document).ready(function()
 		{
 			alert("You haven't added any photos yet.");
 		} else {
-			// GET SELECTED PHOTOS
-			// #checkoutPhotos
-			var photoCart = readCookie('phCart');
-			var photoArr = new Array();
-			if ( photoCart != null )
+			$("#checkoutMenu .menuContents ul").html(" ");
+			
+			var upgradeCookie = readCookie('upgrades');
+			
+			var subtotal = 0;
+			var shipping = 3;
+			var total = 3;
+			
+			var instructions = "";
+			
+			// if there's upgrades add them
+			if ( upgradeCookie != null )
 			{
-				photoArr = photoCart.split(",");
-				//$("#checkoutMenu").toggle();
-			} else {
-				alert("You haven't added any photos yet.");
+				// check if there's more than one upgrade in teh cookie
+				if (upgradeCookie.indexOf(",") >= 0)
+				{
+					// more than one upgrade exists
+					// if there's less prints than the upgrades allow display message with # of prints left
+					// if there's more prints than the upgrades add them as another line item
+				} else {
+				
+					// just one upgrade here
+					
+					var remains = 0;
+					var extras = 0;
+					var print_count = 0;
+					
+					// get subtotal
+					if ( upgradeCookie == 2 )
+					{
+						subtotal = 11;
+						print_count = 12;
+					}
+					else if ( upgradeCookie == 3 )
+					{
+						subtotal = 19;
+						print_count = 24;
+					}
+					else if ( upgradeCookie == 4 )
+					{
+						subtotal = 27;
+						print_count = 36;
+					}
+					
+					// if there's less prints than the upgrades allow display message with # of prints left
+					if ( upgradeCookie == 2 && photos_in_cart < 12 )
+					{
+						remains = 12 - photos_in_cart;
+						print_count = 12;
+					}
+					else if ( upgradeCookie == 3 && photos_in_cart < 24 )
+					{
+						remains = 24 - photos_in_cart;
+						print_count = 24;
+					}
+					else if ( upgradeCookie == 4 && photos_in_cart < 36 )
+					{
+						remains = 36 - photos_in_cart;
+						print_count = 36;
+					}
+					else if ( upgradeCookie == 2 && photos_in_cart > 12 )
+					{
+						extras = photos_in_cart - 12;
+					}
+					else if ( upgradeCookie == 3 && photos_in_cart > 24 )
+					{
+						extras = photos_in_cart - 24;
+					}
+					else if ( upgradeCookie == 4 && photos_in_cart > 36 )
+					{
+						extras = photos_in_cart - 36;
+					}
+					
+					if  (remains > 0)
+					{
+						instructions = "<div class='checkoutReviewNote'>You've only chosen 4 photos so far, you can pick up to 21 more.</div>";
+					}
+					
+					// add upgrade
+					$.Mustache.load('/assets/js/templates.html').done(function () 
+					{
+						var viewData = {
+							num: 1, 
+							print_count: print_count,
+							instructions: instructions,
+							price: subtotal,
+							type: 'upgrade'
+						};
+						$("#checkoutMenu .menuContents ul").mustache('checkout-review-upgrade', viewData);
+						
+						if (extras > 0)
+						{
+							var viewData = {
+								num: extras, 
+								type: 'singles'
+							};
+							$("#checkoutMenu .menuContents ul").mustache('checkout-review-singles', viewData);
+						}
+					});
+				}
+				
+				shipping = "FREE";
+				total = subtotal;
+				$("#checkoutReviewShippingNum").addClass("freeShipping");
+				
+			} else { // if there's no upgrades display cost for individual prints
+				//
+				$.Mustache.load('/assets/js/templates.html').done(function () 
+				{
+					var viewData = {
+						num: photos_in_cart, 
+						type: 'singles'
+					};
+					$("#checkoutMenu .menuContents ul").mustache('checkout-review-singles', viewData);
+				});
+				subtotal = photos_in_cart;
+				total = photos_in_cart + shipping;
+				
 			}
+			// add subtotal
+			$("#checkoutReviewSubTotalNum").html("$" + subtotal);
+			// add shipping
+			if ( shipping != "FREE" )
+			{
+				shipping = "$" + shipping;
+			}
+			$("#checkoutReviewShippingNum").html(shipping);
+			// add total
+			$("#checkoutReviewTotalNum").html("$" + total);
+			
+			$("#checkoutMenu").toggle();
 		}
 	});
+
 	
 	
 	// PRIVACY MENU

@@ -61,6 +61,8 @@ Class Event_model extends CI_Model
 				} else {
 					$display_timedate = date("D M j, g:i A", $start_epoch) . " to " . date("D M j, g:i A", $end_epoch);
 				}
+				$human_start = date("D M j", $start_epoch);// . ", " . date("g:i A", $start_epoch);
+				$human_end = date("D M j", $end_epoch);// . ", " . date("g:i A", $end_epoch);
 
 				$event .= '{
 					"enabled":' . $e->enabled . ',
@@ -70,6 +72,8 @@ Class Event_model extends CI_Model
 					"package": "' . $e->package . '",
 					"start": "' . $e->start . '",
 					"end": "' . $e->end . '",
+					"human_start": "' . $human_start . '",
+					"human_end": "' . $human_end . '",
 					"start_epoch": "' . $start_epoch . '",
 					"end_epoch": "' . $end_epoch . '",
 					"display_timedate": "' . $display_timedate . '",

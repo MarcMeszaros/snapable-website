@@ -250,3 +250,22 @@
 		</div>
 	</li>
 </script>
+
+<script id="checkout-review-singles" type="text/html">
+	<li>
+		<div class='checkoutReviewLeft'>
+			<div class='checkoutReviewItem'><span>{{num}} x </span>Single Prints @ $1 ea. <a class='checkoutRemove' href='#' title='Remove' rel='{{type}}'>X</a></div>
+		</div>
+		<div class='checkoutReviewRight'>${{num}}</div>
+	</li>
+</script>
+
+<script id="checkout-review-upgrade" type="text/html">
+	<li>
+		<div class="checkoutReviewLeft">
+			<div class="checkoutReviewItem"><span>{{num}} x </span>{{print_count}} Print Upgrade <a class="checkoutRemove" href="#" title="Remove">X</a></div>
+			{{{instructions}}}
+		</div>
+		<div class="checkoutReviewRight">${{price}}</div>
+	</li>
+</script>

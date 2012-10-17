@@ -34,7 +34,7 @@ var photos = <?= $eventDeets->photos ?>
 
 	<div id="event-cover-wrap"><img id="event-cover-image" src="/assets/img/FPO/cover-image.jpg" /></div>
 	<div id="event-title-wrap">
-		<h1><?= $eventDeets->display_timedate ?></h1>
+		<h1><span id="event-timestamp-start"><?= $eventDeets->human_start ?></span><!-- to <span id="event-timestamp-end"><?= $eventDeets->human_end ?></span>--></h1>
 		<h2><?= $eventDeets->title ?></h2>
 		<ul id="event-nav">
 

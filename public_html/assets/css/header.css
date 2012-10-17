@@ -1,4 +1,98 @@
-#homeHeadWrap {
+
+
+#checkoutMenu .menuContents {
+	padding: 10px;
+}
+#checkoutReviewTitle {
+	color: #fff;
+	font-size: 18px;
+	line-height: 10px;
+	font-weight: bold;
+	text-shadow: 1px 1px 1px #333;
+	padding: 10px;
+}
+#checkoutMenu .menuContents ul {
+	list-style: none;
+}
+#checkoutMenu .menuContents li {
+	margin-bottom: 10px;
+	padding-bottom: 10px;
+}
+#checkoutMenu .menuContents li:last-child {
+	border-bottom: 2px solid #b2b2b2;
+}
+
+.checkoutReviewLeft {
+	float: left;
+	display: inline;
+	width: 200px;
+}
+.checkoutReviewRight {
+	float: right;
+	display: inline;
+	width: 45px;
+	font-size: 16px;
+	color: #999;
+	font-weight: bold;
+	text-align: right;
+}
+
+.checkoutReviewItem {
+	font-size: 16px;
+	line-height: 20px;
+	font-weight: bold;
+	color: #666;
+}
+.checkoutReviewItem span { color: #222222; }
+.checkoutReviewNote {
+	color: #cc3300;
+	font-size: 12px;
+	line-height: 14px;
+}
+
+.checkoutReviewBottomText {
+	float: left;
+	display: inline;
+	width: 200px;
+	text-align: right;
+	font-weight: bold;
+	font-size: 12px;
+	color: #999;
+}
+.checkoutReviewBottomNum {
+	float: right;
+	display: inline;
+	width: 45px;
+	text-align: right;
+	font-weight: bold;
+	font-size: 16px;
+	color: #999;
+}
+.freeShipping { color: #ff6633; }
+
+#checkoutReviewContinue:link, #checkoutReviewContinue:visited {
+	display: block;
+	color: #fff;
+	background: #67ac1c;
+	margin: 10px auto;
+	padding: 10px 20px 8px 20px;
+	border-radius: 35px;
+	width: 100px;
+	text-align: center;
+	font-weight: bold;
+	text-decoration: none;
+}
+#checkoutReviewContinue:hover {
+	background: #528a15;
+}
+
+.checkoutRemove {
+	display: inline-block;
+	width: 10px;
+	height: 10px;
+	background: transparent url('/assets/img/icons/x_alt1_10x10.png') no-repeat;
+	text-indent: -8000px;
+}#homeHeadWrap {
 	position: fixed;
 	z-index: 3;
 	top: 0;

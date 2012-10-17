@@ -2,8 +2,9 @@ var validEmail = 0;
 var validUrl = 0;
 
 function checkEmail(email) 
-{
-	var filter  = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+{	
+	var filter  = /^([a-zA-Z0-9_\.\_%+-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,6})+$/;
+	//var filter = /^([A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6})+$/;
 	if (!filter.test(email)) {
 		return false;
 	} else {

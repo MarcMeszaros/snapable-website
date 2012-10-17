@@ -54,6 +54,7 @@
 		
 			<input type="hidden" id="lat" name="event[lat]" value="0" />
 			<input type="hidden" id="lng" name="event[lng]" value="0" />
+			<input type="hidden" id="timezone" name="event[timezone]" value="0" />
 			
 			<section id="your-details" class="form-fields">
 		

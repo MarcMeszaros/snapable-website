@@ -154,8 +154,17 @@ Class Signup_model extends CI_Model
 			$max = 9999;
 			$event_pin = rand($min,$max);
 			
-			$start_timestamp = strtotime($event['start_date'] . " " . $event['start_time']);
-		    $end_timestamp = strtotime($event['end_date'] . " " . $event['end_time']);
+			//GET TIMEZONE 
+			$earth_uri  = "http://www.earthtools.org/timezone/" . $event['lat'] . "/" . $event['lng'];
+			$earth_response = simplexml_load_file($earth_uri);
+			$timezone_offset = $earth_response->offset;
+			$timezone_offset_seconds = $timezone_offset * 3600;
+			// SET TO UTC
+			$start_timestamp = strtotime($event['start_date'] . " " . $event['start_time']) - ($timezone_offset_seconds);
+		    $end_timestamp = strtotime($event['end_date'] . " " . $event['end_time']) - ($timezone_offset_seconds);
+			
+			//$start_timestamp = strtotime($event['start_date'] . " " . $event['start_time']);
+		    //$end_timestamp = strtotime($event['end_date'] . " " . $event['end_time']);
 			$start = gmdate( "c", $start_timestamp ); //date( "Y-m-d", $start_timestamp ) . "T" . date( "H:i:s", $start_timestamp ); // formatted: 2010-11-10T03:07:43
 			$end = gmdate( "c", $end_timestamp ); //date( "Y-m-d", $end_timestamp ) . "T" . date( "H:i:s", $end_timestamp ); 
 			
@@ -264,7 +273,7 @@ Class Signup_model extends CI_Model
 					$response = json_decode(curl_exec($session));
 					curl_close($session);
 					
-					echo "sent";
+					//echo "sent";
 					
 					return 1;
 				} else {

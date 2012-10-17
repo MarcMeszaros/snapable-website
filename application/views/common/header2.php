@@ -86,7 +86,39 @@
 			<div id="checkoutMenu">
 				<div class="checkoutMenuTop">&nbsp;</div>
 				<div class="checkoutMenuWrap">
-					<ul class="menuContents"><li id="checkoutPhotos">Display Selected Photos & cost</li></ul>
+					<div id="checkoutReviewTitle">Order Review</div>
+					<div class="menuContents">
+						<ul>
+							<li>
+								<div class="checkoutReviewLeft">
+									<div class="checkoutReviewItem"><span>1 x </span>12 Print Upgrade <a class="checkoutRemove" href="#" title="Remove">X</a></div>
+									<div class="checkoutReviewNote">You’ve only chosen 4 photos so far, you can pick up to 21 more.</div>
+								</div>
+								<div class="checkoutReviewRight">$11</div>
+							</li>
+							<li>
+								<div class="checkoutReviewLeft">
+									<div class="checkoutReviewItem"><span>7 x </span>Single Prints @ $1 ea. <a class="checkoutRemove" href="#" title="Remove">X</a></div>
+								</div>
+								<div class="checkoutReviewRight">$7</div>
+							</li>
+						</ul>
+						
+						<div id="checkoutReviewSubTotalText" class="checkoutReviewBottomText">Sub-total:</div>
+						<div id="checkoutReviewSubTotalNum" class="checkoutReviewBottomNum">$17</div>
+						<div class="clearit">&nbsp;</div>
+						
+						<div id="checkoutReviewShippingText" class="checkoutReviewBottomText">Shipping:</div>
+						<div id="checkoutReviewShippingNum" class="checkoutReviewBottomNum freeShipping">FREE</div>
+						<div class="clearit">&nbsp;</div>
+						
+						<div id="checkoutReviewTotalText" class="checkoutReviewBottomText">Total:</div>
+						<div id="checkoutReviewTotalNum" class="checkoutReviewBottomNum">$17</div>
+						<div class="clearit">&nbsp;</div>
+						
+						<a id="checkoutReviewContinue" href="#">Continue</a>
+						
+					</div>
 				</div>
 			</div>
 			<div id="checkout-buttons">
