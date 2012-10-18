@@ -161,12 +161,18 @@ Class Signup_model extends CI_Model
 			$timezone_offset_seconds = $timezone_offset * 3600;
 			// SET TO UTC
 			$start_timestamp = strtotime($event['start_date'] . " " . $event['start_time']) - ($timezone_offset_seconds);
-		    $end_timestamp = strtotime($event['end_date'] . " " . $event['end_time']) - ($timezone_offset_seconds);
 			
-			//$start_timestamp = strtotime($event['start_date'] . " " . $event['start_time']);
-		    //$end_timestamp = strtotime($event['end_date'] . " " . $event['end_time']);
-			$start = gmdate( "c", $start_timestamp ); //date( "Y-m-d", $start_timestamp ) . "T" . date( "H:i:s", $start_timestamp ); // formatted: 2010-11-10T03:07:43
-			$end = gmdate( "c", $end_timestamp ); //date( "Y-m-d", $end_timestamp ) . "T" . date( "H:i:s", $end_timestamp ); 
+			$start = gmdate( "c", $start_timestamp ); //date( "Y-m-d", $start_timestamp ) . "T" . date( "H:i:s", $start_timestamp ); // formatted: 2010-11-10T03:07:43 
+			
+			// CREATE END DATE
+			if ( $event['duration_type'] == "days" )
+			{
+				$duration_in_seconds = $event['duration_num'] * 86400;
+			} else {
+				$duration_in_seconds = $event['duration_num'] * 3600;
+			}
+			$end_timestamp = $start_timestamp + $duration_in_seconds;
+			$end = gmdate( "c", $end_timestamp );
 			
 			$created = date( "Y-m-d" ) . "T" . date( "H:i:s" );
 			

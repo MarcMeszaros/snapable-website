@@ -236,6 +236,37 @@ $(document).ready(function()
 		return false;
 	});
 	
+	$("#event-duration-type").change( function()
+	{
+		var option = $(this).val();
+		var values = "";
+		var selected = "";
+		
+		if ( option == "days" )
+		{
+			for ( var i=1; i <= 7; i++ )
+			{ 
+				values += "<option value='" + i + "'" + selected + ">" + i + "</option>";
+			}
+		} else {
+			for ( var i=1; i<= 23; i++ )
+			{ 
+				if ( i == 12 )
+				{
+					selected = " SELECTED";
+				}
+				values += "<option value='" + i + "'" + selected + ">" + i + "</option>";
+			}
+		}
+		$("#event-duration-num").html(values);
+		if ( option == "days" )
+		{
+			$("#event-duration-num").val(1);
+		} else {
+			$("#event-duration-num").val(12);
+		}
+	});
+	
 	// form verification and submission 
 	$("#btn-sign-up").click( function()
 	{
