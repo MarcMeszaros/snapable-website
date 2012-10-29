@@ -16,7 +16,6 @@ class Event extends CI_Controller {
 	public function load_event($url) {
 	 	$event_details = json_decode($this->event_model->getEventDetailsFromURL($url));
 		
-		echo "&nbsp;";
 		$head = array(
 			'noTagline' => true,
 			'css' => base64_encode('assets/css/signin.css,assets/css/fileuploader.css,assets/css/jquery.jcrop.css,assets/css/facebox.css,assets/css/tipsy.css,assets/css/setup.css,assets/css/header.css,assets/css/event.css,assets/css/footer.css'),

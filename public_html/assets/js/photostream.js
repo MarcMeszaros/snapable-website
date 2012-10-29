@@ -553,7 +553,7 @@ $(document).ready(function()
 					
 					if  (remains > 0)
 					{
-						instructions = "<div class='checkoutReviewNote'>You've only chosen 4 photos so far, you can pick up to 21 more.</div>";
+						instructions = "<div class='checkoutReviewNote'>You've only chosen " + photos_in_cart + " photos so far, you can pick up to " + print_count + " more.</div>";
 					}
 					
 					// add upgrade

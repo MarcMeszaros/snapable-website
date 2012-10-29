@@ -15,6 +15,12 @@ class Account extends CI_Controller {
 	
 	public function signin()
 	{
+		if( (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] != "on") && $_SERVER['HTTP_HOST'] != "snapable")
+		{
+		    header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
+		    exit();
+		}
+		
 		$segments = $this->uri->total_segments();
 		
 		$error = ( $segments == 3 && $this->uri->segment(3) == "error" ) ? true:false;
@@ -54,6 +60,7 @@ class Account extends CI_Controller {
 			          'fname' => $validate->fname,
 			          'lname' => $validate->lname,
 			          'resource_uri' => $validate->resource_uri,
+			          'account_uri' => $validate->account_uri,
 			          'loggedin' => true
 			        );
 			        $this->session->set_userdata('logged_in', $sess_array);
@@ -77,7 +84,7 @@ class Account extends CI_Controller {
 			// get event details
 			$session_data = $this->session->userdata('logged_in');
 			
-			$event_array = $this->account_model->eventDeets($session_data['resource_uri']);
+			$event_array = $this->account_model->eventDeets($session_data['account_uri']);
 			$this->session->set_userdata('event_deets', $event_array);
 			
 			if ( $event_array['status'] == 200 )

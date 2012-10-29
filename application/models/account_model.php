@@ -9,6 +9,7 @@ Class Account_model extends CI_Model
 		$params = array(
 			'email' => $email,
 		);
+		
 		$resp = SnapApi::send($verb, $path, $params);
 		                                                                                                    
 		$response = $resp['response'];
@@ -78,6 +79,7 @@ Class Account_model extends CI_Model
 		if ( $httpcode == 200 )
 		{
 			$result = json_decode($response);
+			
 			if ( $result->meta->total_count > 0 )
 			{
 				return '{
@@ -85,7 +87,8 @@ Class Account_model extends CI_Model
 					"email": "' . $result->objects[0]->email . '",
 					"fname": "' . $result->objects[0]->first_name . '",
 					"lname": "' . $result->objects[0]->last_name . '",
-					"resource_uri": "' . $result->objects[0]->resource_uri . '"
+					"resource_uri": "' . $result->objects[0]->resource_uri . '",
+					"account_uri": "' . $result->objects[0]->accounts[0] . '"
 				}';	
 			} else {
 				return '{
@@ -130,14 +133,14 @@ Class Account_model extends CI_Model
 	}
 	
 	
-	function eventDeets($resource_uri)
+	function eventDeets($account_uri)
 	{
-		$uri_split = explode("/", $resource_uri);
+		$uri_split = explode("/", $account_uri);
 		
 		$verb = 'GET';
 		$path = '/event/';
 		$params = array(
-			'user' => $uri_split[3],
+			'account' => $uri_split[3],
 		);
 		$resp = SnapApi::send($verb, $path, $params);
 		                                                                                                    
