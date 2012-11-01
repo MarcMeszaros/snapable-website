@@ -261,9 +261,9 @@
 </script>
 
 <script id="checkout-review-upgrade" type="text/html">
-	<li>
+	<li id="addon-{{id}}">
 		<div class="checkoutReviewLeft">
-			<div class="checkoutReviewItem"><span>{{num}} x </span>{{print_count}} Print Upgrade <a class="checkoutRemove" href="#" title="Remove">X</a></div>
+			<div class="checkoutReviewItem"><span>{{num}} x </span>{{print_count}} Print Upgrade <a class="checkoutRemove" rel="{{id}}|{{price}}" href="#" title="Remove">X</a></div>
 			{{{instructions}}}
 		</div>
 		<div class="checkoutReviewRight">${{price}}</div>

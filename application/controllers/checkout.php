@@ -5,7 +5,7 @@ class Checkout extends CI_Controller {
 	function __construct()
 	{
     	parent::__construct(); 
-    	echo "&nbsp;";   
+    	//echo "&nbsp;";   
     	
     	if($this->session->userdata('logged_in'))
 		{
@@ -82,12 +82,76 @@ class Checkout extends CI_Controller {
 	
 	function shipping()
 	{
-		if ( isset($_COOKIE['phCart']) )
+		if ( isset($_COOKIE['phCart']) || isset($_COOKIE['upgrades']) )
 		{
 			$step = array(
 				'step' => 'shipping'
 			);
 			$this->head['js'] = base64_encode('assets/js/checkout-shipping.js'); 
+			
+			// CHECK ORDER CONTENTS
+			if ( isset($_COOKIE['phCart']) )
+			{
+				$contents = "<ul>";
+				$subtotal = 0;
+				
+				if ( isset($_COOKIE['upgrades']) && $_COOKIE['upgrades'] != "" )
+				{
+					$upgrades = explode(",", $_COOKIE['upgrades']);
+					
+					foreach ( $upgrades as $u )
+					{
+						if ( $u == 2 )
+						{
+							$upgrade_name = 12;
+							$upgrade_amount = 11;
+						}
+						else if ( $u == 3 )
+						{
+							$upgrade_name = 24;
+							$upgrade_amount = 19;
+						}
+						else if ( $u == 4 )
+						{
+							$upgrade_name = 36;
+							$upgrade_amount = 27;
+						}
+					
+						$contents .= "<li>
+							<div class='orderContentsLeft'>
+								<div class='orderContentsItem'><span>1 x </span>" . $upgrade_name . " Print Upgrade </div>
+							</div>
+							<div class='orderContentsRight'>$" . $upgrade_amount . "</div>
+						</li>";
+						
+						$subtotal = $subtotal + $upgrade_amount;
+					}
+					
+					$contents .= "</ul>";
+					$contents .= "<div class='orderContentsLeft'>
+						<div class='orderContentsItem'>Subtotal:</div>
+					</div>
+					<div class='orderContentsRight'>$" . $subtotal . "</div>
+					<div class='clearit'>&nbsp;</div>
+					
+					<div class='orderContentsLeft'>
+						<div class='orderContentsItem'>Shipping:</div>
+					</div>
+					<div class='orderContentsRight freeshipping'>FREE</div>
+					<div class='clearit'>&nbsp;</div>
+					
+					<div class='orderContentsLeft'>
+						<div class='orderContentsItem'>Total:</div>
+					</div>
+					<div class='orderContentsRight'>$" . $subtotal . "</div>
+					<div class='clearit'>&nbsp;</div>";
+				}
+				$this->data['order_contents'] = $contents;
+			} else {
+				redirect($this->head['url']);
+			}
+			
+			
 			
 			$this->load->view('common/header2', $this->head);
 			$this->load->view('checkout/steps', $step);
@@ -105,7 +169,78 @@ class Checkout extends CI_Controller {
 			$step = array(
 				'step' => 'billing'
 			);
-			$this->head['js'] = base64_encode('assets/js/checkout-billing.js'); 
+			$this->head['js'] = base64_encode('assets/js/checkout-billing.js');
+			$this->head['stripe'] = true;
+			
+			$allowed_hosts = array('snapable.com', 'www.snapable.com', 'internal.snapable.com');
+			if (!isset($_SERVER['HTTP_HOST']) || !in_array($_SERVER['HTTP_HOST'], $allowed_hosts))
+			{
+				$this->head['stripe_key'] = "***REMOVED***"; 
+			} else {
+				$this->head['stripe_key'] = "pk_Jfq6cp5WGO4JHBQgAtz4zJOeTftLf"; 	
+			}
+			
+			// CHECK ORDER CONTENTS
+			if ( isset($_COOKIE['phCart']) )
+			{
+				$contents = "<ul>";
+				$subtotal = 0;
+				
+				if ( isset($_COOKIE['upgrades']) && $_COOKIE['upgrades'] != "" )
+				{
+					$upgrades = explode(",", $_COOKIE['upgrades']);
+					
+					foreach ( $upgrades as $u )
+					{
+						if ( $u == 2 )
+						{
+							$upgrade_name = 12;
+							$upgrade_amount = 11;
+						}
+						else if ( $u == 3 )
+						{
+							$upgrade_name = 24;
+							$upgrade_amount = 19;
+						}
+						else if ( $u == 4 )
+						{
+							$upgrade_name = 36;
+							$upgrade_amount = 27;
+						}
+					
+						$contents .= "<li>
+							<div class='orderContentsLeft'>
+								<div class='orderContentsItem'><span>1 x </span>" . $upgrade_name . " Print Upgrade </div>
+							</div>
+							<div class='orderContentsRight'>$" . $upgrade_amount . "</div>
+						</li>";
+						
+						$subtotal = $subtotal + $upgrade_amount;
+					}
+					
+					$contents .= "</ul>";
+					$contents .= "<div class='orderContentsLeft'>
+						<div class='orderContentsItem'>Subtotal:</div>
+					</div>
+					<div class='orderContentsRight'>$" . $subtotal . "</div>
+					<div class='clearit'>&nbsp;</div>
+					
+					<div class='orderContentsLeft'>
+						<div class='orderContentsItem'>Shipping:</div>
+					</div>
+					<div class='orderContentsRight freeshipping'>FREE</div>
+					<div class='clearit'>&nbsp;</div>
+					
+					<div class='orderContentsLeft'>
+						<div class='orderContentsItem'>Total:</div>
+					</div>
+					<div class='orderContentsRight'>$" . $subtotal . "</div>
+					<div class='clearit'>&nbsp;</div>";
+				}
+				$this->data['order_contents'] = $contents;
+			} else {
+				redirect($this->head['url']);
+			}
 			
 			$this->load->view('common/header2', $this->head);
 			$this->load->view('checkout/steps', $step);
@@ -131,6 +266,17 @@ class Checkout extends CI_Controller {
 			$this->load->view('common/footer');
 		} else {
 			echo "no cookies.";
+		}
+	}	
+	
+	function address()
+	{
+		if ( IS_AJAX && isset($_POST) )
+		{
+			$this->load->model('checkout_model','',TRUE);
+			echo $this->checkout_model->addAddress($_POST);
+		} else {
+			show_404();
 		}
 	}
 }

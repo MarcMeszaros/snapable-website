@@ -20,6 +20,10 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="/min/j/<?= $js ?>"></script>
     <?php } ?>
+    <?php if ( isset($stripe) ) { ?>
+    <script type="text/javascript" src="https://js.stripe.com/v1/"></script>
+    <script type="text/javascript">	Stripe.setPublishableKey("<?= $stripe_key ?>");</script>
+    <?php } ?>
     <script type="text/javascript">
 <?php if ( $_SERVER['HTTP_HOST'] == "snapable.com" || $_SERVER['HTTP_HOST'] == "www.snapable.com" ) { ?>  
 	  var _gaq = _gaq || [];
@@ -88,21 +92,9 @@
 				<div class="checkoutMenuWrap">
 					<div id="checkoutReviewTitle">Order Review</div>
 					<div class="menuContents">
-						<ul>
-							<li>
-								<div class="checkoutReviewLeft">
-									<div class="checkoutReviewItem"><span>1 x </span>12 Print Upgrade <a class="checkoutRemove" href="#" title="Remove">X</a></div>
-									<div class="checkoutReviewNote">You’ve only chosen 4 photos so far, you can pick up to 21 more.</div>
-								</div>
-								<div class="checkoutReviewRight">$11</div>
-							</li>
-							<li>
-								<div class="checkoutReviewLeft">
-									<div class="checkoutReviewItem"><span>7 x </span>Single Prints @ $1 ea. <a class="checkoutRemove" href="#" title="Remove">X</a></div>
-								</div>
-								<div class="checkoutReviewRight">$7</div>
-							</li>
-						</ul>
+						<ul></ul>
+						
+						<div id="checkoutReviewInstructions">instructions</div>
 						
 						<div id="checkoutReviewSubTotalText" class="checkoutReviewBottomText">Sub-total:</div>
 						<div id="checkoutReviewSubTotalNum" class="checkoutReviewBottomNum">$17</div>

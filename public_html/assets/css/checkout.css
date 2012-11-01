@@ -53,6 +53,8 @@ a#eventBack:hover {
 }
 
 #checkoutSteps {
+	width: 732px;
+	margin: 0 auto;
 	list-style: none;
 	border: 1px solid #ccc;
 	border-radius: 5px;
@@ -83,7 +85,7 @@ a#eventBack:hover {
 #checkoutSteps li {
 	float: left;
 	display: inline;
-	width: 202px;
+	width: 232px;
 	padding: 20px 10px;
 	border-right: 1px solid #ccc;
 	border-left: 1px solid #fff;
@@ -117,13 +119,15 @@ a#eventBack:hover {
 	text-shadow: #003366 1px 1px 1px;
 }
 
+
+
+/**** PHOTOS ****/
+/*
 #checkoutPhotos {
 	margin-top: 50px;
 	text-align:center;
 	font-weight: bold;
 }
-
-/**** PHOTOS ****/
 
 .photo {
 	float: left;
@@ -174,6 +178,7 @@ a#eventBack:hover {
 	background: #ff3300;
 	border: 2px solid #cc3300;
 }
+*/
 a.button:link, a.button:visited {
 	display: block;
 	width: 100px;
@@ -195,19 +200,28 @@ a.button:hover {
 	color: #66ccff;
 }
 
-a.continue:link, a.continue:visited {
+.continueWrap {
+	margin: 10px 0 0 0;
+	padding: 10px 0 0 0;
+	border-top: 1px dotted #999;
+}
+a.continue:link, a.continue:visited, input[type=submit] {
 	display: block;
 	color: #fff;
 	background: #67ac1c;
-	margin: 40px auto;
+	margin: 20px 0 0 0;
 	padding: 20px 40px 18px 40px;
 	border-radius: 35px;
 	width: 170px;
 	text-align: center;
 	font-weight: bold;
 	text-decoration: none;
+	
+	cursor: pointer;
+	border: none;
+	font-size: 16px;
 }
-a.continue:hover {
+a.continue:hover, input[type=submit]:hover {
 	background: #528a15;
 }
 
@@ -354,12 +368,19 @@ Animate the stripes
 
 /**** FORMS ****/
 
+.checkoutWrap {
+	width: 732px;
+	margin: 0 auto;
+}
+
 /**** FORM ****/
 
 .form-box {
-	padding: 50px;
+	float: left;
+	display: inline;
+	padding: 25px 50px;
 	width: 350px;
-	margin: 50px auto 20px auto;
+	margin: 25px 0;
 	background: #fff;
 	border-radius: 5px;
 	border: 1px solid #ccc;
@@ -402,7 +423,7 @@ Animate the stripes
 }
 
 .form-field input[type="text"] {
-  width:350px;  
+  width:335px;  
 }
 .password-field input[type="password"] {
   width:165px;  
@@ -530,7 +551,85 @@ span.left { float: left; }
 	border:2px solid #cc3300;
 }
 
+/**** ORDER REVIEW ****/
+
+.orderReview {
+	float: right;
+	display: inline;
+	width: 250px;
+	padding: 25px 0;
+	margin: 25px 0;
+}
+
+.secureInfo {
+	padding: 10px 5px 5px 35px;
+	margin-bottom: 25px;
+	border: 1px solid #669900;
+	border-radius: 5px;
+	background: #99cc33 url('/assets/img/icons/lock_fill_12x16.png') no-repeat 10px;
+	color: #fff;
+	font-size: 14px;
+	line-height: 16px;
+}
+
+.orderContents ul {
+	list-style: none;
+	border-bottom: 1px solid #999;
+	margin-bottom: 15px;
+}
+.orderContents li {
+	margin-bottom: 5px;
+	padding-bottom: 5px;
+	border-bottom: 1px dotted #999;
+}
+.orderContents li:last-child {
+	border-bottom: none;
+}
+.orderContents li:after {
+	content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+    margin: 0;
+    padding: 0;
+}
+.orderContentsLeft {
+	float: left;
+	display: inline;
+	width: 200px;
+}
+.orderContentsRight {
+	float: right;
+	display: inline;
+	width: 45px;
+	font-size: 16px;
+	color: #999;
+	font-weight: bold;
+	text-align: right;
+}
+
+.orderContentsItem {
+	font-size: 16px;
+	line-height: 20px;
+	font-weight: bold;
+	color: #666;
+}
+.orderContentsItem span { color: #222222; }
+
+
+.questionsInfo {
+	margin: 25px 0;
+	padding: 10px 20px 20px 20px;
+	background: #fff;
+	border-radius: 5px;
+	border: 1px solid #ccc;
+	font-size: 14px;
+	line-height: 18px;
+}
+
 /**** TEXT ****/
+
 
 h1 {
 	color: #333;
@@ -547,4 +646,12 @@ h2 {
 	line-height: 24px;
 	font-weight:normal;
 	margin: 5px 0 20px 0;
+}
+
+#card_type img {
+	cursor: pointer;
+}
+#card_type img.cardSelected {
+	border-radius: 3px;
+	background: #67ac1c;
 }

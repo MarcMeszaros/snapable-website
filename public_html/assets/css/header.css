@@ -50,6 +50,18 @@
 	line-height: 14px;
 }
 
+#checkoutReviewInstructions {
+	display: none;
+	padding: 5px;
+	text-align: center;
+	font-size: 12px;
+	line-height: 16px;
+	color: #fff;
+	background: #EC6C00;
+	border-radius: 3px;
+	margin-bottom: 10px;
+}
+
 .checkoutReviewBottomText {
 	float: left;
 	display: inline;

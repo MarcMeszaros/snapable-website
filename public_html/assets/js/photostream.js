@@ -23,6 +23,13 @@ function firstRunSlideshow()
     })
 }
 
+
+function bringBackAddonButton(id)
+{
+	$("#upgrade-" + id).html("<a class='addUpgrade' href='#' rel='" + id + "'>Add</a>");
+}
+
+
 function createCookie(name,value,days) {
 	if (days) {
 		var date = new Date();
@@ -164,7 +171,7 @@ $(document).ready(function()
 						var addBTNhtml = val.desc;
 						if ( val.addBTN > 0 )
 						{
-							addBTNhtml = "<div class='addUpgradeWrap'><a class='addUpgrade' href='#' rel='" + val.id + "'>Add</a></div>";
+							addBTNhtml = "<div class='addUpgradeWrap' id='upgrade-" + val.id + "'><a class='addUpgrade' href='#' rel='" + val.id + "'>Add</a></div>";
 						}
 					
 						var viewData = {
@@ -462,6 +469,8 @@ $(document).ready(function()
 			createCookie('upgrades', upgrade_id,'90');
 		}
 		$(this).closest(".addUpgradeWrap").html("Added.");
+		
+		setTimeout( function() { bringBackAddonButton(upgrade_id) }, 1500)
 	});
 	
 	/**** SHOW CHECKOUT BUTTON ****/
@@ -495,7 +504,72 @@ $(document).ready(function()
 				if (upgradeCookie.indexOf(",") >= 0)
 				{
 					// more than one upgrade exists
+					var upgrades = upgradeCookie.split(",");
+					
+					var remains = 0;
+					var extras = 0;
+					var print_count = 0;
+					var total_prints = 0;
+					var shipping = "FREE";
+					var instructions = "";
+					var price = 0;
+					var thisID = 0;
+					
+					// add upgrades
+					$.Mustache.load('/assets/js/templates.html').done(function () 
+					{
+						$.each(upgrades, function(key, value) 
+						{
+							if ( value == 2 )
+							{
+								price = 11;
+								print_count = 12;
+							}
+							else if ( value == 3 )
+							{
+								price = 19;
+								print_count = 24;
+							}
+							else if ( value == 4 )
+							{
+								price = 27;
+								print_count = 36;
+							}
+						
+							var viewData = {
+								id: thisID,
+								num: 1, 
+								print_count: print_count,
+								instructions: "",
+								price: price,
+								type: 'upgrade'
+							};
+							$("#checkoutMenu .menuContents ul").mustache('checkout-review-upgrade', viewData);
+							
+							total_prints = total_prints + print_count;
+							remains = total_prints - photos_in_cart;
+							subtotal = subtotal + price;
+							thisID++;
+							
+							$("#checkoutReviewSubTotalNum").html("$" + subtotal);
+							// add shipping
+							if ( shipping != "FREE" )
+							{
+								shipping = "$" + shipping;
+							}
+							$("#checkoutReviewShippingNum").html(shipping);
+							// add total
+							$("#checkoutReviewTotalNum").html("$" + subtotal);
+						});
 					// if there's less prints than the upgrades allow display message with # of prints left
+					if  (remains > 0)
+					{
+						$("#checkoutReviewInstructions").html("You're selected upgrades allow for " + total_prints + " photos, you've  only chosen " + photos_in_cart + ".").show();
+					} else {
+						$("#checkoutReviewInstructions").hide();
+					}
+						
+					});
 					// if there's more prints than the upgrades add them as another line item
 				} else {
 				
@@ -553,16 +627,17 @@ $(document).ready(function()
 					
 					if  (remains > 0)
 					{
-						instructions = "<div class='checkoutReviewNote'>You've only chosen " + photos_in_cart + " photos so far, you can pick up to " + print_count + " more.</div>";
+						$("#checkoutReviewInstructions").html("You're selected upgrade allow for " + print_count + " photos, you've  only chosen " + photos_in_cart + ".");
 					}
 					
 					// add upgrade
 					$.Mustache.load('/assets/js/templates.html').done(function () 
 					{
 						var viewData = {
+							id: 0,
 							num: 1, 
 							print_count: print_count,
-							instructions: instructions,
+							instructions: "",
 							price: subtotal,
 							type: 'upgrade'
 						};
@@ -577,6 +652,17 @@ $(document).ready(function()
 							$("#checkoutMenu .menuContents ul").mustache('checkout-review-singles', viewData);
 						}
 					});
+					
+					// add subtotal
+					$("#checkoutReviewSubTotalNum").html("$" + subtotal);
+					// add shipping
+					if ( shipping != "FREE" )
+					{
+						shipping = "$" + shipping;
+					}
+					$("#checkoutReviewShippingNum").html(shipping);
+					// add total
+					$("#checkoutReviewTotalNum").html("$" + total);
 				}
 				
 				shipping = "FREE";
@@ -596,22 +682,66 @@ $(document).ready(function()
 				subtotal = photos_in_cart;
 				total = photos_in_cart + shipping;
 				
+				// add subtotal
+				$("#checkoutReviewSubTotalNum").html("$" + subtotal);
+				// add shipping
+				if ( shipping != "FREE" )
+				{
+					shipping = "$" + shipping;
+				}
+				$("#checkoutReviewShippingNum").html(shipping);
+				// add total
+				$("#checkoutReviewTotalNum").html("$" + total);
 			}
-			// add subtotal
-			$("#checkoutReviewSubTotalNum").html("$" + subtotal);
-			// add shipping
-			if ( shipping != "FREE" )
-			{
-				shipping = "$" + shipping;
-			}
-			$("#checkoutReviewShippingNum").html(shipping);
-			// add total
-			$("#checkoutReviewTotalNum").html("$" + total);
-			
 			$("#checkoutMenu").toggle();
 		}
 	});
-
+	
+	$("#checkoutMenu").on("click", ".checkoutRemove", function(e) 
+	{
+		var deets = $(this).attr("rel").split("|");
+		var thisID = deets[0];
+		var thisPrice = deets[1];
+		
+		// HIDE & REMOVE FROM CHECKOUT MENU
+		
+		$("#addon-" + thisID).fadeOut("fast");
+		
+		// update subtotal and total
+		
+		var subtotal = parseFloat($("#checkoutReviewSubTotalNum").html().replace("$", ""));
+		var new_subtotal = subtotal - thisPrice;
+		
+		$("#checkoutReviewSubTotalNum").html("$" + new_subtotal);
+		$("#checkoutReviewTotalNum").html("$" + new_subtotal);
+		
+		// REMOVE FROM UPGRADES COOKIE
+		
+		var upgradeCookie = readCookie('upgrades');
+		var upgradeArr = upgradeCookie.split(",");
+		upgradeArr.splice(thisID,1);
+		createCookie('upgrades', upgradeArr,'90');
+		
+		if ( readCookie('upgrades') == "" )
+		{
+			createCookie('upgrades', "",'-90');
+			$("#checkoutReviewSubTotalNum").html("$0");
+			$("#checkoutReviewTotalNum").html("$0");
+		}
+	});
+	
+	$("#checkoutMenu").on("click", "#checkoutReviewContinue", function(e) 
+	{
+		var photosInCart = readCookie('phCart');
+		var upgrades = readCookie('upgrades');
+		
+		if ( photosInCart.length > 0 && upgrades.length > 0 )
+		{
+			window.location = "/checkout/shipping";
+		} else {
+			alert("You don't seem to have added anything to your order.");
+		}
+	});
 	
 	
 	// PRIVACY MENU
