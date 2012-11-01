@@ -148,6 +148,8 @@ Class Signup_model extends CI_Model
 		
 			$result = json_decode($response);
 			$user_uri = $result->resource_uri;
+			$tempResult = json_decode($response, true);
+			$account_uri = $tempResult['accounts'][0];
 			
 			// EVENT
 		    $min = 1000;
@@ -179,8 +181,7 @@ Class Signup_model extends CI_Model
 			$verb = 'POST';
 			$path = '/event/';
 			$params = array(
-				"creation_date" => $created,
-				"user" => $user_uri,
+				"account" => $account_uri,
 				"package" => "/".SnapApi::$api_version."/package/1/",
 				"title" => $event['title'],
 			    "url" => $event['url'],
