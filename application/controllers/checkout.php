@@ -275,7 +275,7 @@ class Checkout extends CI_Controller {
 				if ( isset($cust->error) )
 				{
 					//echo $cust->error->message;
-					redirect("/checkout/subscribe/error");
+					redirect("/checkout/error");
 				} else {
 					
 					$charge = json_decode($this->stripe->charge_customer( $amount_in_cents, $cust->id, $desc ));
@@ -285,19 +285,6 @@ class Checkout extends CI_Controller {
 						//echo $charge->error->message;
 						redirect("/checkout/error");
 					} else {
-						// move customer from signup to users, email them account details then redirect to success page
-						
-						if ( $convert->status == 200 )
-						{
-							$email = $convert->email;
-							$password = $convert->password;
-							
-							$threeMonths = $_POST['amount'] * 3;
-							
-							$html = "<p>Receipt</p>";
-							$text = "Receipt";
-							$this->mAccount->sendEmail($email, "Snapable: Order Receipt", $html, $text);
-						}
 						redirect("/checkout/success");
 					}
 					

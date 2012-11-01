@@ -224,6 +224,9 @@ a.continue:link, a.continue:visited, input[type=submit] {
 a.continue:hover, input[type=submit]:hover {
 	background: #528a15;
 }
+input[type=submit][disabled=disabled] {
+	background: #ccc;
+}
 
 /*** CSS LOAD BAR ****/
 
