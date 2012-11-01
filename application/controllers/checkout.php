@@ -30,6 +30,7 @@ class Checkout extends CI_Controller {
 			
 			if ( $session_owner['loggedin'] == true )
 			{
+				$email = $session_owner['email'];
 				$ownerLoggedin = true;
 				$this->head["loggedInBar"] = "owner"; 
 			} else {
@@ -42,13 +43,14 @@ class Checkout extends CI_Controller {
 			
 			if ( $session_guest['loggedin'] == true )
 			{
+				$email = "unknown@snapable.com";
 				$guestLoggedin = true;
 				$this->head["loggedInBar"] = "guest"; 
 			} else {
 				$guestLoggedin = false;
 			}
 		} else {
-			
+			redirect("/");
 		}
 		
 		if ( substr($_COOKIE['phCart'], 0, 1) == "," )
@@ -59,7 +61,8 @@ class Checkout extends CI_Controller {
 		}
 		
 		$this->data = array(
-			'photos' => $cartContents
+			'photos' => $cartContents,
+			'email' => $email
 		);		    	
 	}
 
@@ -251,10 +254,65 @@ class Checkout extends CI_Controller {
 		}
 	}
 	
-	function complete()
+	
+	function pay()
+	{
+
+		$this->load->library( 'stripe' );
+		
+		if ($_POST) {
+			if ( !isset($_POST['stripeToken']) )
+			{
+				echo 'FAIL';
+			} else {
+				$amount_in_cents = 10 * 100;
+				$card = $_POST['stripeToken'];
+				$desc = "1 month of Scratchpad";
+				$email = $_POST['email'];
+				
+				$cust = json_decode($this->stripe->customer_create( $card, $email ));
+				
+				if ( isset($cust->error) )
+				{
+					//echo $cust->error->message;
+					redirect("/checkout/subscribe/error");
+				} else {
+					
+					$charge = json_decode($this->stripe->charge_customer( $amount_in_cents, $cust->id, $desc ));
+					
+					if ( isset($charge->error) )
+					{
+						//echo $charge->error->message;
+						redirect("/checkout/error");
+					} else {
+						// move customer from signup to users, email them account details then redirect to success page
+						
+						if ( $convert->status == 200 )
+						{
+							$email = $convert->email;
+							$password = $convert->password;
+							
+							$threeMonths = $_POST['amount'] * 3;
+							
+							$html = "<p>Receipt</p>";
+							$text = "Receipt";
+							$this->mAccount->sendEmail($email, "Snapable: Order Receipt", $html, $text);
+						}
+						redirect("/checkout/success");
+					}
+					
+				}
+			}
+		}
+	}
+	
+	
+	function success()
 	{
 		if ( isset($_COOKIE['phCart']) )
 		{
+			// remove phCart and upgrades cookies
+			
 			$step = array(
 				'step' => 'complete'
 			);

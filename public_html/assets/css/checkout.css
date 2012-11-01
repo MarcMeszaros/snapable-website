@@ -551,6 +551,41 @@ span.left { float: left; }
 	border:2px solid #cc3300;
 }
 
+
+.divider {
+    display: block;
+    height: 1px;
+    clear: both;
+    margin: 0 0 20px 0;
+    padding: 0 0 10px 0;
+    border-bottom: 1px dotted #999;
+	}
+
+.payment-errors {
+	display: none;
+	color: #fff;
+	background: #cc3300;
+	padding: 10px;
+	text-align: center;
+	border-radius: 3px;
+}
+#chargeFail {
+	color: #fff;
+	background: #cc3300;
+	padding: 10px;
+	margin: 20px 0 0 0;
+	text-align: center;
+	border-radius: 3px;
+}
+#chargeFail a:link, #chargeFail a:visited { color: #fff; }
+
+label.error {
+	color: #cc3300;
+	font-weight: 700;
+	font-size: 12px;
+}
+input.error { border: 1px solid #cc3300; }
+
 /**** ORDER REVIEW ****/
 
 .orderReview {
