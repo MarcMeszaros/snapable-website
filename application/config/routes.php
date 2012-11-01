@@ -50,7 +50,7 @@ $route['event/find'] = 'event/find'; // exception for the event name
 $route['event/privacy'] = 'event/privacy'; // exception for the event name
 
 $route['event/get/(:any)'] = 'event/get_tasks/$1';
-$route['event/guest/(:any)'] = 'event/guest_tasks/$1';
+$route['event/guests/(:any)'] = 'event/guest_tasks/$1';
 $route['event/details/(:any)'] = 'event/details_tasks/$1';
 $route['event/(:any)/(:any)'] = 'event/event_tasks/$2';
 $route['event/(:any)'] = 'event/load_event/$1';
