@@ -26,8 +26,7 @@ class Account extends CI_Controller {
 		$error = ( $segments == 3 && $this->uri->segment(3) == "error" ) ? true:false;
 		$reset = ( isset($_GET['reset']) ) ? true:false;
 		
-    	echo "&nbsp;";  
-		$data = array(
+    	$data = array(
 			'css' => base64_encode('assets/css/setup.css,assets/css/signin.css'),
 			'js' => base64_encode('assets/js/signin.js'),
 			'error' => $error,
@@ -186,7 +185,6 @@ class Account extends CI_Controller {
 	function reset($nonce = NULL)
 	{
 		
-		echo "&nbsp;";  
 		$data = array(
 			'css' => base64_encode('assets/css/setup.css,assets/css/signin.css')
 		);
@@ -219,7 +217,6 @@ class Account extends CI_Controller {
 				
 				if ( $nonce = 1 )
 				{
-					echo "&nbsp;";  
 					$data = array(
 						'css' => base64_encode('assets/css/setup.css,assets/css/signin.css')
 					);

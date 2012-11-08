@@ -201,7 +201,6 @@ class Event extends CI_Controller {
 		{
 			$event_details = json_decode($this->event_model->getEventDetailsFromURL($this->uri->segment(2)));
 			
-			echo "&nbsp;";
 			$data = array(
 				'noTagline' => true,
 				'css' => base64_encode('assets/css/setup.css,assets/css/slideshow.css'),

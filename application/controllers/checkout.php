@@ -5,8 +5,7 @@ class Checkout extends CI_Controller {
 	function __construct()
 	{
     	parent::__construct(); 
-    	//echo "&nbsp;";   
-    	
+
     	if($this->session->userdata('logged_in'))
 		{
 	    	$event_data = $this->session->userdata('event_deets');

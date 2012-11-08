@@ -5,7 +5,6 @@ class Dashboard extends CI_Controller {
 	function __construct()
 	{
     	parent::__construct(); 
-    	echo "&nbsp;";   
     	$this->data['css'] = base64_encode('assets/css/setup.css,assets/css/dashboard.css');	
     	$this->data['js'] = base64_encode('assets/js/dashboard.js');			    	
 	}
