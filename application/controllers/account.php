@@ -32,7 +32,9 @@ class Account extends CI_Controller {
 			'error' => $error,
 			'reset' => $reset
 		);
+		$this->load->view('common/html_header', $data);
 		$this->load->view('account/signin', $data);
+		$this->load->view('common/html_footer', $data);
 	}
 	
 	public function validate()
@@ -107,7 +109,9 @@ class Account extends CI_Controller {
 					'days_until' => $days_until,
 					'days_verb' => $days_verb
 				);
+				$this->load->view('common/html_header', $data);
 				$this->load->view('account/dashboard', $data);
+				$this->load->view('common/html_footer', $data);
 			} else {
 				echo "INSERT MESSAGE THAT NO EVENT WAS FOUND FOR THIS PERSON.";
 			}
@@ -197,10 +201,14 @@ class Account extends CI_Controller {
 			} else {
 				$data['error'] = "";
 			}
+			$this->load->view('common/html_header', $data);
 			$this->load->view('account/reset', $data);
+			$this->load->view('common/html_footer', $data);
 		} else {
 			$data['nonce'] = $nonce;
+			$this->load->view('common/html_header', $data);
 			$this->load->view('account/new_password', $data);
+			$this->load->view('common/html_footer', $data);
 		}
 	}
 	
@@ -220,7 +228,9 @@ class Account extends CI_Controller {
 					$data = array(
 						'css' => base64_encode('assets/css/setup.css,assets/css/signin.css')
 					);
+					$this->load->view('common/html_header', $data);
 					$this->load->view('account/email_sent', $data);
+					$this->load->view('common/html_footer', $data);
 				} else {
 					redirect("/account/reset?error");
 				}

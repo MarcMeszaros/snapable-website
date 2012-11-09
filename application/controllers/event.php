@@ -209,7 +209,9 @@ class Event extends CI_Controller {
 				'title' => $event_details->event->title . ", " . $event_details->event->display_timedate . " via Snapable"
 			);
 			
+			$this->load->view('common/html_header', $data);
 			$this->load->view('event/slideshow', $data);
+			$this->load->view('common/html_footer', $data);
 		} 
 		else if ( $task == "invites" && IS_AJAX )
 		{

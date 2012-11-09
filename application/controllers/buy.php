@@ -36,8 +36,11 @@ class Buy extends CI_Controller {
 		{
 			$data = array(
 				'title' => $_POST['event']['title']
+				'css' => 'css' => base64_encode('assets/css/loader.css'),
 			);
+			$this->load->view('common/html_header', $data);
 			$this->load->view('buy/complete', $data);
+			$this->load->view('common/html_footer', $data);
 			
 			$create_event = $this->buy_model->createEvent($_POST['event'], $_POST['user'], $_POST['cc'], $_POST['address']);
 			

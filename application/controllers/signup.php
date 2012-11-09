@@ -22,16 +22,21 @@ class Signup extends CI_Controller {
 			'js' => base64_encode('assets/js/jquery-ui-1.8.21.custom.min.js,assets/js/jquery.timePicker.min.js,assets/js/signup.js'),
 			'url' => 'blank'	
 		);
+		$this->load->view('common/html_header', $head);
 		$this->load->view('signup/index', $head);
+		$this->load->view('common/html_footer', $head);
 	}
 	
 	
 	function complete()
 	{
 		$data = array(
-			'title' => $_POST['event']['title']
+			'title' => $_POST['event']['title'],
+			'css' => base64_encode('assets/css/loader.css'),
 		);
+		$this->load->view('common/html_header', $data);
 		$this->load->view('signup/complete', $data);
+		$this->load->view('common/html_footer', $data);
 		
 		$create_event = $this->signup_model->createEvent($_POST['event'], $_POST['user']);
 		

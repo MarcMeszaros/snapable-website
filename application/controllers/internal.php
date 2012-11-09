@@ -37,6 +37,8 @@ class Internal extends CI_Controller {
         );
         $resp = $this->event_model->query($params);
         $data['events'] = $resp['response']['objects'];
+        $this->load->view('common/html_header', $data);
         $this->load->view('internal/dashboard', $data);
+        $this->load->view('common/html_footer', $data);
     }
 }

@@ -16,7 +16,9 @@ class Dashboard extends CI_Controller {
 			'js' => $this->data['js'],
 			'url' => 'bigger-awesomer-event'
 		);
+		$this->load->view('common/html_header', $data);
 		$this->load->view('dashboard/index', $data);
+		$this->load->view('common/html_footer', $data);
 	}
 }
 
