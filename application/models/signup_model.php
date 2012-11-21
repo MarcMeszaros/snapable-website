@@ -235,6 +235,7 @@ Class Signup_model extends CI_Model
 			          'fname' => $user['first_name'],
 			          'lname' => $user['last_name'],
 			          'resource_uri' => $user_uri,
+			          'account_uri' => $account_uri,
 			          'loggedin' => true
 			        );
 			        $this->session->set_userdata('logged_in', $sess_array);
@@ -276,8 +277,10 @@ Class Signup_model extends CI_Model
 					curl_setopt($session, CURLOPT_HEADER, false);
 					curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
 					
-					// obtain response
-					$response = json_decode(curl_exec($session));
+					// execute request if not in debug obtain response
+					if (DEBUG == false) {
+						$response = json_decode(curl_exec($session));
+					}
 					curl_close($session);
 					
 					//echo "sent";
