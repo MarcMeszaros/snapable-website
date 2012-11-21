@@ -340,6 +340,7 @@ $(document).ready(function()
 			}
 			
 			// Trigger photo overlay code
+			/*
 			$(".photo").hover(
 			  function () {
 			    $(".photo-overlay", this).fadeIn("fast");
@@ -348,6 +349,7 @@ $(document).ready(function()
 			    $(".photo-overlay", this).fadeOut("fast");
 			  }
 			); 
+*/
 			$('a.photo-enlarge').facebox();
 		});
 		return false;
@@ -365,6 +367,7 @@ $(document).ready(function()
 		alert("Show album menu")
 	});
 	
+	/*
 	$(document).on("click", ".addto-prints", function()
 	{ 
 		var count = parseFloat($("#in-cart-number").html()) + 1;
@@ -410,6 +413,7 @@ $(document).ready(function()
 		//
 		sendNotification("caution", "The photo was removed from your cart.");
 	});
+*/
 	
 	// SLIDESHOW MENU
 	$("#slideshowBTN").click( function(e)
