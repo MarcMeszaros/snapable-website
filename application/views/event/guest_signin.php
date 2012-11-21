@@ -1,6 +1,6 @@
 <div id="guestSigninTop"></div>
 
-<form id="signinWrap" name="signin" action="/event/guest/<?= $eventDeets->url ?>/validate" method="post">
+<form id="signinWrap" name="signin" action="/event/guests/<?= $eventDeets->url ?>/validate" method="post">
 	
 	<h1><?= $eventDeets->title ?> Guest Sign in</h1>
 	<h2><?= $eventDeets->display_timedate ?></h2>
