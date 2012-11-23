@@ -13,13 +13,35 @@
 	<link rel="SHORTCUT ICON" href="/favicon.ico"/> 
     
     <link href='http://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
-    <?php if ( isset($css) ) { ?>
-    <link rel="stylesheet" href="/min/c/<?= $css ?>" type="text/css" media="screen" />
-    <?php } ?>
-    <?php if ( isset($js) ) { ?>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
-    <script type="text/javascript" src="/min/j/<?= $js ?>"></script>
-    <?php } ?>
+    <?php 
+    if ( isset($css) ) {
+    	// add assets
+		if(defined('DEBUG') && DEBUG == true) {
+			$decoded_assets = explode(',', base64_decode($css));
+			foreach ($decoded_assets as $asset) {
+	    		echo '<link rel="stylesheet" href="/' . $asset . '" type="text/css" media="screen" />'.PHP_EOL;
+			}
+		} else {
+			echo '<link rel="stylesheet" href="/min/c/' . $css . '" type="text/css" media="screen" />';
+		}
+    } 
+    ?>
+    
+    <?php 
+	    if ( isset($js) ) {
+			echo '<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>';
+			// add assets
+			if(defined('DEBUG') && DEBUG == true) {
+				$decoded_assets = explode(',', base64_decode($js));
+				foreach ($decoded_assets as $asset) {
+		    		echo '<script type="text/javascript" src="/' . $asset . '"></script>'.PHP_EOL;
+				}
+			} else {
+				echo '<script type="text/javascript" src="/min/j/' . $js . '"></script>';
+			}
+	    } 
+    ?>
+
     <?php if ( isset($stripe) ) { ?>
     <script type="text/javascript" src="https://js.stripe.com/v1/"></script>
     <script type="text/javascript">	Stripe.setPublishableKey("<?= $stripe_key ?>");</script>
