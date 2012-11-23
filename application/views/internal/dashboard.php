@@ -1,11 +1,30 @@
-    <h1>Upcoming Events</h1>
+    <h2>Events</h2>
     <p>List of upcoming events or events in progress.</p>
-    <p>#EventID Title (event url) - start ~ end</p>
-    <ul>
+    <table border="1">
+        <tr>
+            <th>EventID</th>
+            <th>Title</th>
+            <th>URL</th>
+            <th>Public</th>
+            <th>Start (UTC)</th>
+            <th>End (UTC)</th>
+            <th>Photo Count</th>
+        </tr>
         <?php
             foreach ($events as $event) {
                 $eventID = explode('/', $event['resource_uri']);
-                echo '<li>#'.$eventID[3].' '.$event['title'].' ('.$event['url'].') - '.$event['start'].' ~ '.$event['end'].'</li>'; 
+                $public = ($event['public']) ? 'True': 'False';
+
+                echo "\t".'<tr>'.PHP_EOL;
+                echo "\t\t".'<td>'.$eventID[3].'</td>'.PHP_EOL;
+                echo "\t\t".'<td>'.$event['title'].'</td>'.PHP_EOL;
+                echo "\t\t".'<td><a target="_blank" href="/event/'.$event['url'].'">'.$event['url'].'</a></td>'.PHP_EOL;
+                echo "\t\t".'<td>'.$public.'</td>'.PHP_EOL;
+                echo "\t\t".'<td>'.$event['start'].'</td>'.PHP_EOL;
+                echo "\t\t".'<td>'.$event['end'].'</td>'.PHP_EOL;
+                echo "\t\t".'<td>'.$event['photo_count'].'</td>'.PHP_EOL;
+                echo "\t".'</tr>'.PHP_EOL;
             }
         ?>
-    </ul>
+    </table>
+    
