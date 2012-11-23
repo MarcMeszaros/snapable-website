@@ -21,7 +21,7 @@
 	    		echo '<link rel="stylesheet" href="/' . $asset . '" type="text/css" media="screen" />'.PHP_EOL;
 			}
 		} else {
-			echo '<link rel="stylesheet" href="/min/c/<?= $css ?>" type="text/css" media="screen" />';	
+			echo '<link rel="stylesheet" href="/min/c/' . $css . '" type="text/css" media="screen" />';
 		}
     } 
     ?>
@@ -36,7 +36,7 @@
 		    		echo '<script type="text/javascript" src="/' . $asset . '"></script>'.PHP_EOL;
 				}
 			} else {
-				echo '<script type="text/javascript" src="/min/j/<?= $js ?>"></script>';	
+				echo '<script type="text/javascript" src="/min/j/' . $js . '"></script>';
 			}
 	    } 
     ?>
