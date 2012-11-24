@@ -413,18 +413,27 @@ a.button:hover {
 	color: #66ccff;
 }
 
-a.photo-enlarge:link, a.photo-enlarge:visited {
+div#photo-action-container {
+	margin: 0 auto;
+}
+
+ul#photo-action {
+	display: block;
 	position: absolute;
-	bottom: 0;
-	left: 82px;
+	bottom: 0px;
+}
+
+ul#photo-action li {
+	list-style: none;
+	float: left;
+	padding: 0 0 0 5px;
+}
+
+ul#photo-action li a {
 	display: block;
 	width: 25px;
-	overflow: hidden;
 	padding: 7px 5px 2px 5px;
-	border-top: 2px solid #4388aa;
-	border-right: 2px solid #4388aa;
-	border-left: 2px solid #4388aa;
-	background: #66ccff url('/assets/img/icons/magnifier_16x16.png') no-repeat 10px 7px;
+	overflow: hidden;
 	border-top-left-radius: 8px;
 	border-top-right-radius: 8px;
 	text-indent: -8000px;
@@ -432,6 +441,34 @@ a.photo-enlarge:link, a.photo-enlarge:visited {
 	line-height: 20px;
 	color: #fff;
 	text-decoration: none;
+}
+
+ul#photo-action li a.photo-delete:link, ul#photo-action li a.photo-delete:visited {
+	width: 12px;
+	height: 12px;
+	position: relative;
+	bottom: -8px;
+	border-top: 2px solid #880000;
+	border-right: 2px solid #880000;
+	border-left: 2px solid #880000;
+	background: #ff1e00 url('/assets/img/icons/white/x_alt_12x12.png') no-repeat 5px 5px;
+	-moz-box-shadow:    inset  0  0 0 -8px #dd1a00, 
+                        inset  0 -8px 8px -8px #dd1a00;
+    -webkit-box-shadow: inset  0  0 0 -8px #dd1a00, 
+                        inset  0 -8px 8px -8px #dd1a00;
+     box-shadow:        inset  0  0 0 -8px #dd1a00, 
+                        inset  0 -8px 8px -8px #dd1a00;
+}
+ul#photo-action li a.photo-delete:hover {
+	border-color: #e1e1e1;
+	background: #fff url('/assets/img/icons/red/x_alt_12x12.png') no-repeat 5px 5px;
+}
+
+a.photo-enlarge:link, a.photo-enlarge:visited {
+	border-top: 2px solid #4388aa;
+	border-right: 2px solid #4388aa;
+	border-left: 2px solid #4388aa;
+	background: #66ccff url('/assets/img/icons/magnifier_16x16.png') no-repeat 10px 7px;
 	-moz-box-shadow:    inset  0  0 0 -8px #336699, 
                         inset  0 -8px 8px -8px #336699;
     -webkit-box-shadow: inset  0  0 0 -8px #336699, 
@@ -444,22 +481,15 @@ a.photo-enlarge:hover {
 	background: #fff url('/assets/img/icons/magnifying_glass_16x16-blue.png') no-repeat 10px 7px;
 }
 
-a.photo-download:link, a.photo-download:visited {
-	position: absolute;
-	bottom: 0;
-	right: 10px;
-	display: block;
+ul#photo-action li a.photo-download:link, ul#photo-action li a.photo-download:visited {
 	width: 12px;
 	height: 12px;
-	overflow: hidden;
-	padding: 5px;
+	position: relative;
+	bottom: -8px;
 	border-top: 2px solid #999;
 	border-right: 2px solid #999;
 	border-left: 2px solid #999;
 	background: #ccc url('/assets/img/icons/download_12x12.png') no-repeat 5px 5px;
-	text-indent: -8000px;
-	border-top-left-radius: 8px;
-	border-top-right-radius: 8px;
 	-moz-box-shadow:    inset  0  0 0 -8px #666, 
                         inset  0 -8px 8px -8px #666;
     -webkit-box-shadow: inset  0  0 0 -8px #666, 
@@ -467,7 +497,7 @@ a.photo-download:link, a.photo-download:visited {
      box-shadow:        inset  0  0 0 -8px #666, 
                         inset  0 -8px 8px -8px #666;
 }
-a.photo-download:hover {
+ul#photo-action li a.photo-download:hover {
 	border-color: #666;
 	background-color: #999;
 }

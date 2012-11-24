@@ -110,7 +110,8 @@ $(document).ready(function()
 								photographer: val.author_name,
 								photoClass: photoClass,
 								buttonClass: buttonClass,
-								buttonText: buttonText 
+								buttonText: buttonText ,
+								owner: owner
 							};
 							$('#photoArea').mustache('event-list-photo', viewData);
 						} else {	
@@ -152,6 +153,11 @@ $(document).ready(function()
 					  }
 					); 
 					$('a.photo-enlarge').facebox();
+
+					// setup the delete
+					$('#photo-action a.photo-delete').click(function(obj) {
+						alert('are you sure you want to delete?');
+					});
 					
 					// LOAD UPGRADE MENU
 					
@@ -300,7 +306,8 @@ $(document).ready(function()
 						photo: '/p/get/' + resource_uri[3] + '/200x200',
 						caption: val.caption,
 						caption_icon: caption_icon,
-						photographer: val.author_name 
+						photographer: val.author_name,
+						owner: owner
 					};
 					$('#photoArea').mustache('event-list-photo', viewData);
 				} else {
@@ -354,7 +361,7 @@ $(document).ready(function()
 		});
 		return false;
 	});
-	
+
 	$(".photo-comment").tipsy({fade: true, live: true});
 	
 	$("#uploadBTN").click( function()

@@ -6,8 +6,15 @@
 				<a class="button {{buttonClass}}" href="#{{id}}">{{buttonText}}</a>
 			</div>
 			-->
-			<a class="photo-enlarge" href="{{url}}" title="Enlarge">Enlarge</a>
-			<!--<a class="photo-download" href="#" title="Download">Download</a>-->
+			<div id="photo-action-container" style="width:{{#owner}}109px{{/owner}}{{^owner}}75px{{/owner}};">
+			<ul id="photo-action">
+				{{#owner}}
+					<li><a class="photo-delete" href="#" title="Delete">Delete</a></li>
+				{{/owner}}
+				<li><a class="photo-enlarge" href="{{url}}" title="Enlarge">Enlarge</a></li>
+				<li><a class="photo-download" href="#" title="Download">Download</a></li>
+			</ul>
+			</div>
 		</div>
 		<img src="{{photo}}" />
 		<img class="photo-comment" title="{{caption}}" src="/assets/img/icons/{{caption_icon}}" /> {{photographer}}	
