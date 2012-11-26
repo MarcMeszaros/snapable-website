@@ -3,10 +3,10 @@
 <head>
 
 	<meta charset="utf-8">
-	<title><?php if ( isset($title) ) { echo $title; } else { echo "Snapable - The easiest way to instantly capture every photo at your wedding without missing a single moment."; } ?></title>
+	<title><?php echo (isset($title)) ? 'Snapable - '.$title : "Snapable - The easiest way to instantly capture every photo at your wedding without missing a single moment."; ?></title>
     
-    <meta name="Keywords" content="" /> 
-	<meta name="Description" content="" />
+    <meta name="Keywords" content="<?php echo (isset($keywords) && is_array($keywords)) ? implode(',',$keywords): ''; ?>" /> 
+	<meta name="Description" content="<?php echo (isset($description)) ? $description : ''; ?>" />
     
     <link rel="icon" type="image/vnd.microsoft.icon" href="/favicon.ico" /> 
 	<link rel="SHORTCUT ICON" href="/favicon.ico"/> 

@@ -34,13 +34,17 @@ class P extends CI_Controller {
 		
 		if ( IS_AJAX )
 		{
+			$this->load->view('common/html_header');
 			$this->load->view('photo/header');
 			$this->load->view('photo/index', $data);
 			$this->load->view('photo/footer');
+			$this->load->view('common/html_footer');
 		} else {
+			$this->load->view('common/html_header', $head);
 			$this->load->view('common/header', $head);
 			$this->load->view('photo/index', $data);
 			$this->load->view('common/footer');
+			$this->load->view('common/html_footer');
 		}
 	}
 

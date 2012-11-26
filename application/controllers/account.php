@@ -30,7 +30,7 @@ class Account extends CI_Controller {
 			'css' => base64_encode('assets/css/setup.css,assets/css/signin.css'),
 			'js' => base64_encode('assets/js/signin.js'),
 			'error' => $error,
-			'reset' => $reset
+			'reset' => $reset,
 		);
 		$this->load->view('common/html_header', $data);
 		$this->load->view('account/signin', $data);
