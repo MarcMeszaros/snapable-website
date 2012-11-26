@@ -155,10 +155,16 @@ $(document).ready(function()
 					$('a.photo-enlarge').facebox();
 
 					// setup the delete
-					$('#photo-action a.photo-delete').click(function(obj) {
+					$('#photo-action a.photo-delete').click(function() {
 						alert('are you sure you want to delete?');
 					});
-					
+
+					// setup the download
+					$('#photo-action a.photo-download').click(function(){
+						document.location = '/download/photo/'+$(this).attr('data-photo_id');
+						return false; // end execution of the javascript
+					});
+				
 					// LOAD UPGRADE MENU
 					
 					

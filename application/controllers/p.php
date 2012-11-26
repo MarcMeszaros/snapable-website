@@ -57,7 +57,8 @@ class P extends CI_Controller {
 		$resp = SnapApi::send($verb, $path, $params, $headers);
 
 		$response = $resp['response'];
-		echo $response;
+		$this->output->set_content_type('jpeg'); // You could also use ".jpeg" which will have the full stop removed before looking in config/mimes.php
+        $this->output->set_output($response);
 	}
 }
 
