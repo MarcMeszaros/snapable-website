@@ -22,7 +22,7 @@ class Download extends CI_Controller {
 
         // get photo data to create a unique filename
         $resp = SnapApi::send($verb, $path, $params);
-        $result = json_decode($reps['response']);
+        $result = json_decode($resp['response']);
 
         // send the output
         // TODO: make the unique name more user friendly, but unique, yet without including internal snapable info.
