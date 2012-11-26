@@ -6,13 +6,15 @@
 				<a class="button {{buttonClass}}" href="#{{id}}">{{buttonText}}</a>
 			</div>
 			-->
-			<div id="photo-action-container" style="width:{{#owner}}109px{{/owner}}{{^owner}}75px{{/owner}};">
+			<div id="photo-action-container" style="width:{{#owner}}109px{{/owner}}{{^owner}}44px{{/owner}};">
 			<ul id="photo-action">
 				{{#owner}}
 					<li><a class="photo-delete" href="#" title="Delete">Delete</a></li>
 				{{/owner}}
 				<li><a class="photo-enlarge" href="{{url}}" title="Enlarge">Enlarge</a></li>
-				<li><a class="photo-download" href="#" title="Download" data-photo_id="{{id}}">Download</a></li>
+				{{#owner}}
+					<li><a class="photo-download" href="#" title="Download" data-photo_id="{{id}}">Download</a></li>
+				{{/owner}}
 			</ul>
 			</div>
 		</div>
