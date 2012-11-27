@@ -53,9 +53,9 @@ function readCookie(name) {
 $(document).ready(function() 
 {  
 	var csvFilename = "";
-	var photoJSON = '{ "objects": [';
 	var photoArr = new Array();
 	//createCookie('phCart', '','90');
+	var photoAPI;
 	
 	
 	if ( photos > 0 )
@@ -79,95 +79,12 @@ $(document).ready(function()
 						photoArr = photoCart.split(",");
 						$("#in-cart-number").html(photoArr.length);
 					}
-					$.each(json.response.objects, function(key, val) {
-						
-						if ( count <= 12 )
-						{
-							var resource_uri = val.resource_uri.split("/");
-							var caption_icon = "comment.png";
-							if ( !val.caption )
-							{
-								caption_icon = "blank.png";
-							}
-							
-							var inPhotoArr = photoArr.indexOf(resource_uri[3]);
-							var photoClass = "";
-							var buttonClass = "addto-prints";
-							var buttonText = "Add to Prints";
-							if ( inPhotoArr >= 0 )
-							{
-								photoClass = " photoInCart";
-								buttonClass = "removefrom-prints";
-								buttonText = "Remove from Prints";
-							}
-							
-							var viewData = {
-								id: resource_uri[3], 
-								url: '/p/' + resource_uri[3],
-								photo: '/p/get/' + resource_uri[3] + '/200x200',
-								caption: val.caption,
-								caption_icon: caption_icon,
-								photographer: val.author_name,
-								photoClass: photoClass,
-								buttonClass: buttonClass,
-								buttonText: buttonText ,
-								owner: owner
-							};
-							$('#photoArea').mustache('event-list-photo', viewData);
-						} else {	
-							var caption = val.caption.replace(/"/g,"'");
-							
-							photoJSON += '{' +
-				                '"author_name": "' + val.author_name + '",' +
-				                '"caption": "' + caption + '",' +
-				                '"event": "' + val.event + '",' +
-				                '"guest": "' + val.guest + '",' +
-				                '"metrics": "' + val.metrics + '",' +
-				                '"resource_uri": "' + val.resource_uri + '",' +
-				                '"streamable": ' + val.streamable + ',' +
-				                '"timestamp": "' + val.timestamp + '",' +
-				                '"type": "' + val.type + '"' +
-				            '},';
-						}
-						count++;
-					});
-
-					if ( photoJSON.substr(-1, 1) == "," )
-					{
-						photoJSON = photoJSON.slice(0, -1);
-					}
-					photoJSON += '],' + '"count": ' + count + '}';
 					
-					if ( photos > 12 )
-					{
-						$("#photoArea").append("<div class='loadMoreWrap'><a class='loadMore' href='#" + count + "'>Load More</a></div>");
-					}
-					
-					// Trigger photo overlay code
-					$(".photo").hover(
-					  function () {
-					    $(".photo-overlay", this).fadeIn("fast");
-					  },
-					  function () {
-					    $(".photo-overlay", this).fadeOut("fast");
-					  }
-					); 
-					$('a.photo-enlarge').facebox();
-
-					// setup the delete
-					$('#photo-action a.photo-delete').click(function() {
-						alert('are you sure you want to delete?');
-					});
-
-					// setup the download
-					$('#photo-action a.photo-download').click(function(){
-						document.location = '/download/photo/'+$(this).attr('data-photo_id');
-						return false; // end execution of the javascript
-					});
+					// add photos
+					photoAPI = json;
+					loadPhotos(photoAPI);
 				
 					// LOAD UPGRADE MENU
-					
-					
 					var upgradesJSON = '{"upgrades": [{ "id": 1, "titleDrk": "Single", "titleLgt": "Prints", "desc": "Pay-as-you-go", "type": "Prints", "qty": 1, "addBTN": 0, "price": 1, "shipping": 3},{ "id": 2, "titleDrk": "12", "titleLgt": "Prints", "desc": "", "type": "Prints", "qty": 12, "addBTN": 1, "price": 11, "shipping": 0},{ "id": 3, "titleDrk": "24", "titleLgt": "Prints", "desc": "", "type": "Prints", "qty": 24, "addBTN": 1, "price": 19, "shipping": 0},{ "id": 4, "titleDrk": "36", "titleLgt": "Prints", "desc": "", "type": "Prints", "qty": 36, "addBTN": 1, "price": 27, "shipping": 0}]}';
 					var upgradeObj = jQuery.parseJSON(upgradesJSON);
 					
@@ -288,17 +205,23 @@ $(document).ready(function()
 	{ 
 		e.preventDefault();
 		
-		var photoObj = jQuery.parseJSON(photoJSON);
-		photoJSON = '{ "objects": [';
-		var count = 1;
+		var count = 0;
 		
 		$(".loadMoreWrap").html("<span></span>").addClass("bar");
 		
 		$.Mustache.load('/assets/js/templates.html').done(function () 
 		{
-			$.each(photoObj.objects, function(key, val) {
+
+			//console.log(typeof(photoObj))
+			offset = 0;
+			if (photoAPI.response.objects.hasOwnProperty('offset')) {
+				offset = photoAPI.response.objects.offset;
+			}
+			console.log(offset)
+			for (var key = offset; key < photoAPI.response.objects.length; key++) {
+				var val = photoAPI.response.objects[key];
 				
-				if ( count <= 12 )
+				if ( count < 12 )
 				{
 					var resource_uri = val.resource_uri.split("/");
 					var caption_icon = "comment.png";
@@ -316,44 +239,19 @@ $(document).ready(function()
 						owner: owner
 					};
 					$('#photoArea').mustache('event-list-photo', viewData);
-				} else {
-					// LATHER, RINSE, REPEAT
-					var resource_uri = val.resource_uri.split("/");
-					var caption = val.caption.replace(/"/g,"'");
-					photoJSON += '{' +
-		                '"id": "' + resource_uri[3] + '",' +
-		                '"author_name": "' + val.author_name + '",' +
-		                '"caption": "' + caption + '",' +
-		                '"event": "' + val.event + '",' +
-		                '"guest": "' + val.guest + '",' +
-		                '"metrics": "' + val.metrics + '",' +
-		                '"resource_uri": "' + val.resource_uri + '",' +
-		                '"streamable": ' + val.streamable + ',' +
-		                '"timestamp": "' + val.timestamp + '",' +
-		                '"type": "' + val.type + '"' +
-		            '},';
+					count++;
 				}
-				count++;
-			});
+			}
+			photoAPI.response.objects.offset += count+1;
 			$(".loadMoreWrap").remove();
 			
-			if ( photoJSON.substr(-1, 1) == "," )
-			{
-				photoJSON = photoJSON.slice(0, -1);
-			}
-			photoJSON += '],' + '"count": ' + count + '}';
-			
-			var countCheck = jQuery.parseJSON(photoJSON);
 						
-			if ( jQuery.isEmptyObject(countCheck.objects) == false )
+			if ( photoAPI.response.objects.offset < photoAPI.response.objects.length-1 )
 			{
-				$("#photoArea").append("<div class='loadMoreWrap'><a class='loadMore' href='#" + count + "'>Load More</a></div>");
-			} else {
-				
+				$("#photoArea").append("<div class='loadMoreWrap'><a class='loadMore' href='#" + photoAPI.response.objects.offset+1 + "'>Load More</a></div>");
 			}
-			
+
 			// Trigger photo overlay code
-			/*
 			$(".photo").hover(
 			  function () {
 			    $(".photo-overlay", this).fadeIn("fast");
@@ -362,8 +260,18 @@ $(document).ready(function()
 			    $(".photo-overlay", this).fadeOut("fast");
 			  }
 			); 
-*/
 			$('a.photo-enlarge').facebox();
+
+			// setup the delete
+			$('#photo-action a.photo-delete').click(function() {
+				alert('are you sure you want to delete?');
+			});
+
+			// setup the download
+			$('#photo-action a.photo-download').click(function(){
+				document.location = '/download/photo/'+$(this).attr('data-photo_id');
+				return false; // end execution of the javascript
+			});
 		});
 		return false;
 	});
@@ -1158,3 +1066,77 @@ $(document).ready(function()
 	});
 	
 });
+
+function loadPhotos(photos) {
+	// setup some variables
+	var count = 0;
+	var photoArr = new Array();
+
+	$.each(photos.response.objects, function(key, val) {
+
+		if ( count < 12 )
+		{
+			var resource_uri = val.resource_uri.split("/");
+			var caption_icon = "comment.png";
+			if ( !val.caption )
+			{
+				caption_icon = "blank.png";
+			}
+			
+			var inPhotoArr = photoArr.indexOf(resource_uri[3]);
+			var photoClass = "";
+			var buttonClass = "addto-prints";
+			var buttonText = "Add to Prints";
+			if ( inPhotoArr >= 0 )
+			{
+				photoClass = " photoInCart";
+				buttonClass = "removefrom-prints";
+				buttonText = "Remove from Prints";
+			}
+			
+			var viewData = {
+				id: resource_uri[3], 
+				url: '/p/' + resource_uri[3],
+				photo: '/p/get/' + resource_uri[3] + '/200x200',
+				caption: val.caption,
+				caption_icon: caption_icon,
+				photographer: val.author_name,
+				photoClass: photoClass,
+				buttonClass: buttonClass,
+				buttonText: buttonText ,
+				owner: owner
+			};
+			$('#photoArea').mustache('event-list-photo', viewData);
+			delete photos.response.objects[key];
+			count++;
+		}
+	});
+	photos.response.objects.offset = count; // used to know where to resume looping
+	
+	if ( photos.response.objects.offset < photos.response.objects.length-1 )
+	{
+		$("#photoArea").append("<div class='loadMoreWrap'><a class='loadMore' href='#" + count + "'>Load More</a></div>");
+	}
+
+	// Trigger photo overlay code
+	$(".photo").hover(
+	  function () {
+	    $(".photo-overlay", this).fadeIn("fast");
+	  },
+	  function () {
+	    $(".photo-overlay", this).fadeOut("fast");
+	  }
+	); 
+	$('a.photo-enlarge').facebox();
+
+	// setup the delete
+	$('#photo-action a.photo-delete').click(function() {
+		alert('are you sure you want to delete?');
+	});
+
+	// setup the download
+	$('#photo-action a.photo-download').click(function(){
+		document.location = '/download/photo/'+$(this).attr('data-photo_id');
+		return false; // end execution of the javascript
+	});
+}
