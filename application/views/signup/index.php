@@ -1,3 +1,4 @@
+	<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?key=AIzaSyAofUaaxFh5DUuOdZHmoWETZNAzP1QEya0&sensor=false"></script>
 	<div id="notification"></div>
 
 	<div id="restOfPageWrap">
@@ -131,6 +132,8 @@
 						<input id="event_location" name="event[location]" size="40" type="text"> 
 						<div class="field-error" id="event_location_error">You must provide a location for your event.</div>
 						<div class="form-field_hint">Example: 255 Bremner Blvd, Toronto, Canada, M5V 3M9</div>
+					</div>
+					<div id="map_canvas" style="width: 350px; height: 300px;">
 					</div>
 					
 					<hr />

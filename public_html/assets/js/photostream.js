@@ -1093,7 +1093,7 @@ function loadPhotos(photos) {
 					//$(this).parents('div.photo').remove();
 				}
 			});
-			$(deleteButton).parents('div.photo').remove();
+			$(deleteButton).closest('div.photo').remove();
 		}, 4000);
 		sendNotification('caution', 'Photo will be deleted. <a class="undo" href="#">Undo</a>', 3000);
 		$('#notification a.undo').click(function(){
