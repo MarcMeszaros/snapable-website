@@ -9,7 +9,7 @@
 			<div id="photo-action-container" style="width:{{#owner}}109px{{/owner}}{{^owner}}44px{{/owner}};">
 			<ul id="photo-action">
 				{{#owner}}
-					<li><a class="photo-delete" href="#" title="Delete">Delete</a></li>
+					<li><a class="photo-delete" href="#" title="Delete" data-photo_id="{{id}}">Delete</a></li>
 				{{/owner}}
 				<li><a class="photo-enlarge" href="{{url}}" title="Enlarge">Enlarge</a></li>
 				{{#owner}}

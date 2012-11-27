@@ -64,6 +64,18 @@ class P extends CI_Controller {
 		$this->output->set_content_type('jpeg'); // You could also use ".jpeg" which will have the full stop removed before looking in config/mimes.php
         $this->output->set_output($response);
 	}
+
+	public function delete_photo($photo) {
+		if ( IS_AJAX ) {
+			$verb = 'DELETE';
+			$path = '/photo/' . $photo . '/';
+			$resp = SnapApi::send($verb, $path);
+
+			echo json_encode(array('status' => $resp['code']));
+		} else {
+			show_401();
+		}
+	}
 }
 
 /* End of file welcome.php */

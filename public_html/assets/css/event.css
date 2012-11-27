@@ -11,9 +11,9 @@ body {
 
 #notification {
 	display: none;
-	position: absolute;
+	position: fixed;
 	z-index: 9000;
-	top: 0;
+	top: 96px;
 	width: 100%;
 	font-size: 26px;
 	line-height: 28px;

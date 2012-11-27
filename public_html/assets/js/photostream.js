@@ -2,9 +2,12 @@
 var photoArr = new Array();
 var photoAPI;
 
-function sendNotification(type, message)
+function sendNotification(type, message, duration)
 {
-	$("#notification").addClass(type).html(message).slideDown().delay(1500).slideUp();
+	if (duration === undefined) {
+		duration = 1500;
+	}
+	$("#notification").addClass(type).html(message).slideDown().delay(duration).slideUp();
 }
 
 var slideCount = 1;
@@ -1080,8 +1083,29 @@ function loadPhotos(photos) {
 	$('a.photo-enlarge').facebox();
 
 	// setup the delete
-	$('#photo-action a.photo-delete').click(function() {
-		alert('are you sure you want to delete?');
+	$('#photo-action a.photo-delete').click(function(){
+		var deleteButton = $(this); // save a reference to that button
+		var photoDeleting = setTimeout(function(){
+			$.getJSON('/p/delete_photo/'+$(deleteButton).attr('data-photo_id'), function(json) {
+				console.log('photo deletion response code: '+json.status);
+				if (json.status == 200 || json.status == 204) {
+					// remove it from the ui
+					//$(this).parents('div.photo').remove();
+				}
+			});
+			$(deleteButton).parents('div.photo').remove();
+		}, 4000);
+		sendNotification('caution', 'Photo will be deleted. <a class="undo" href="#">Undo</a>', 3000);
+		$('#notification a.undo').click(function(){
+			clearTimeout(photoDeleting);
+			$('#notification').html('Photo deletion stopped.').stop(true, true).slideDown();
+			setTimeout(function(){
+				$('#notification').slideUp();
+			},3000);
+			return false;
+		});
+
+		return false;
 	});
 
 	// setup the download
