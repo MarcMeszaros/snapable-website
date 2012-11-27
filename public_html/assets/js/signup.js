@@ -72,7 +72,7 @@ function geocoder(address)
 			$("#lng").val(point.lng());
        		map.panTo(point);
         });
-        $('#map_canvas').slideDown();
+        $('<div class="form-field_hint" style="display: inline-block;">Tip: Drag the location marker to modify the event location.</div>').insertBefore('#map_canvas');
 		
 	});
 	
