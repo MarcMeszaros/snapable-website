@@ -53,11 +53,11 @@ function geocoder(address)
 			$("#event_location_status").removeClass("spinner-16px").addClass("location_bad");
 		}
 
-		var latLng = new google.maps.LatLng(lat, lng);
 		var mapOptions = {
-			center: latLng,
+			center: new google.maps.LatLng(lat, lng),
 			zoom: 15,
-			mapTypeId: google.maps.MapTypeId.ROADMAP
+			mapTypeId: google.maps.MapTypeId.ROADMAP,
+			streetViewControl: false
 		};
 		var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
 		var marker = new google.maps.Marker({
