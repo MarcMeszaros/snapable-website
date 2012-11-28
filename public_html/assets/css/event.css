@@ -27,8 +27,17 @@ body {
 }
 #notification.caution {
 	color: #fff;
-	background: #E3C27C;
-	border-bottom: 1px solid #c5a96e;
+	background: #ff9900;
+	border-bottom: 1px solid #cc6600;
+}
+
+#notification a.undo {
+	font-size: 0.75em;
+	color: #e4e4e4;
+}
+
+#notification a.undo:hover, #notification a.undo:focus {
+	color: #ffffff;
 }
 
 /**** EVENT TITLE AREA ****/

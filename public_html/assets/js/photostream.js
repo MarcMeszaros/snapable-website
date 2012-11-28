@@ -1098,7 +1098,7 @@ function loadPhotos(photos) {
 		sendNotification('caution', 'Photo will be deleted. <a class="undo" href="#">Undo</a>', 3000);
 		$('#notification a.undo').click(function(){
 			clearTimeout(photoDeleting);
-			$('#notification').html('Photo deletion stopped.').stop(true, true).slideDown();
+			$('#notification').html('Photo deletion cancelled.').stop(true, true).slideDown();
 			setTimeout(function(){
 				$('#notification').slideUp();
 			},3000);
