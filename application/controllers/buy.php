@@ -25,9 +25,11 @@ class Buy extends CI_Controller {
 				'js' => base64_encode('assets/js/jquery-ui-1.8.21.custom.min.js,assets/js/jquery.timePicker.min.js,assets/js/buy.js'),
 				'url' => 'blank'	
 			);
+			$this->load->view('common/html_header', $head);
 			$this->load->view('common/header', $head);
 			$this->load->view('buy/index', $data);
 			$this->load->view('common/footer');
+			$this->load->view('common/html_footer');
 		}
 	}
 

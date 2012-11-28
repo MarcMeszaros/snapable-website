@@ -52,6 +52,28 @@ function geocoder(address)
 		} else {
 			$("#event_location_status").removeClass("spinner-16px").addClass("location_bad");
 		}
+
+		var mapOptions = {
+			center: new google.maps.LatLng(lat, lng),
+			zoom: 15,
+			mapTypeId: google.maps.MapTypeId.ROADMAP,
+			streetViewControl: false
+		};
+		var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+		var marker = new google.maps.Marker({
+		    position: new google.maps.LatLng(lat, lng),
+		    map: map,
+		    draggable: true,
+		    animation: google.maps.Animation.DROP
+		});
+		google.maps.event.addListener(marker, "dragend", function(event) {
+       		var point = marker.getPosition();
+       		$("#lat").val(point.lat());
+			$("#lng").val(point.lng());
+       		map.panTo(point);
+        });
+        $('#map_canvas_container').slideDown();
+		
 	});
 	
 	return true;
@@ -88,7 +110,8 @@ function userExists(email)
 
 $(document).ready(function() 
 {  
-	$( "#event-start-date, #event-end-date" ).datepicker({dateFormat: 'M d, yy'});//( "option", "dateFormat", "d M, y" );
+
+    $( "#event-start-date, #event-end-date" ).datepicker({dateFormat: 'M d, yy'});//( "option", "dateFormat", "d M, y" );
 	
 	$("#event-start-time").timePicker({
 		startTime: "06.00", // Using string. Can take string or Date object.
@@ -127,6 +150,12 @@ $(document).ready(function()
 	{
 		var geocoded = geocoder($("#event_location").val());
 		return geocoded;
+	});
+	$('#event_location').keypress(function(e){
+    	if(e.which == 13) {
+    		var geocoded = geocoder($("#event_location").val());
+			return geocoded;
+    	}
 	});
 	
 	// listener to set url from title

@@ -1,6 +1,13 @@
-function sendNotification(type, message)
+// some global variables (required to make the on DOM load stuff work)
+var photoArr = new Array();
+var photoAPI;
+
+function sendNotification(type, message, duration)
 {
-	$("#notification").addClass(type).html(message).slideDown().delay(1500).slideUp();
+	if (duration === undefined) {
+		duration = 1500;
+	}
+	$("#notification").addClass(type).html(message).slideDown().delay(duration).slideUp();
 }
 
 var slideCount = 1;
@@ -50,14 +57,12 @@ function readCookie(name) {
 	return null;
 }
 
+// when the DOM is ready
 $(document).ready(function() 
 {  
 	var csvFilename = "";
-	var photoJSON = '{ "objects": [';
-	var photoArr = new Array();
 	//createCookie('phCart', '','90');
-	
-	
+
 	if ( photos > 0 )
 	{	
 		// Display Loader
@@ -67,7 +72,6 @@ $(document).ready(function()
 		$.getJSON('/event/get/photos/' + eid[3], function(json) {
 			if ( json.status == 200 )
 			{
-				var count = 1;
 				$("#photoRetriever").css({"display":"none"});
 				$.Mustache.load('/assets/js/templates.html').done(function () 
 				{
@@ -79,83 +83,23 @@ $(document).ready(function()
 						photoArr = photoCart.split(",");
 						$("#in-cart-number").html(photoArr.length);
 					}
-					$.each(json.response.objects, function(key, val) {
-						
-						if ( count <= 12 )
-						{
-							var resource_uri = val.resource_uri.split("/");
-							var caption_icon = "comment.png";
-							if ( !val.caption )
-							{
-								caption_icon = "blank.png";
-							}
-							
-							var inPhotoArr = photoArr.indexOf(resource_uri[3]);
-							var photoClass = "";
-							var buttonClass = "addto-prints";
-							var buttonText = "Add to Prints";
-							if ( inPhotoArr >= 0 )
-							{
-								photoClass = " photoInCart";
-								buttonClass = "removefrom-prints";
-								buttonText = "Remove from Prints";
-							}
-							
-							var viewData = {
-								id: resource_uri[3], 
-								url: '/p/' + resource_uri[3],
-								photo: '/p/get/' + resource_uri[3] + '/200x200',
-								caption: val.caption,
-								caption_icon: caption_icon,
-								photographer: val.author_name,
-								photoClass: photoClass,
-								buttonClass: buttonClass,
-								buttonText: buttonText 
-							};
-							$('#photoArea').mustache('event-list-photo', viewData);
-						} else {	
-							var caption = val.caption.replace(/"/g,"'");
-							
-							photoJSON += '{' +
-				                '"author_name": "' + val.author_name + '",' +
-				                '"caption": "' + caption + '",' +
-				                '"event": "' + val.event + '",' +
-				                '"guest": "' + val.guest + '",' +
-				                '"metrics": "' + val.metrics + '",' +
-				                '"resource_uri": "' + val.resource_uri + '",' +
-				                '"streamable": ' + val.streamable + ',' +
-				                '"timestamp": "' + val.timestamp + '",' +
-				                '"type": "' + val.type + '"' +
-				            '},';
-						}
-						count++;
-					});
+					
+					// add initial photos
+					photoAPI = json;
+					loadPhotos(photoAPI);
 
-					if ( photoJSON.substr(-1, 1) == "," )
-					{
-						photoJSON = photoJSON.slice(0, -1);
-					}
-					photoJSON += '],' + '"count": ' + count + '}';
-					
-					if ( photos > 12 )
-					{
-						$("#photoArea").append("<div class='loadMoreWrap'><a class='loadMore' href='#" + count + "'>Load More</a></div>");
-					}
-					
-					// Trigger photo overlay code
-					$(".photo").hover(
-					  function () {
-					    $(".photo-overlay", this).fadeIn("fast");
-					  },
-					  function () {
-					    $(".photo-overlay", this).fadeOut("fast");
-					  }
-					); 
-					$('a.photo-enlarge').facebox();
-					
+					// hook up the 'Load More' button
+					$(document).on("click", ".loadMore", function(e)
+					{ 
+						e.preventDefault();
+						$.Mustache.load('/assets/js/templates.html').done(function () 
+						{
+							loadPhotos(photoAPI);
+						});
+						return false;
+					});
+				
 					// LOAD UPGRADE MENU
-					
-					
 					var upgradesJSON = '{"upgrades": [{ "id": 1, "titleDrk": "Single", "titleLgt": "Prints", "desc": "Pay-as-you-go", "type": "Prints", "qty": 1, "addBTN": 0, "price": 1, "shipping": 3},{ "id": 2, "titleDrk": "12", "titleLgt": "Prints", "desc": "", "type": "Prints", "qty": 12, "addBTN": 1, "price": 11, "shipping": 0},{ "id": 3, "titleDrk": "24", "titleLgt": "Prints", "desc": "", "type": "Prints", "qty": 24, "addBTN": 1, "price": 19, "shipping": 0},{ "id": 4, "titleDrk": "36", "titleLgt": "Prints", "desc": "", "type": "Prints", "qty": 36, "addBTN": 1, "price": 27, "shipping": 0}]}';
 					var upgradeObj = jQuery.parseJSON(upgradesJSON);
 					
@@ -271,90 +215,7 @@ $(document).ready(function()
 	
 	
 	/**** OTHER ****/
-	
-	$(document).on("click", ".loadMore", function(e)
-	{ 
-		e.preventDefault();
-		
-		var photoObj = jQuery.parseJSON(photoJSON);
-		photoJSON = '{ "objects": [';
-		var count = 1;
-		
-		$(".loadMoreWrap").html("<span></span>").addClass("bar");
-		
-		$.Mustache.load('/assets/js/templates.html').done(function () 
-		{
-			$.each(photoObj.objects, function(key, val) {
-				
-				if ( count <= 12 )
-				{
-					var resource_uri = val.resource_uri.split("/");
-					var caption_icon = "comment.png";
-					if ( val.caption == "" )
-					{
-						caption_icon = "blank.png";
-					}
-					var viewData = { 
-						id: resource_uri[3], 
-						url: '/p/' + resource_uri[3],
-						photo: '/p/get/' + resource_uri[3] + '/200x200',
-						caption: val.caption,
-						caption_icon: caption_icon,
-						photographer: val.author_name 
-					};
-					$('#photoArea').mustache('event-list-photo', viewData);
-				} else {
-					// LATHER, RINSE, REPEAT
-					var resource_uri = val.resource_uri.split("/");
-					var caption = val.caption.replace(/"/g,"'");
-					photoJSON += '{' +
-		                '"id": "' + resource_uri[3] + '",' +
-		                '"author_name": "' + val.author_name + '",' +
-		                '"caption": "' + caption + '",' +
-		                '"event": "' + val.event + '",' +
-		                '"guest": "' + val.guest + '",' +
-		                '"metrics": "' + val.metrics + '",' +
-		                '"resource_uri": "' + val.resource_uri + '",' +
-		                '"streamable": ' + val.streamable + ',' +
-		                '"timestamp": "' + val.timestamp + '",' +
-		                '"type": "' + val.type + '"' +
-		            '},';
-				}
-				count++;
-			});
-			$(".loadMoreWrap").remove();
-			
-			if ( photoJSON.substr(-1, 1) == "," )
-			{
-				photoJSON = photoJSON.slice(0, -1);
-			}
-			photoJSON += '],' + '"count": ' + count + '}';
-			
-			var countCheck = jQuery.parseJSON(photoJSON);
-						
-			if ( jQuery.isEmptyObject(countCheck.objects) == false )
-			{
-				$("#photoArea").append("<div class='loadMoreWrap'><a class='loadMore' href='#" + count + "'>Load More</a></div>");
-			} else {
-				
-			}
-			
-			// Trigger photo overlay code
-			/*
-			$(".photo").hover(
-			  function () {
-			    $(".photo-overlay", this).fadeIn("fast");
-			  },
-			  function () {
-			    $(".photo-overlay", this).fadeOut("fast");
-			  }
-			); 
-*/
-			$('a.photo-enlarge').facebox();
-		});
-		return false;
-	});
-	
+
 	$(".photo-comment").tipsy({fade: true, live: true});
 	
 	$("#uploadBTN").click( function()
@@ -1145,3 +1006,111 @@ $(document).ready(function()
 	});
 	
 });
+
+/*
+Function used to load photos into the photo stream and hook up all the
+buttons and events to each photo.
+*/
+function loadPhotos(photos) {
+	// setup some variables
+	var count = 1;
+
+	//$.each(photos.response.objects, function(key, val) {
+	offset = 0;
+	if (photos.response.objects.hasOwnProperty('offset')) {
+		offset = photos.response.objects.offset;
+		$(".loadMoreWrap").html("<span></span>").addClass("bar");
+	} else {
+		photos.response.objects.offset = offset;
+	}
+	for (var key = offset; key < photos.response.objects.length ; key++) {
+		var val = photos.response.objects[key];
+
+		if ( count <= 12 )
+		{
+			var resource_uri = val.resource_uri.split("/");
+			var caption_icon = "comment.png";
+			if ( !val.caption )
+			{
+				caption_icon = "blank.png";
+			}
+			
+			var inPhotoArr = photoArr.indexOf(resource_uri[3]);
+			var photoClass = "";
+			var buttonClass = "addto-prints";
+			var buttonText = "Add to Prints";
+			if ( inPhotoArr >= 0 )
+			{
+				photoClass = " photoInCart";
+				buttonClass = "removefrom-prints";
+				buttonText = "Remove from Prints";
+			}
+			
+			var viewData = {
+				id: resource_uri[3], 
+				url: '/p/' + resource_uri[3],
+				photo: '/p/get/' + resource_uri[3] + '/200x200',
+				caption: val.caption,
+				caption_icon: caption_icon,
+				photographer: val.author_name,
+				photoClass: photoClass,
+				buttonClass: buttonClass,
+				buttonText: buttonText ,
+				owner: owner
+			};
+			$('#photoArea').mustache('event-list-photo', viewData);
+			delete photos.response.objects[key];
+			count++;
+		}
+	}
+	photos.response.objects.offset += count; // used to know where to resume looping
+	$(".loadMoreWrap").remove();
+	
+	if ( photos.response.objects.offset < photos.response.objects.length-1 )
+	{
+		$("#photoArea").append("<div class='loadMoreWrap'><a class='loadMore' href='#'>Load More</a></div>");
+	}
+
+	// Trigger photo overlay code
+	$(".photo").hover(
+	  function () {
+	    $(".photo-overlay", this).fadeIn("fast");
+	  },
+	  function () {
+	    $(".photo-overlay", this).fadeOut("fast");
+	  }
+	); 
+	$('a.photo-enlarge').facebox();
+
+	// setup the delete
+	$('#photo-action a.photo-delete').click(function(){
+		var deleteButton = $(this); // save a reference to that button
+		var photoDeleting = setTimeout(function(){
+			$.getJSON('/p/delete_photo/'+$(deleteButton).attr('data-photo_id'), function(json) {
+				console.log('photo deletion response code: '+json.status);
+				if (json.status == 200 || json.status == 204) {
+					// remove it from the ui
+					//$(this).parents('div.photo').remove();
+				}
+			});
+			$(deleteButton).closest('div.photo').remove();
+		}, 4000);
+		sendNotification('caution', 'Photo will be deleted. <a class="undo" href="#">Undo</a>', 3000);
+		$('#notification a.undo').click(function(){
+			clearTimeout(photoDeleting);
+			$('#notification').html('Photo deletion cancelled.').stop(true, true).slideDown();
+			setTimeout(function(){
+				$('#notification').slideUp();
+			},3000);
+			return false;
+		});
+
+		return false;
+	});
+
+	// setup the download
+	$('#photo-action a.photo-download').click(function(){
+		document.location = '/download/photo/'+$(this).attr('data-photo_id');
+		return false; // end execution of the javascript
+	});
+}

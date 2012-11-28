@@ -73,10 +73,12 @@ class Checkout extends CI_Controller {
 				'step' => 'review'
 			);
 			
+			$this->load->view('common/html_header', $this->head);
 			$this->load->view('common/header2', $this->head);
 			$this->load->view('checkout/steps', $step);
 			$this->load->view('checkout/index', $this->data);
 			$this->load->view('common/footer');
+			$this->load->view('common/html_footer');
 		} else {
 			echo "no cookies.";
 		}
@@ -152,13 +154,13 @@ class Checkout extends CI_Controller {
 			} else {
 				redirect($this->head['url']);
 			}
-			
-			
-			
+
+			$this->load->view('common/html_header', $this->head);
 			$this->load->view('common/header2', $this->head);
 			$this->load->view('checkout/steps', $step);
 			$this->load->view('checkout/shipping', $this->data);
 			$this->load->view('common/footer');
+			$this->load->view('common/html_footer');
 		} else {
 			echo "no cookies.";
 		}
@@ -244,10 +246,12 @@ class Checkout extends CI_Controller {
 				redirect($this->head['url']);
 			}
 			
+			$this->load->view('common/html_header', $this->head);
 			$this->load->view('common/header2', $this->head);
 			$this->load->view('checkout/steps', $step);
 			$this->load->view('checkout/billing', $this->data);
 			$this->load->view('common/footer');
+			$this->load->view('common/html_footer');
 		} else {
 			echo "no cookies.";
 		}
@@ -304,10 +308,12 @@ class Checkout extends CI_Controller {
 			);
 			$this->head['js'] = base64_encode('assets/js/checkout-complete.js'); 
 			
+			$this->load->view('common/html_header', $this->head);
 			$this->load->view('common/header2', $this->head);
 			$this->load->view('checkout/steps', $step);
 			$this->load->view('checkout/complete', $this->data);
 			$this->load->view('common/footer');
+			$this->load->view('common/html_footer');
 		} else {
 			echo "no cookies.";
 		}

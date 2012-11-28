@@ -34,13 +34,17 @@ class P extends CI_Controller {
 		
 		if ( IS_AJAX )
 		{
+			$this->load->view('common/html_header');
 			$this->load->view('photo/header');
 			$this->load->view('photo/index', $data);
 			$this->load->view('photo/footer');
+			$this->load->view('common/html_footer');
 		} else {
+			$this->load->view('common/html_header', $head);
 			$this->load->view('common/header', $head);
 			$this->load->view('photo/index', $data);
 			$this->load->view('common/footer');
+			$this->load->view('common/html_footer');
 		}
 	}
 
@@ -57,7 +61,36 @@ class P extends CI_Controller {
 		$resp = SnapApi::send($verb, $path, $params, $headers);
 
 		$response = $resp['response'];
-		echo $response;
+		$this->output->set_content_type('jpeg'); // You could also use ".jpeg" which will have the full stop removed before looking in config/mimes.php
+        $this->output->set_output($response);
+	}
+
+	public function delete_photo($photo) {
+		if ($this->session->userdata('logged_in')) {
+			$session_owner = $this->session->userdata('logged_in');
+
+			// get photo details
+			$verb = 'GET';
+			$path = '/photo/' . $photo . '/';
+			$resp = SnapApi::send($verb, $path);
+			$result = json_decode($resp['response']);
+			$photoEventParts = explode('/', $result->event);
+			
+			// get event session details
+			$session_event = $this->session->userdata('event_deets');
+			$eventUriParts = explode('/', $session_event['resource_uri']);
+
+			// make sure the the user is logged in as the event owner
+			if ( $session_owner['loggedin'] == true && $eventUriParts[3] == $photoEventParts[3] && IS_AJAX) {
+				$verb = 'DELETE';
+				$path = '/photo/' . $photo . '/';
+				$resp = SnapApi::send($verb, $path);
+
+				echo json_encode(array('status' => $resp['code']));
+			} else {
+				show_401();
+			}
+		}
 	}
 }
 

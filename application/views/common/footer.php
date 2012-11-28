@@ -8,6 +8,3 @@
 	    </section>
 	    
 	</div>
-
-</body>
-</html>

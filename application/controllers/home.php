@@ -20,7 +20,8 @@ class Home extends CI_Controller {
 	public function index()
 	{
 		$this->load->view('home/august2012');
-		$this->load->view('common/footer');
+		//$this->load->view('common/footer');
+		//$this->load->view('common/html_footer');
 	}
 }
 
