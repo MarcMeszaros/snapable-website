@@ -60,7 +60,7 @@ class Event extends CI_Controller {
 					$httpcode = $resp['code'];
 		
 					// the guest was properly created, set the session
-					if ($httpcode == 200) {
+					if ($httpcode == 200 && count($response->objects) > 0) {
 						$guestID = explode("/", $response->objects[0]->resource_uri);
 						$session_owner['guest_id'] = $guestID[3];
 				        $this->session->set_userdata('logged_in', $session_owner);
