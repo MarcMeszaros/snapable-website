@@ -72,7 +72,7 @@ function geocoder(address)
 			$("#lng").val(point.lng());
        		map.panTo(point);
         });
-        $('<div class="form-field_hint" style="display: inline-block;">Tip: Drag the location marker to modify the event location.</div>').insertBefore('#map_canvas');
+        $('#map_canvas_container').slideDown();
 		
 	});
 	
@@ -150,6 +150,12 @@ $(document).ready(function()
 	{
 		var geocoded = geocoder($("#event_location").val());
 		return geocoded;
+	});
+	$('#event_location').keypress(function(e){
+    	if(e.which == 13) {
+    		var geocoded = geocoder($("#event_location").val());
+			return geocoded;
+    	}
 	});
 	
 	// listener to set url from title
