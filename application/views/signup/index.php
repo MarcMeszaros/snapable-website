@@ -133,7 +133,10 @@
 						<div class="field-error" id="event_location_error">You must provide a location for your event.</div>
 						<div class="form-field_hint">Example: 255 Bremner Blvd, Toronto, Canada, M5V 3M9</div>
 					</div>
-					<div id="map_canvas" style="width: 350px; height: 300px;">
+					
+					<div id="map_canvas_container" class="form-field" style="display:none;">
+						<div id="map_canvas" style="width: 350px; height: 300px;"></div>
+						<div style="width:350px;">Here's where we've got your event, if we're wrong you can drag the location marker to the correct location.</div>
 					</div>
 					
 					<hr />
