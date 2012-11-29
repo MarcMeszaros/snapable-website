@@ -647,8 +647,10 @@ $(document).ready(function()
 				$("#privacySaveWrap").html("<input type='button' value='Save' />");
 				if (privacy_selected == 0) {
 					$('#event-pin').fadeIn();
+					$('#uploadBTN').parent().show();
 				} else {
 					$('#event-pin').fadeOut();
+					$('#uploadBTN').parent().hide();
 				}
 			} else {
 				alert("This is embarassing, something went wrong on our end and we weren't able to change your privacy setting—never fear, we're on it!");

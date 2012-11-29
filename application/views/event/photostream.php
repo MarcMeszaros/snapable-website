@@ -40,9 +40,7 @@ var owner = <?= (isset($owner) && $owner == 1) ? 'true' : 'false' ?>;
 		<ul id="event-nav">
 
 			<li><span>Photostream</span></li>
-			<?php if ($eventDeets->privacy <= 5 && $show_upload == true ): ?>
-			<li><a id="uploadBTN" href="#">Upload Photos</a></li>
-			<?php endif; ?>
+			<li <?php echo ($eventDeets->privacy == 6) ? 'style="display:none;"' : ''; ?>><a id="uploadBTN" href="#">Upload Photos</a></li>
 			<?php if ( $eventDeets->photos > 0 )
 			{
 				//echo '<li><a href="/event/' . $eventDeets->url . '/slideshow">Slideshow</a></li>';
