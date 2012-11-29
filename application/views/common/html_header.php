@@ -11,7 +11,7 @@
     <link rel="icon" type="image/vnd.microsoft.icon" href="/favicon.ico" /> 
 	<link rel="SHORTCUT ICON" href="/favicon.ico"/> 
     
-    <link href='http://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
     <?php 
     if ( isset($css) ) {
     	// add assets
