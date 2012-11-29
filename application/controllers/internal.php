@@ -49,6 +49,7 @@ class Internal extends CI_Controller {
         );
         $resp = $this->event_model->query($params);
         $data['events'] = $resp['response']['objects'];
+        $data['total_upcoming_events'] = $resp['response']['meta']['total_count'];
         
         $this->load->view('common/html_header', $data);
         $this->load->view('internal/dashboard', $data);
