@@ -642,6 +642,7 @@ $(document).ready(function()
 			} else {
 				alert("This is embarassing, something went wrong on our end and we weren't able to change your privacy setting—never fear, we're on it!");
 			}
+			$('#event-nav-menu-privacy').fadeOut();
 		});
 	});
 
