@@ -77,7 +77,7 @@ class SnapApi {
                 $paramArray[] = urlencode($key).'='.urlencode($value);
             }
             $paramString = implode('&', $paramArray);
-            $queryString = (isset($paramString) && count($paramString) > 0)? '?'.$paramString:'';
+            $queryString = (isset($paramString) && strlen($paramString) > 0)? '?'.$paramString:'';
             curl_setopt($ch, CURLOPT_URL, self::$api_host . $path . $queryString);
         } else {
             if (isset($headers['Content-Type']) && $headers['Content-Type'] == 'multipart/form-data' && count($params) > 0) {
@@ -120,5 +120,30 @@ class SnapApi {
             'response' => $response,
             'code' => $httpcode,
         );
+    }
+
+    /**
+     * A helper function to get the next page of results
+     * by passing the "next" value from a response in the "meta"
+     * section of the API response.
+     */
+    public static function next($next) {
+        // get the various parts from the string
+        $urlParts = explode('?', $next);
+        $pathParts = explode('/', $urlParts[0]);
+        $paramsStringArray = explode('&', $urlParts[1]);
+
+        // setup the API call verb and path
+        $verb = 'GET';
+        $path = $pathParts[count($pathParts)-2];
+
+        // setup the params to pass to 'send'
+        $params = array();
+        foreach ($paramsStringArray as $value) {
+            $param = explode('=', $value);
+            $params[urldecode($param[0])] = urldecode($param[1]);
+        }
+        
+        return self::send($verb, $path, $params);
     }
 }
