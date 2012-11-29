@@ -1,3 +1,14 @@
+    <h2>Metrics</h2>
+    <ul>
+        <li>Total Signups: <?php echo $total_signups; ?></li>
+        <li>Uniques: TO BE IMPLEMENTED</li>
+        <li>Signup Conversion: TO BE IMPLEMENTED</li>
+        <li>Number of events to date: <?php echo $total_events_to_date; ?></li>
+        <li>Number of events to date with photos: TO BE IMPLEMENTED</li>
+        <li>Average photos per event: TO BE IMPLEMENTED</li>
+        <li>Average photos per guest: TO BE IMPLEMENTED</li>
+    </ul>
+
     <h2>Events</h2>
     <p>List of upcoming events or events in progress.</p>
     <table border="1">
