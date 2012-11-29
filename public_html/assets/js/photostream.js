@@ -217,7 +217,7 @@ $(document).ready(function()
 	
 	/**** OTHER ****/
 
-	$(".photo-comment").tipsy({fade: true, live: true});
+	$(".photo-comment").tipsy({fade: true, live: true, offset: -80});
 	
 	$("#uploadBTN").click( function()
 	{
