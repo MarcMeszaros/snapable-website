@@ -45,7 +45,7 @@ var owner = <?= (isset($owner) && $owner == 1) ? 'true' : 'false' ?>;
 			<?php endif; ?>
 			<?php if ( $eventDeets->photos > 0 )
 			{
-				echo '<li><a href="/event/' . $eventDeets->url . '/slideshow">Slideshow</a></li>';
+				//echo '<li><a href="/event/' . $eventDeets->url . '/slideshow">Slideshow</a></li>';
 			} ?>
 
 			<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ) { ?>
