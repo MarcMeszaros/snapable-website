@@ -84,6 +84,7 @@ body {
     padding: 0;
 }
 
+/** Event Cover **/
 #event-cover-wrap {
 	float: left;
 	display: inline-block;
@@ -215,6 +216,28 @@ a.menu-open {
 	-webkit-box-shadow: 0 4px 2px -2px #666;
 	box-shadow: inset 1px 1px 6px -2px #000;
 	resize: none;
+}
+
+/** Event Settings **/
+#event-settings {
+	display: none;
+	width: 250px;
+	position: absolute;
+	top: 25px;
+	padding: 10px;
+	color: #999;
+	background: #ddeef6;
+	border-radius: 3px;
+	-webkit-box-shadow: 1px 1px 5px rgba(50, 50, 50, 0.75);
+	-moz-box-shadow: 1px 1px 5px rgba(50, 50, 50, 0.75);
+	box-shadow: 1px 1px 5px rgba(50, 50, 50, 0.75);
+	z-index: 100;
+}
+#event-settings h3 {
+	margin: 0 0 5px 0;
+}
+#event-settings input[type=text] {
+	width: inherit;
 }
 
 .noPhotos {

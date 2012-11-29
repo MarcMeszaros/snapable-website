@@ -45,7 +45,6 @@ Class Event_model extends CI_Model
 			}
 			*/
 			
-			$event = "";
 			foreach ( $result->objects as $e )
 			{
 				// if start and end dates are the same day $display_timedate is in the format "Tue July 31, 7-9 PM"
@@ -61,42 +60,44 @@ Class Event_model extends CI_Model
 				} else {
 					$display_timedate = date("D M j, g:i A", $start_epoch) . " to " . date("D M j, g:i A", $end_epoch);
 				}
-				$human_start = date("D M j", $start_epoch);// . ", " . date("g:i A", $start_epoch);
-				$human_end = date("D M j", $end_epoch);// . ", " . date("g:i A", $end_epoch);
+				$human_start = date("D M j, g:i A", ($start_epoch + ($e->offset * 60)));
+				$human_end = date("D M j, g:i A", ($end_epoch + ($e->offset * 60)));
 
-				$event .= '{
-					"enabled":' . $e->enabled . ',
-					"url": "' . $e->url . '",
-					"title": "' . $e->title . '",
-					"pin": "' . $e->pin . '",
-					"package": "' . $e->package . '",
-					"start": "' . $e->start . '",
-					"end": "' . $e->end . '",
-					"human_start": "' . $human_start . '",
-					"human_end": "' . $human_end . '",
-					"start_epoch": "' . $start_epoch . '",
-					"end_epoch": "' . $end_epoch . '",
-					"display_timedate": "' . $display_timedate . '",
-					"resource_uri": "' . $e->resource_uri . '",
-					"user": "' . $e->user . '",
-					"privacy": ' . substr($e->type, -2, 1) . ',
-					"photos": "' . $e->photo_count . '"
-				}';
+				$privacyParts = explode('/', $e->type);
+				$eventRes = array(
+					'addresses' => $e->addresses,
+					'enabled' => $e->enabled,
+					'url' => $e->url,
+					'title' => $e->title,
+					'pin' => $e->pin,
+					'package' => $e->package,
+					'start' => $e->start,
+					'end' => $e->end,
+					'human_start' => $human_start,
+					'human_end' => $human_end,
+					'start_epoch' => $start_epoch,
+					'end_epoch' => $end_epoch,
+					'display_timedate' => $display_timedate,
+					'resource_uri' => $e->resource_uri,
+					'user' => $e->user,
+					'privacy' => $privacyParts[3],
+					'photos' => $e->photo_count,
+				);
 			}
-			$json = '{
-				"status": 200,
-				"event": ' . $event . '
-			}';
-			return $json;
+			$jsonRes = array(
+				'status' => 200,
+				'event' => $eventRes
+			);
+			return json_encode($jsonRes);
 		} else {
-			$json = '{
-				"status": 404,
-				"event": {
-					"enabled":0,
-					"url": "' . $url . '"
-				}
-			}';
-			return $json;
+			$jsonRes = array(
+				'status' => 404,
+				'event' => array(
+					'enabled' => 0,
+					'url' => $url,
+				),
+			);
+			return json_encode($jsonRes);
 		}
 		//$details = $this->db->where('url', $url)->where('active', 1)->get('event', 1,0);
 		// check if there's a positive result

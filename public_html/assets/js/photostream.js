@@ -65,17 +65,6 @@ $(document).ready(function()
 	var csvFilename = "";
 	//createCookie('phCart', '','90');
 
-	if (owner == true) {
-		$('#event-title.edit').editable('/ajax/event/update/'+eid[3], {
-			onblur: 'submit',
-			name: 'title',
-			callback: function(value, settings) {
-				json = jQuery.parseJSON(value);
-				$('#event-title').html(json.title);
-			}
-		});
-	}
-
 	if ( photo_count > 0 )
 	{	
 		// Display Loader
@@ -350,10 +339,67 @@ $(document).ready(function()
 		setTimeout( function() { bringBackAddonButton(upgrade_id) }, 1500)
 	});
 	
+    /**** Event Settings ****/
+    if (owner == true) {
+	    $('#event-title-wrap h2').click(function(){
+	    	$('#event-settings').show();
+	    });
+	    $('#event-settings input[type=button]').click(function(){
+			var data = {
+				title: $('#event-settings-title').val()
+			}
+			$.post('/ajax/event/update/'+eid[3], data, function(data)
+			{
+				var json = jQuery.parseJSON(data);
+				if ( json.status = 202 ) {
+					// update field values
+					$('#event-title').html(json.title);		
+					sendNotification("positive", "Your event settings have been updated.");
+				} else {
+					sendNotification("caution", "This is embarassing, something went wrong on our end and we weren't able to change your event settings—never fear, we're on it!");
+				}
+				$('#event-settings').hide();
+			});
+		});
+		$('#event-settings #event-settings-location').change(function(){
+			/*
+			var mapOptions = {
+				center: new google.maps.LatLng(lat, lng),
+				zoom: 15,
+				mapTypeId: google.maps.MapTypeId.ROADMAP,
+				streetViewControl: false
+			};
+			var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+			var marker = new google.maps.Marker({
+			    position: new google.maps.LatLng(lat, lng),
+			    map: map,
+			    draggable: true,
+			    animation: google.maps.Animation.DROP
+			});
+			google.maps.event.addListener(marker, "dragend", function(event) {
+	       		var point = marker.getPosition();
+	       		$("#lat").val(point.lat());
+				$("#lng").val(point.lng());
+	       		map.panTo(point);
+
+				var timestamp = Math.round((new Date()).getTime() / 1000);
+				var tzRequest = '/ajax/timezone?lat='+point.lat()+'&lng='+point.lng()+'&timestamp='+timestamp;
+				$.getJSON(tzRequest, function(data){
+					$('#timezone').val((data.rawOffset/60));
+				});
+	       	});
+	        $('#map_canvas_container').slideDown();
+
+			var timestamp = Math.round((new Date()).getTime() / 1000);
+			var tzRequest = '/ajax/timezone?lat='+lat+'&lng='+lng+'&timestamp='+timestamp;
+			$.getJSON(tzRequest, function(data){
+				$('#timezone').val((data.rawOffset/60));
+			});
+			*/
+		});
+	}
+
 	/**** SHOW CHECKOUT BUTTON ****/
-	
-	
-	
 	$('#checkout').click( function(e)
 	{
 		e.preventDefault();
