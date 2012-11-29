@@ -71,11 +71,22 @@ function geocoder(address)
        		$("#lat").val(point.lat());
 			$("#lng").val(point.lng());
        		map.panTo(point);
-        });
+
+			var timestamp = Math.round((new Date()).getTime() / 1000);
+			var tzRequest = '/ajax/timezone?lat='+point.lat()+'&lng='+point.lng()+'&timestamp='+timestamp;
+			$.getJSON(tzRequest, function(data){
+				$('#timezone').val((data.rawOffset/60));
+			});
+       	});
         $('#map_canvas_container').slideDown();
-		
+
+		var timestamp = Math.round((new Date()).getTime() / 1000);
+		var tzRequest = '/ajax/timezone?lat='+lat+'&lng='+lng+'&timestamp='+timestamp;
+		$.getJSON(tzRequest, function(data){
+			$('#timezone').val((data.rawOffset/60));
+		});
 	});
-	
+
 	return true;
 }
 
@@ -112,7 +123,7 @@ $(document).ready(function()
 {  
 
     $( "#event-start-date, #event-end-date" ).datepicker({dateFormat: 'M d, yy'});//( "option", "dateFormat", "d M, y" );
-	
+
 	$("#event-start-time").timePicker({
 		startTime: "06.00", // Using string. Can take string or Date object.
 		show24Hours: false,

@@ -34,4 +34,31 @@ class Ajax extends CI_Controller {
             echo $resp['response'];
         }
     }
+
+    public function timezone() {
+        if (!IS_AJAX)
+        {
+            show_error('Not an AJAX call.', 403);
+        }
+
+        $lat = $this->input->get('lat');
+        $lng = $this->input->get('lng');
+        $timestamp = $this->input->get('timestamp');
+
+        $url = 'https://maps.googleapis.com/maps/api/timezone/json?location='.$lat.','.$lng.'&timestamp='.$timestamp.'&sensor=false';
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+
+        // set various curl parameters
+        curl_setopt($ch, CURLOPT_TIMEOUT, '5');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        // execute the request and parse response
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        echo $response;
+    }
 }
