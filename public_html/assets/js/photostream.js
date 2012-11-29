@@ -61,15 +61,26 @@ function readCookie(name) {
 // when the DOM is ready
 $(document).ready(function() 
 {  
+	var eid = eventID.split("/");
 	var csvFilename = "";
 	//createCookie('phCart', '','90');
+
+	if (owner == true) {
+		$('#event-title.edit').editable('/ajax/event/update/'+eid[3], {
+			onblur: 'submit',
+			name: 'title',
+			callback: function(value, settings) {
+				json = jQuery.parseJSON(value);
+				$('#event-title').html(json.title);
+			}
+		});
+	}
 
 	if ( photo_count > 0 )
 	{	
 		// Display Loader
 		$("#photoArea").css({"text-align":"center","font-weight":"bold"}).html("<div id='photoRetriever'>Retrieving Photos...<div class='bar'><span></span></div></div>");
 		// Get photos for event
-		var eid = eventID.split("/");
 		$.getJSON('/event/get/photos/' + eid[3], function(json) {
 			if ( json.status == 200 )
 			{
