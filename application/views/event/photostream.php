@@ -83,13 +83,11 @@ var owner = <?= (isset($owner) && $owner == 1) ? 'true' : 'false' ?>;
 		<?php endif; ?>
 		</ul>
 	</div>
-	
-	<?php if($eventDeets->privacy < 6): ?>
-	<div id="event-pin">
+
+	<div id="event-pin" <?php echo ($eventDeets->privacy == 6) ? 'style="display:none;"':''; ?>>
 		Event PIN:
 		<div><?= $eventDeets->pin ?></div>
 	</div>
-	<?php endif;?>
 	<!--
 	<div id="checkout-buttons">
 		<div id="in-cart">
