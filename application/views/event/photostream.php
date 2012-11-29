@@ -27,7 +27,7 @@
 var eventID = "<?= $eventDeets->resource_uri ?>";
 var guestID = "/private_v1/guest/<?= $guestID ?>/";
 var typeID = "/private_v1/type/<?php echo (isset($session_guest['type']))? $session_guest['type']: '1'; ?>/";
-var photos = <?= $eventDeets->photos ?>;
+var photo_count = <?= $eventDeets->photos ?>;
 var owner = <?= (isset($owner) && $owner == 1) ? 'true' : 'false' ?>;
 </script>
 

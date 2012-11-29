@@ -102,12 +102,14 @@ Class Event_model extends CI_Model
 		// check if there's a positive result
 	}
 	
-	function getEventsPhotos($id)
+	function getEventsPhotos($id, $offset = 0)
 	{
 		$verb = 'GET';
 		$path = '/photo/';
 		$params = array(
 			'event' => $id,
+			'offset' => $offset,
+			'limit' => 50,
 		);
 		$resp = SnapApi::send($verb, $path, $params);
 

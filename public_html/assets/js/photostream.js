@@ -1,6 +1,7 @@
 // some global variables (required to make the on DOM load stuff work)
 var photoArr = new Array();
 var photoAPI;
+var photoAPIOffset = 0;
 
 function sendNotification(type, message, duration)
 {
@@ -63,7 +64,7 @@ $(document).ready(function()
 	var csvFilename = "";
 	//createCookie('phCart', '','90');
 
-	if ( photos > 0 )
+	if ( photo_count > 0 )
 	{	
 		// Display Loader
 		$("#photoArea").css({"text-align":"center","font-weight":"bold"}).html("<div id='photoRetriever'>Retrieving Photos...<div class='bar'><span></span></div></div>");
@@ -1013,7 +1014,7 @@ buttons and events to each photo.
 */
 function loadPhotos(photos) {
 	// setup some variables
-	var count = 1;
+	var count = 0;
 
 	//$.each(photos.response.objects, function(key, val) {
 	offset = 0;
@@ -1026,7 +1027,7 @@ function loadPhotos(photos) {
 	for (var key = offset; key < photos.response.objects.length ; key++) {
 		var val = photos.response.objects[key];
 
-		if ( count <= 12 )
+		if ( count < 12 )
 		{
 			var resource_uri = val.resource_uri.split("/");
 			var caption_icon = "comment.png";
@@ -1069,6 +1070,17 @@ function loadPhotos(photos) {
 	if ( photos.response.objects.offset < photos.response.objects.length-1 )
 	{
 		$("#photoArea").append("<div class='loadMoreWrap'><a class='loadMore' href='#'>Load More</a></div>");
+	} else if (photo_count > 50 && (photoAPIOffset + 1) < photo_count) {
+		console.log('we should load more from the api');
+		photoAPIOffset += 50;
+
+		var eid = eventID.split("/");
+		$.getJSON('/event/get/photos/' + eid[3] + '/' + photoAPIOffset, function(json) {
+			if ( json.status == 200 ) {
+				photoAPI = json;
+				$("#photoArea").append("<div class='loadMoreWrap'><a class='loadMore' href='#'>Load More</a></div>");
+			}
+		});
 	}
 
 	// Trigger photo overlay code

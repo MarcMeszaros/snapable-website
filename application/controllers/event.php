@@ -241,7 +241,8 @@ class Event extends CI_Controller {
 	public function get_tasks($task) {
 		if ( $task == "photos" && IS_AJAX )
 		{
-			$photos = $this->event_model->getEventsPhotos($this->uri->segment(4));
+			$offset = ($this->uri->segment(5) === false) ? 0 : $this->uri->segment(5);
+			$photos = $this->event_model->getEventsPhotos($this->uri->segment(4), $offset);
 			echo $photos; 
 		} 
 		else if ( $task == "guests" && IS_AJAX )
