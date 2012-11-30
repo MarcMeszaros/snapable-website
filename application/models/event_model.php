@@ -60,8 +60,8 @@ Class Event_model extends CI_Model
 				} else {
 					$display_timedate = date("D M j, g:i A", $start_epoch) . " to " . date("D M j, g:i A", $end_epoch);
 				}
-				$human_start = date("D M j, g:i A", ($start_epoch + ($e->offset * 60)));
-				$human_end = date("D M j, g:i A", ($end_epoch + ($e->offset * 60)));
+				$human_start = date("D M j, g:i A", ($start_epoch + ($e->tz_offset * 60)));
+				$human_end = date("D M j, g:i A", ($end_epoch + ($e->tz_offset * 60)));
 
 				$privacyParts = explode('/', $e->type);
 				$eventRes = array(
@@ -82,6 +82,7 @@ Class Event_model extends CI_Model
 					'user' => $e->user,
 					'privacy' => $privacyParts[3],
 					'photos' => $e->photo_count,
+					'tz_offset' => $e->tz_offset,
 				);
 			}
 			$jsonRes = array(

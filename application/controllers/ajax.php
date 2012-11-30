@@ -10,29 +10,45 @@ class Ajax extends CI_Controller {
     /**
      * Handle event ajax calls.
      */
-    public function event() {
+    public function put_event() {
         if (!IS_AJAX)
         {
             show_error('Not an AJAX call.', 403);
         }
 
+        // get all the post variables
         $post = array();
         foreach (array_keys($_POST) as $key) 
         {
             $post[$key] = $this->input->post($key);
         }
 
-        if ($this->uri->segment(3) == 'update') {
-            if (isset($post['id'])) {
-                unset($post['id']);
-            }
-
+        // update the address
+        if (isset($post['address_id']) && (isset($post['address']) || isset($post['lat']) || isset($post['lng'])))
+        {
+            // update the address the event address
             $verb = 'PUT';
-            $path = ($this->uri->segment(4) !== false) ? 'event/'.$this->uri->segment(4) : 'event';
-            $resp = SnapApi::send($verb, $path, $post);
+            $path = 'address/'.$post['address_id'];
+            $params = array(
+                'address' => $post['address'],
+                'lat' => $post['lat'],
+                'lng' => $post['lng'],
+            );
+            $resp = SnapApi::send($verb, $path, $params);
 
-            echo $resp['response'];
+            // remove the values from $post
+            unset($post['address_id']);
+            unset($post['address']);
+            unset($post['lat']);
+            unset($post['lng']);
         }
+
+        // update the event
+        $verb = 'PUT';
+        $path = ($this->uri->segment(3) !== false) ? 'event/'.$this->uri->segment(3) : 'event';
+        $resp = SnapApi::send($verb, $path, $post);
+
+        echo $resp['response'];
     }
 
     public function timezone() {

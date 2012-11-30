@@ -241,6 +241,9 @@ a.menu-open {
 	width: 16px;
 	display: inline-block;
 }
+#event-settings #map_canvas-wrap {
+	padding: 10px 0;
+}
 
 #event-settings input[type=text] {
 	width: 225px;
