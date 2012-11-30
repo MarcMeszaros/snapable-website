@@ -190,6 +190,7 @@ Class Signup_model extends CI_Model
 			    "pin" => $event_pin,
 			    "type" => "/".SnapApi::$api_version."/type/5/",
 			    "enabled" => true,
+			    "tz_offset" => $event['timezone'],
 			);
 			$resp = SnapApi::send($verb, $path, $params);
 
