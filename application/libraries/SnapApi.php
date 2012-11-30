@@ -104,7 +104,7 @@ class SnapApi {
         }
 
         // set various curl parameters
-        curl_setopt($ch, CURLOPT_TIMEOUT, '3');
+        curl_setopt($ch, CURLOPT_TIMEOUT, '10');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headersArray);
 
