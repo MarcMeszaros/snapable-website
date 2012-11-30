@@ -396,7 +396,6 @@ $(document).ready(function()
 		{
 			$("#event_location").focus();
 			$("#event_location").addClass("input-error");
-			$("#event_location_error").html("We can't seem to locate this address, would you like to <a href='#'>find it on a map</a>?").fadeIn();
 			location.href="#event-details";
 		}
 		else if ( validUrl == 0 )
