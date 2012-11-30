@@ -251,7 +251,7 @@
 				        		Privacy
 				        		<div>Keep your photos private, share them with anyone (or everyone!) at your wedding, or make your album public.</div>
 			        		</li>
-			        		<li>Real-time Slideshow</li>
+			        		<!--<li>Real-time Slideshow</li>-->
 			        		<li>Table Cards</li>
 			        		<li>Email Guest Reminders</li>
 			        		<li>Export to Facebook</li>
