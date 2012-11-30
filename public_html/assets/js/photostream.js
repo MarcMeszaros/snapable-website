@@ -393,6 +393,7 @@ $(document).ready(function()
 				if ( json.status = 202 ) {
 					// update field values
 					$('#event-title').html(json.title);
+					$('#event-address').html(json.addresses[0].address);
 
 					// we shanged the url, redirect
 					if ($('#event-settings-url').val() != $('#event-settings-url').data('orig')) {
