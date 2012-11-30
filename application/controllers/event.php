@@ -19,7 +19,7 @@ class Event extends CI_Controller {
 		$head = array(
 			'noTagline' => true,
 			'css' => base64_encode('assets/css/signin.css,assets/css/fileuploader.css,assets/css/jquery.jcrop.css,assets/css/facebox.css,assets/css/tipsy.css,assets/css/setup.css,assets/css/header.css,assets/css/event.css,assets/css/footer.css'),
-			'js' => base64_encode('assets/js/mustache.js,assets/js/jquery-Mustache.js,assets/js/jquery.jcrop.js,assets/js/uploader.js,assets/js/facebox.js,assets/js/jquery.tipsy.js,assets/js/photostream.js'),
+			'js' => base64_encode('assets/js/mustache.js,assets/js/jquery-Mustache.js,assets/js/jquery.jcrop.js,assets/js/uploader.js,assets/js/facebox.js,assets/js/jquery.tipsy.js,assets/js/jquery.jeditable.min.js,assets/js/photostream.js'),
 			'url' => $event_details->event->url,
 			'type' => $this->uri->segment(1),
 			'title' => $event_details->event->title . ", " . $event_details->event->display_timedate . " via Snapable"
@@ -60,7 +60,7 @@ class Event extends CI_Controller {
 					$httpcode = $resp['code'];
 		
 					// the guest was properly created, set the session
-					if ($httpcode == 200) {
+					if ($httpcode == 200 && count($response->objects) > 0) {
 						$guestID = explode("/", $response->objects[0]->resource_uri);
 						$session_owner['guest_id'] = $guestID[3];
 				        $this->session->set_userdata('logged_in', $session_owner);
@@ -241,7 +241,8 @@ class Event extends CI_Controller {
 	public function get_tasks($task) {
 		if ( $task == "photos" && IS_AJAX )
 		{
-			$photos = $this->event_model->getEventsPhotos($this->uri->segment(4));
+			$offset = ($this->uri->segment(5) === false) ? 0 : $this->uri->segment(5);
+			$photos = $this->event_model->getEventsPhotos($this->uri->segment(4), $offset);
 			echo $photos; 
 		} 
 		else if ( $task == "guests" && IS_AJAX )

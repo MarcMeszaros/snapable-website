@@ -106,7 +106,7 @@
 	text-indent: -8000px;
 }#homeHeadWrap {
 	position: fixed;
-	z-index: 3;
+	z-index: 1000;
 	top: 0;
 	width: 100%;
 	height: 95px;
@@ -161,7 +161,7 @@
 #centeredLogo {
 	display: block;
 	width: 281px;
-	height: 76px;
+	height: 60px;
 	margin: 6px auto 0 auto;
 	background: transparent url('/assets/img/snapable-sm.png') no-repeat center top;
 	text-indent: -8000px;

@@ -22,12 +22,12 @@
 		$guestID = $session_guest['id'];
 	}
 ?>
-
+<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?key=AIzaSyAofUaaxFh5DUuOdZHmoWETZNAzP1QEya0&sensor=false"></script>
 <script type="text/javascript">
 var eventID = "<?= $eventDeets->resource_uri ?>";
 var guestID = "/private_v1/guest/<?= $guestID ?>/";
 var typeID = "/private_v1/type/<?php echo (isset($session_guest['type']))? $session_guest['type']: '1'; ?>/";
-var photos = <?= $eventDeets->photos ?>;
+var photo_count = <?= $eventDeets->photos ?>;
 var owner = <?= (isset($owner) && $owner == 1) ? 'true' : 'false' ?>;
 </script>
 
@@ -35,17 +35,37 @@ var owner = <?= (isset($owner) && $owner == 1) ? 'true' : 'false' ?>;
 
 	<div id="event-cover-wrap"><img id="event-cover-image" src="/assets/img/FPO/cover-image.jpg" /></div>
 	<div id="event-title-wrap">
-		<h1><span id="event-timestamp-start"><?= $eventDeets->human_start ?></span><!-- to <span id="event-timestamp-end"><?= $eventDeets->human_end ?></span>--></h1>
-		<h2><?= $eventDeets->title ?></h2>
+		<h1><span id="event-address"><?php echo ($eventDeets->privacy < 6) ? $eventDeets->addresses[0]->{'address'} : '&nbsp;'; ?></span></h1>
+		<h1><span id="event-timestamp-start"><?= $eventDeets->human_start ?></span> to <span id="event-timestamp-end"><?= $eventDeets->human_end ?></span></h1>
+		<h2 id="event-title" class="<?php echo ($ownerLoggedin)? 'edit': '';?>"><?= $eventDeets->title ?></h2>
+		<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ) { ?>
+		<div id="event-settings">
+			<h3>Event Details &amp; Settings</h3>
+			<input id="event-settings-lat" name="lat" type="hidden" value="<?php echo $eventDeets->addresses[0]->{'lat'}; ?>"/>
+			<input id="event-settings-lng" name="lng" type="hidden" value="<?php echo $eventDeets->addresses[0]->{'lng'}; ?>"/>
+			<input id="event-settings-timezone" name="tz_offset" type="hidden" value="<?php echo $eventDeets->tz_offset; ?>"/>
+
+			<label for="event-settings-title">Event Title</label><br/>
+			<input id="event-settings-title" name="title" type="text" value="<?php echo $eventDeets->title; ?>"/><br/>
+			<label for="event-settings-url">Event URL</label><br/>
+			<input id="event-settings-url" name="url" type="text" data-orig="<?php echo $eventDeets->url; ?>" value="<?php echo $eventDeets->url; ?>"/><span id="event-settings-url-status" class="status">&nbsp;</span><br/>
+			<label for="event-settings-address">Event Location</label><br/>
+			<input id="event-settings-address" name="address" type="text" data-resource-uri="<?php echo $eventDeets->addresses[0]->{'resource_uri'}; ?>" value="<?php echo $eventDeets->addresses[0]->{'address'}; ?>"/><span id="event-settings-address-status" class="status">&nbsp;</span><br/>
+			<div id="map_canvas-wrap" style="display:none;"><div id="map_canvas" style="width:250px; height:250px;"></div></div>
+			<div class="clearit">&nbsp;</div>
+			<div id="event-settings-save-wrap">
+				<input type="button" class="cancel" value="Cancel" />
+				<input type="button" class="save" value="Save" />
+			</div>
+		</div>
+		<?php } ?>
 		<ul id="event-nav">
 
 			<li><span>Photostream</span></li>
-			<?php if ($eventDeets->privacy <= 5 && $show_upload == true ): ?>
-			<li><a id="uploadBTN" href="#">Upload Photos</a></li>
-			<?php endif; ?>
+			<li <?php echo ($eventDeets->privacy == 6) ? 'style="display:none;"' : ''; ?>><a id="uploadBTN" href="#">Upload Photos</a></li>
 			<?php if ( $eventDeets->photos > 0 )
 			{
-				echo '<li><a href="/event/' . $eventDeets->url . '/slideshow">Slideshow</a></li>';
+				//echo '<li><a href="/event/' . $eventDeets->url . '/slideshow">Slideshow</a></li>';
 			} ?>
 
 			<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ) { ?>
@@ -83,13 +103,11 @@ var owner = <?= (isset($owner) && $owner == 1) ? 'true' : 'false' ?>;
 		<?php endif; ?>
 		</ul>
 	</div>
-	
-	<?php if($eventDeets->privacy < 6): ?>
-	<div id="event-pin">
+
+	<div id="event-pin" <?php echo ($eventDeets->privacy == 6) ? 'style="display:none;"':''; ?>>
 		Event PIN:
 		<div><?= $eventDeets->pin ?></div>
 	</div>
-	<?php endif;?>
 	<!--
 	<div id="checkout-buttons">
 		<div id="in-cart">

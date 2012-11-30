@@ -100,7 +100,7 @@
 				
 					<p>Go to your event page, click the "Upload Photos" link under the title, grab the photos you want to upload, drag them into the upload box, and click the ‘upload’ button.</p>
 
-					<p>Use this to upload photos of the bride/groom as kids, seed a slideshow, etc.</p>
+					<p>Use this to upload photos of the bride/groom as kids, etc.</p>
 				
 				</div>
 			
@@ -118,6 +118,7 @@
 				
 				</div>
 				
+				<!--
 				<h3><a href="#slideshow" class="closed">Setup a slideshow</a></h3>
 				
 				<div id="slideshow-content" class="hiding">
@@ -125,6 +126,7 @@
 					<p>To create a slideshow <a href="/event/<?= $eventDeets['url'] ?>">go to your event page</a>, click the slideshow link and follow the instructions.</p>
 				
 				</div>
+				-->
 			
 			</div>
 			

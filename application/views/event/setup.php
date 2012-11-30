@@ -16,7 +16,7 @@
 	<hr class="longer" />
 	
 	<h3>Want to add photos now?</h3>
-	<p>Maybe to create a slideshow at the reception? </p>
+	<!--<p>Maybe to create a slideshow at the reception? </p>-->
 	
 	<div id="uploadArea"><strong>Drag files into this area to upload</strong>.</div>
 	

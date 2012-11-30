@@ -17,7 +17,7 @@ function checkUrl(url)
 	$("#event_url_status").removeClass("url_good").removeClass("url_bad").addClass("spinner-16px")
 	$.getJSON("/signup/check", { "url": url }, function(data)
 	{		
-		if ( data['status'] == 404 )
+		if ( data['status'] == 404 && url.length > 0)
 		{
 			$("#event_url_status").removeClass("url_bad").removeClass("spinner-16px").addClass("url_good");	
 			$("#event_url").removeClass("input-error");
@@ -71,11 +71,22 @@ function geocoder(address)
        		$("#lat").val(point.lat());
 			$("#lng").val(point.lng());
        		map.panTo(point);
-        });
+
+			var timestamp = Math.round((new Date()).getTime() / 1000);
+			var tzRequest = '/ajax/timezone?lat='+point.lat()+'&lng='+point.lng()+'&timestamp='+timestamp;
+			$.getJSON(tzRequest, function(data){
+				$('#timezone').val((data.rawOffset/60));
+			});
+       	});
         $('#map_canvas_container').slideDown();
-		
+
+		var timestamp = Math.round((new Date()).getTime() / 1000);
+		var tzRequest = '/ajax/timezone?lat='+lat+'&lng='+lng+'&timestamp='+timestamp;
+		$.getJSON(tzRequest, function(data){
+			$('#timezone').val((data.rawOffset/60));
+		});
 	});
-	
+
 	return true;
 }
 
@@ -112,7 +123,7 @@ $(document).ready(function()
 {  
 
     $( "#event-start-date, #event-end-date" ).datepicker({dateFormat: 'M d, yy'});//( "option", "dateFormat", "d M, y" );
-	
+
 	$("#event-start-time").timePicker({
 		startTime: "06.00", // Using string. Can take string or Date object.
 		show24Hours: false,
@@ -385,7 +396,6 @@ $(document).ready(function()
 		{
 			$("#event_location").focus();
 			$("#event_location").addClass("input-error");
-			$("#event_location_error").html("We can't seem to locate this address, would you like to <a href='#'>find it on a map</a>?").fadeIn();
 			location.href="#event-details";
 		}
 		else if ( validUrl == 0 )
