@@ -51,7 +51,9 @@ var owner = <?= (isset($owner) && $owner == 1) ? 'true' : 'false' ?>;
 			<input id="event-settings-location" class="" name="location" type="text" disabled="disabled" value="<?php echo $eventDeets->addresses[0]->{'address'}; ?>"/><br/>
 			<div id="map_canvas"></div>
 			<div class="clearit">&nbsp;</div>
-			<input type="button" value="Save" />
+			<div id="event-settings-save-wrap">
+				<input type="button" value="Save" />
+			</div>
 		</div>
 		<?php } ?>
 		<ul id="event-nav">

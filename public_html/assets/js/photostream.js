@@ -72,7 +72,7 @@ function checkUrl(url)
 {
 	$("#event-settings-url-status").removeClass("good").removeClass("bad").addClass("spinner-16px");
 	$.getJSON("/signup/check", { "url": url }, function(data) {		
-		if ( data['status'] == 404 ) {
+		if ( data['status'] == 404 && url.length > 0) {
 			$("#event-settings-url-status").removeClass("bad").removeClass("spinner-16px").addClass("good");	
 		} else {
 			$("#event-settings-url-status").removeClass("good").removeClass("spinner-16px").addClass("bad");	
@@ -375,19 +375,21 @@ $(document).ready(function()
     /**** Event Settings ****/
     if (owner == true) {
 	    $('#event-title').click(function(){
+	    	$('#event-settings-save-wrap img').remove();
 	    	$('#event-settings').show();
 	    });
 	    $('#event-settings input[type=button]').click(function(){
-			$('#event-settings').hide();
+			$('<img src="/assets/img/spinner_blue_sm.gif" />').insertAfter('#event-settings input[type=button]');
 			var data = {
 				title: $('#event-settings-title').val()
 			}
-			if ($('#event-settings-url').val() != $('#event-settings-url').data('orig')) {
+			if ($('#event-settings-url').val() != $('#event-settings-url').data('orig') && $('#event-settings-url').val().length > 0) {
 				data.url = $('#event-settings-url').val();
 			}
 
 			$.post('/ajax/event/update/'+eid[3], data, function(data)
 			{
+				$('#event-settings').hide();
 				var json = jQuery.parseJSON(data);
 				if ( json.status = 202 ) {
 					// update field values
@@ -747,7 +749,7 @@ $(document).ready(function()
 			} else {
 				alert("This is embarassing, something went wrong on our end and we weren't able to change your privacy setting—never fear, we're on it!");
 			}
-			$('#event-nav-menu-privacy').fadeOut();
+			$('#event-nav-menu-privacy').hide();
 		});
 	});
 
