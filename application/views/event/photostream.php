@@ -37,21 +37,23 @@ var owner = <?= (isset($owner) && $owner == 1) ? 'true' : 'false' ?>;
 	<div id="event-title-wrap">
 		<h1><span id="event-timestamp-start"><?= $eventDeets->human_start ?></span> to <span id="event-timestamp-end"><?= $eventDeets->human_end ?></span></h1>
 		<h2 id="event-title" class="<?php echo ($ownerLoggedin)? 'edit': '';?>"><?= $eventDeets->title ?></h2>
+		<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ) { ?>
 		<div id="event-settings">
-			<h3>Event Details</h3>
+			<h3>Event Details &amp; Settings</h3>
 			<input id="event-settings-lat" name="lat" type="hidden"/>
 			<input id="event-settings-lng" name="lng" type="hidden"/>
 
 			<label for="event-settings-title">Event Title</label><br/>
 			<input id="event-settings-title" name="title" type="text" value="<?php echo $eventDeets->title; ?>"/><br/>
 			<label for="event-settings-url">Event URL</label><br/>
-			<input id="event-settings-url" name="url" type="text" disabled="disabled" value="<?php echo $eventDeets->url; ?>"/><br/>
+			<input id="event-settings-url" name="url" type="text" data-orig="<?php echo $eventDeets->url; ?>" value="<?php echo $eventDeets->url; ?>"/><span id="event-settings-url-status" class="status">&nbsp;</span><br/>
 			<label for="event-settings-location">Event Location</label><br/>
-			<input id="event-settings-location" name="location" type="text" disabled="disabled" value="<?php echo $eventDeets->addresses[0]->{'address'}; ?>"/><br/>
+			<input id="event-settings-location" class="" name="location" type="text" disabled="disabled" value="<?php echo $eventDeets->addresses[0]->{'address'}; ?>"/><br/>
 			<div id="map_canvas"></div>
 			<div class="clearit">&nbsp;</div>
 			<input type="button" value="Save" />
 		</div>
+		<?php } ?>
 		<ul id="event-nav">
 
 			<li><span>Photostream</span></li>

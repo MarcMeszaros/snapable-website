@@ -236,10 +236,26 @@ a.menu-open {
 #event-settings h3 {
 	margin: 0 0 5px 0;
 }
-#event-settings input[type=text] {
-	width: inherit;
+#event-settings span.status {
+	margin-left: 4px;
+	width: 16px;
+	display: inline-block;
 }
 
+#event-settings input[type=text] {
+	width: 225px;
+}
+#event-settings .status.bad {
+	background: url('/assets/img/x_alt_16x16.png') no-repeat right bottom;
+}
+#event-settings .status.good {
+	background: url('/assets/img/check_alt_16x16.png') no-repeat right bottom;
+}
+#event-settings .status.spinner-16px {
+	background: url('/assets/img/spinner-sm.gif') no-repeat right bottom;
+}
+
+/** Misc **/
 .noPhotos {
 	position: relative;
 	background-image:url(/assets/img/firstrun-overlay.jpg);

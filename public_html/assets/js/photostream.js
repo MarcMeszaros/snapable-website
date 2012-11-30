@@ -58,12 +58,45 @@ function readCookie(name) {
 	return null;
 }
 
+function sanitizeUrl(url)
+{
+	// replace spaces with dashes change uppercase to lowercase
+	var new_url = url.replace(/&/g,"and");
+	new_url = new_url.replace(/ /g,"-");
+	new_url = new_url.replace(/[^a-zA-Z0-9_-]/g,"");
+	new_url = new_url.toLowerCase();
+	return new_url;
+}
+
+function checkUrl(url)
+{
+	$("#event-settings-url-status").removeClass("good").removeClass("bad").addClass("spinner-16px");
+	$.getJSON("/signup/check", { "url": url }, function(data) {		
+		if ( data['status'] == 404 ) {
+			$("#event-settings-url-status").removeClass("bad").removeClass("spinner-16px").addClass("good");	
+		} else {
+			$("#event-settings-url-status").removeClass("good").removeClass("spinner-16px").addClass("bad");	
+		}
+	});
+}
+
 // when the DOM is ready
 $(document).ready(function() 
 {  
 	var eid = eventID.split("/");
 	var csvFilename = "";
 	//createCookie('phCart', '','90');
+
+	$('#event-settings-url').keyup(function(){
+		var url = $(this).val();
+		url = sanitizeUrl(url);
+		$(this).val(url);
+		if(url != $(this).data('orig')) {
+			checkUrl(url);
+		} else {
+			$("#event-settings-url-status").removeClass("bad").removeClass("spinner-16px").addClass("good");
+		}
+	});
 
 	if ( photo_count > 0 )
 	{	
@@ -341,24 +374,37 @@ $(document).ready(function()
 	
     /**** Event Settings ****/
     if (owner == true) {
-	    $('#event-title-wrap h2').click(function(){
+	    $('#event-title').click(function(){
 	    	$('#event-settings').show();
 	    });
 	    $('#event-settings input[type=button]').click(function(){
+			$('#event-settings').hide();
 			var data = {
 				title: $('#event-settings-title').val()
 			}
+			if ($('#event-settings-url').val() != $('#event-settings-url').data('orig')) {
+				data.url = $('#event-settings-url').val();
+			}
+
 			$.post('/ajax/event/update/'+eid[3], data, function(data)
 			{
 				var json = jQuery.parseJSON(data);
 				if ( json.status = 202 ) {
 					// update field values
-					$('#event-title').html(json.title);		
-					sendNotification("positive", "Your event settings have been updated.");
+					$('#event-title').html(json.title);
+
+					// we shanged the url, redirect
+					if ($('#event-settings-url').val() != $('#event-settings-url').data('orig')) {
+						sendNotification("positive", "Your event settings have been updated.<br>Redirecting you to the new event url...", 4000);
+						setTimeout(function(){
+							window.location = '/event/'+$('#event-settings-url').val();
+						}, 5000);
+					} else {		
+						sendNotification("positive", "Your event settings have been updated.");
+					}
 				} else {
 					sendNotification("caution", "This is embarassing, something went wrong on our end and we weren't able to change your event settings—never fear, we're on it!");
 				}
-				$('#event-settings').hide();
 			});
 		});
 		$('#event-settings #event-settings-location').change(function(){
