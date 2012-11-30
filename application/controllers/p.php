@@ -88,7 +88,7 @@ class P extends CI_Controller {
 
 				echo json_encode(array('status' => $resp['code']));
 			} else {
-				show_401();
+				show_404();
 			}
 		}
 	}
