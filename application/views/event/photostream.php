@@ -35,6 +35,7 @@ var owner = <?= (isset($owner) && $owner == 1) ? 'true' : 'false' ?>;
 
 	<div id="event-cover-wrap"><img id="event-cover-image" src="/assets/img/FPO/cover-image.jpg" /></div>
 	<div id="event-title-wrap">
+		<h1><span id="event-address"><?php echo ($eventDeets->privacy < 6) ? $eventDeets->addresses[0]->{'address'} : '&nbsp;'; ?></span></h1>
 		<h1><span id="event-timestamp-start"><?= $eventDeets->human_start ?></span> to <span id="event-timestamp-end"><?= $eventDeets->human_end ?></span></h1>
 		<h2 id="event-title" class="<?php echo ($ownerLoggedin)? 'edit': '';?>"><?= $eventDeets->title ?></h2>
 		<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ) { ?>
