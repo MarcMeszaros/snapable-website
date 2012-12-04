@@ -380,7 +380,11 @@ $(document).ready(function()
 				address: $('#event-settings-address').val(),
 				lat: $('#event-settings-lat').val(),
 				lng: $('#event-settings-lng').val(),
-				tz_offset: $('#event-settings-timezone').val()
+				tz_offset: $('#event-settings-timezone').val(),
+				start_date: $('#event-start-date').val(),
+				start_time: $('#event-start-time').val(),
+				duration_num: $('#event-duration-num').val(),
+				duration_type: $('#event-duration-type').val()
 			}
 			if ($('#event-settings-url').val() != $('#event-settings-url').data('orig') && $('#event-settings-url').val().length > 0) {
 				data.url = $('#event-settings-url').val();
@@ -480,6 +484,39 @@ $(document).ready(function()
 		       	// display the map on initial load
 		        $('#map_canvas-wrap').slideDown();
 			});
+		});
+		// event time settings
+		$("#event-duration-type").change(function() {
+			var option = $(this).val();
+			var values = "";
+			var selected = "";
+			
+			if ( option == "days" ) {
+				for ( var i=1; i <= 7; i++ ) { 
+					values += "<option value='" + i + "'" + selected + ">" + i + "</option>";
+				}
+			} else {
+				for ( var i=1; i<= 23; i++ ) { 
+					if ( i == 12 ) {
+						selected = " SELECTED";
+					}
+					values += "<option value='" + i + "'" + selected + ">" + i + "</option>";
+				}
+			}
+			$("#event-duration-num").html(values);
+			if ( option == "days" ) {
+				$("#event-duration-num").val(1);
+			} else {
+				$("#event-duration-num").val(12);
+			}
+		});
+		// initialize the pickers
+		$("#event-start-date").datepicker({dateFormat: 'M d, yy'});
+		$("#event-start-time").timePicker({
+			startTime: "06.00", // Using string. Can take string or Date object.
+			show24Hours: false,
+			separator: ':',
+			step: 30
 		});
 	}
 

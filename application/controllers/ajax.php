@@ -43,6 +43,38 @@ class Ajax extends CI_Controller {
             unset($post['lng']);
         }
 
+        // process date/time stuff
+        $duration = $post['duration_num'];
+        if ($post['duration_type'] == 'hours') {
+            $duration = $duration * 60 * 60;
+        } else {
+            $duration = $duration * 60 * 60 * 24;
+        }
+
+        // get the unix times
+        // 'Jul 23, 2012 02:00 PM'
+        $date = $post['start_date'].' '.strtolower($post['start_time']);
+        $dateParts = explode(' ', $date);
+        $start = 0;
+        if ($dateParts[4] == 'am') {
+            $dt = DateTime::createFromFormat('M d, Y h:i a', $date);
+            $start = $dt->getTimestamp() + ($post['tz_offset'] * -60);
+        } else {
+            $dt = DateTime::createFromFormat('M d, Y h:i A', $date);
+            $start = $dt->getTimestamp() + ($post['tz_offset'] * -60);
+        }
+        $end = $start + $duration;
+
+        // format the values for the API call
+        $post['start'] = date('Y-m-d H:i:s', $start);
+        $post['end'] = date('Y-m-d H:i:s', $end);
+
+        // unset variables
+        unset($post['start_date']);
+        unset($post['start_time']);
+        unset($post['duration_num']);
+        unset($post['duration_type']);
+
         // update the event
         $verb = 'PUT';
         $path = ($this->uri->segment(3) !== false) ? 'event/'.$this->uri->segment(3) : 'event';

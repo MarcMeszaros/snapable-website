@@ -221,7 +221,7 @@ a.menu-open {
 /** Event Settings **/
 #event-settings {
 	display: none;
-	width: 250px;
+	width: 285px;
 	position: absolute;
 	top: 25px;
 	padding: 10px;
@@ -246,7 +246,7 @@ a.menu-open {
 }
 
 #event-settings input[type=text] {
-	width: 225px;
+	width: 255px;
 }
 #event-settings .status.bad {
 	background: url('/assets/img/x_alt_16x16.png') no-repeat right bottom;
@@ -256,6 +256,30 @@ a.menu-open {
 }
 #event-settings .status.spinner-16px {
 	background: url('/assets/img/spinner_blue_sm.gif') no-repeat right bottom;
+}
+
+#event-settings .small-field {
+	width: 300px;
+	padding: 5px 0;
+}
+#event-settings .small-field label {
+	display: block;
+}
+#event-settings .small-field-inner {
+	float: left;
+	margin-right: 5px;
+}
+#event-settings .small-field-inner input[type=text] {
+	width: 75px;
+	display: block;
+}
+
+#event-settings .small-field-inner-wide select {
+	display: inline-block;
+}
+
+div.time-picker {
+	z-index: 100;
 }
 
 /** Misc **/
