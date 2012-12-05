@@ -56,9 +56,9 @@
 	<div class="form-column-right form-package-details">
 		
 			<h4><strong>Your Package: </strong><br /><?= $package->name ?> for $<?= $package->price ?></h4>
-
+<!--
 			<p>This package includes <strong><?= $package->prints ?> prints</strong>, <strong><?php if ( $package->albums == 0 ) { echo "Unlimited"; } else { echo $package->albums; } ?> online albums</strong> and more.</p>
-			
+	-->		
 	</div>
 	
 	<div class="clearit">&nbsp;</div>
@@ -85,25 +85,6 @@
 			</div>
 			-->
 			
-			<div class="small-field field-separated">
-				<div class="small-field-inner">
-					<label for="event-start-date">Start Date</label>
-					<input class="longer" id="event-start-date" name="event[start_date]" type="text" value="<?= date("M j, Y", time()) ?>">
-				</div>
-				<div class="small-field-inner">
-					<label for="event-start-time">Time</label>
-					<input id="event-start-time" name="event[start_time]" type="text" value="<?= date("h:00 A", time() + 3600) ?>">
-				</div>
-				
-				<div class="small-field-inner">
-					<label for="event-start-date">End Date</label>
-					<input class="longer" id="event-end-date" name="event[end_date]" type="text" value="<?= date("M j, Y", time()) ?>">
-				</div>
-				<div class="small-field-inner">
-					<label for="event-end-time">Time</label>
-					<input id="event-end-time" name="event[end_time]" type="text" value="<?= date("h:00 A", time() + 18000) ?>">
-				</div>
-			</div>
 			
 			<div class="form-field">
 				<label for="event_location">Location</label>

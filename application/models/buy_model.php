@@ -14,10 +14,10 @@ Class Buy_model extends CI_Model
 		if ( $httpcode == 200 )
 		{
 			$result = json_decode($response); 
-			
-			$json = '{
-						"status": 404
-					}';
+			$jsonResp = array(
+				'status' => 404,
+			);
+			$json = json_encode($jsonResp);
 			
 			foreach ( $result->objects as $r )
 			{
@@ -25,23 +25,20 @@ Class Buy_model extends CI_Model
 				if ( $r->short_name == $url)
 				{
 					// short_name, name, price, prints, album
-					$json = '{
-						"status": 200,
-						"resource_uri": "' . $r->resource_uri . '",
-						"short_name": "' . $r->short_name . '",
-						"name": "' . $r->name . '",
-						"price": "' . $r->price . '",
-						"prints": "' . $r->prints . '",
-						"albums": "' . $r->albums . '"
-					}';
+					$jsonResp = array(
+						'status' => 200,
+						'resource_uri' => $r->resource_uri,
+						'short_name' => $r->short_name,
+						'name' => $r->name,
+						'price' => $r->price,
+					);
 				}
 			}
 			
-			return $json;
+			return json_encode($jsonResp);
 		} else {
-			return '{
-				"status": 404
-			}';
+			$jsonResp = array('status' => 404);
+			return json_encode($jsonResp);
 		}
 	}
 	
@@ -146,12 +143,12 @@ Class Buy_model extends CI_Model
 		$verb = 'POST';
 		$path = '/user/';
 		$params = array(
-			"billing_zip" => (isset($address['zip'])? $address['zip']:'',
+			"billing_zip" => (isset($address['zip']))? $address['zip']:'',
 		    "email" => $user['email'],
 		    "first_name" => $user['first_name'],
 		    "last_name" => $user['last_name'],
 		    "password" => $user['password'],
-		    "terms": true,
+		    "terms" => true,
 		);
 		$resp = SnapApi::send($verb, $path, $params);
 

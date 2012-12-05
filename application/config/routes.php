@@ -44,6 +44,7 @@ $route['404_override'] = '';
 // == custom routes ==
 
 // buy controller
+$route['buy/(:any)'] = 'buy/index/$1'; // exception for the event name
 
 // event controller
 $route['event/find'] = 'event/find'; // exception for the event name

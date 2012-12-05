@@ -8,22 +8,21 @@ class Buy extends CI_Controller {
     	$this->load->model('buy_model','',TRUE);		    	
 	}
 	 
-	public function index()
+	public function index($package)
 	{
 		$data = array(
-			'package' => json_decode($this->buy_model->getPackageDetails($this->uri->segment(2)))
+			'package' => json_decode($this->buy_model->getPackageDetails($package))
 		);
 		
 		if( $data['package']->status == 404 )
 		{
-			redirect('../', 'refresh');
-		} else {	
-			echo "&nbsp;";
+			echo 'error';
+		} else {
 			$head = array(
-				'linkHome' => true,
+				//'linkHome' => true,
 				'css' => base64_encode('assets/css/cupertino/jquery-ui-1.8.21.custom.css,assets/css/timePicker.css,assets/css/setup.css,assets/css/header.css,assets/css/buy.css,assets/css/footer-short.css'),
 				'js' => base64_encode('assets/js/jquery-ui-1.8.21.custom.min.js,assets/js/jquery.timePicker.min.js,assets/js/buy.js'),
-				'url' => 'blank'	
+				//'url' => 'blank',
 			);
 			$this->load->view('common/html_header', $head);
 			$this->load->view('common/header', $head);
@@ -37,8 +36,8 @@ class Buy extends CI_Controller {
 		if ( isset($_POST['event']) && isset($_POST['user']) && isset($_POST['cc']) && isset($_POST['address']) )
 		{
 			$data = array(
-				'title' => $_POST['event']['title']
-				'css' => 'css' => base64_encode('assets/css/loader.css'),
+				'title' => $_POST['event']['title'],
+				'css' => base64_encode('assets/css/loader.css'),
 			);
 			$this->load->view('common/html_header', $data);
 			$this->load->view('buy/complete', $data);
