@@ -35,6 +35,7 @@ class Buy extends CI_Controller {
 				'css' => base64_encode('assets/css/cupertino/jquery-ui-1.8.21.custom.css,assets/css/timePicker.css,assets/css/setup.css,assets/css/header.css,assets/css/buy.css,assets/css/footer-short.css'),
 				'js' => base64_encode('assets/js/jquery-ui-1.8.21.custom.min.js,assets/js/jquery.timePicker.min.js,assets/js/buy.js'),
 			);
+
 			$this->load->view('common/html_header', $head);
 			$this->load->view('common/header', array('linkHome' => true, 'url' => 'blank'));
 			$this->load->view('buy/index', $data);
@@ -44,7 +45,7 @@ class Buy extends CI_Controller {
 	}
 
 	public function complete() {
-		if ( isset($_POST['stripeToken']) && isset($_POST['cc']) && isset($_POST['address']) )
+		if ( isset($_POST['stripeToken']) && isset($_POST['cc']) && isset($_POST['address']) && $this->session->userdata('logged_in'))
 		{
 			$data = array(
 				//'title' => $_POST['event']['title'],
@@ -55,17 +56,42 @@ class Buy extends CI_Controller {
 			$this->load->view('buy/complete', $data);
 			$this->load->view('common/html_footer', $data);
 
+			// get user/account details from session data set during signup
+			$session_data = $this->session->userdata('logged_in');
+			$userParts = explode('/', $session_data['resource_uri']);
+			$accountParts = explode('/', $session_data['account_uri']);
+
 			// get the credit card details submitted by the form
 			$token = $_POST['stripeToken'];
 
 			// create the charge on Stripe's servers - this will charge the user's card
 			$charge = Stripe_Charge::create(array(
-			  'amount' => 1000, // amount in cents, again
+			  'amount' => 7900, // amount in cents, again
 			  'currency' => 'usd',
 			  'card' => $token,
-			  'description' => 'payinguser@example.com'
+			  'description' => $session_data['email']
 			));
+			$chargeData = json_decode($charge);
+
+			// create a Snapable order using the API
+			$verb = 'POST';
+			$path = 'order';
+			$params = array(
+				'total_price' => 79.00,
+				'account' => $session_data['account_uri'],
+				'user' => $session_data['resource_uri'],
+				'paid' => true,
+				'items' => array(
+					'package' => 1, // the package id
+					'account_addons' => array(), // required field, but empty
+					'event_addons' => array(), // required field, but empty
+				),
+				'payment_gateway_invoice_id' => $chargeData->id,
+			);
+			$resp = SnapApi::send($verb, $path, $params);
 			
+			// redirect to the dashboard
+			redirect("/account/dashboard");
 		} else {
 			show_404();
 		}

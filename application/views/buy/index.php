@@ -1,6 +1,4 @@
 <form id="payment-form" method="POST" action="/buy/complete/">
-	<input type="hidden" name="account_id" value="" />
-	<input type="hidden" name="user_id" value="" />
 
 	<section id="package-details" class="form-fields">
 

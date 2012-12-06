@@ -40,12 +40,22 @@ class Signup extends CI_Controller {
 		
 		$create_event = $this->signup_model->createEvent($_POST['event'], $_POST['user']);
 		
-		if ( $create_event == 1 )
+		if ( $create_event !== false )
 		{
 			// set sessions var to log user in
-			redirect('/account/dashboard'); //redirect('/event/setup/' . $_POST['event']['url']);
+			$sess_array = array(
+	          'email' => $_POST['user']['email'],
+	          'fname' => $_POST['user']['first_name'],
+	          'lname' => $_POST['user']['last_name'],
+	          'user_uri' => $create_event['user'],
+	          'account_uri' => $create_event['account'],
+	          'resource_uri' => $create_event['event'],
+	          'loggedin' => true
+	        );
+	        $this->session->set_userdata('logged_in', $sess_array);
+			redirect('/buy/free'); 
 		} else {
-			//redirect('/buy/error');
+			show_error('Unable to create event.', 500);
 		}
 	}
 	

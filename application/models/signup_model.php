@@ -113,17 +113,7 @@ Class Signup_model extends CI_Model
 	
 	function createEvent($event, $user)
 	{
-		// Charge Credit Card then do rest if it comes back ok
-		/*
-	    [user] => Array
-	        (
-	            [first_name] => Andrew
-	            [last_name] => Draper
-	            [email] => andrew.draper@gmail.com
-	            [password] => golden123
-	            [password_confirmation] => golden123
-	        )
-	        */
+		$successResp = array();
 	    
 	    // USER
 	    $email_address = $user['email'];
@@ -150,6 +140,10 @@ Class Signup_model extends CI_Model
 			$user_uri = $result->resource_uri;
 			$tempResult = json_decode($response, true);
 			$account_uri = $tempResult['accounts'][0];
+
+			// set the account/user id's
+			$successResp['user'] = $user_uri;
+			$successResp['account'] = $account_uri;
 			
 			// EVENT
 		    $min = 1000;
@@ -201,7 +195,8 @@ Class Signup_model extends CI_Model
 			{
 
 				$result = json_decode($response);
-				$event_uri = $result->resource_uri; 
+				$event_uri = $result->resource_uri;
+				$successResp['event'] = $event_uri; 
 				
 				// ADDRESS
 				$verb = 'POST';
@@ -286,15 +281,15 @@ Class Signup_model extends CI_Model
 					
 					//echo "sent";
 					
-					return 1;
+					return $successResp;
 				} else {
-					return 0;
+					return false;
 				}
 			} else {
-				return 0;
+				return false;
 			}
 		} else {
-			return 0;
+			return false;
 		}
 	} 
 
