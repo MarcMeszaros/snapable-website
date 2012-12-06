@@ -406,3 +406,15 @@ p {
 	border:2px solid #cc3300;
 }
 
+.submit-button {
+    display: block;
+    width: 250px;
+    height: 75px;
+    background: transparent url('/assets/img/complete.png') no-repeat;
+    border: 0;
+    text-indent: -10000px;
+}
+
+.submit-button:hover {
+    cursor: pointer;
+}

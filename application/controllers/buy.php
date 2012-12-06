@@ -31,13 +31,12 @@ class Buy extends CI_Controller {
 			show_404();
 		} else {
 			$head = array(
-				'linkHome' => true,
+				'stripe' => true,
 				'css' => base64_encode('assets/css/cupertino/jquery-ui-1.8.21.custom.css,assets/css/timePicker.css,assets/css/setup.css,assets/css/header.css,assets/css/buy.css,assets/css/footer-short.css'),
 				'js' => base64_encode('assets/js/jquery-ui-1.8.21.custom.min.js,assets/js/jquery.timePicker.min.js,assets/js/buy.js'),
-				'url' => 'blank',
 			);
 			$this->load->view('common/html_header', $head);
-			$this->load->view('common/header', $head);
+			$this->load->view('common/header', array('linkHome' => true, 'url' => 'blank'));
 			$this->load->view('buy/index', $data);
 			$this->load->view('common/footer');
 			$this->load->view('common/html_footer');
@@ -45,21 +44,27 @@ class Buy extends CI_Controller {
 	}
 
 	public function complete() {
-		if ( isset($_POST['cc']) && isset($_POST['address']) )
+		if ( isset($_POST['stripeToken']) && isset($_POST['cc']) && isset($_POST['address']) )
 		{
 			$data = array(
 				//'title' => $_POST['event']['title'],
 				'css' => base64_encode('assets/css/loader.css'),
 			);
-			/*
-			$myCard = array('number' => '4242424242424242', 'exp_month' => 5, 'exp_year' => 2015);
-			$charge = Stripe_Charge::create(array('card' => $myCard, 'amount' => 2000, 'currency' => 'usd'));
-			echo $charge;
-			*/
 
 			$this->load->view('common/html_header', $data);
 			$this->load->view('buy/complete', $data);
 			$this->load->view('common/html_footer', $data);
+
+			// get the credit card details submitted by the form
+			$token = $_POST['stripeToken'];
+
+			// create the charge on Stripe's servers - this will charge the user's card
+			$charge = Stripe_Charge::create(array(
+			  'amount' => 1000, // amount in cents, again
+			  'currency' => 'usd',
+			  'card' => $token,
+			  'description' => 'payinguser@example.com'
+			));
 			
 		} else {
 			show_404();
