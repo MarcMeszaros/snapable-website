@@ -7,10 +7,12 @@ $(document).ready(function()
 	    $('.submit-button').attr("disabled", "disabled");
 
 	    Stripe.createToken({
+	    	name: $('#creditcard_name').val(),
 	        number: $('#creditcard_number').val(),
 	        cvc: $('#creditcard_cvc').val(),
 	        exp_month: $('#creditcard_month').val(),
-	        exp_year: $('#creditcard_year').val()
+	        exp_year: $('#creditcard_year').val(),
+	        address_zip: $('#address_zip').val()
 	    }, stripeResponseHandler);
 
 	    // prevent the form from submitting with the default action
@@ -87,7 +89,7 @@ $(document).ready(function()
 			$("#address_zip").removeClass("input-error");
 			$("#address_zip_error").fadeOut();
 		}
-	
+
 		return false;
 	})
 });
