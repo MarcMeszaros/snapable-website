@@ -1,130 +1,32 @@
-<form name="create_event" method="post" action="/buy/complete">
+<form id="payment-form" method="post" action="/buy/complete">
+	<input type="hidden" name="account_id" value="" />
+	<input type="hidden" name="user_id" value="" />
 
-	<input type="hidden" id="package" name="event[package]" value="<?= $package->resource_uri ?>" />
-	<input type="hidden" id="lat" name="event[lat]" value="0" />
-	<input type="hidden" id="lng" name="event[lng]" value="0" />
-	
-	<section id="your-details" class="form-fields">
+	<section id="package-details" class="form-fields">
 
-		<h1>Sign-up</h1>
-		<h2>It’ll only take a minute to setup your event.</h2>
-	
-		<h3>Your Details</h3>
-	
-		<div class="form-box">
-			
-			
-			<div class="form-field field-separated">
-				<label for="user_first_name">First name</label>
-				<input id="user_first_name" name="user[first_name]" size="30" type="text">
-				<div class="field-error" id="user_first_name_error">You must provide a first name.</div>
-			</div>
-    
-			<div class="form-field">
-				<label for="user_last_name">Last name</label>
-				<input id="user_last_name" name="user[last_name]" size="30" type="text">
-				<div class="field-error" id="user_last_name_error">You must provide a last name.</div>
-			</div>
-  
-			<div class="form-field field-separated">
-				<label for="user_email">Email address <em>(you'll use this to sign in)</em></label>
-				<span id="email_status">&nbsp;</span>
-				<input id="user_email" name="user[email]" size="40" type="text">
-				<div class="field-error" id="user_email_error">You must provide a properly formatted email address.</div>
-			</div>
-  
-			<hr />
-  
-			<div class="password-field field-separated">
-				<label for="user_password">Password<br /><em>(6 characters or longer)</em></label>
-				<input id="user_password" name="user[password]" size="30" type="password">
-				<div class="field-error" id="user_password_error">Error.</div>
-			</div>
-      
-			<div class="password-field">
-				<label for="user_password_confirmation">Enter password again<br /><em>(for confirmation)</em></label>
-				<input id="user_password_confirmation" name="user[password_confirmation]" size="30" type="password">
-				<div class="field-error" id="user_password_confirmation_error">Error.</div>
-			</div>
-    
-			<div class="clearit">&nbsp;</div>
-			
-		</div>
-	
-	</section>
-	
-	<div class="form-column-right form-package-details">
+		<h1>Billing</h1>
+
+		<h3><strong>Your Package: </strong><br /><em><?= $package->name ?></em> for $<?= $package->price ?></h3>
 		
-			<h4><strong>Your Package: </strong><br /><em><?= $package->name ?></em> for $<?= $package->price ?></h4>
-			<?php if (isset($package->items->features)) { ?>
-				<h4><strong>This package includes:</strong></h4>
-				<ul>
-					<?php foreach ($package->items->features as $key) {
-						echo '<li>'.SnapText::$FEATURE_DESC[$key]['name'].' - '.SnapText::$FEATURE_DESC[$key]['desc'].'</li>'.PHP_EOL;
-					} ?>
-				</ul>
+		<?php if (isset($package->items->features)) { ?>
+			<h3><strong>This package includes:</strong></h3>
+			<ul>
+				<?php foreach ($package->items->features as $key) {
+					echo '<li>'.SnapText::$FEATURE_DESC[$key]['name'].' - '.SnapText::$FEATURE_DESC[$key]['desc'].'</li>'.PHP_EOL;
+				} ?>
+			</ul>
 
-			<?php } ?>
+		<?php } ?>
 
-			<?php if (isset($package->items->modifiers)) { ?>
-				<h4><strong>This package also includes:</strong></h4>
-				<ul>
-					<?php foreach ($package->items->modifiers as $key => $value) {
-						echo '<li>'.SnapText::$MODIFIER_DESC[$key]['name'].' - '.SnapText::$MODIFIER_DESC[$key]['desc'].' ('.$value.')</li>'.PHP_EOL;
-					} ?>
-				</ul>
+		<?php if (isset($package->items->modifiers)) { ?>
+			<h3><strong>This package also includes:</strong></h3>
+			<ul>
+				<?php foreach ($package->items->modifiers as $key => $value) {
+					echo '<li>'.SnapText::$MODIFIER_DESC[$key]['name'].' - '.SnapText::$MODIFIER_DESC[$key]['desc'].' ('.$value.')</li>'.PHP_EOL;
+				} ?>
+			</ul>
 
-			<?php } ?>
-<!--
-			<p>This package includes <strong><?= $package->prints ?> prints</strong>, <strong><?php if ( $package->albums == 0 ) { echo "Unlimited"; } else { echo $package->albums; } ?> online albums</strong> and more.</p>
-	-->		
-	</div>
-	
-	<div class="clearit">&nbsp;</div>
-	
-	<section id="event-details" class="form-fields">
-	
-		<hr class="thick" />
-		
-		<h3>Event Details</h3>
-		
-		<div class="form-box">
-			
-			<div class="form-field field-separated">
-				<label for="event_title">Title</label>
-				<input id="event_title" name="event[title]" size="40" type="text"> 
-				<div class="field-error" id="event_title_error">You must provide a title for your event.</div>
-			</div>
-			
-			<!--
-			<div class="form-field field-separated">
-				<label for="event_date">Date</label>
-				<input id="event_date" class="long-field" name="event[date]" size="40" type="text" value="Make date/time picker for start and end of event"> 
-				<div class="field-error" id="event_date_error">You must specify a date and time for your event.</div>
-			</div>
-			-->
-			
-			
-			<div class="form-field">
-				<label for="event_location">Location</label>
-				<span id="event_location_status">&nbsp;</span>
-				<input id="event_location" name="event[location]" size="40" type="text"> 
-				<div class="field-error" id="event_location_error">You must provide a location for your event.</div>
-				<div class="form-field_hint">Example: 255 Bremner Blvd, Toronto, Canada, M5V 3M9</div>
-			</div>
-			
-			<hr />
-			
-			<div class="form-field">
-				<label for="event_url">Pick a custom URL</label>
-				<span class="info left">snapable.com/</span><input id="event_url" name="event[url]" type="text" />
-				<span id="event_url_status">&nbsp;</span>
-				<div class="clearit">&nbsp;</div>
-				<div class="field-error" id="event_url_error">This URL is already in use.</div>
-				<div class="form-field_hint">Example: http://snapable.com/<b>my-big-fat-greek-wedding</div>
-			</div>
-			<div class="clearit">&nbsp;</div>
-		</div>
+		<?php } ?>
 		
 	</section>
 	
@@ -229,5 +131,5 @@
 	<div class="clearit">&nbsp;</div>
 	
 	<a href="#" id="btn-sign-up"><img src="/assets/img/complete.png" width="250" height="75" alt="Complete Purchase" border="0" /></a>
-			
+	<input type="submit" value="Complete" />		
 </form>

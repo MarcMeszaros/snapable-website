@@ -6,6 +6,8 @@ class Buy extends CI_Controller {
 	{
     	parent::__construct();
     	$this->load->model('buy_model','',TRUE);
+
+    	$this->load->helper('stripe');
 	}
 
 	public function _remap($method, $params = array())
@@ -43,25 +45,22 @@ class Buy extends CI_Controller {
 	}
 
 	public function complete() {
-		if ( isset($_POST['event']) && isset($_POST['user']) && isset($_POST['cc']) && isset($_POST['address']) )
+		if ( isset($_POST['cc']) && isset($_POST['address']) )
 		{
 			$data = array(
-				'title' => $_POST['event']['title'],
+				//'title' => $_POST['event']['title'],
 				'css' => base64_encode('assets/css/loader.css'),
 			);
+			/*
+			$myCard = array('number' => '4242424242424242', 'exp_month' => 5, 'exp_year' => 2015);
+			$charge = Stripe_Charge::create(array('card' => $myCard, 'amount' => 2000, 'currency' => 'usd'));
+			echo $charge;
+			*/
+
 			$this->load->view('common/html_header', $data);
 			$this->load->view('buy/complete', $data);
 			$this->load->view('common/html_footer', $data);
 			
-			$create_event = $this->buy_model->createEvent($_POST['event'], $_POST['user'], $_POST['cc'], $_POST['address']);
-			
-			if ( $create_event == 1 )
-			{
-				// set sessions var to log user in
-				redirect('/account/dashboard'); //redirect('/event/setup/' . $_POST['event']['url']);
-			} else {
-				//redirect('/buy/error');
-			}
 		} else {
 			show_404();
 		}
