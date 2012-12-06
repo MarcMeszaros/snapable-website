@@ -55,7 +55,26 @@
 	
 	<div class="form-column-right form-package-details">
 		
-			<h4><strong>Your Package: </strong><br /><?= $package->name ?> for $<?= $package->price ?></h4>
+			<h4><strong>Your Package: </strong><br /><em><?= $package->name ?></em> for $<?= $package->price ?></h4>
+			<?php if (isset($package->items->features)) { ?>
+				<h4><strong>This package includes:</strong></h4>
+				<ul>
+					<?php foreach ($package->items->features as $key) {
+						echo '<li>'.SnapText::$FEATURE_DESC[$key]['name'].' - '.SnapText::$FEATURE_DESC[$key]['desc'].'</li>'.PHP_EOL;
+					} ?>
+				</ul>
+
+			<?php } ?>
+
+			<?php if (isset($package->items->modifiers)) { ?>
+				<h4><strong>This package also includes:</strong></h4>
+				<ul>
+					<?php foreach ($package->items->modifiers as $key => $value) {
+						echo '<li>'.SnapText::$MODIFIER_DESC[$key]['name'].' - '.SnapText::$MODIFIER_DESC[$key]['desc'].' ('.$value.')</li>'.PHP_EOL;
+					} ?>
+				</ul>
+
+			<?php } ?>
 <!--
 			<p>This package includes <strong><?= $package->prints ?> prints</strong>, <strong><?php if ( $package->albums == 0 ) { echo "Unlimited"; } else { echo $package->albums; } ?> online albums</strong> and more.</p>
 	-->		

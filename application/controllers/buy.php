@@ -5,10 +5,20 @@ class Buy extends CI_Controller {
 	function __construct()
 	{
     	parent::__construct();
-    	$this->load->model('buy_model','',TRUE);		    	
+    	$this->load->model('buy_model','',TRUE);
+	}
+
+	public function _remap($method, $params = array())
+	{
+	    if (method_exists($this, $method)) {
+	    	return call_user_func_array(array($this, $method), $params);
+	    } else {
+	    	array_unshift($params, $method); // add the method as the first param
+	    	return call_user_func_array(array($this, 'index'), $params);
+	    }
 	}
 	 
-	public function index($package)
+	public function index($package=null)
 	{
 		$data = array(
 			'package' => json_decode($this->buy_model->getPackageDetails($package))
@@ -16,13 +26,13 @@ class Buy extends CI_Controller {
 		
 		if( $data['package']->status == 404 )
 		{
-			echo 'error';
+			show_404();
 		} else {
 			$head = array(
-				//'linkHome' => true,
+				'linkHome' => true,
 				'css' => base64_encode('assets/css/cupertino/jquery-ui-1.8.21.custom.css,assets/css/timePicker.css,assets/css/setup.css,assets/css/header.css,assets/css/buy.css,assets/css/footer-short.css'),
 				'js' => base64_encode('assets/js/jquery-ui-1.8.21.custom.min.js,assets/js/jquery.timePicker.min.js,assets/js/buy.js'),
-				//'url' => 'blank',
+				'url' => 'blank',
 			);
 			$this->load->view('common/html_header', $head);
 			$this->load->view('common/header', $head);

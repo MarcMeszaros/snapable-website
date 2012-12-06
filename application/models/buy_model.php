@@ -31,6 +31,7 @@ Class Buy_model extends CI_Model
 						'short_name' => $r->short_name,
 						'name' => $r->name,
 						'price' => $r->price,
+						'items' => $r->items,
 					);
 				}
 			}
