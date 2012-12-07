@@ -64,7 +64,7 @@ $autoload['libraries'] = array('session', 'SnapApi', 'SnapText');
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'] = array('url', 'file');
+$autoload['helper'] = array('url', 'file', 'raven');
 
 
 /*
