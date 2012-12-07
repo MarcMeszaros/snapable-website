@@ -4,7 +4,7 @@
 
 		<h1>Billing</h1>
 
-		<h3><strong>Your Package: </strong><br /><em><?= $package->name ?></em> for $<?= $package->price ?></h3>
+		<h3><strong>Your Package: </strong><br /><em><?= $package->name ?></em> for $<?php echo currency_cents_to_dollars($package->price); ?></h3>
 		
 		<?php if (isset($package->items->features)) { ?>
 			<h3><strong>This package includes:</strong></h3>

@@ -8,6 +8,7 @@ class Buy extends CI_Controller {
     	$this->load->model('buy_model','',TRUE);
 
     	$this->load->helper('stripe');
+    	$this->load->helper('currency');
 	}
 
 	public function _remap($method, $params = array())
@@ -35,6 +36,12 @@ class Buy extends CI_Controller {
 				'css' => base64_encode('assets/css/cupertino/jquery-ui-1.8.21.custom.css,assets/css/timePicker.css,assets/css/setup.css,assets/css/header.css,assets/css/buy.css,assets/css/footer-short.css'),
 				'js' => base64_encode('assets/js/jquery-ui-1.8.21.custom.min.js,assets/js/jquery.timePicker.min.js,assets/js/buy.js'),
 			);
+
+			// set the package id
+			$packageParts = explode('/', $data['package']->resource_uri);
+			$this->session->set_flashdata('package_id', $packageParts[3]);
+			$this->session->set_flashdata('package_price', $data['package']->price);
+			$this->session->set_flashdata('package_short_name', $data['package']->short_name);
 
 			$this->load->view('common/html_header', $head);
 			$this->load->view('common/header', array('linkHome' => true, 'url' => 'blank'));
@@ -66,10 +73,10 @@ class Buy extends CI_Controller {
 
 			// create the charge on Stripe's servers - this will charge the user's card
 			$charge = Stripe_Charge::create(array(
-			  'amount' => 7900, // amount in cents, again
+			  'amount' => $this->session->flashdata('package_price'), // amount in cents, again
 			  'currency' => 'usd',
 			  'card' => $token,
-			  'description' => $session_data['email']
+			  'description' => $session_data['email'],
 			));
 			$chargeData = json_decode($charge);
 
@@ -77,18 +84,20 @@ class Buy extends CI_Controller {
 			$verb = 'POST';
 			$path = 'order';
 			$params = array(
-				'total_price' => 79.00,
+				'total_price' => $this->session->flashdata('package_price'),
 				'account' => $session_data['account_uri'],
 				'user' => $session_data['resource_uri'],
-				'paid' => true,
+				'paid' => $chargeData->paid,
 				'items' => array(
-					'package' => 1, // the package id
+					'package' => $this->session->flashdata('package_id'), // the package id
 					'account_addons' => array(), // required field, but empty
 					'event_addons' => array(), // required field, but empty
 				),
 				'payment_gateway_invoice_id' => $chargeData->id,
 			);
 			$resp = SnapApi::send($verb, $path, $params);
+
+			// TODO send email to user here...
 			
 			// redirect to the dashboard
 			redirect("/account/dashboard");
