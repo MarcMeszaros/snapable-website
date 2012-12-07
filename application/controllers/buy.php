@@ -7,6 +7,7 @@ class Buy extends CI_Controller {
     	parent::__construct();
     	$this->load->model('buy_model','',TRUE);
 
+    	$this->load->library('email');
     	$this->load->helper('stripe');
     	$this->load->helper('currency');
 	}
@@ -97,7 +98,12 @@ class Buy extends CI_Controller {
 			);
 			$resp = SnapApi::send($verb, $path, $params);
 
-			// TODO send email to user here...
+			// send email to user
+			$this->email->from('team@snapable.com', 'Snapable');
+			$this->email->to($session_data['email']);
+			$this->email->subject('Your Snapable order has been processed');
+			$this->email->message('Your Snapable order has been successfully processed.');
+			$this->email->send();
 			
 			// redirect to the dashboard
 			redirect("/account/dashboard");
