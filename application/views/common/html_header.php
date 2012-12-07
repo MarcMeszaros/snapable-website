@@ -11,7 +11,7 @@
     <link rel="icon" type="image/vnd.microsoft.icon" href="/favicon.ico" /> 
 	<link rel="SHORTCUT ICON" href="/favicon.ico"/> 
     
-    <link href='//fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=PT+Sans+Caption:400,700" type="text/css">
     <?php 
     if ( isset($css) ) {
     	// add assets
@@ -26,9 +26,15 @@
     } 
     ?>
     
+    <?php if (isset($stripe) && $stripe == true) { ?>
+        <script type="text/javascript" src="https://js.stripe.com/v1/"></script>
+        <script type="text/javascript">
+            Stripe.setPublishableKey('<?= STRIPE_KEY_PUBLIC ?>');
+        </script>
+    <?php } ?>
     <?php 
 	    if ( isset($js) ) {
-			echo '<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>';
+			echo '<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>';
 			// add assets
 			if(defined('DEBUG') && DEBUG == true) {
 				$decoded_assets = explode(',', base64_decode($js));

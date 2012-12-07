@@ -1,5 +1,5 @@
 <div class="logo"></div>
-<h1>Creating <strong><?= $title ?></strong>...</h1>
+<h1>Processing...</h1>
 
 <!-- Start of loading bar -->
 <div class="bar">

@@ -1,206 +1,41 @@
-var validEmail = 0;
-var validUrl = 0;
-
-function checkEmail(email) 
-{
-	var filter  = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-	if (!filter.test(email)) {
-		return false;
-	} else {
-		return true;
-	}
-}
-
-function checkUrl(url)
-{
-	$("#event_url_status").removeClass("url_good").removeClass("url_bad").addClass("spinner-16px")
-	$.getJSON("/buy/check", { "url": url }, function(data)
-	{		
-		if ( data['status'] == 404 )
-		{
-			$("#event_url_status").removeClass("url_bad").removeClass("spinner-16px").addClass("url_good");	
-			$("#event_url").removeClass("input-error");
-			$("#event_url_error").fadeOut();	
-			validUrl = 1;
-			return 1;	
-		} else {
-			$("#event_url_status").removeClass("url_good").removeClass("spinner-16px").addClass("url_bad");	
-			$("#event_url").addClass("input-error");
-			$("#event_url_error").fadeIn();
-			validUrl = 0;
-			return 0;
-		}
-	});
-}
-
-function geocoder(address)
-{
-	// do geocode to get addresses lat/lng
-	// set #lat and #lng
-	$("#event_location_status").removeClass("location_good").removeClass("location_bad").addClass("spinner-16px")
-	$.getJSON("http://where.yahooapis.com/geocode?location=1110+Halton+Terrace,+Kanata,+ON&flags=J&appid=qrVViDXV34GuS1yV7Mi2ya09wffvK6zlXaN1LFLQ3Q7fIXQI2MVhMtLMKQkDWMPP_g--", function(data)
-	{
-		if ( data['ResultSet']['Error'] == 0 )
-		{
-			var lat = data['ResultSet']['Results'][0]['latitude'];
-			var lng = data['ResultSet']['Results'][0]['longitude'];
-			$("#lat").val(lat);
-			$("#lng").val(lng);
-			// set spinner to checkmark
-			$("#event_location_status").removeClass("spinner-16px").addClass("location_good");
-		} else {
-			$("#event_location_status").removeClass("spinner-16px").addClass("location_bad");
-			alert("fail")
-		}
-	});
-	
-	return true;
-}
-
-function userExists(email)
-{
-	$("#email_status").removeClass("email_good").removeClass("email_bad").addClass("spinner-16px")
-	$.getJSON("/buy/check", { "email": email }, function(data)
-	{
-		if ( data['status'] == 404 )
-		{
-			$("#email_status").removeClass("spinner-16px").addClass("email_good");
-			validEmail = 1;
-			return 1;
-		} else {
-			$("#email_status").removeClass("spinner-16px").addClass("email_bad");
-			validEmail = 0;
-			return 0;
-		}
-	});
-}
 
 $(document).ready(function() 
-{  
-	$( "#event-start-date, #event-end-date" ).datepicker({dateFormat: 'M d, yy'});//( "option", "dateFormat", "d M, y" );
-	
-	$("#event-start-time").timePicker({
-		startTime: "06.00", // Using string. Can take string or Date object.
-		show24Hours: false,
-		separator: ':',
-		step: 30
-	});
-	$("#event-end-time").timePicker({
-		startTime: "07.00", // Using string. Can take string or Date object.
-		show24Hours: false,
-		separator: ':',
-		step: 30
-	});
-	
-	// check if user has already registered
-	$("#user_email").blur( function()
-	{
-		var is_registered = userExists($(this).val());
-		return is_registered;
-	});
-	
-	// listener to check if url is available
-	$('#event_url').keyup(function() {
-		checkUrl($("#event_url").val());
-	});
-	
-	// listener to geocode location
-	$("#event_location").blur( function()
-	{
-		var geocoded = geocoder($("#event_location").val());
-		return geocoded;
-	});
-	
-	// listener to set url from title
-	$("#event_title").blur( function()
-	{
-		if ( $("#event_title").val() == "" )
-		{
-			$("#event_title").focus();
-			$("#event_title").addClass("input-error");
-			$("#event_title_error").fadeIn();
-		}
-		else if ( $("#event_url").val() == "" )
-		{
-			// replace spaces with dashes change uppercase to lowercase
-			var title = $("#event_title").val().replace(/ /g,"-").toLowerCase();
-			// check if already in the database
-			var check = checkUrl(title);
-			//if ( check == false )
-			//{
-				// write to url input
-				$("#event_url").val(title);
-			//}
-		} else {
-			$("#event_title").removeClass("input-error");
-			$("#event_title_error").fadeOut();
-		}
-		
-		return false;
-	});
-	
-	// check fields on blur
-	$("#user_first_name").blur( function()
-	{
-		if ( $("#user_first_name").val() == "" )
-		{
-			$("#user_first_name").focus();
-			$("#user_first_name").addClass("input-error");
-			$("#user_first_name_error").fadeIn();
-		} else {
-			$("#user_first_name").removeClass("input-error");
-			$("#user_first_name_error").fadeOut();
-		}
-		
-		return false;
-	})
-	$("#user_last_name").blur( function()
-	{
-		if ( $("#user_last_name").val() == "" )
-		{
-			$("#user_last_name").focus();
-			$("#user_last_name").addClass("input-error");
-			$("#user_last_name_error").fadeIn();
-		} else {
-			$("#user_last_name").removeClass("input-error");
-			$("#user_last_name_error").fadeOut();
-		}
-		
-		return false;
-	})
-	$("#user_email").blur( function()
-	{
-		if ( checkEmail($("#user_email").val()) == false )
-		{
-			$("#user_email").focus();
-			$("#user_email").addClass("input-error");
-			$("#user_email_error").fadeIn();
-		} else {
-			$("#user_email").removeClass("input-error");
-			$("#user_email_error").fadeOut();
-		}
-		
-		return false;
-	})
-	$("#user_password, #user_password_confirmation").blur( function()
-	{
-		if ( $("#user_password").val().length < 6 )
-		{
-			$("#user_password").focus();
-			$("#user_password").addClass("input-error");
-			$("#user_password_error").html("Your password is not long enough.").fadeIn();
-		}
-		else if ( $("#user_password").val() != $("#user_password_confirmation").val() )
-		{
-			$("#user_password").addClass("input-error");
-			$("#user_password_error").html("Your passwords do not match.").fadeIn();
-		} else {
-			$("#user_password, #user_password_confirmation").removeClass("input-error");
-			$(".field-error").css({ "display":"none" });
-		}
-		
-		return false;
-	})
+{
+
+	  $("#payment-form").submit(function(event) {
+		// disable the submit button to prevent repeated clicks
+	    $('.submit-button').attr("disabled", "disabled");
+
+	    Stripe.createToken({
+	    	name: $('#creditcard_name').val(),
+	        number: $('#creditcard_number').val(),
+	        cvc: $('#creditcard_cvc').val(),
+	        exp_month: $('#creditcard_month').val(),
+	        exp_year: $('#creditcard_year').val(),
+	        address_zip: $('#address_zip').val()
+	    }, stripeResponseHandler);
+
+	    // prevent the form from submitting with the default action
+	    return false;
+	  });
+
+	function stripeResponseHandler(status, response) {
+	    if (response.error) {
+	    	console.log(response);
+	        // show the errors on the form
+	        $(".payment-errors").text(response.error.message);
+	        $(".submit-button").removeAttr("disabled");
+	    } else {
+	        var form$ = $("#payment-form");
+	        // token contains id, last4, and card type
+	        var token = response['id'];
+	        // insert the token into the form so it gets submitted to the server
+	        form$.append("<input type='hidden' name='stripeToken' value='" + token + "'/>");
+	        // and submit
+	        form$.get(0).submit();
+	    }
+	}
+
 	$("#creditcard_name").blur( function()
 	{
 		if ( $("#creditcard_name").val() == "" )
@@ -217,7 +52,7 @@ $(document).ready(function()
 	})
 	$("#creditcard_number").blur( function()
 	{
-		if ( $("#creditcard_number").val() == "" )
+		if ( $("#creditcard_number").val() == "" || !Stripe.validateCardNumber($(this).val()) )
 		{
 			$("#creditcard_number").focus();
 			$("#creditcard_number").addClass("input-error");
@@ -229,16 +64,16 @@ $(document).ready(function()
 		
 		return false;
 	})
-	$("#creditcard_verification_value").blur( function()
+	$("#creditcard_cvc").blur( function()
 	{
-		if ( $("#creditcard_verification_value").val() == "" )
+		if ( !Stripe.validateCVC($(this).val()) )
 		{
-			$("#creditcard_verification_value").focus();
-			$("#creditcard_verification_value").addClass("input-error");
-			$("#creditcard_verification_value_error").fadeIn();
+			$("#creditcard_cvc").focus();
+			$("#creditcard_cvc").addClass("input-error");
+			$("#creditcard_cvc_error").fadeIn();
 		} else {
-			$("#creditcard_verification_value").removeClass("input-error");
-			$("#creditcard_verification_value_error").fadeOut();
+			$("#creditcard_cvc").removeClass("input-error");
+			$("#creditcard_cvc_error").fadeOut();
 		}
 		
 		return false;
@@ -254,202 +89,7 @@ $(document).ready(function()
 			$("#address_zip").removeClass("input-error");
 			$("#address_zip_error").fadeOut();
 		}
-		
+
 		return false;
 	})
-	$("#event-title").blur( function()
-	{
-		if ( $("#event-title").val() == "" )
-		{
-			$("#event-title").focus().addClass("input-error");
-			$("#event-title-error").fadeIn();
-		} else {
-			$("#event-title").removeClass("input-error");
-			$("#event-title-error").fadeOut();
-		}
-		
-		return false;
-	});
-	
-	// form verification and submission 
-	$("#btn-sign-up").click( function()
-	{
-		// setup variables
-		var fname = $("#user_first_name").val(); // cannot be blank
-		var lname = $("#user_last_name").val(); // cannot be blank
-		var email = $("#user_email").val(); // cannot be blank and must be valid
-		var password1 = $("#user_password").val(); // cannot be blank or less than 6 characters
-		var password2 = $("#user_password_confirmation").val(); // must match password1
-		
-		var title = $("#event_title").val(); // cannot be blank
-		var location = $("#event_location").val(); // cannot be blank
-		var lat = $("#lat").val(); // cannot be zero
-		var lng = $("#lng").val(); // cannot be zero
-		var url = $("#event_url").val();
-		
-		var ccname = $("#creditcard_name").val(); // cannot be blank
-		var ccnumber = $("#creditcard_number").val(); // cannot be blank
-		var ccmonth = $("#creditcard_month").val(); // cannot be blank
-		var ccyear = $("#creditcard_year").val(); // cannot be blank
-		var cvv = $("#creditcard_verification_value").val(); // cannot be blank
-		var zip = $("#address_zip").val(); // cannot be blank
-		var agree = 0; // must be checked
-		
-		if ($('#terms-service').is(':checked')) {
-			agree = 1;
-		}
-		
-		$(".field-error").css({ "display":"none" });
-		$("input").removeClass("input-error");
-		$("#terms-refund h3").css({"color":"#444"});
-		
-		if ( fname == "" )
-		{
-			$("#user_first_name").focus();
-			$("#user_first_name").addClass("input-error");
-			$("#user_first_name_error").fadeIn();
-			location.href="#your-details";
-		}
-		else if ( lname == "" )
-		{
-			$("#user_last_name").focus();
-			$("#user_last_name").addClass("input-error");
-			$("#user_last_name_error").fadeIn();
-			location.href="#your-details";
-		}/*
-		else if ( checkEmail(email) == true )
-		{
-			$("#user_email").focus();
-			$("#user_email").addClass("input-error");
-			$("#user_email_error").fadeIn();
-			$("#email_status").removeClass("spinner-16px").removeClass("email_good").addClass("email_bad");
-			location.href="#your-details";
-		}
-		else if ( validEmail == 0 )
-		{
-			$("#user_email").focus();
-			$("#user_email").addClass("input-error");
-			$("#user_email_error").fadeIn();
-			$("#email_status").removeClass("spinner-16px").removeClass("email_good").addClass("email_bad");
-			location.href="#your-details";
-		}*/
-		else if ( password1 == "" )
-		{
-			$("#user_password").focus();
-			$("#user_password").addClass("input-error");
-			$("#user_password_error").html("You must provide a password.").fadeIn();
-			location.href="#your-details";
-		}
-		else if ( password1 != password2 )
-		{
-			$("#user_password").focus();
-			$("#user_password").addClass("input-error");
-			$("#user_password_error").html("Your passwords do not match.").fadeIn();
-			location.href="#your-details";
-		}
-		else if ( password1.length < 6 )
-		{
-			$("#user_password").focus();
-			$("#user_password").addClass("input-error");
-			$("#user_password_error").html("Your password is not long enough.").fadeIn();
-			location.href="#your-details";
-		}
-		else if ( title == "" )
-		{
-			$("#event_title").focus();
-			$("#event_title").addClass("input-error");
-			$("#event_title_error").fadeIn();
-			location.href="#event-details";
-		}
-		else if ( location == "" )
-		{
-			$("#event_location").focus();
-			$("#event_location").addClass("input-error");
-			$("#event_location_error").fadeIn();
-			location.href="#event-details";
-		}
-		else if ( (lat == "" || lat == "0") && (lng == "" || lng == "0") )
-		{
-			$("#event_location").focus();
-			$("#event_location").addClass("input-error");
-			$("#event_location_error").html("We can't seem to locate this address, would you like to <a href='#'>find it on a map</a>?").fadeIn();
-			location.href="#event-details";
-		}
-		else if ( validUrl == 0 )
-		{
-			$("#event_url_status").removeClass("url_good").removeClass("spinner-16px").addClass("url_bad");	
-			$("#event_url").addClass("input-error");
-			$("#event_url_error").fadeIn();	
-		}
-		else if ( ccname == "" )
-		{
-			$("#creditcard_name").focus();
-			$("#creditcard_name").addClass("input-error");
-			$("#creditcard_name_error").fadeIn();
-			location.href="#billing-info";
-		}
-		else if ( ccnumber == "" )
-		{
-			$("#creditcard_number").focus();
-			$("#creditcard_number").addClass("input-error");
-			$("#creditcard_number_error").fadeIn();
-			location.href="#billing-info";
-		}
-		else if ( cvv == "" )
-		{
-			$("#creditcard_verification_value").focus();
-			$("#creditcard_verification_value").addClass("input-error");
-			$("#creditcard_verification_value_error").fadeIn();
-			location.href="#billing-info";
-		}
-		else if ( zip == "" )
-		{
-			$("#address_zip").focus();
-			$("#address_zip").addClass("input-error");
-			$("#address_zip_error").fadeIn();
-			location.href="#billing-info";
-		} else {
-			document.forms["create_event"].submit();
-		}
-		
-		return false;
-	});
-	
-	// save a few more details 
-	/*
-	$("#save-event").click( function()
-	{
-		// save title, description and privacy setting (cover photo and other photos are all saved already)
-		
-		var title = $("#event-title").val();
-		var desc = $("#event-description").val();
-		var privacy = new Array();
-		
-		if ( desc == "Add a description for your event." )
-		{
-			desc = "";
-		}
-		
-		$("input:checkbox[name=privacy-setting]:checked").each(function()
-		{
-		    privacy.push($(this).val());
-		});
-		
-		if ( title == "" )
-		{
-			$("#event-title").focus().addClass("input-error");
-			$("#event-title-error").fadeIn();
-		} else {
-			$.post("/event/details/save", {title:title,desc:desc,privacy:privacy}, function(data){ 
-				if ( data == "saved" )
-				{
-					window.location = "/dashboard";
-				} else {
-					alert("It appears something went wrong. Contact help@snapable.com and we'll straighten it out.");
-				}
-			});
-		}
-		
-	});
-	*/
 });

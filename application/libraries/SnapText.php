@@ -11,6 +11,10 @@ class SnapText {
             'name' => 'Slideshow',
             'desc' => 'Slide',
         ),
+        'storage_12months' => array(
+            'name' => '1 Year of Storage',
+            'desc' => 'One year of storage',
+        ),
         'table_cards' => array(
             'name' => 'Table Cards',
             'desc' => 'Table',
@@ -25,6 +29,10 @@ class SnapText {
         'price_per_print' => array(
             'name' => 'Price Per Print',
             'desc' => 'The price per print.',
+        ),
+        'table_cards' => array(
+            'name' => 'Table Cards',
+            'desc' => 'Physical Table Cards',
         ),
     );
 
