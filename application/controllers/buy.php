@@ -66,20 +66,24 @@ class Buy extends CI_Controller {
 
 			// get user/account details from session data set during signup
 			$session_data = $this->session->userdata('logged_in');
-			$userParts = explode('/', $session_data['resource_uri']);
+			$userParts = explode('/', $session_data['user_uri']);
 			$accountParts = explode('/', $session_data['account_uri']);
 
 			// get the credit card details submitted by the form
 			$token = $_POST['stripeToken'];
 
-			// create the charge on Stripe's servers - this will charge the user's card
-			$charge = Stripe_Charge::create(array(
-			  'amount' => $this->session->flashdata('package_price'), // amount in cents, again
-			  'currency' => 'usd',
-			  'card' => $token,
-			  'description' => $session_data['email'],
-			));
-			$chargeData = json_decode($charge);
+			try {
+				// create the charge on Stripe's servers - this will charge the user's card
+				$charge = Stripe_Charge::create(array(
+				  'amount' => $this->session->flashdata('package_price'), // amount in cents, again
+				  'currency' => 'usd',
+				  'card' => $token,
+				  'description' => $session_data['email'],
+				));
+				$chargeData = json_decode($charge);
+			} catch (Exception $e) {
+				show_error('Unable to process payment.', 500);
+			}
 
 			// create a Snapable order using the API
 			$verb = 'POST';
@@ -87,7 +91,7 @@ class Buy extends CI_Controller {
 			$params = array(
 				'total_price' => $this->session->flashdata('package_price'),
 				'account' => $session_data['account_uri'],
-				'user' => $session_data['resource_uri'],
+				'user' => $session_data['user_uri'],
 				'paid' => $chargeData->paid,
 				'items' => array(
 					'package' => $this->session->flashdata('package_id'), // the package id
@@ -103,7 +107,55 @@ class Buy extends CI_Controller {
 			$this->email->to($session_data['email']);
 			$this->email->subject('Your Snapable order has been processed');
 			$this->email->message('Your Snapable order has been successfully processed.');
-			$this->email->send();
+			//$this->email->send();
+
+			// get package details
+			$verb = 'GET';
+			$path = 'package/'.$this->session->flashdata('package_id');
+			$resp = SnapApi::send($verb, $path);
+			$package = json_decode($resp['response']);
+
+			// update the account's package
+			$verb = 'PUT';
+			$path = 'account/'.$accountParts[3];
+			$params = array(
+				'package' => $package->resource_uri,
+			);
+			$resp = SnapApi::send($verb, $path, $params);
+
+			// if it makes the account invalid
+			if (isset($package->interval) && isset($package->interval_count) && isset($package->trial_period_days))
+			{
+				// get the current datetime
+				$dt = new DateTime('now', new DateTimeZone('UTC'));
+				// make the trial time interval
+				$intervalTrial = new DateInterval('P'.$package->trial_period_days.'D');
+				
+				// create the package interval based on package info
+				$intervalStr = 'P'.$package->interval_count;
+				if ($package->interval == 'day') {
+					$intervalStr .= 'D';
+				} else if ($package->interval == 'month') {
+					$intervalStr .= 'M';
+				} else if ($package->interval == 'year') {
+					$intervalStr .= 'Y';
+				}
+				$intervalPackage = new DateInterval($intervalStr);
+
+				// figure out when this all ends in the future by adding the two intervals
+				//$dt->add($intervalTrial);
+				$dt->add($intervalPackage);
+
+				// update the account's 'valid_until'
+				$verb = 'PUT';
+				$path = 'account/'.$accountParts[3];
+				$params = array(
+					//'valid_until' => $dt->format('c'),
+				);
+				//$resp = SnapApi::send($verb, $path, $params);
+				//print_r($resp);
+
+			}
 			
 			// redirect to the dashboard
 			redirect("/account/dashboard");

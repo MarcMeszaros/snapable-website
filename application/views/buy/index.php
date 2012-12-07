@@ -20,7 +20,12 @@
 			<h3><strong>This package also includes:</strong></h3>
 			<ul>
 				<?php foreach ($package->items->modifiers as $key => $value) {
-					echo '<li>'.SnapText::$MODIFIER_DESC[$key]['name'].' - '.SnapText::$MODIFIER_DESC[$key]['desc'].' ('.$value.')</li>'.PHP_EOL;
+					// if price is in the key, conver the value into a price string
+					if (preg_match('/price/', $key)) {
+						echo '<li>'.SnapText::$MODIFIER_DESC[$key]['name'].' - '.SnapText::$MODIFIER_DESC[$key]['desc'].' ($'.currency_cents_to_dollars($value).')</li>'.PHP_EOL;
+					} else {
+						echo '<li>'.SnapText::$MODIFIER_DESC[$key]['name'].' - '.SnapText::$MODIFIER_DESC[$key]['desc'].' ('.$value.')</li>'.PHP_EOL;
+					}
 				} ?>
 			</ul>
 

@@ -53,7 +53,7 @@ class Signup extends CI_Controller {
 	          'loggedin' => true
 	        );
 	        $this->session->set_userdata('logged_in', $sess_array);
-			redirect('/buy/free'); 
+			redirect('/buy/standard'); 
 		} else {
 			show_error('Unable to create event.', 500);
 		}
