@@ -36,10 +36,12 @@
 	<div id="refund-policy" class="form-column-right">
 		
 		<h4>Refund Policy</h4>
-		
-		<p>You will be billed right away, however at any time leading up to 48 hours before the event you can request a full refund.</p>
-		
-		<p>After the event should no prints have been mailed you can request a refund and we will immediately delete all information (including photos) of the event and refund 50% of the package cost. &nbsp;<a href="/site/terms" target="_blank">› See Full Terms of Service</a>.</p>
+		<p>
+			You will be billed right away, however at any time you can request a full refund up to 30 days 
+			after you signup for a Snapable package and we will immediately delete all information 
+			(including photos) of the event.<br>
+			<a href="/site/terms" target="_blank">› See Full Terms of Service</a>.
+		</p>
 		
 	</div>
 	
@@ -126,7 +128,7 @@
 			<img src="/assets/img/cards.png" width="154" height="30" alt="Visa, Mastercard, Paypal" />
 		</div>
 		<div id="receipt_text">
-			You'll receive a receipt via email upon completion of this form.
+			You'll receive a receipt via email upon completion of your order.
 		</div>
 		
 		<img src="/assets/img/RapidSSL_SEAL-90x50.gif" width="90" height="50" alt="Secured By RapidSSL" />
