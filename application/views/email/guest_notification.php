@@ -205,10 +205,10 @@
                                 	<table border="0" cellpadding="0" cellspacing="0" width="560">
                                     	<tbody><tr>
                                             <td width="280" class="headerContent" style="border-collapse: collapse;color: #363636;font-family: Helvetica;font-size: 20px;font-weight: bold;line-height: 100%;text-align: left;vertical-align: top;">
-                                                <img src="/assets/img/email/logo-197x38.gif" alt="Snapable" border="0" style="margin: 0;padding: 0;max-width: 197px;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;" id="headerImage campaign-icon">
+                                                <img src="http://<?= $_SERVER['HTTP_HOST'] ?>/assets/img/email/logo-197x38.gif" alt="Snapable" border="0" style="margin: 0;padding: 0;max-width: 197px;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;" id="headerImage campaign-icon">
                                             </td>
                                             <td width="280" align="right" class="headerContent" style="border-collapse: collapse;color: #363636;font-family: Helvetica;font-size: 20px;font-weight: bold;line-height: 100%;text-align: right;vertical-align: top;">   
-                                                <img src="/assets/img/email/available_app_store.gif" alt="Available on the App Store" border="0"
+                                                <img src="http://<?= $_SERVER['HTTP_HOST'] ?>/assets/img/email/available_app_store.gif" alt="Available on the App Store" border="0"
                                             </td>
                                         </tr>
                                     </tbody></table>
@@ -243,7 +243,7 @@
                                                         </td>
                                                     </tr>
                                                 </tbody></table>
-                                                <img src="/assets/img/email/shadow.png" height="20" width="560" style="display: block;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;">
+                                                <img src="http://<?= $_SERVER['HTTP_HOST'] ?>/assets/img/email/shadow.png" height="20" width="560" style="display: block;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;">
                                             </td>
                                         </tr>
                                         <tr mc:repeatable="repeat_2" mc:repeatindex="0" mc:hideable="hideable_repeat_2_1" mchideable="hideable_repeat_2_1">
@@ -251,7 +251,7 @@
                                             	<table border="0" cellpadding="0" cellspacing="0">
                                                 	<tbody><tr>
                                                         <td valign="top" width="260" style="border-collapse: collapse;">
-                                                            <img src="/assets/img/email/hand_phone-250px.gif" alt="" border="0" style="margin: 0;padding: 0;max-width: 250px;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;">
+                                                            <img src="http://<?= $_SERVER['HTTP_HOST'] ?>/assets/img/email/hand_phone-250px.gif" alt="" border="0" style="margin: 0;padding: 0;max-width: 250px;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;">
                                                         </td>
                                                         <td valign="top" width="300" class="bodyContent" style="padding-right: 40px;border-collapse: collapse;color: #707070;font-family: Helvetica;font-size: 15px;line-height: 150%;text-align: left;">
                                                             <h2 style="color: #363636;display: block;font-family: Helvetica;font-size: 20px;font-weight: bold;line-height: 100%;margin-top: 20px;margin-right: 0;margin-bottom: 10px;margin-left: 0;text-align: left;">What is Snapable?</h2>

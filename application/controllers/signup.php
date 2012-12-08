@@ -5,6 +5,7 @@ class Signup extends CI_Controller {
 	function __construct()
 	{
     	parent::__construct(); 
+    	$this->load->library('email');
     	$this->load->model('signup_model','',TRUE);		    	
 	}
 	

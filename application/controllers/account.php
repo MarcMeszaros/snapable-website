@@ -5,6 +5,7 @@ class Account extends CI_Controller {
 	function __construct()
 	{
     	parent::__construct();
+    	$this->load->library('email');
     	$this->load->model('account_model','',TRUE);  		    	
 	}
 	
@@ -121,10 +122,6 @@ class Account extends CI_Controller {
 	{
 		if ( IS_AJAX && isset($_POST['type']) && isset($_POST['message']) )
 		{
-			$url = 'http://sendgrid.com/';
-			$user = 'snapable';
-			$pass = 'Snapa!23'; 
-			
 			$to = ( isset($_POST['to']) ) ? $_POST['to']:"team@snapable.com";
 			$from = ( isset($_POST['from']) ) ? $_POST['from']:"website@snapable.com";
 			
@@ -138,34 +135,13 @@ class Account extends CI_Controller {
 				$message_html = $_POST['message'];
 				$message_text = $_POST['message'];
 			}
-			
-			$params = array(
-			    'api_user'  => $user,
-			    'api_key'   => $pass,
-			    'to'        => $to,
-			    'subject'   => $subject,
-			    'html'      => $message_html,
-			    'text'      => $message_text,
-			    'from'      => $from,
-			  );
-			
-			$request =  $url.'api/mail.send.json';
-			
-			// Generate curl request
-			$session = curl_init($request);
-			// Tell curl to use HTTP POST
-			curl_setopt ($session, CURLOPT_POST, true);
-			// Tell curl that this is the body of the POST
-			curl_setopt ($session, CURLOPT_POSTFIELDS, $params);
-			// Tell curl not to return headers, but do return the response
-			curl_setopt($session, CURLOPT_HEADER, false);
-			curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
-			
-			// obtain response
-			$response = json_decode(curl_exec($session));
-			curl_close($session);
-			
-			if ( $response->message == "success" )
+
+			$this->email->from($from, 'Snapable');
+			$this->email->to($to);
+			$this->email->subject($subject);
+			$this->email->message($message_html);
+			$this->email->set_alt_message($message_text);		
+			if ( $this->email->send() )
 			{
 				echo "sent";
 			} else {

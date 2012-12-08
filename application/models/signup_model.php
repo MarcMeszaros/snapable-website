@@ -176,7 +176,6 @@ Class Signup_model extends CI_Model
 			$path = '/event/';
 			$params = array(
 				"account" => $account_uri,
-				"package" => "/".SnapApi::$api_version."/package/1/",
 				"title" => $event['title'],
 			    "url" => $event['url'],
 			    "start" => $start,
@@ -239,47 +238,21 @@ Class Signup_model extends CI_Model
 					$result = json_decode($response);
 					
 					// SEND SIGN-UP NOTIFICATION EMAIL
-	
-					$url = 'http://sendgrid.com/';
-					$user = 'snapable';
-					$pass = 'Snapa!23'; 
-					
 					$to = 'team@snapable.com';
-					$from = 'Snapable@snapable.com';
+					$from = 'snapable@snapable.com';
 					
 					$subject = 'Say Cheese, a Snapable Sign-up!';
 					$message_html = '<p><b>Woot!</b> ' . $email_address . ' just signed up to Snapable.</p><p>Their event starts ' . date( "Y-m-d", $start_timestamp ) . " @ " . date( "H:i:s", $start_timestamp ) . ' until ' . date( "Y-m-d", $end_timestamp ) . " @ " . date( "H:i:s", $end_timestamp ) . '.</p>';
 					$message_text = 'Woot! ' . $email_address . ' just signed up to Snapable. Their event starts ' . date( "Y-m-d", $start_timestamp ) . " @ " . date( "H:i:s", $start_timestamp ) . ' until ' . date( "Y-m-d", $end_timestamp ) . " @ " . date( "H:i:s", $end_timestamp ) . '.';
 					
-					$params = array(
-					    'api_user'  => $user,
-					    'api_key'   => $pass,
-					    'to'        => $to,
-					    'subject'   => $subject,
-					    'html'      => $message_html,
-					    'text'      => $message_text,
-					    'from'      => $from,
-					  );
-					
-					$request =  $url.'api/mail.send.json';
-					
-					// Generate curl request
-					$session = curl_init($request);
-					// Tell curl to use HTTP POST
-					curl_setopt ($session, CURLOPT_POST, true);
-					// Tell curl that this is the body of the POST
-					curl_setopt ($session, CURLOPT_POSTFIELDS, $params);
-					// Tell curl not to return headers, but do return the response
-					curl_setopt($session, CURLOPT_HEADER, false);
-					curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
-					
-					// execute request if not in debug obtain response
+					$this->email->from($from, 'Snapable');
+					$this->email->to($to);
+					$this->email->subject($subject);
+					$this->email->message($message_html);
+					$this->email->set_alt_message($message_text);		
 					if (DEBUG == false) {
-						$response = json_decode(curl_exec($session));
+						$this->email->send();
 					}
-					curl_close($session);
-					
-					//echo "sent";
 					
 					return $successResp;
 				} else {
