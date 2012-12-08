@@ -47,9 +47,8 @@ class Signup extends CI_Controller {
 	          'email' => $_POST['user']['email'],
 	          'fname' => $_POST['user']['first_name'],
 	          'lname' => $_POST['user']['last_name'],
-	          'user_uri' => $create_event['user'],
+	          'resource_uri' => $create_event['user'],
 	          'account_uri' => $create_event['account'],
-	          'resource_uri' => $create_event['event'],
 	          'loggedin' => true
 	        );
 	        $this->session->set_userdata('logged_in', $sess_array);

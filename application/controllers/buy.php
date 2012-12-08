@@ -66,7 +66,7 @@ class Buy extends CI_Controller {
 
 			// get user/account details from session data set during signup
 			$session_data = $this->session->userdata('logged_in');
-			$userParts = explode('/', $session_data['user_uri']);
+			$userParts = explode('/', $session_data['resource_uri']);
 			$accountParts = explode('/', $session_data['account_uri']);
 
 			// get the credit card details submitted by the form
@@ -81,49 +81,63 @@ class Buy extends CI_Controller {
 				  'description' => $session_data['email'],
 				));
 				$chargeData = json_decode($charge);
+			
+				// create a Snapable order using the API
+				$verb = 'POST';
+				$path = 'order';
+				$params = array(
+					'total_price' => $this->session->flashdata('package_price'),
+					'account' => $session_data['account_uri'],
+					'user' => $session_data['resource_uri'],
+					'paid' => $chargeData->paid,
+					'items' => array(
+						'package' => $this->session->flashdata('package_id'), // the package id
+						'account_addons' => array(), // required field, but empty
+						'event_addons' => array(), // required field, but empty
+					),
+					'payment_gateway_invoice_id' => $chargeData->id,
+				);
+				$resp = SnapApi::send($verb, $path, $params);
+
+				// send email to user regardless of what happens after
+				// ie. they should know we managed to charge their credit card,
+				// even if stuff breaks after here
+				$this->email->from('team@snapable.com', 'Snapable');
+				$this->email->to($session_data['email']);
+				$this->email->subject('Your Snapable order has been processed');
+				$this->email->message('Your Snapable order has been successfully processed.');
+				$this->email->send();
+
+				// get package details
+				$verb = 'GET';
+				$path = 'package/'.$this->session->flashdata('package_id');
+				$resp = SnapApi::send($verb, $path);
+				$package = json_decode($resp['response']);
+
+				// update the account's package
+				$verb = 'PUT';
+				$path = 'account/'.$accountParts[3];
+				$params = array(
+					'package' => $package->resource_uri,
+				);
+				$resp = SnapApi::send($verb, $path, $params);
+			} catch (Stripe_CardError $e) {
+				// keep the flash data if the user goes back
+				$this->session->keep_flashdata('package_id');
+				$this->session->keep_flashdata('package_price');
+				show_error('Unable to process payment.<br>'.$e->getMessage(), 500);
 			} catch (Exception $e) {
-				show_error('Unable to process payment.', 500);
+				// keep the flash data if the user goes back
+				$this->session->keep_flashdata('package_id');
+				$this->session->keep_flashdata('package_price');
+				// send the exception to sentry
+				$raven_client = new Raven_Client(SENTRY_DSN);
+				$raven_client->captureException($e);
+				show_error('Unable to process payment.<br>Seems it\'s a problem with Snapable. We\'ve been notified and are looking into it the problem.', 500);
 			}
 
-			// create a Snapable order using the API
-			$verb = 'POST';
-			$path = 'order';
-			$params = array(
-				'total_price' => $this->session->flashdata('package_price'),
-				'account' => $session_data['account_uri'],
-				'user' => $session_data['user_uri'],
-				'paid' => $chargeData->paid,
-				'items' => array(
-					'package' => $this->session->flashdata('package_id'), // the package id
-					'account_addons' => array(), // required field, but empty
-					'event_addons' => array(), // required field, but empty
-				),
-				'payment_gateway_invoice_id' => $chargeData->id,
-			);
-			$resp = SnapApi::send($verb, $path, $params);
-
-			// send email to user
-			$this->email->from('team@snapable.com', 'Snapable');
-			$this->email->to($session_data['email']);
-			$this->email->subject('Your Snapable order has been processed');
-			$this->email->message('Your Snapable order has been successfully processed.');
-			//$this->email->send();
-
-			// get package details
-			$verb = 'GET';
-			$path = 'package/'.$this->session->flashdata('package_id');
-			$resp = SnapApi::send($verb, $path);
-			$package = json_decode($resp['response']);
-
-			// update the account's package
-			$verb = 'PUT';
-			$path = 'account/'.$accountParts[3];
-			$params = array(
-				'package' => $package->resource_uri,
-			);
-			$resp = SnapApi::send($verb, $path, $params);
-
 			// if it makes the account invalid
+			/*
 			if (isset($package->interval) && isset($package->interval_count) && isset($package->trial_period_days))
 			{
 				// get the current datetime
@@ -156,6 +170,7 @@ class Buy extends CI_Controller {
 				//print_r($resp);
 
 			}
+			*/
 			
 			// redirect to the dashboard
 			redirect("/account/dashboard");
