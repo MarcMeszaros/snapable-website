@@ -24,6 +24,7 @@ class Buy extends CI_Controller {
 	 
 	public function index($package=null)
 	{
+		require_ssl(); // make sure we are using SSL
 		$data = array(
 			'package' => json_decode($this->buy_model->getPackageDetails($package))
 		);
