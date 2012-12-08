@@ -25,6 +25,7 @@ class Internal extends CI_Controller {
 
     public function dashboard()
     {
+        require_https();
         $data = array(
             //'css' => base64_encode('assets/css/setup.css,assets/css/signin.css'),
             //'js' => base64_encode('assets/js/signin.js'),

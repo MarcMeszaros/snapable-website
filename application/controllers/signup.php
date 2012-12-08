@@ -10,11 +10,7 @@ class Signup extends CI_Controller {
 	
 	public function index()
 	{
-		if( (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] != "on") && $_SERVER['HTTP_HOST'] != "snapable")
-		{
-		    header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
-		    exit();
-		}
+		require_https();
 		
 		$head = array(
 			'linkHome' => true,

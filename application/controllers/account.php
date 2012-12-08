@@ -15,11 +15,7 @@ class Account extends CI_Controller {
 	
 	public function signin()
 	{
-		if( (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] != "on") && $_SERVER['HTTP_HOST'] != "snapable")
-		{
-		    header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
-		    exit();
-		}
+		require_https();
 		
 		$segments = $this->uri->total_segments();
 		
@@ -80,6 +76,7 @@ class Account extends CI_Controller {
 	
 	public function dashboard()
 	{
+		require_https();
 		if($this->session->userdata('logged_in'))
 		{
 			// get event details

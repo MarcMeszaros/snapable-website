@@ -14,6 +14,7 @@ class Event extends CI_Controller {
 	}
 
 	public function load_event($url) {
+		require_https();
 	 	$event_details = json_decode($this->event_model->getEventDetailsFromURL($url));
 		
 		$head = array(
@@ -198,6 +199,7 @@ class Event extends CI_Controller {
 	}
 
 	public function event_tasks($task) {
+		require_https();
 		if ( $task == "signout" )
 		{
 			$this->session->unset_userdata('guest_login');

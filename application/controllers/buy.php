@@ -24,7 +24,7 @@ class Buy extends CI_Controller {
 	 
 	public function index($package=null)
 	{
-		require_ssl(); // make sure we are using SSL
+		require_https(); // make sure we are using SSL
 		$data = array(
 			'package' => json_decode($this->buy_model->getPackageDetails($package))
 		);
@@ -54,6 +54,7 @@ class Buy extends CI_Controller {
 	}
 
 	public function complete() {
+		require_https(); // make sure we are using SSL
 		if ( isset($_POST['stripeToken']) && isset($_POST['cc']) && isset($_POST['address']) && $this->session->userdata('logged_in'))
 		{
 			$data = array(
