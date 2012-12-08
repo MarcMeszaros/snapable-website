@@ -10,7 +10,7 @@
 			<h3><strong>This package includes:</strong></h3>
 			<ul>
 				<?php foreach ($package->items->features as $key) {
-					echo '<li>'.SnapText::$FEATURE_DESC[$key]['name'].' - '.SnapText::$FEATURE_DESC[$key]['desc'].'</li>'.PHP_EOL;
+					echo '<li><strong>'.SnapText::$FEATURE_DESC[$key]['name'].'</strong><br><em>'.SnapText::$FEATURE_DESC[$key]['desc'].'</em></li>'.PHP_EOL;
 				} ?>
 			</ul>
 
@@ -22,9 +22,9 @@
 				<?php foreach ($package->items->modifiers as $key => $value) {
 					// if price is in the key, conver the value into a price string
 					if (preg_match('/price/', $key)) {
-						echo '<li>'.SnapText::$MODIFIER_DESC[$key]['name'].' - '.SnapText::$MODIFIER_DESC[$key]['desc'].' ($'.currency_cents_to_dollars($value).')</li>'.PHP_EOL;
+						echo '<li><strong>'.SnapText::$MODIFIER_DESC[$key]['name'].'</strong> - ($'.currency_cents_to_dollars($value).')<br><em>'.SnapText::$MODIFIER_DESC[$key]['desc'].'</em></li>'.PHP_EOL;
 					} else {
-						echo '<li>'.SnapText::$MODIFIER_DESC[$key]['name'].' - '.SnapText::$MODIFIER_DESC[$key]['desc'].' ('.$value.')</li>'.PHP_EOL;
+						echo '<li><strong>'.SnapText::$MODIFIER_DESC[$key]['name'].'</strong> - ('.$value.')<br><em>'.SnapText::$MODIFIER_DESC[$key]['desc'].'</em></li>'.PHP_EOL;
 					}
 				} ?>
 			</ul>

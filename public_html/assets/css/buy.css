@@ -263,6 +263,14 @@ span.left { float: left; }
 	margin-left: 15px;
 }
 
+#package-details ul {
+    list-style: none;
+}
+
+#package-details ul li {
+    padding: 5px 0;
+}
+
 /**** STEP 2 ****/
 
 #event-setup-cover-wrap {
