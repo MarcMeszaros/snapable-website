@@ -84,18 +84,18 @@
 					<option value="12">12</option>
 				</select>
 				<select id="creditcard_year">
-					<option value="2012">2012</option>
-					<option value="2013" selected="selected">2013</option>
-					<option value="2014">2014</option>
-					<option value="2015">2015</option>
-					<option value="2016">2016</option>
-					<option value="2017">2017</option>
-					<option value="2018">2018</option>
-					<option value="2019">2019</option>
-					<option value="2020">2020</option>
-					<option value="2021">2021</option>
-					<option value="2022">2022</option>
-					<option value="2023">2023</option>
+					<?php
+						// get the current year
+						$year = date('Y');
+						// print this year as the default selected one
+						echo '<option value="'.$year.'" selected="selected">'.$year.'</option>'.PHP_EOL;
+						// loop through and add the years for the next 10
+						for ($i = 0; $i < 10; $i++)
+						{
+							$year++;
+							echo '<option value="'.$year.'">'.$year.'</option>'.PHP_EOL;
+						}
+					?>
 				</select>
 			</div>
 			
