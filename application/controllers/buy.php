@@ -62,6 +62,12 @@ class Buy extends CI_Controller {
 			$userParts = explode('/', $session_data['resource_uri']);
 			$accountParts = explode('/', $session_data['account_uri']);
 
+			// get package details
+			$verb = 'GET';
+			$path = 'package/'.$this->session->flashdata('package_id');
+			$resp = SnapApi::send($verb, $path);
+			$package = json_decode($resp['response']);
+
 			// get the credit card details submitted by the form
 			$token = $_POST['stripeToken'];
 
@@ -95,17 +101,23 @@ class Buy extends CI_Controller {
 				// send email to user regardless of what happens after
 				// ie. they should know we managed to charge their credit card,
 				// even if stuff breaks after here
+				$items = array(
+					$package->name.' (package)' => array(
+						'price' => $this->session->flashdata('package_price'),
+					),
+				);
+				$receipt = array(
+					'total' => $this->session->flashdata('package_price'),
+					'items' => $items,
+				);
+
+				$this->email->initialize(array('mailtype'=>'html'));
 				$this->email->from('team@snapable.com', 'Snapable');
 				$this->email->to($session_data['email']);
 				$this->email->subject('Your Snapable order has been processed');
-				$this->email->message('Your Snapable order has been successfully processed.');
+				$this->email->message($this->load->view('email/receipt_html', $receipt, true));
+				$this->email->set_alt_message($this->load->view('email/receipt_text', $receipt, true));
 				$this->email->send();
-
-				// get package details
-				$verb = 'GET';
-				$path = 'package/'.$this->session->flashdata('package_id');
-				$resp = SnapApi::send($verb, $path);
-				$package = json_decode($resp['response']);
 
 				// update the account's package
 				$verb = 'PUT';
