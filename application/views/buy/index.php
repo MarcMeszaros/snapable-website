@@ -125,7 +125,7 @@
 	<div class="form-column-right">
 	
 		<div id="credit_cards">
-			<img src="/assets/img/cards.png" width="154" height="30" alt="Visa, Mastercard, Paypal" />
+			<img src="/assets/img/credit_cards.png" width="99" height="30" alt="Visa, Mastercard" />
 		</div>
 		<div id="receipt_text">
 			You'll receive a receipt via email upon completion of your order.
