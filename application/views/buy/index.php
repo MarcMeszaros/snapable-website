@@ -57,7 +57,7 @@
 
 			<div class="form-field field-separated" id="cc_card_name" style="position:relative">
 				<label for="creditcard_name">Name on card</label>
-				<input type="text" id="creditcard_name" name="cc[name]" size="30" autocomplete="off" />
+				<input type="text" id="creditcard_name" size="30" autocomplete="off" />
 				<div class="field-error" id="creditcard_name_error">You must provide the name on your credit card.</div>
 			</div>
 
@@ -112,7 +112,7 @@
 			
 			<div class="form-field" id="zip_field">
 				<label class="caps" for="address_zip">Billing ZIP <em>(postal code if outside the USA)</em></label>
-				<input type="text" id="address_zip" name="address[zip]" size="30" />
+				<input type="text" id="address_zip" size="30" />
 				<div class="field-error" id="creditcard_verification_value_error">For verification purposes you must provide the zip (postal) code connected to your credit card.</div>
 			</div>
 			
