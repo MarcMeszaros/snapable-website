@@ -5,9 +5,15 @@
 	<meta charset="utf-8">
 	<title><?php echo (isset($title)) ? 'Snapable - '.$title : "Snapable - The easiest way to instantly capture every photo at your wedding without missing a single moment."; ?></title>
     
-    <meta name="Keywords" content="<?php echo (isset($keywords) && is_array($keywords)) ? implode(',',$keywords): ''; ?>" /> 
+    <meta name="Keywords" content="<?php echo (isset($keywords) && is_array($keywords)) ? implode(', ',$keywords): ''; ?>" /> 
 	<meta name="Description" content="<?php echo (isset($description)) ? $description : ''; ?>" />
     
+    <?php if(isset($meta) && is_array($meta)) {
+        foreach ($meta as $key => $value) {
+            echo '<meta property="'.$key.'" content="'.$value.'" />'.PHP_EOL;
+        }
+    } ?>
+
     <link rel="icon" type="image/vnd.microsoft.icon" href="/favicon.ico" /> 
 	<link rel="SHORTCUT ICON" href="/favicon.ico"/> 
     
@@ -34,8 +40,10 @@
     <?php } ?>
     <?php 
 	    if ( isset($js) ) {
-			echo '<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>';
-			// add assets
+			echo '<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>'.PHP_EOL;
+            //echo '<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>'.PHP_EOL;
+			
+            // add assets
 			if(defined('DEBUG') && DEBUG == true) {
 				$decoded_assets = explode(',', base64_decode($js));
 				foreach ($decoded_assets as $asset) {
@@ -63,7 +71,10 @@
  	var _gaq = _gaq || [];
  <?php } ?>
 	</script>
-    
+
+    <!--[if lt IE 9]>
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js"></script>
+    <![endif]--> 
 </head>
 
 <body id="top">

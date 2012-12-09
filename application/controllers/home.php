@@ -19,9 +19,24 @@ class Home extends CI_Controller {
 	 */
 	public function index()
 	{
-		$this->load->view('home/august2012');
-		//$this->load->view('common/footer');
-		//$this->load->view('common/html_footer');
+		$head = array(
+			'keywords' => array('wedding', 'photo', 'photography', 'disposable', 'camera', 'share', 'sharing', 'day', 'big'),
+			'description' => 'The easiest way to capture every moment at your wedding.',
+			'css' => base64_encode('assets/home/snap.css,assets/home/overlays.css,assets/home/colorbox.css'),
+			'js' => base64_encode('assets/home/jquery.anchor.js,http://w.sharethis.com/button/buttons.js'),
+			'meta' => array(
+				'og:title' => 'Snapable',
+				'og:type' => 'Photo sharing',
+				'og:url' => 'http://snapable.com',
+				'og:image' => 'http://snapable.com/assets/img/snapable_logo.png',
+				'og:description' => 'The easiest way to capture every moment at your wedding.',
+				'og:site_name' => 'Snapable',
+			),
+		);
+
+		$this->load->view('common/html_header', $head);
+		$this->load->view('home/december2012');
+		$this->load->view('common/html_footer');
 	}
 }
 
