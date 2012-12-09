@@ -121,7 +121,7 @@ section { margin-left: 20px; margin-bottom: 25px; }
 
 .expires-field {
 	float: left;
-	width: 150px;
+	width: 160px;
 }
 .cvv-field {
 	float: left;
@@ -415,14 +415,24 @@ p {
 }
 
 .submit-button {
-    display: block;
     width: 250px;
     height: 75px;
     background: transparent url('/assets/img/complete.png') no-repeat;
     border: 0;
     text-indent: -10000px;
 }
-
 .submit-button:hover {
     cursor: pointer;
+    opacity: 0.8;
+}
+
+#processing-order-msg {
+    margin: 10px 0 0 25px;
+}
+
+#processing-order-msg span.status {
+    margin-left: 4px;
+    width: 16px;
+    display: inline-block;
+    background: url('/assets/img/spinner_blue_sm.gif') no-repeat right top;
 }

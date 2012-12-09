@@ -26,13 +26,14 @@ $(document).ready(function()
 	        $(".payment-errors").text(response.error.message);
 	        $(".submit-button").removeAttr("disabled");
 	    } else {
-	        var form$ = $("#payment-form");
+	        var form = $("#payment-form");
 	        // token contains id, last4, and card type
 	        var token = response['id'];
 	        // insert the token into the form so it gets submitted to the server
-	        form$.append("<input type='hidden' name='stripeToken' value='" + token + "'/>");
+	        form.append("<input type='hidden' name='stripeToken' value='" + token + "'/>");
 	        // and submit
-	        form$.get(0).submit();
+	        form.get(0).submit();
+	        $('#processing-order-msg').fadeIn();
 	    }
 	}
 
@@ -49,7 +50,7 @@ $(document).ready(function()
 		}
 		
 		return false;
-	})
+	});
 	$("#creditcard_number").blur( function()
 	{
 		if ( $("#creditcard_number").val() == "" || !Stripe.validateCardNumber($(this).val()) )
@@ -63,7 +64,18 @@ $(document).ready(function()
 		}
 		
 		return false;
-	})
+	});
+	$("#creditcard_month, #creditcard_year").change( function()
+	{
+		if ( $(this).val() == "" || !Stripe.validateExpiry($('#creditcard_month').val(), $('#creditcard_year').val()) )
+		{
+			$("#creditcard_exp_error").fadeIn();
+		} else {
+			$("#creditcard_exp_error").fadeOut();
+		}
+		
+		return false;
+	}); 
 	$("#creditcard_cvc").blur( function()
 	{
 		if ( !Stripe.validateCVC($(this).val()) )
@@ -77,7 +89,7 @@ $(document).ready(function()
 		}
 		
 		return false;
-	})
+	});
 	$("#address_zip").blur( function()
 	{
 		if ( $("#address_zip").val() == "" )
@@ -91,5 +103,5 @@ $(document).ready(function()
 		}
 
 		return false;
-	})
+	});
 });

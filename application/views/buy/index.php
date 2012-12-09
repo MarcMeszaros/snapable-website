@@ -97,13 +97,14 @@
 						}
 					?>
 				</select>
+				<div class="field-error" id="creditcard_exp_error">Expiration date is invalid.</div>
 			</div>
 			
 			<div class="cvv-field" id="cc_cvv">
 				<label class="input" for="creditcard_cvc">Security code</label>
 				<input type="text" id="creditcard_cvc" size="4" autocomplete="off"/> 
 				<img src="/assets/img/cc_security_code.png" width="48" height="30" alt="-" />
-				<div class="field-error" id="creditcard_cvc_error">You must provide the security from the back of your credit card.</div>
+				<div class="field-error" id="creditcard_cvc_error">You must provide the security code from the back of your credit card.</div>
 			</div>
 
 			<div class="clearit">&nbsp;</div>
@@ -137,5 +138,6 @@
 	
 	<div class="clearit">&nbsp;</div>
 	
-	<input type="submit" id="btn-sign-up" class="submit-button" value="Submit"/> <!--<img src="/assets/img/complete.png" width="250" height="75" alt="Complete Purchase" border="0" />-->	
+	<input type="submit" id="btn-sign-up" class="submit-button" value="Submit"/>
+	<div id="processing-order-msg" style="display:none;">Processing order... <span class="status">&nbsp;</span></div>
 </form>
