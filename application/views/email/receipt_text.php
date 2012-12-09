@@ -1,5 +1,5 @@
 ===================================================
-==           Snapable Purchase Receipt           ==
+Snapable Purchase Receipt
 ===================================================
 
 Item(s)                                 | Price

@@ -13,7 +13,7 @@
         } ?>
     </table>
     <p>
-        Total: <?php echo '$'.currency_cents_to_dollars($total); ?>
+        Total: <?php echo '$'.currency_cents_to_dollars($total).PHP_EOL; ?>
     </p>
 
     <p>&copy; 2012 Snapable</p>
