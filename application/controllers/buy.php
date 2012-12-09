@@ -24,7 +24,7 @@ class Buy extends CI_Controller {
 	 
 	public function index($package=null)
 	{
-		require_https(); // make sure we are using SSL
+		//require_https(); // make sure we are using SSL
 		$data = array(
 			'package' => json_decode($this->buy_model->getPackageDetails($package))
 		);
@@ -54,18 +54,9 @@ class Buy extends CI_Controller {
 	}
 
 	public function complete() {
-		require_https(); // make sure we are using SSL
+		//require_https(); // make sure we are using SSL
 		if ( isset($_POST['stripeToken']) && isset($_POST['cc']) && isset($_POST['address']) && $this->session->userdata('logged_in'))
-		{
-			$data = array(
-				//'title' => $_POST['event']['title'],
-				'css' => base64_encode('assets/css/loader.css'),
-			);
-
-			$this->load->view('common/html_header', $data);
-			$this->load->view('buy/complete', $data);
-			$this->load->view('common/html_footer', $data);
-
+		{	
 			// get user/account details from session data set during signup
 			$session_data = $this->session->userdata('logged_in');
 			$userParts = explode('/', $session_data['resource_uri']);
@@ -175,7 +166,7 @@ class Buy extends CI_Controller {
 			*/
 			
 			// redirect to the dashboard
-			redirect("/account/dashboard");
+			redirect('/account/dashboard');
 		} else {
 			show_404();
 		}

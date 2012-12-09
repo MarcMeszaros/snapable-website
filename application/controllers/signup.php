@@ -8,10 +8,28 @@ class Signup extends CI_Controller {
     	$this->load->library('email');
     	$this->load->model('signup_model','',TRUE);		    	
 	}
+
+	public function _remap($method, $params = array())
+	{
+	    if (method_exists($this, $method)) {
+	    	return call_user_func_array(array($this, $method), $params);
+	    } else {
+	    	array_unshift($params, $method); // add the method as the first param
+	    	return call_user_func_array(array($this, 'index'), $params);
+	    }
+	}
 	
-	public function index()
+	public function index($package=null)
 	{
 		require_https();
+
+		// use the "userdata" session because the flashdata is having problems...
+		if (isset($package)) {
+			$this->session->set_userdata('signup_package', $package);
+		} else {
+			// TODO: figure out a more elegant way than hardcoding the package name here as fallback
+			$this->session->set_userdata('signup_package', 'standard');
+		}
 		
 		$head = array(
 			'linkHome' => true,
@@ -21,20 +39,15 @@ class Signup extends CI_Controller {
 		);
 		$this->load->view('common/html_header', $head);
 		$this->load->view('signup/index', $head);
-		$this->load->view('common/html_footer', $head);
+		$this->load->view('common/html_footer');
 	}
 	
 	
 	function complete()
 	{
-		$data = array(
-			'title' => $_POST['event']['title'],
-			'css' => base64_encode('assets/css/loader.css'),
-		);
-		$this->load->view('common/html_header', $data);
-		$this->load->view('signup/complete', $data);
-		$this->load->view('common/html_footer', $data);
-		
+		// get the package from the session and remove the data from the session
+		$package = $this->session->userdata('signup_package');
+		$this->session->unset_userdata('signup_package');
 		$create_event = $this->signup_model->createEvent($_POST['event'], $_POST['user']);
 		
 		if ( $create_event !== false )
@@ -49,7 +62,9 @@ class Signup extends CI_Controller {
 	          'loggedin' => true
 	        );
 	        $this->session->set_userdata('logged_in', $sess_array);
-			redirect('/buy/standard'); 
+	        
+	        // redirect to the package buying part
+	        redirect('/buy/'.$package); 
 		} else {
 			show_error('Unable to create event.', 500);
 		}
