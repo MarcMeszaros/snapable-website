@@ -23,7 +23,7 @@ class Home extends CI_Controller {
 			'keywords' => array('wedding', 'photo', 'photography', 'disposable', 'camera', 'share', 'sharing', 'day', 'big'),
 			'description' => 'The easiest way to capture every moment at your wedding.',
 			'css' => base64_encode('assets/home/snap.css,assets/home/overlays.css,assets/home/colorbox.css'),
-			'js' => base64_encode('assets/home/jquery.anchor.js,http://w.sharethis.com/button/buttons.js'),
+			'js' => base64_encode('assets/home/jquery.anchor.js'),
 			'meta' => array(
 				'og:title' => 'Snapable',
 				'og:type' => 'Photo sharing',

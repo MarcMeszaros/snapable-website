@@ -1,5 +1,5 @@
-	<script type="text/javascript">var switchTo5x=true;</script>
-    <script type="text/javascript">stLight.options({publisher: "e0bd9da5-9c45-4ad2-b1a3-81ca7d809ede"}); </script>
+	<script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+	<script type="text/javascript">stLight.options({publisher: "e0bd9da5-9c45-4ad2-b1a3-81ca7d809ede", offsetLeft: "-300"}); </script>
 
 	<div id="header">
 	
@@ -122,7 +122,7 @@
 	    
 		    <section id="packages-pricing">
 		      <div class="inner">
-		        <h2>Use Snapable for FREE or upgrade to get more!</h2>
+		        <h2>Upgrade to get more!</h2>
 		        
 		        <div class="package-big-box-wrap">
 		        	
