@@ -52,7 +52,7 @@ $autoload['packages'] = array();
 |	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
 */
 
-$autoload['libraries'] = array('session', 'SnapApi', 'SnapText');
+$autoload['libraries'] = array('session', 'SnapApi', 'SnapAuth', 'SnapText');
 
 
 /*

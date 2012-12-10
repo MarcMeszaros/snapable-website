@@ -44,10 +44,10 @@ class Account extends CI_Controller {
 			if ( $userDeets->status == 200 )
 			{
 				// create password hash				
-				$pbHash = base64_encode($this->account_model->pbkdf2('sha256', $_POST['password'], $userDeets->password_salt, $userDeets->password_iterations, 32, true));
+				$pbHash = SnapAuth::snap_pbkdf2($userDeets->password_algorithm, $_POST['password'], $userDeets->password_salt, $userDeets->password_iterations);
 				// check if password matches
-				$validate = json_decode($this->account_model->checkPassword($_POST['email'], $pbHash));
-				
+				$validate = json_decode(SnapAuth::validate($_POST['email'], $pbHash));
+
 				if ( $validate->status == 200 )
 				{
 					// get users events
