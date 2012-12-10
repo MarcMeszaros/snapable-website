@@ -40,6 +40,14 @@ section { margin-left: 20px; margin-bottom: 25px; }
 	width: 290px;
 	color: #fff;
 }
+.form-column-right h1,
+.form-column-right h2,
+.form-column-right h3,
+.form-column-right h4,
+.form-column-right h5,
+.form-column-right h6 {
+    color: #ffffff;
+}
 .form-column-right a:link, .form-column-right a:visited {
 	color: #66ccff;
 }

@@ -16,7 +16,7 @@ class SnapText {
             'desc' => 'One year of original photo storage.',
         ),
         'table_cards' => array(
-            'name' => 'Digital Table Cards',
+            'name' => 'Table Cards Printable Template',
             'desc' => 'A digital version of table cards that can be printed.',
         ),
     );
@@ -27,11 +27,11 @@ class SnapText {
             'desc' => 'The number of albums available.',
         ),
         'price_per_print' => array(
-            'name' => 'Price Per Print',
+            'name' => 'Price Per Extra Print',
             'desc' => 'The price for individual photo prints.',
         ),
         'table_cards' => array(
-            'name' => 'Table Cards',
+            'name' => 'Physical Table Cards',
             'desc' => 'Physical table cards for guests.',
         ),
     );
