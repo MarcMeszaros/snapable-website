@@ -6,6 +6,13 @@ $(document).ready(function()
 		// disable the submit button to prevent repeated clicks
 	    $('.submit-button').attr("disabled", "disabled");
 
+	    // check form fields
+	    $("#creditcard_name").blur();
+	    $("#creditcard_number").blur();
+	    $("#creditcard_cvc").blur();
+	    $("#creditcard_year").change(); // checking one of the two exp date fields checks both
+	    $("#address_zip").blur();
+
 	    Stripe.createToken({
 	    	name: $('#creditcard_name').val(),
 	        number: $('#creditcard_number').val(),
@@ -23,7 +30,7 @@ $(document).ready(function()
 	    if (response.error) {
 	    	console.log(response);
 	        // show the errors on the form
-	        $(".payment-errors").text(response.error.message);
+	        //$(".payment-errors").text(response.error.message);
 	        $(".submit-button").removeAttr("disabled");
 	    } else {
 	        var form = $("#payment-form");
