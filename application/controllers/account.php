@@ -38,27 +38,31 @@ class Account extends CI_Controller {
 	{
 		if ( isset($_POST) )
 		{
-			// check if email is registered
-			$userDeets = json_decode($this->account_model->userDetails($_POST['email']));
+			$verb = 'GET';
+			$path = '/user/';
+			$params = array(
+				'email' => $_POST['email'],
+			);
+			$resp = SnapApi::send($verb, $path, $params);
+			$userDeets = json_decode($resp['response']);
 			
-			if ( $userDeets->status == 200 )
+			// check if email is registered
+			if ( $resp['code'] == 200 )
 			{
 				// create password hash				
-				$pbHash = SnapAuth::snap_pbkdf2($userDeets->password_algorithm, $_POST['password'], $userDeets->password_salt, $userDeets->password_iterations);
+				$pbHash = SnapAuth::snap_pbkdf2($userDeets->objects[0]->password_algorithm, $_POST['password'], $userDeets->objects[0]->password_salt, $userDeets->objects[0]->password_iterations);
 				// check if password matches
-				$validate = json_decode(SnapAuth::validate($_POST['email'], $pbHash));
-
-				if ( $validate->status == 200 )
+				if ( SnapAuth::validate($_POST['email'], $pbHash))
 				{
 					// get users events
 					// http://devapi.snapable.com/private_v1/event/?format=json&user=1
 					// set sessions var to log user in
 					$sess_array = array(
-			          'email' => $validate->email,
-			          'fname' => $validate->fname,
-			          'lname' => $validate->lname,
-			          'resource_uri' => $validate->resource_uri,
-			          'account_uri' => $validate->account_uri,
+			          'email' => $userDeets->objects[0]->email,
+			          'fname' => $userDeets->objects[0]->first_name,
+			          'lname' => $userDeets->objects[0]->last_name,
+			          'resource_uri' => $userDeets->objects[0]->resource_uri,
+			          'account_uri' => $userDeets->objects[0]->accounts[0],
 			          'loggedin' => true
 			        );
 			        $this->session->set_userdata('logged_in', $sess_array);

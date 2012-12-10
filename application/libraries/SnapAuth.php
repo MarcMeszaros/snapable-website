@@ -15,7 +15,7 @@ class SnapAuth {
     public function validate($email, $hash)
     {
         $verb = 'GET';
-        $path = '/user/';
+        $path = '/user/auth/';
         $params = array();
         $headers = array(
             'x-SNAP-User' => $email . ':' . $hash,
@@ -24,29 +24,12 @@ class SnapAuth {
         
         $response = $resp['response'];
         $httpcode = $resp['code'];
-
-        //return $response;
         
         if ( $httpcode == 200 )
         {
-            $result = json_decode($response);
-            
-            if ( $result->meta->total_count > 0 )
-            {
-                $returnData = array(
-                    'status' => 200,
-                    'email' => $result->objects[0]->email,
-                    'fname' => $result->objects[0]->first_name,
-                    'lname' => $result->objects[0]->last_name,
-                    'resource_uri' => $result->objects[0]->resource_uri,
-                    'account_uri' => $result->objects[0]->accounts[0],
-                );
-                return json_encode($returnData);
-            } else {
-                return json_encode(array('status' => 404));
-            }
+            return true;
         } else {
-            return json_encode(array('status' => 404));
+            return false;
         }
     }
 
