@@ -193,7 +193,7 @@ a.signUp {
 	background: transparent url('/assets/home/img/package-sign-up.png') no-repeat;
 }
 a.signUp:hover {
-	opacity: 0.8;
+	opacity: 0.9;
 }
 a.findOutMore {
 	float: right;
@@ -479,7 +479,10 @@ section#how-it-works h2 {
 	width: 300px;
 	height: 65px;
 	margin-left: 86px;
-	background: transparent url('/assets/home/img/package-sign-up.png') no-repeat;
+	background: url('/assets/home/img/package-sign-up.png') no-repeat;
+}
+#package-sign-up:hover {
+	opacity: 0.9;
 }
 
 #package-always {
