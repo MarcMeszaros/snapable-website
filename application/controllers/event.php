@@ -44,11 +44,11 @@ class Event extends CI_Controller {
 				'//cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.0/mustache.min.js'
 			),
 			'js' => array(
-				'assets/js/jquery-Mustache.js',
-				'assets/js/jquery.timePicker.min.js',
+				'assets/js/libs/jquery-Mustache.js',
+				'assets/js/libs/jquery.timePicker.min.js',
+				'assets/js/libs/jquery.tipsy.js',
 				'assets/js/uploader.js',
 				'assets/js/facebox.js',
-				'assets/js/jquery.tipsy.js',
 				'assets/js/event/photostream.js',
 				'assets/js/event/photostream-nav.js',
 				'assets/js/event/photostream-settings.js',

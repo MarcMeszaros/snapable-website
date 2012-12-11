@@ -64,7 +64,7 @@ class Buy extends CI_Controller {
 					'//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js',
 				),
 				'js' => array(
-					'assets/js/jquery.timePicker.min.js',
+					'assets/js/libs/jquery.timePicker.min.js',
 					'assets/js/buy.js'
 				),
 			);

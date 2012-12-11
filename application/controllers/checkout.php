@@ -25,7 +25,7 @@ class Checkout extends CI_Controller {
 			),
 			'js' => array(
 				'assets/js/mustache.js',
-				'assets/js/jquery-Mustache.js',
+				'assets/js/libs/jquery-Mustache.js',
 				'assets/js/checkout.js'
 			),
 			'title' => "Get Prints from Snapable",
