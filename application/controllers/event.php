@@ -16,6 +16,10 @@ class Event extends CI_Controller {
 	public function load_event($url) {
 		require_https();
 	 	$event_details = json_decode($this->event_model->getEventDetailsFromURL($url));
+	 	// don't show disabled events
+	 	if($event_details->event->enabled == false) {
+	 		show_404();
+	 	}
 		
 		$head = array(
 			'noTagline' => true,
@@ -147,67 +151,74 @@ class Event extends CI_Controller {
 		else if ( $this->uri->segment(4) == "validate" && isset($_POST) )
 		{
 			$eventDeets = json_decode($this->event_model->getEventDetailsFromURL($this->uri->segment(3)));
+			$eventID = explode('/', $eventDeets->event->resource_uri);
 			
-			if ( $eventDeets->event->enabled == 1 )
+			// if the pins match
+			if ( isset($_POST['pin']) && $_POST['pin'] == $eventDeets->event->pin )
 			{
-				if ( isset($_POST['pin']) && $_POST['pin'] == $eventDeets->event->pin )
+				$verb = 'GET';
+				$path = '/guest/';
+				$params = array(
+					'email' => $email,
+					'event' => $eventID[3],
+				);
+				$resp = SnapApi::send($verb, $path, $params);
+				$guests = json_decode($resp['response']);
+
+				// if the guest already exists
+				if ( $resp['code'] == 200 )
 				{
-					$validation = json_decode($this->event_model->validateGuest($eventDeets, $_POST['email'], $_POST['pin']));
+					$guestID = explode('/', $guests->objects[0]->resource_uri);
+					$sess_array = array(
+					  'id' => $guestID[3],
+					  'name' => $guests->objects[0]->name,
+			          'email' => $_POST['email'],
+			          'type' => $guests->objects[0]->type,
+			          'loggedin' => true
+			        );
+			        $this->session->set_userdata('guest_login', $sess_array);
+					redirect('/event/' . $eventDeets->event->url);
+				} 
+				else if ( $resp['code'] == 404 ) {
 					
-					if ( $validation->status == 200 )
-					{
-						$guestID = explode("/", $validation->resource_uri);
+					// if email address is not already a guest add
+					$verb = 'POST';
+					$path = '/guest/';
+					$params = array(
+						"email" => $_POST['email'],
+						"event" => $eventDeets->event->resource_uri,
+						"type" => "/".SnapApi::$api_version."/type/5/",
+					);
+					$resp = SnapApi::send($verb, $path, $params);
+					
+					$response = $resp['response'];
+					$httpcode = $resp['code'];
+
+					// the guest was properly created, set the session
+					if ($httpcode == 201) {
+						$guestID = explode("/", $response->objects[0]->resource_uri);
 						$sess_array = array(
 						  'id' => $guestID[3],
-						  'name' => $validation->name,
+						  'name' => '',
 				          'email' => $_POST['email'],
-				          'type' => $validation->type,
+				          'type' => '5',
 				          'loggedin' => true
 				        );
 				        $this->session->set_userdata('guest_login', $sess_array);
 						redirect("/event/" . $eventDeets->event->url);
 					} 
-					else if ( $validation->status == 404 ) {
-						
-						// if email address is not already a guest add
-						$verb = 'POST';
-						$path = '/guest/';
-						$params = array(
-							"email" => $_POST['email'],
-							"event" => $eventDeets->event->resource_uri,
-							"type" => "/".SnapApi::$api_version."/type/5/",
-						);
-						$resp = SnapApi::send($verb, $path, $params);
-						
-						$response = $resp['response'];
-						$httpcode = $resp['code'];
-
-						// the guest was properly created, set the session
-						if ($httpcode == 201) {
-							$guestID = explode("/", $response->objects[0]->resource_uri);
-							$sess_array = array(
-							  'id' => $guestID[3],
-							  'name' => '',
-					          'email' => $_POST['email'],
-					          'type' => '5',
-					          'loggedin' => true
-					        );
-					        $this->session->set_userdata('guest_login', $sess_array);
-							redirect("/event/" . $eventDeets->event->url);
-						} 
-						// there was an error creating the guest
-						else {
-							redirect("/event/" . $eventDeets->event->url . "?error");
-						}
-					} 
+					// there was an error creating the guest
 					else {
 						redirect("/event/" . $eventDeets->event->url . "?error");
 					}
-				} else {
+				} 
+				else {
+					// it's a 500 error trying to get the guest?
 					redirect("/event/" . $eventDeets->event->url . "?error");
 				}
 			} else {
-				echo "This event has not yet been published by the event owner.";
+				// invalid pin
+				redirect("/event/" . $eventDeets->event->url . "?error");
 			}
 		}
 		else {

@@ -123,44 +123,6 @@ Class Event_model extends CI_Model
 				}';
 	}
 	
-	function validateGuest($details, $email, $pin)
-	{
-		// check events privacy setting, if email address is in guest list and if PIN matches event's pin
-		$privacy = $details->event->privacy;
-		$pin = $details->event->pin;
-		$eventID = explode("/", $details->event->resource_uri);
-
-		$verb = 'GET';
-		$path = '/guest/';
-		$params = array(
-			'email' => $email,
-			'event' => $eventID[3],
-		);
-		$resp = SnapApi::send($verb, $path, $params);
-
-		$response = $resp['response'];
-		$response = str_replace("false", "\"0\"", $response);
-		$response = str_replace("true", "\"1\"", $response);
-		$result = json_decode($response);
-		$httpcode = $resp['code'];
-		
-		if ( $httpcode == 200 && $result->meta->total_count > 0 )
-		{
-			$json = '{
-				"status": 200,
-				"name": "' . $result->objects[0]->name . '",
-				"type": "' . substr($result->objects[0]->type, -2, 1) . '",
-				"resource_uri": "' . $result->objects[0]->resource_uri . '"
-			}';
-		} else {
-			$json = '{
-				"status": 404
-			}';
-		}
-		return $json;
-	}
-	
-	
 	function guestCount($resource_uri)
 	{
 		$event = explode("/", $resource_uri);
@@ -636,18 +598,11 @@ Class Event_model extends CI_Model
 	
 	function updatePrivacy($event_uri, $setting)
 	{
-		if ( $setting == 0 )
-		{
-			$type_uri = "/".SnapApi::$api_version."/type/5/";	
-		} else {
-			$type_uri = "/".SnapApi::$api_version."/type/6/";
-		}
-
 		$eventParts = explode('/',$event_uri);
 		$verb = 'PUT';
 		$path = '/event/'.$eventParts[3].'/';
 		$params = array(
-			"type" => $type_uri,
+			'public' => ($setting == 0) ? false : true,
 		);
 		$resp = SnapApi::send($verb, $path, $params);
 
@@ -655,13 +610,9 @@ Class Event_model extends CI_Model
         $httpcode = $resp['code'];
                
         if(!$response) {
-            return '{
-	        	"status": 404
-	        }';
+            return json_encode(array('status' => 404));
         } else {
-        	return '{
-	        	"status": ' . $httpcode . '
-	        }';
+        	return json_encode(array('status' => $httpcode));
         }
 	}
 
