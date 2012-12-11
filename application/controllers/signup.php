@@ -33,15 +33,19 @@ class Signup extends CI_Controller {
 		
 		$head = array(
 			'linkHome' => true,
+			'ext_css' => array(
+				'//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/themes/cupertino/jquery-ui.css',
+			),
 			'css' => array(
-				'assets/css/cupertino/jquery-ui-1.8.21.custom.css',
 				'assets/css/timePicker.css',
 				'assets/css/setup.css',
 				'assets/css/header.css',
 				'assets/css/signup.css'
 			),
+			'ext_js' => array(
+				'//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js',
+			),
 			'js' => array(
-				'assets/js/jquery-ui-1.8.21.custom.min.js',
 				'assets/js/jquery.timePicker.min.js',
 				'assets/js/signup.js'
 			),

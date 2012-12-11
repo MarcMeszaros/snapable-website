@@ -22,7 +22,11 @@ class Home extends CI_Controller {
 		$head = array(
 			'keywords' => array('wedding', 'photo', 'photography', 'disposable', 'camera', 'share', 'sharing', 'day', 'big'),
 			'description' => 'The easiest way to capture every moment at your wedding.',
-			'css' => array('assets/home/snap.css', 'assets/home/overlays.css', 'assets/home/colorbox.css'),
+			'css' => array(
+				'assets/home/snap.css', 
+				'assets/home/overlays.css', 
+				'assets/home/colorbox.css'
+			),
 			'js' => array('assets/home/jquery.anchor.js'),
 			'meta' => array(
 				'og:title' => 'Snapable',

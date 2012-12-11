@@ -19,6 +19,14 @@
     
     <link type="text/css" rel="stylesheet" href="//fonts.googleapis.com/css?family=PT+Sans+Caption:400,700">
     <?php 
+    // external resources
+    if ( isset($ext_css) ) {
+        // add assets
+        foreach ($ext_css as $ext_asset) {
+            echo '<link type="text/css" rel="stylesheet" href="' . $ext_asset . '" media="screen" />'.PHP_EOL;
+        }
+    } 
+    // internal resources
     if ( isset($css) ) {
     	// add assets
 		if(defined('DEBUG') && DEBUG == true) {
@@ -31,9 +39,17 @@
     } 
     ?>
     
-    <?php 
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <?php
+        // external resources
+        if ( isset($ext_js) ) {
+            // add assets
+            foreach ($ext_js as $ext_asset) {
+                echo '<script type="text/javascript" src="' . $ext_asset . '"></script>'.PHP_EOL;
+            }
+        }
+        // internal resources
 	    if ( isset($js) ) {
-			echo '<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>'.PHP_EOL;
             // add assets
 			if(defined('DEBUG') && DEBUG == true) {
 				foreach ($js as $asset) {

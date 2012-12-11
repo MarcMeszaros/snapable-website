@@ -19,11 +19,13 @@ class Event extends CI_Controller {
 		
 		$head = array(
 			'noTagline' => true,
+			'ext_css' => array(
+				'//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/themes/cupertino/jquery-ui.css',
+				'//cdnjs.cloudflare.com/ajax/libs/jquery-jcrop/0.9.10/jquery.Jcrop.min.css'
+			),
 			'css' => array(
-				'assets/css/cupertino/jquery-ui-1.8.21.custom.css',
 				'assets/css/signin.css',
 				'assets/css/fileuploader.css',
-				'assets/css/jquery.jcrop.css',
 				'assets/css/timePicker.css',
 				'assets/css/facebox.css',
 				'assets/css/tipsy.css',
@@ -32,11 +34,13 @@ class Event extends CI_Controller {
 				'assets/css/event.css',
 				'assets/css/footer.css',
 			),
+			'ext_js' => array(
+				'//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js',
+				'//cdnjs.cloudflare.com/ajax/libs/jquery-jcrop/0.9.10/jquery.Jcrop.min.js',
+				'//cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.0/mustache.min.js'
+			),
 			'js' => array(
-				'assets/js/jquery-ui-1.8.21.custom.min.js',
-				'assets/js/mustache.js',
 				'assets/js/jquery-Mustache.js',
-				'assets/js/jquery.jcrop.js',
 				'assets/js/jquery.timePicker.min.js',
 				'assets/js/uploader.js',
 				'assets/js/facebox.js',
