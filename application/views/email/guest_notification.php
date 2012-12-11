@@ -255,7 +255,11 @@
                                                         </td>
                                                         <td valign="top" width="300" class="bodyContent" style="padding-right: 40px;border-collapse: collapse;color: #707070;font-family: Helvetica;font-size: 15px;line-height: 150%;text-align: left;">
                                                             <h2 style="color: #363636;display: block;font-family: Helvetica;font-size: 20px;font-weight: bold;line-height: 100%;margin-top: 20px;margin-right: 0;margin-bottom: 10px;margin-left: 0;text-align: left;">What is Snapable?</h2>
-                                                            <p>By downloading the Snapable app, you can take photos at the wedding and share them the Bride and Groom, allowing them and everyone at the wedding to get a full view of what happened during the event and get the ones they like best printed to display with pride.</p>
+                                                            <p>
+                                                                By downloading the Snapable app, you can share the photos you take at 
+                                                                the wedding with the bride and groom. A modern version of the disposable camera,
+                                                                Snapable instantly uploads your photos into one online album. 
+                                                            </p>
                                                             <p><strong><a href="http://snapable.com/">&rsaquo; Find out more at snapable.com</a></strong></p>
                                                         </td>
                                                     </tr>

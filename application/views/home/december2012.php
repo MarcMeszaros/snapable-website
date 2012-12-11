@@ -44,15 +44,15 @@
 			
 			<section id="why-use">
 		      <div class="inner">
-		        <h2>Why Should You Use Snapable?</h2>
+		        <h2>Why Use Snapable?</h2>
 		        
-		        <h3>Letting your guests take photos during your wedding is a fun and easy way to get them involved. Best of all there's no need to beg for photos or sift through their Facebook pages to find them, you'll have them all in one place.</h3>
+		        <h3>The perfect replacement for a disposable camera, Snapable instantly captures your guests' photos into one online album. Don’t miss a single moment at your wedding!</h3>
 		
 		        <div class="box box-1">
 			    	<div class="image"></div>
 			    	<div class="text">
 			        	<h3>A Complete Picture Of Your Wedding Day</h3>
-			        	<p>With all the excitement at your wedding one photographer can't catch all the action. Snapable captures every photo taken by your wedding guests, giving you a complete picture of the day.</p>
+			        	<p>It's impossible for a photographer to catch all the action at your wedding. Snapable captures every photo taken by your guests, giving you a complete picture of your day.</p>
 			        </div>
 		        </div>
 		
@@ -60,15 +60,15 @@
 		        	<div class="image"></div>
 		        	<div class="text">
 		        		<h3>Instantly Capture And Preserve Your Memories</h3>
-		        		<p>Photos taken at your wedding end up everywhere. Avoid begging guests for their photos and let Snapable instantly capture and preserve your wedding photos in one place. </p>
+		        		<p>Photos of your wedding will end up everywhere. Avoid begging guests for their photos and let Snapable instantly capture and preserve them in one place.</p>
 		        	</div>
 		        </div>
 		
 		        <div class="box box-3">
 		        	<div class="image"></div>
 		        	<div class="text">
-		        		<h3>Choose Which Photos To Print, Share, Or Keep Private.</h3>
-		        		<p>Let’s face it, not every photo is meant for every pair of eyes. After your wedding, you can choose which photos to print, share, or keep private, giving you ultimate control. </p>
+		        		<h3>Print, Share, Or Keep Your Photos Private.</h3>
+		        		<p>Not every photo is meant for every pair of eyes. You can choose which photos to print, share, or keep private, giving you ultimate control.</p>
 		        	</div>
 		        </div>
 		
@@ -76,7 +76,7 @@
 		        	<div class="image"></div>
 		        	<div class="text">
 		        		<h3>Instant Gratification</h3>
-		        		<p>Couples often wait up to 6 weeks for their photographs. With Snapable, you won't wait for your photos or have to sift through your friend’s Facebook. They’re all in one handy spot&mdash;Even before the honeymoon.</p>
+		        		<p>You might be waiting weeks, even months for your photos. With Snapable, there is no waiting and no need to sift through your friend’s Facebook profile for pics!</p>
 		        	</div>
 		        </div>
 		
@@ -103,7 +103,7 @@
 		            <div class="phone"></div>
 		          </div>
 		          <h3>During Your Wedding</h3>
-		          <p>Let guests know about Snapable with an elegant table card (provided by us!) with instructions on how to download and use the app. Then, a copy of any photo taken by friends and family will be instantly added to your album.</p>
+		          <p>We’ll provide an elegant table card for your guests with instructions on how to download and use the app. Once downloaded, a copy of any photo taken by friends and family will be instantly added to your album.</p>
 		        </div>
 		
 		        <div class="box">

@@ -125,7 +125,7 @@ var owner = <?= (isset($owner) && $owner == 1) ? 'true' : 'false' ?>;
 			} ?>
 
 			<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ) { ?>
-			<li><a href="#guest" id="guestBTN">Invite Guests</a></li>
+			<li><a href="#guest" id="guestBTN">Guests</a></li>
 			<?php } ?>
 			
 			<?php if ($eventDeets->privacy == 6): ?>
@@ -144,7 +144,7 @@ var owner = <?= (isset($owner) && $owner == 1) ? 'true' : 'false' ?>;
 				<a id="event-nav-privacy" href="#">Privacy</a>
 				<div id="event-nav-menu-privacy" class="event-nav-menu">
 					
-					<p>Select if photos are private and viewable by guests only or if all photos are public.</p>
+					<p>Choose private if you prefer photos are only viewed by guests. Public events will be visible to anyone who visits your album.</p>
 					
 					<ul>
 						<li><input type="radio" name="privacy-setting" value="0" <?php echo ($eventDeets->privacy < 6) ? 'checked="checked"':''; ?>/> Private</li>

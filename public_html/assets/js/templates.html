@@ -49,7 +49,6 @@
 			<li id="uploadText" class="displayMe">
 				<h1>There’s no photos in your event yet.</h1>
 				<h2>Why not upload a few to get started?</h2>
-				<h3>(Maybe a few of the bride/groom to start the photostream with?)</h3>
 			</li>
 			<!--<li id="slideshowText">
 				<h1>Create a slideshow</h1>
@@ -84,7 +83,7 @@
 
 
 <script id="invite-guests" type="text/html">
-	<h3>Invite Guests</h3>
+	<h3>Guests</h3>
 	
 	<ul class="tabs">
 		<li class="active" id="addTab"><a href="#add">Add</a></li>
@@ -96,22 +95,24 @@
 	<div id="addBox" class="tab-content">{{>guest-addbox}}</div>
 	<div id="notifyBox" class="tab-content">{{>guest-notifybox}}</div>	
 	<div id="guestlistBox" class="tab-content">Guest List</div>	
-	<div id="tablecardBox" class="tab-content">
-		<p>If you haven't emailed your guests about Snapable (or there's guests that weren't on the list) use our custom table cards (see example) to inform them at the event. <a href="mailto:team@snapable.com">Email us</a> (<a href="mailto:team@snapable.com">team@snapable.com</a>) with how many cards you'll need, any custom messages you'd like to include and where you'd like the cards to be shipped.</p>
-	</div>	
+	<div id="tablecardBox" class="tab-content">{{>guest-tablecardbox}}</div>	
 </script>
 
 
 <script id="guest-addbox" type="text/html">
-	<p>Add guests and let them know to download the Snapable mobile app before your big day. <em>Include their type* to give more access to some guests.</em></p>
+	<p>Make sure everyone knows about Snapable before the big day! You can add your wedding guests and set their role.</p>
 	
-	<h3><em><a name="guest-type"></a><strong>* Types include: </strong>Organizer, Bride/Groom, Wedding Party, Family, or Guest</em></h3>
+	<h4><em><a name="guest-type"></a><strong>Types include: </strong>Organizer, Bride/Groom, Wedding Party, Family, or Guest</em></h4>
 	
 	<div id="guest-choices" class="choiceBox">{{>guest-options}}</div>
 </script>
 
 <script id="guest-notifybox" type="text/html">
-	<p>Let your guests know to download Snapable in advance.</p>
+	<p>
+		Let your guests know to download Snapable in advance. 
+		Please note that your event won’t be live on the app until 
+		approximately 12 hours before the scheduled start time!
+	</p>
 	
 	<div id="notify-wrap">	
 		<div id="notify-group">
@@ -131,6 +132,22 @@
 	</div>
 </script>
 
+<script id="guest-tablecardbox" type="text/html">
+	<p>
+		Make sure your guests know about Snapable! In addition to inviting them before your big day, 
+		you can also use our custom table cards at the wedding. Here’s a sample card complete with 
+		instructions on how to use the app.
+	</p>
+	<br>
+	<p>
+		To order your PDF or printed cards, email us at: <a href="mailto:team@snapable.com">team@snapable.com</a>. 
+		If you would like printed cards, please provide, the number of cards required and your shipping address.
+	</p>
+	<br>
+	<p>
+		Please note that there is a fee and a 14 day lead time is required. 
+	</p>
+</script>
 
 <script id="guest-options">
 	<a id="guest-link-upload" href="#">
