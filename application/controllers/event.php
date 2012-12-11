@@ -104,7 +104,7 @@ class Event extends CI_Controller {
 			}
 			
 			// show the correct loggin screen if required
-			if ($event_details->event->public == false && ($guestLoggedin != true && $ownerLoggedin != true))
+			if ($guestLoggedin != true && $ownerLoggedin != true)
 			{
 				$this->load->view('common/html_header', $head);
 				$this->load->view('common/header2', $head);
@@ -150,7 +150,7 @@ class Event extends CI_Controller {
 			$eventID = explode('/', $eventDeets->event->resource_uri);
 			
 			// if the pins match
-			if (isset($_POST['pin']) && $_POST['pin'] == $eventDeets->event->pin)
+			if ($eventDeets->event->public || (isset($_POST['pin']) && $_POST['pin'] == $eventDeets->event->pin))
 			{
 				// if the guest already exists
 				if (SnapAuth::guest_signin($_POST['email'], $eventDeets->event->resource_uri))

@@ -118,7 +118,7 @@ var owner = <?= (isset($owner) && $owner == 1) ? 'true' : 'false' ?>;
 		<ul id="event-nav">
 
 			<li><span>Photostream</span></li>
-			<li <?php echo ($eventDeets->privacy == 6) ? 'style="display:none;"' : ''; ?>><a id="uploadBTN" href="#">Upload Photos</a></li>
+			<li><a id="uploadBTN" href="#">Upload Photos</a></li>
 			<?php if ( $eventDeets->photos > 0 )
 			{
 				//echo '<li><a href="/event/' . $eventDeets->url . '/slideshow">Slideshow</a></li>';
@@ -147,10 +147,10 @@ var owner = <?= (isset($owner) && $owner == 1) ? 'true' : 'false' ?>;
 					<p>Choose private if you prefer photos are only viewed by guests. Public events will be visible to anyone who visits your album.</p>
 					
 					<ul>
-						<li><input type="radio" name="privacy-setting" value="0" <?php echo ($eventDeets->privacy < 6) ? 'checked="checked"':''; ?>/> Private</li>
+						<li><input type="radio" name="privacy-setting" value="0" <?php echo (!$eventDeets->public) ? 'checked="checked"':''; ?>/> Private</li>
 					</ul>
 					<ul>
-						<li><input type="radio" name="privacy-setting" value="1" <?php echo ($eventDeets->privacy == 6) ? 'checked="checked"':''; ?>/> Public</li>
+						<li><input type="radio" name="privacy-setting" value="1" <?php echo ($eventDeets->public) ? 'checked="checked"':''; ?>/> Public</li>
 					</ul>
 					<div class="clearit">&nbsp;</div>
 					<div id='privacySaveWrap'><input type="button" value="Save" /></div>
@@ -160,7 +160,7 @@ var owner = <?= (isset($owner) && $owner == 1) ? 'true' : 'false' ?>;
 		</ul>
 	</div>
 
-	<div id="event-pin" <?php echo ($eventDeets->privacy == 6) ? 'style="display:none;"':''; ?>>
+	<div id="event-pin" <?php echo ($eventDeets->public) ? 'style="display:none;"':''; ?>>
 		Event PIN:
 		<div><?= $eventDeets->pin ?></div>
 	</div>

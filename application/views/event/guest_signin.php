@@ -20,16 +20,18 @@
 	</label>
 	<input type="text" name="email" />
 	
-	<label for="pin">
-		Event PIN
-		<div class="error">You need to provide a pin to sign in</div>
-	</label>
-	<input id="pinInput" type="text" name="pin" />
-	
+	<?php if(!$eventDeets->public) {?>
+		<label for="pin">
+			Event PIN
+			<div class="error">You need to provide a pin to sign in</div>
+		</label>
+		<input id="pinInput" type="text" name="pin" />
+	<?php } ?>
 	<hr />
 	
 	<input type="submit" name="submit" value="Sign in" />
 	
-	<h2 id="guestH2">Don't know the event PIN?<br /><a href="/event/message/organizer">Message the event organizer</a>.</h2>
+	<h2 id="guestH2">
+		<?php if(!$eventDeets->public) {?>Don't know the event PIN?<br /><?php } ?><a href="/event/message/organizer">Message the event organizer</a>.</h2>
 	
 </form>
