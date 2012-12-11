@@ -49,7 +49,11 @@ class Event extends CI_Controller {
 				'assets/js/uploader.js',
 				'assets/js/facebox.js',
 				'assets/js/jquery.tipsy.js',
-				'assets/js/photostream.js'
+				'assets/js/event/photostream.js',
+				'assets/js/event/photostream-nav.js',
+				'assets/js/event/photostream-settings.js',
+				'assets/js/event/photostream-guests.js',
+				'assets/js/event/photostream-addons.js',
 			),
 			'url' => $event_details->event->url,
 			'type' => $this->uri->segment(1),
@@ -190,8 +194,7 @@ class Event extends CI_Controller {
 		require_https();
 		if ( $task == "signout" )
 		{
-			$this->session->unset_userdata('guest_login');
-			//session_destroy();
+			SnapAuth::guest_signout();
 			redirect('/event/' . $this->uri->segment(2), 'refresh');
 		}
 		else if ( $task == "slideshow" )
