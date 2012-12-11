@@ -88,23 +88,11 @@
 			
 				<div id="guest-content" class="hiding">
 				
-					<p>Go to your event page, click "Invite Guests", upload or input manually your guests name, email address and their role in the wedding (Organizer, Bride/Groom, Wedding Party, Family, or Guest), customize a message to them (or don't) and send emails to them to let them know to use Snapable at your wedding.</p>
+					<p>Go to your event page, click "Guests", upload or input manually your guests name, email address and their role in the wedding (Organizer, Bride/Groom, Wedding Party, Family, or Guest), customize a message to them (or don't) and send emails to them to let them know to use Snapable at your wedding.</p>
 
 					<!--<p><em>* Roles will allow you to set who gets to see certain photos (in case you don’t want Aunt Ida seeing that photos of Uncle Jed dancing with the bridesmaids)</em></p>-->
 				
-				</div>
-			
-				<h3><a href="#upload" class="closed">Upload photos</a></h3>
-			
-				<div id="upload-content" class="hiding">
-				
-					<p>Go to your event page, click the "Upload Photos" link under the title, grab the photos you want to upload, drag them into the upload box, and click the ‘upload’ button.</p>
-
-					<p>Use this to upload photos of the bride/groom as kids, etc.</p>
-				
-				</div>
-			
-				
+				</div>				
 			
 			</div>
 			
@@ -114,7 +102,16 @@
 				
 				<div id="participate-content" class="showing">
 				
-					<p>If you haven't emailed your guests about Snapable (or there's guests that weren't on the list) use our custom table cards (see example) to inform them at the event. <a href="mailto:team@snapable.com">Email us</a> (<a href="mailto:team@snapable.com">team@snapable.com</a>) with how many cards you'll need, any custom messages you'd like to include and where you'd like the cards to be shipped.</p>
+					<p>
+						If you haven't emailed your guests about Snapable (or there's guests that weren't 
+						on the list) use our custom table cards to inform them at the event. To order your PDF 
+						or printed cards, email us at: <a href="mailto:team@snapable.com">team@snapable.com</a>. 
+						If you would like printed cards, please provide, the number of cards required and your 
+						shipping address.
+					</p>
+					<p>
+						Please note that there is a fee and a 14 day lead time is required. 
+					</p>
 				
 				</div>
 				
@@ -132,6 +129,7 @@
 			
 			<div id="after" class="content hiding">
 			
+				<!--
 				<h3><a href="#create" class="opened">Create photo albums</a></h3>
 				
 				<div id="create-content" class="showing">
@@ -147,6 +145,7 @@
 					<p>To order print, first go to your <a href="/event/<?= $eventDeets['url'] ?>">event page</a>, then select the photo(s) you want to have printed. Once you've picked all that you want click the orange "Checkout" button on the top right of the screen and follow the instructions.</p>
 				
 				</div>
+			-->
 				
 				<h3><a href="#remind" class="closed">Remind your guests</a></h3>
 				
