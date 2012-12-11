@@ -147,7 +147,7 @@ class Account extends CI_Controller {
 	function signout()
 	{
 		SnapAuth::signout();
-		redirect('/account/dashboard', 'refresh');
+		redirect('/account/signin', 'refresh');
 	}
 	
 	function reset($nonce = NULL)
