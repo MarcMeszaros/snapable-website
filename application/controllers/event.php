@@ -58,42 +58,37 @@ class Event extends CI_Controller {
 			'eventDeets' => $event_details->event
 		);
 		
+		$ownerLoggedin = false;
+		$guestLoggedin = false;
 		if ( $event_details->status == 200 )
 		{
-			if ($this->session->userdata('logged_in'))
+			$session_owner = SnapAuth::is_logged_in();
+			if ($session_owner && $event_details->event->user == $session_owner['resource_uri'])
 			{
-				$session_owner = $this->session->userdata('logged_in');
-				
-				if ( $session_owner['loggedin'] == true )
-				{
-					$data['owner'] = true;
-					$session_event = $this->session->userdata('event_deets');
-					$ownerLoggedin = true;
-					$data["logged_in_user_resource_uri"] = $session_owner['resource_uri'];
-					$head["loggedInBar"] = "owner";
-					$eventID = explode("/",$event_details->event->resource_uri);
+				$data['owner'] = true;
+				$ownerLoggedin = true;
+				$data["logged_in_user_resource_uri"] = $session_owner['resource_uri'];
+				$head["loggedInBar"] = "owner";
+				$eventID = explode("/",$event_details->event->resource_uri);
 
-					// get the owner guest_id
-					// if email address is not already a guest add
-					$verb = 'GET';
-					$path = '/guest/';
-					$params = array(
-						'event' => $eventID[3],
-						'email' => $session_owner['email'],
-					);
-					$resp = SnapApi::send($verb, $path, $params);
+				// get the owner guest_id
+				// if email address is not already a guest add
+				$verb = 'GET';
+				$path = '/guest/';
+				$params = array(
+					'event' => $eventID[3],
+					'email' => $session_owner['email'],
+				);
+				$resp = SnapApi::send($verb, $path, $params);
 
-					$response = json_decode($resp['response']);
-					$httpcode = $resp['code'];
-		
-					// the guest was properly created, set the session
-					if ($httpcode == 200 && count($response->objects) > 0) {
-						$guestID = explode("/", $response->objects[0]->resource_uri);
-						$session_owner['guest_id'] = $guestID[3];
-				        $this->session->set_userdata('logged_in', $session_owner);
-					}
-				} else {
-					$ownerLoggedin = false;
+				$response = json_decode($resp['response']);
+				$httpcode = $resp['code'];
+
+				// the guest was properly created, set the session
+				if ($httpcode == 200 && count($response->objects) > 0) {
+					$guestID = explode("/", $response->objects[0]->resource_uri);
+					$session_owner['guest_id'] = $guestID[3];
+			        $this->session->set_userdata('logged_in', $session_owner);
 				}
 			} 
 			else if($this->session->userdata('guest_login'))
@@ -105,15 +100,11 @@ class Event extends CI_Controller {
 					$guestLoggedin = true;
 					$head["loggedInBar"] = "guest";
 					$data['typeID'] = $session_guest['type'];
-				} else {
-					$guestLoggedin = false;
 				}
-			} else {
-				
 			}
 			
 			// show the correct loggin screen if required
-			if ($event_details->event->privacy < 6 && ((!isset($guestLoggedin) || $guestLoggedin != true) && (!isset($ownerLoggedin) || $ownerLoggedin != true)))
+			if ($event_details->event->public == false && ($guestLoggedin != true && $ownerLoggedin != true))
 			{
 				$this->load->view('common/html_header', $head);
 				$this->load->view('common/header2', $head);

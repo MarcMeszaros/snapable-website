@@ -72,7 +72,7 @@ class SnapAuth {
     {
         $logged_in = $this->session->userdata('logged_in');
         if ($logged_in && $logged_in['loggedin']) {
-            return true;
+            return $logged_in;
         } else {
             return false;
         }

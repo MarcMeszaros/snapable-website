@@ -70,7 +70,6 @@ Class Event_model extends CI_Model
 					'url' => $e->url,
 					'title' => $e->title,
 					'pin' => $e->pin,
-					'package' => $e->package,
 					'start' => $e->start,
 					'end' => $e->end,
 					'human_start' => $human_start,
@@ -81,6 +80,7 @@ Class Event_model extends CI_Model
 					'resource_uri' => $e->resource_uri,
 					'user' => $e->user,
 					'privacy' => $privacyParts[3],
+					'public' => $e->public,
 					'photos' => $e->photo_count,
 					'tz_offset' => $e->tz_offset,
 				);
