@@ -12,11 +12,16 @@ class SnapAuth {
         if ($user) {
             $sess_array = array(
                 'email' => $user->email,
+                'first_name' => $user->first_name,
+                'last_name' => $user->last_name,
+                'user_uri' => $user->resource_uri,
+                'account_uri' => $user->accounts[0],
+
+                // TODO deprecated (look through the code and try and stop using these)
                 'fname' => $user->first_name,
                 'lname' => $user->last_name,
                 'resource_uri' => $user->resource_uri,
-                'account_uri' => $user->accounts[0],
-                'loggedin' => true
+                'loggedin' => true,
             );
             $this->session->set_userdata('logged_in', $sess_array);
             return true;
@@ -38,11 +43,16 @@ class SnapAuth {
         if ($resp['code'] == 200 && $users->meta->total_count > 0) {
             $sess_array = array(
                 'email' => $users->objects[0]->email,
+                'first_name' => $users->objects[0]->first_name,
+                'last_name' => $users->objects[0]->last_name,
+                'user_uri' => $users->objects[0]->resource_uri,
+                'account_uri' => $users->objects[0]->accounts[0],
+
+                // TODO deprecated (look through the code and try and stop using these)
                 'fname' => $users->objects[0]->first_name,
                 'lname' => $users->objects[0]->last_name,
                 'resource_uri' => $users->objects[0]->resource_uri,
-                'account_uri' => $users->objects[0]->accounts[0],
-                'loggedin' => true
+                'loggedin' => true,
             );
             $this->session->set_userdata('logged_in', $sess_array);
             return true;
