@@ -58,8 +58,14 @@
 			} else {
 				echo '<script type="text/javascript" src="/min/j/' . base64_encode(implode(',', $js)) . '"></script>';
 			}
-	    } 
+	    }
     ?>
+    <?php if( isset($stripe) ) { ?>
+        <script type="text/javascript" src="https://js.stripe.com/v1/"></script>
+        <script type="text/javascript">
+            Stripe.setPublishableKey('<?= STRIPE_KEY_PUBLIC ?>');
+        </script>
+    <?php } ?>
 
     <!--[if lt IE 9]>
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js"></script>
