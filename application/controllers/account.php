@@ -16,7 +16,12 @@ class Account extends CI_Controller {
 	
 	public function signin()
 	{
-		require_https();
+		require_https(); // make sure we are in ssl
+
+		// check if we are already logged in, and redirect if we are
+		if(SnapAuth::is_logged_in()) {
+			redirect('/account/dashboard');
+		}
 		
 		$segments = $this->uri->total_segments();
 		
