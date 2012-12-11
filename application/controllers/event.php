@@ -154,74 +154,38 @@ class Event extends CI_Controller {
 			$eventID = explode('/', $eventDeets->event->resource_uri);
 			
 			// if the pins match
-			if ( isset($_POST['pin']) && $_POST['pin'] == $eventDeets->event->pin )
+			if (isset($_POST['pin']) && $_POST['pin'] == $eventDeets->event->pin)
 			{
-				$verb = 'GET';
-				$path = '/guest/';
-				$params = array(
-					'email' => $email,
-					'event' => $eventID[3],
-				);
-				$resp = SnapApi::send($verb, $path, $params);
-				$guests = json_decode($resp['response']);
-
 				// if the guest already exists
-				if ( $resp['code'] == 200 )
+				if (SnapAuth::guest_signin($_POST['email'], $eventDeets->event->resource_uri))
 				{
-					$guestID = explode('/', $guests->objects[0]->resource_uri);
-					$sess_array = array(
-					  'id' => $guestID[3],
-					  'name' => $guests->objects[0]->name,
-			          'email' => $_POST['email'],
-			          'type' => $guests->objects[0]->type,
-			          'loggedin' => true
-			        );
-			        $this->session->set_userdata('guest_login', $sess_array);
 					redirect('/event/' . $eventDeets->event->url);
-				} 
-				else if ( $resp['code'] == 404 ) {
-					
+				} else {
 					// if email address is not already a guest add
 					$verb = 'POST';
 					$path = '/guest/';
 					$params = array(
 						"email" => $_POST['email'],
 						"event" => $eventDeets->event->resource_uri,
-						"type" => "/".SnapApi::$api_version."/type/5/",
+						"type" => "/".SnapApi::$api_version."/type/6/",
 					);
 					$resp = SnapApi::send($verb, $path, $params);
-					
 					$response = $resp['response'];
-					$httpcode = $resp['code'];
 
 					// the guest was properly created, set the session
-					if ($httpcode == 201) {
-						$guestID = explode("/", $response->objects[0]->resource_uri);
-						$sess_array = array(
-						  'id' => $guestID[3],
-						  'name' => '',
-				          'email' => $_POST['email'],
-				          'type' => '5',
-				          'loggedin' => true
-				        );
-				        $this->session->set_userdata('guest_login', $sess_array);
+					if ($resp['code'] == 201) {
+						SnapAuth::guest_signin_nonetwork($response);
 						redirect("/event/" . $eventDeets->event->url);
-					} 
-					// there was an error creating the guest
-					else {
+					} else {
+						// there was an error creating the guest
 						redirect("/event/" . $eventDeets->event->url . "?error");
 					}
-				} 
-				else {
-					// it's a 500 error trying to get the guest?
-					redirect("/event/" . $eventDeets->event->url . "?error");
 				}
 			} else {
 				// invalid pin
 				redirect("/event/" . $eventDeets->event->url . "?error");
 			}
-		}
-		else {
+		} else {
 			show_404();
 		}
 	}

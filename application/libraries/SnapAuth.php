@@ -112,6 +112,82 @@ class SnapAuth {
         }
     }
 
+    //***** GUEST *****\\
+    // guest signin
+    public function guest_signin($email, $event)
+    {
+        $guests = self::guest_validate($email, $event);
+        if ($guests) {
+            $guestParts = explode('/', $guests->objects[0]->resource_uri);
+            $typeParts = explode('/', $guests->objects[0]->type);
+            $sess_array = array(
+                'id' => $guestParts[3],
+                'name' => $guests->objects[0]->name,
+                'email' => $email,
+                'type' => $typeParts[3],
+                'loggedin' => true
+            );
+            $this->session->set_userdata('guest_login', $sess_array);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // guest singin (no network/API call: use a guest API response object)
+    public function guest_signin_nonetwork($guest)
+    {
+        if (isset($guest)) {
+            $guestParts = explode('/', $guest->resource_uri);
+            $typeParts = explode('/', $guest->type);
+            $sess_array = array(
+                'id' => $guestParts[3],
+                'name' => $guests->objects[0]->name,
+                'email' => $email,
+                'type' => $typeParts[3],
+                'loggedin' => true
+            );
+            $this->session->set_userdata('guest_login', $sess_array);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // guest signout
+    public function guest_signout()
+    {
+        $this->session->unset_userdata('guest_login');
+    }
+
+    // check if guest is logged in
+    public function is_guest_logged_in()
+    {
+        $logged_in = $this->session->userdata('guest_login');
+        if ($logged_in && $logged_in['loggedin']) {
+            return $logged_in;
+        } else {
+            return false;
+        }
+    }
+
+    // guest validate
+    public function guest_validate($email, $event)
+    {
+        $eventParts = explode('/', $event);
+        $verb = 'GET';
+        $path = '/guest/';
+        $params = array(
+            'email' => $email,
+            'event' => $eventParts[3],
+        );
+        $resp = SnapApi::send($verb, $path, $params);
+        $response = json_decode($resp['response']);
+
+        return ($resp['code'] == 200 && $response->meta->total_count > 0) ? $response : false;
+    }
+
+    //***** INTERNAL *****\\
     // calculate the pbkdf2 password hash
     private function snap_pbkdf2($algorithm, $password, $salt, $count)
     {
