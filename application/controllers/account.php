@@ -22,6 +22,12 @@ class Account extends CI_Controller {
 		
 		$error = ( $segments == 3 && $this->uri->segment(3) == "error" ) ? true:false;
 		$reset = ( isset($_GET['reset']) ) ? true:false;
+
+		// if there a redirect param, use it
+		$redirect = $this->input->get('redirect');
+		if($redirect) {
+			$this->session->set_flashdata('redirect', $redirect);
+		}
 		
     	$data = array(
 			'css' => base64_encode('assets/css/setup.css,assets/css/signin.css'),
@@ -38,38 +44,15 @@ class Account extends CI_Controller {
 	{
 		if ( isset($_POST) )
 		{
-			$verb = 'GET';
-			$path = '/user/';
-			$params = array(
-				'email' => $_POST['email'],
-			);
-			$resp = SnapApi::send($verb, $path, $params);
-			$userDeets = json_decode($resp['response']);
-			
-			// check if email is registered
-			if ( $resp['code'] == 200 )
-			{
-				// create password hash				
-				$pbHash = SnapAuth::snap_pbkdf2($userDeets->objects[0]->password_algorithm, $_POST['password'], $userDeets->objects[0]->password_salt, $userDeets->objects[0]->password_iterations);
-				// check if password matches
-				if ( SnapAuth::validate($_POST['email'], $pbHash))
-				{
-					// get users events
-					// http://devapi.snapable.com/private_v1/event/?format=json&user=1
-					// set sessions var to log user in
-					$sess_array = array(
-			          'email' => $userDeets->objects[0]->email,
-			          'fname' => $userDeets->objects[0]->first_name,
-			          'lname' => $userDeets->objects[0]->last_name,
-			          'resource_uri' => $userDeets->objects[0]->resource_uri,
-			          'account_uri' => $userDeets->objects[0]->accounts[0],
-			          'loggedin' => true
-			        );
-			        $this->session->set_userdata('logged_in', $sess_array);
-					// send to dashboard
-					redirect("/account/dashboard");
+			// create password hash				
+			$pbHash = SnapAuth::snap_hash($_POST['email'], $_POST['password']);
+			// check if password matches
+			if ( SnapAuth::signin($_POST['email'], $pbHash) ) {
+				// send to dashboard/redirect
+				if($this->session->flashdata('redirect')){
+					redirect($this->session->flashdata('redirect'));
 				} else {
-					redirect("/account/signin/error");
+					redirect("/account/dashboard");
 				}
 			} else {
 				redirect("/account/signin/error");
@@ -158,8 +141,7 @@ class Account extends CI_Controller {
 	
 	function signout()
 	{
-		$this->session->unset_userdata('logged_in');
-		//session_destroy();
+		SnapAuth::signout();
 		redirect('/account/dashboard', 'refresh');
 	}
 	
