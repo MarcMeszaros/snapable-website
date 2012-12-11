@@ -35,8 +35,8 @@ class Account extends CI_Controller {
 		}
 		
     	$data = array(
-			'css' => base64_encode('assets/css/setup.css,assets/css/signin.css'),
-			'js' => base64_encode('assets/js/signin.js'),
+			'css' => array('assets/css/setup.css', 'assets/css/signin.css'),
+			'js' => array('assets/js/signin.js'),
 			'error' => $error,
 			'reset' => $reset,
 		);
@@ -93,8 +93,8 @@ class Account extends CI_Controller {
 				
 				$data = array(
 					'session' => $this->session->userdata('logged_in'), 
-					'css' => base64_encode('assets/css/setup.css,assets/css/dashboard.css'),
-					'js' => base64_encode('assets/js/dashboard.js'),
+					'css' => array('assets/css/setup.css', 'assets/css/dashboard.css'),
+					'js' => array('assets/js/dashboard.js'),
 					'eventDeets' => $event_array,
 					'days_until' => $days_until,
 					'days_verb' => $days_verb
@@ -154,7 +154,7 @@ class Account extends CI_Controller {
 	{
 		
 		$data = array(
-			'css' => base64_encode('assets/css/setup.css,assets/css/signin.css')
+			'css' => array('assets/css/setup.css', 'assets/css/signin.css')
 		);
 		
 		if ( $nonce == NULL )
@@ -190,7 +190,7 @@ class Account extends CI_Controller {
 				if ( $nonce = 1 )
 				{
 					$data = array(
-						'css' => base64_encode('assets/css/setup.css,assets/css/signin.css')
+						'css' => array('assets/css/setup.css', 'assets/css/signin.css')
 					);
 					$this->load->view('common/html_header', $data);
 					$this->load->view('account/email_sent', $data);

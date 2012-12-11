@@ -33,8 +33,18 @@ class Signup extends CI_Controller {
 		
 		$head = array(
 			'linkHome' => true,
-			'css' => base64_encode('assets/css/cupertino/jquery-ui-1.8.21.custom.css,assets/css/timePicker.css,assets/css/setup.css,assets/css/header.css,assets/css/signup.css'),
-			'js' => base64_encode('assets/js/jquery-ui-1.8.21.custom.min.js,assets/js/jquery.timePicker.min.js,assets/js/signup.js'),
+			'css' => array(
+				'assets/css/cupertino/jquery-ui-1.8.21.custom.css',
+				'assets/css/timePicker.css',
+				'assets/css/setup.css',
+				'assets/css/header.css',
+				'assets/css/signup.css'
+			),
+			'js' => array(
+				'assets/js/jquery-ui-1.8.21.custom.min.js',
+				'assets/js/jquery.timePicker.min.js',
+				'assets/js/signup.js'
+			),
 			'url' => 'blank'	
 		);
 		$this->load->view('common/html_header', $head);

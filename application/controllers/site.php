@@ -5,7 +5,12 @@ class Site extends CI_Controller {
 	function __construct()
 	{
     	parent::__construct(); 
-    	$this->data['css'] = base64_encode('assets/css/setup.css,assets/css/header.css,assets/css/site.css,assets/css/footer.css');			    	
+    	$this->data['css'] = array(
+    		'assets/css/setup.css',
+    		'assets/css/header.css',
+    		'assets/css/site.css',
+    		'assets/css/footer.css',
+    	);			    	
 	}
 	
 	public function index()

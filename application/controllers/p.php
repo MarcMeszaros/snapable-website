@@ -16,7 +16,12 @@ class P extends CI_Controller {
 	public function load_photo($photo) {
 		echo "&nbsp;";
 		$head = array(
-			'css' => base64_encode('assets/css/setup.css,assets/css/header.css,assets/css/photo.css,assets/css/footer.css'),
+			'css' => array(
+				'assets/css/setup.css',
+				'assets/css/header.css',
+				'assets/css/photo.css',
+				'assets/css/footer.css',
+			),
 			'url' => 'blank'
 		);
 		

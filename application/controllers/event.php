@@ -19,8 +19,30 @@ class Event extends CI_Controller {
 		
 		$head = array(
 			'noTagline' => true,
-			'css' => base64_encode('assets/css/cupertino/jquery-ui-1.8.21.custom.css,assets/css/signin.css,assets/css/fileuploader.css,assets/css/jquery.jcrop.css,assets/css/timePicker.css,assets/css/facebox.css,assets/css/tipsy.css,assets/css/setup.css,assets/css/header.css,assets/css/event.css,assets/css/footer.css'),
-			'js' => base64_encode('assets/js/jquery-ui-1.8.21.custom.min.js,assets/js/mustache.js,assets/js/jquery-Mustache.js,assets/js/jquery.jcrop.js,assets/js/jquery.timePicker.min.js,assets/js/uploader.js,assets/js/facebox.js,assets/js/jquery.tipsy.js,assets/js/photostream.js'),
+			'css' => array(
+				'assets/css/cupertino/jquery-ui-1.8.21.custom.css',
+				'assets/css/signin.css',
+				'assets/css/fileuploader.css',
+				'assets/css/jquery.jcrop.css',
+				'assets/css/timePicker.css',
+				'assets/css/facebox.css',
+				'assets/css/tipsy.css',
+				'assets/css/setup.css',
+				'assets/css/header.css',
+				'assets/css/event.css',
+				'assets/css/footer.css',
+			),
+			'js' => array(
+				'assets/js/jquery-ui-1.8.21.custom.min.js',
+				'assets/js/mustache.js',
+				'assets/js/jquery-Mustache.js',
+				'assets/js/jquery.jcrop.js',
+				'assets/js/jquery.timePicker.min.js',
+				'assets/js/uploader.js',
+				'assets/js/facebox.js',
+				'assets/js/jquery.tipsy.js',
+				'assets/js/photostream.js'
+			),
 			'url' => $event_details->event->url,
 			'type' => $this->uri->segment(1),
 			'title' => $event_details->event->title . ", via Snapable"
@@ -212,8 +234,8 @@ class Event extends CI_Controller {
 			
 			$data = array(
 				'noTagline' => true,
-				'css' => base64_encode('assets/css/setup.css,assets/css/slideshow.css'),
-				'js' => base64_encode('assets/js/jquery.cycle.all.js,assets/js/slideshow.js'),
+				'css' => array('assets/css/setup.css', 'assets/css/slideshow.css'),
+				'js' => array('assets/js/jquery.cycle.all.js', 'assets/js/slideshow.js'),
 				'url' => $event_details->event->url,
 				'title' => $event_details->event->title . ", " . $event_details->event->display_timedate . " via Snapable"
 			);

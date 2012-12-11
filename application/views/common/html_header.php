@@ -17,43 +17,37 @@
     <link rel="icon" type="image/vnd.microsoft.icon" href="/favicon.ico" /> 
 	<link rel="SHORTCUT ICON" href="/favicon.ico"/> 
     
-    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=PT+Sans+Caption:400,700" type="text/css">
+    <link type="text/css" rel="stylesheet" href="//fonts.googleapis.com/css?family=PT+Sans+Caption:400,700">
     <?php 
     if ( isset($css) ) {
     	// add assets
 		if(defined('DEBUG') && DEBUG == true) {
-			$decoded_assets = explode(',', base64_decode($css));
-			foreach ($decoded_assets as $asset) {
-	    		echo '<link rel="stylesheet" href="/' . $asset . '" type="text/css" media="screen" />'.PHP_EOL;
+			foreach ($css as $asset) {
+	    		echo '<link type="text/css" rel="stylesheet" href="/' . $asset . '" media="screen" />'.PHP_EOL;
 			}
 		} else {
-			echo '<link rel="stylesheet" href="/min/c/' . $css . '" type="text/css" media="screen" />';
+			echo '<link type="text/css" rel="stylesheet" href="/min/c/' . base64_encode(implode(',', $css)) . '" media="screen" />';
 		}
     } 
     ?>
     
-    <?php if (isset($stripe) && $stripe == true) { ?>
-        <script type="text/javascript" src="https://js.stripe.com/v1/"></script>
-        <script type="text/javascript">
-            Stripe.setPublishableKey('<?= STRIPE_KEY_PUBLIC ?>');
-        </script>
-    <?php } ?>
     <?php 
 	    if ( isset($js) ) {
 			echo '<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>'.PHP_EOL;
-            //echo '<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>'.PHP_EOL;
-			
             // add assets
 			if(defined('DEBUG') && DEBUG == true) {
-				$decoded_assets = explode(',', base64_decode($js));
-				foreach ($decoded_assets as $asset) {
+				foreach ($js as $asset) {
 		    		echo '<script type="text/javascript" src="/' . $asset . '"></script>'.PHP_EOL;
 				}
 			} else {
-				echo '<script type="text/javascript" src="/min/j/' . $js . '"></script>';
+				echo '<script type="text/javascript" src="/min/j/' . base64_encode(implode(',', $js)) . '"></script>';
 			}
 	    } 
     ?>
+
+    <!--[if lt IE 9]>
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js"></script>
+    <![endif]--> 
     
     <script type="text/javascript">
 <?php if ( $_SERVER['HTTP_HOST'] == "snapable.com" || $_SERVER['HTTP_HOST'] == "www.snapable.com" ) { ?>  
@@ -72,9 +66,6 @@
  <?php } ?>
 	</script>
 
-    <!--[if lt IE 9]>
-        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js"></script>
-    <![endif]--> 
 </head>
 
 <body id="top">

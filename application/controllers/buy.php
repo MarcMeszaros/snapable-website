@@ -12,6 +12,16 @@ class Buy extends CI_Controller {
     	$this->load->helper('currency');
 	}
 
+	/**
+	 * Use the _remap to override the path logic.
+	 * If the method exists in the controller, it takes precedence
+	 * over a package name. If the controller function doesn't exist,
+	 * assume it's the package that should be purchased and pass all
+	 * following parameters in as well.
+	 *
+	 * NOTE: This means package short names MUST be different than any
+	 * function name in this controller for the path to be resolvable.
+	 */
 	public function _remap($method, $params = array())
 	{
 	    if (method_exists($this, $method)) {
@@ -40,8 +50,19 @@ class Buy extends CI_Controller {
 		{
 			$head = array(
 				'stripe' => true,
-				'css' => base64_encode('assets/css/cupertino/jquery-ui-1.8.21.custom.css,assets/css/timePicker.css,assets/css/setup.css,assets/css/header.css,assets/css/buy.css,assets/css/footer-short.css'),
-				'js' => base64_encode('assets/js/jquery-ui-1.8.21.custom.min.js,assets/js/jquery.timePicker.min.js,assets/js/buy.js'),
+				'css' => array(
+					'assets/css/cupertino/jquery-ui-1.8.21.custom.css',
+					'assets/css/timePicker.css',
+					'assets/css/setup.css',
+					'assets/css/header.css',
+					'assets/css/buy.css',
+					'assets/css/footer-short.css'
+				),
+				'js' => array(
+					'assets/js/jquery-ui-1.8.21.custom.min.js',
+					'assets/js/jquery.timePicker.min.js',
+					'assets/js/buy.js'
+				),
 			);
 
 			// set the package id
