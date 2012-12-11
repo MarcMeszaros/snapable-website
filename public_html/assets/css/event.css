@@ -1006,7 +1006,7 @@ a#guest-link-upload:hover, a#guest-link-manual:hover {
 }
 
 #guest-choices textarea {
-	width: 420px;
+	width: 395px;
 	height: 100px;
 	resize: none;
 	border: 1px solid #999;
