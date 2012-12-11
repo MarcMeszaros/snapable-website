@@ -24,15 +24,20 @@ class Buy extends CI_Controller {
 	 
 	public function index($package=null)
 	{
+		require_https(); // make sure we are using SSL
+
+		// make sure we are logged in
+		if(!SnapAuth::is_logged_in()) {
+			redirect('/account/signin?redirect=/buy/'.$package);
+		}
+
+		// get the package data
 		$data = array(
-		//require_https(); // make sure we are using SSL
 			'package' => json_decode($this->buy_model->getPackageDetails($package))
 		);
 		
-		if( $data['package']->status == 404 )
+		if( $data['package']->status == 200 )
 		{
-			show_404();
-		} else {
 			$head = array(
 				'stripe' => true,
 				'css' => base64_encode('assets/css/cupertino/jquery-ui-1.8.21.custom.css,assets/css/timePicker.css,assets/css/setup.css,assets/css/header.css,assets/css/buy.css,assets/css/footer-short.css'),
@@ -48,12 +53,12 @@ class Buy extends CI_Controller {
 			$this->load->view('buy/index', $data);
 			$this->load->view('common/footer');
 			$this->load->view('common/html_footer');
+		} else {
+			show_404();
 		}
 	}
 
 	public function complete() {
-		//require_https(); // make sure we are using SSL
-		print_r($_POST);
 		if ( isset($_POST['stripeToken']) && $this->session->userdata('logged_in'))
 		{	
 			// get user/account details from session data set during signup
@@ -173,24 +178,6 @@ class Buy extends CI_Controller {
 		} else {
 			show_404();
 		}
-	}
-
-	public function error() {
-		echo "A problem has occurred.";
-	}
-
-	public function check() {
-		if ( isset($_GET['email']) )
-		{
-			$is_registered = $this->buy_model->checkEmail($_GET['email']);
-		}
-		else if ( isset($_GET['url']) )
-		{
-			$is_registered = $this->buy_model->checkUrl($_GET['url']);
-		} else {
-			$is_registered = '{ "status": 404 }';
-		}
-		echo $is_registered;
 	}
 }
 
