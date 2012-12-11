@@ -4,7 +4,7 @@
 	
 	<h1><?= $eventDeets->title ?> Guest Sign in</h1>
 	<h2><?= $eventDeets->display_timedate ?></h2>
-	<h2>Are you the organizer? <a href="/account">Login here</a>.</h2>
+	<h2>Are you the organizer? <a href="/account/signin?redirect=<?php echo '/'.$this->uri->uri_string(); ?>">Login here</a>.</h2>
 	
 	<hr />
 	
