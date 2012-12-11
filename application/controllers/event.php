@@ -67,6 +67,7 @@ class Event extends CI_Controller {
 		if ( $event_details->status == 200 )
 		{
 			$session_owner = SnapAuth::is_logged_in();
+			$session_guest = SnapAuth::is_guest_logged_in();
 			if ($session_owner && $event_details->event->user == $session_owner['resource_uri'])
 			{
 				$data['owner'] = true;
@@ -95,16 +96,11 @@ class Event extends CI_Controller {
 			        $this->session->set_userdata('logged_in', $session_owner);
 				}
 			} 
-			else if($this->session->userdata('guest_login'))
+			else if($session_guest)
 			{
-				$session_guest = $this->session->userdata('guest_login');
-				
-				if ( $session_guest['loggedin'] == true )
-				{
-					$guestLoggedin = true;
-					$head["loggedInBar"] = "guest";
-					$data['typeID'] = $session_guest['type'];
-				}
+				$guestLoggedin = true;
+				$head["loggedInBar"] = "guest";
+				$data['typeID'] = $session_guest['type'];
 			}
 			
 			// show the correct loggin screen if required
@@ -247,10 +243,6 @@ class Event extends CI_Controller {
 		else {
 			show_404();
 		}
-	}
-
-	public function find() {
-		echo "Find Events";
 	}
 
 	public function privacy() {
