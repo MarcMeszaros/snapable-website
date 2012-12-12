@@ -84,10 +84,10 @@ class Buy extends CI_Controller {
 	}
 
 	public function complete() {
-		if ( isset($_POST['stripeToken']) && $this->session->userdata('logged_in'))
+		$session_data = SnapAuth::is_logged_in();
+		if ( isset($_POST['stripeToken']) && $session_data)
 		{	
 			// get user/account details from session data set during signup
-			$session_data = $this->session->userdata('logged_in');
 			$userParts = explode('/', $session_data['resource_uri']);
 			$accountParts = explode('/', $session_data['account_uri']);
 
@@ -201,7 +201,9 @@ class Buy extends CI_Controller {
 			// redirect to the dashboard
 			redirect('/account/dashboard');
 		} else {
-			show_404();
+			$raven_client = new Raven_Client(SENTRY_DSN);
+			$raven_client->captureMessage('Unable to process payment. There was no StripeToken or no user session.');
+			show_error('Unable to process payment.<br>We\'ve been notified and are looking into it the problem.', 500);
 		}
 	}
 }
