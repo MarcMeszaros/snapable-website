@@ -108,7 +108,7 @@ class Event extends CI_Controller {
 			}
 			
 			// show the correct loggin screen if required
-			if ($guestLoggedin != true && $ownerLoggedin != true)
+			if (!$event_details->event->public && ($guestLoggedin != true && $ownerLoggedin != true))
 			{
 				$this->load->view('common/html_header', $head);
 				$this->load->view('common/header2', $head);
@@ -216,6 +216,68 @@ class Event extends CI_Controller {
 		else if ( $task == "invites" && IS_AJAX )
 		{
 			echo $this->event_model->sendInvite($_POST);
+		}
+		else if ( $task == "guest_signin" )
+		{
+			if (SnapAuth::is_logged_in() || SnapAuth::is_guest_logged_in()) {
+				redirect('/event/'.$this->uri->segment(2));
+			}
+
+			$event_details = json_decode($this->event_model->getEventDetailsFromURL($this->uri->segment(2)));
+			if($event_details->event->enabled == false) {
+		 		show_404();
+		 	}
+			
+			$head = array(
+				'noTagline' => true,
+				'ext_css' => array(
+					'//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/themes/cupertino/jquery-ui.css',
+					'//cdnjs.cloudflare.com/ajax/libs/jquery-jcrop/0.9.10/jquery.Jcrop.min.css'
+				),
+				'css' => array(
+					'assets/css/signin.css',
+					'assets/css/fileuploader.css',
+					'assets/css/timePicker.css',
+					'assets/css/facebox.css',
+					'assets/css/tipsy.css',
+					'assets/css/setup.css',
+					'assets/css/header.css',
+					'assets/css/event.css',
+					'assets/css/footer.css',
+				),
+				'ext_js' => array(
+					'//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js',
+					'//cdnjs.cloudflare.com/ajax/libs/jquery-jcrop/0.9.10/jquery.Jcrop.min.js',
+					'//cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.0/mustache.min.js'
+				),
+				'js' => array(
+					'assets/js/libs/jquery-Mustache.js',
+					'assets/js/libs/jquery.timePicker.min.js',
+					'assets/js/libs/jquery.tipsy.js',
+					'assets/js/uploader.js',
+					'assets/js/facebox.js',
+					'assets/js/event/photostream.js',
+					'assets/js/event/photostream-nav.js',
+					'assets/js/event/photostream-settings.js',
+					'assets/js/event/photostream-guests.js',
+					'assets/js/event/photostream-addons.js',
+				),
+				'url' => $event_details->event->url,
+				'type' => $this->uri->segment(1),
+				'title' => $event_details->event->title . ", via Snapable"
+			);
+
+			$error = ( isset($_GET['error']) ) ? true:false;
+			$data = array(
+				'url' => $event_details->event->url,
+				'eventDeets' => $event_details->event
+			);
+
+			$this->load->view('common/html_header', $head);
+			$this->load->view('common/header2', $head);
+			$this->load->view('event/guest_signin', $data);
+			$this->load->view('common/footer');
+			$this->load->view('common/html_footer');
 		} else {
 			show_404();
 		}

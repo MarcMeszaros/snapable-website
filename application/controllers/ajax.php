@@ -4,7 +4,7 @@ class Ajax extends CI_Controller {
 
     public function index()
     {
-   
+        show_404();
     }
 
     /**
@@ -108,5 +108,25 @@ class Ajax extends CI_Controller {
         curl_close($ch);
 
         echo $response;
+    }
+
+    public function is_logged_in() {
+        if (!IS_AJAX)
+        {
+            show_error('Not an AJAX call.', 403);
+        }
+
+        $logged_in = SnapAuth::is_logged_in();
+        echo json_encode($logged_in);
+    }
+
+    public function is_guest_logged_in() {
+        if (!IS_AJAX)
+        {
+            show_error('Not an AJAX call.', 403);
+        }
+
+        $logged_in = SnapAuth::is_guest_logged_in();
+        echo json_encode($logged_in);
     }
 }

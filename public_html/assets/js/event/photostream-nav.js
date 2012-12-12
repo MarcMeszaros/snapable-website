@@ -2,7 +2,26 @@ $(document).ready(function(){
     // UPLOAD MENU
     $("#uploadBTN").click( function()
     {
-        $("#uploadArea").slideToggle("fast");
+        $.getJSON('/ajax/is_logged_in/', function(json_user){
+            // if the owner isn't logged in
+            if (json_user == false) {
+                $.getJSON('/ajax/is_guest_logged_in/', function(json_guest){
+                    // of no guest is logged in
+                    if (json_guest == false) {
+                        if (window.location.pathname.charAt(window.location.pathname.length-1) == '/') {
+                            window.location.pathname = window.location.pathname + 'guest_signin'
+                        } else {
+                            window.location.pathname = window.location.pathname + '/guest_signin'
+                        }
+                        return false;
+                    } else {
+                        $("#uploadArea").slideToggle("fast");
+                    }
+                });
+            } else {
+                $("#uploadArea").slideToggle("fast");
+            }
+        });
     });
 
     // SLIDESHOW MENU
