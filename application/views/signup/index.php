@@ -68,7 +68,7 @@
 					
 					<div id="map_canvas_container" class="form-field" style="display:none;">
 						<div id="map_canvas" style="width: 350px; height: 300px;"></div>
-						<div style="width:350px;">Here's where we've got your event, if we're wrong you can drag the location marker to the correct location.</div>
+						<p style="width:350px; margin-top:10px;">Here's where we've got your event, if we're wrong you can drag the location marker to the correct location.</p>
 					</div>
 					
 					<hr />
@@ -137,13 +137,26 @@
 			</section>
 			
 			<div class="clearit">&nbsp;</div>
+
+			<!-- The following code is invisible to humans and
+			     contains some trap text fields                -->
+
+			<div style="display: none">
+			If you can read this, don't touch the following text fields.<br/>
+
+			<input type="text" name="re-cap[address]" value="" /><br/>
+			<input type="text" name="re-cap[contact]" value="" /><br/>
+			<textarea cols="40" rows="6" name="re-cap[comment]"></textarea>
+			</div>
+
+			<!-- End spam bot trap -->
 			
 			<a href="#" id="btn-sign-up"><img src="/assets/img/complete.png" width="250" height="75" alt="Complete Purchase" border="0" /></a>
 					
 		</form>		
 		
 		<section id="footer">
-	    	&copy; 2012 Snapable
+	    	&copy; <?= date('Y') ?> Snapable
 	    	
 	    	<div id="sm-links">
 	    		<a id="sm-twitter" href="http://twitter.com/getsnapable" target="_blank">Follow us</a>

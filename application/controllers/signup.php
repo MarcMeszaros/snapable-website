@@ -62,6 +62,14 @@ class Signup extends CI_Controller {
 		// get the package from the session and remove the data from the session
 		$package = $this->session->userdata('signup_package');
 		$this->session->unset_userdata('signup_package');
+
+		// check for bots
+		foreach ($_POST['re-cap'] as $key => $value) {
+			if ($value != '') {
+				show_error('We think you are a spam bot...', 403);
+			}
+		}
+
 		$create_event = $this->signup_model->createEvent($_POST['event'], $_POST['user']);
 		
 		if ( $create_event !== false )
