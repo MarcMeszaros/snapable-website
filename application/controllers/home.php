@@ -19,6 +19,7 @@ class Home extends CI_Controller {
 	 */
 	public function index()
 	{
+		require_http();
 		$head = array(
 			'keywords' => array('wedding', 'photo', 'photography', 'disposable', 'camera', 'share', 'sharing', 'day', 'big'),
 			'description' => 'The easiest way to capture every moment at your wedding.',

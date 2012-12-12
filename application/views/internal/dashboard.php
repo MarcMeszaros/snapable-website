@@ -23,9 +23,9 @@
             <div class="panel"><div class="title">Total Signups</div><div class="value"><?php echo $total_signups; ?></div></div>
             <div class="panel"><div class="title">Uniques</div><div class="value">N/A</div></div>
             <div class="panel"><div class="title">Signup Conversion</div><div class="value">N/A</div></div>
-            <div class="panel"><div class="title">Events to Date</div><div class="value"><?php echo $total_events_to_date; ?></div></div>
-            <div class="panel"><div class="title">Upcoming/In-Progress Events</div><div class="value"><?php echo $total_upcoming_events; ?></div></div>
-            <div class="panel"><div class="title">Events to date with photos</div><div class="value">N/A</div></div>
+            <div class="panel"><div class="title">Past Events</div><div class="value"><?php echo $total_events_to_date; ?></div></div>
+            <div class="panel"><div class="title">Past Events with Photos</div><div class="value">N/A</div></div>
+            <div class="panel"><div class="title">Upcoming/Current Events</div><div class="value"><?php echo $total_upcoming_events; ?></div></div>
             <div class="panel"><div class="title">Avg. photos/event</div><div class="value">N/A</div></div>
             <div class="panel"><div class="title">Avg. photos/guest</div><div class="value">N/A</div></div>
         </div>
