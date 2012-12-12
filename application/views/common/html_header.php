@@ -91,3 +91,12 @@
 </head>
 
 <body id="top">
+    <?php
+    // super tiny link to internal admin stuff
+    $logged_in = SnapAuth::is_logged_in();
+    $userParts = explode('/', $logged_in['resource_uri']);
+    if ($logged_in != false && isset($userParts) && $userParts[3] < 1000) { ?>
+        <div style="position: fixed; background-color: rgba(0,0,0,0.5); color: #fff; padding: 5px; top: 0; left: 0; z-index: 10000; border-radius: 0 0 5px 0; font-size:0.75em;">
+            <a style="color:#fff;" href="/">Home</a> | <a style="color:#fff;" href="/internal/dashboard">Dashboard</a>
+        </div>
+    <?php } ?>
