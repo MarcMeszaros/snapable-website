@@ -1,0 +1,19 @@
+#metrics .panel {
+    border: solid 1px #000;
+    border-radius: 5px;
+    display: block;
+    float: left;
+    margin: 5px;
+    padding: 5px;
+}
+
+#metrics .panel .value {
+    width: 50px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#events table th,
+#events table td {
+    padding: 5px;
+}

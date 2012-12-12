@@ -27,8 +27,13 @@ class Internal extends CI_Controller {
     {
         require_https();
         $data = array(
-            //'css' => array('assets/css/setup.css', 'assets/css/signin.css'),
-            //'js' => array('assets/js/signin.js'),
+            'ext_css' => array(
+                '//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.1/css/bootstrap.min.css',
+            ),
+            'css' => array('assets/css/internal/dashboard.css'),
+            'ext_js' => array(
+                '//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.1/bootstrap.min.js'
+            ),
             'title' => 'Internal Dashboard',    
         );
         
