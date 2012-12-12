@@ -36,13 +36,13 @@
         <p>Next 50 upcoming/in progress events:</p>
         <table border="1">
             <tr>
-                <th>EventID</th>
+                <th>ID</th>
                 <th>Title</th>
                 <th>URL</th>
                 <th>Public</th>
                 <th>Start (UTC)</th>
                 <th>End (UTC)</th>
-                <th>Photo Count</th>
+                <th>Photos</th>
                 <th>Actions</d>
             </tr>
             <?php
