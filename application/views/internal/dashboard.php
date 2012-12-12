@@ -6,29 +6,30 @@
             </div>
             <div id="metrics-range" class="span2">
                 <form>
-                    <input type="radio" id="metrics-range-7d" name="range" value="7"/>
+                    <input type="radio" id="metrics-range-7d" name="metrics-range" value="7" checked />
                     <label for="metrics-range-7d">7d</label> |
-                    <input type="radio" id="metrics-range-14d" name="range" value="14" />
+                    <input type="radio" id="metrics-range-14d" name="metrics-range" value="14" />
                     <label for="metrics-range-14d">14d</label> |
-                    <input type="radio"  id="metrics-range-1m" name="range" value="30" />
+                    <input type="radio"  id="metrics-range-1m" name="metrics-range" value="30" />
                     <label for="metrics-range-1m">1m</label> |
-                    <input type="radio" id="metrics-range-3m" name="range" value="90" />
+                    <input type="radio" id="metrics-range-3m" name="metrics-range" value="90" />
                     <label for="metrics-range-3m">3m</label> |
-                    <input type="radio" id="metrics-range-all" name="range" value="-1" checked/>
-                    <label for="metrics-range-all">All</label> (Not Implemented)
+                    <input type="radio" id="metrics-range-all" name="metrics-range" value="-1" />
+                    <label for="metrics-range-all">All</label>
                 </form>
             </div>
         </div>
         <div id="metrics-panels" class="span12">
-            <div class="panel"><div class="title">Total Signups</div><div class="value"><?php echo $total_signups; ?></div></div>
-            <div class="panel"><div class="title">Uniques</div><div class="value">N/A</div></div>
-            <div class="panel"><div class="title">Signup Conversion</div><div class="value">N/A</div></div>
-            <div class="panel"><div class="title">Past Events</div><div class="value"><?php echo $total_events_to_date; ?></div></div>
-            <div class="panel"><div class="title">Past Events with Photos</div><div class="value">N/A</div></div>
-            <div class="panel"><div class="title">Upcoming/Current Events</div><div class="value"><?php echo $total_upcoming_events; ?></div></div>
-            <div class="panel"><div class="title">Avg. photos/event</div><div class="value">N/A</div></div>
-            <div class="panel"><div class="title">Avg. photos/guest</div><div class="value">N/A</div></div>
+            <div id="metric-signups" class="panel"><div class="title">*Total Signups</div><div class="value">N/A</div></div>
+            <div id="metric-uniques" class="panel"><div class="title">Uniques</div><div class="value">N/A</div></div>
+            <div id="metric-signup-conversion" class="panel"><div class="title">Signup Conversion</div><div class="value">N/A</div></div>
+            <div id="metric-past-events-count" class="panel"><div class="title">Past Events</div><div class="value"><?php echo $total_events_to_date; ?></div></div>
+            <div id="metric-past-events-photos" class="panel"><div class="title">Past Events with Photos</div><div class="value">N/A</div></div>
+            <div id="metric-events-count" class="panel"><div class="title">Upcoming/Current Events</div><div class="value"><?php echo $total_upcoming_events; ?></div></div>
+            <div id="metric-avg-event-photos" class="panel"><div class="title">Avg. photos/event</div><div class="value">N/A</div></div>
+            <div id="metric-avg-guest-photos" class="panel"><div class="title">Avg. photos/guest</div><div class="value">N/A</div></div>
         </div>
+        * Will update when changing date range.
     </div>
     
     <div id="events" class="span12">
