@@ -52,7 +52,7 @@
 			    	<div class="image"></div>
 			    	<div class="text">
 			        	<h3>A Complete Picture Of Your Wedding Day</h3>
-			        	<p>It's impossible for a photographer to catch all the action at your wedding. Snapable captures every photo taken by your guests, giving you a complete picture of your day.</p>
+			        	<p>It's impossible for a photographer to catch all the action at your wedding. Snapable captures every photo taken by guests, giving you a complete picture of your day.</p>
 			        </div>
 		        </div>
 		
