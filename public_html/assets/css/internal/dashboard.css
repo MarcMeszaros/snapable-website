@@ -1,4 +1,18 @@
-#metrics .panel {
+/* Metrics */
+#metrics-range label {
+    display: inline;
+}
+#metrics-range label:hover {
+    cursor: pointer;
+}
+#metrics-range input[type="radio"] {
+    display: none;
+}
+#metrics-range input[type="radio"]:checked + label {
+    text-decoration: underline;
+}
+
+#metrics-panels .panel {
     border: solid 1px #000;
     border-radius: 5px;
     display: block;
@@ -6,13 +20,16 @@
     margin: 5px;
     padding: 5px;
 }
-
-#metrics .panel .value {
+#metrics-panels .panel .title {
+    font-weight: bold;
+}
+#metrics-panels .panel .value {
     width: 50px;
     margin: 0 auto;
     text-align: center;
 }
 
+/* Events */
 #events table th,
 #events table td {
     padding: 5px;

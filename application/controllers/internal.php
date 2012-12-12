@@ -34,6 +34,7 @@ class Internal extends CI_Controller {
             'ext_js' => array(
                 '//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.1/bootstrap.min.js'
             ),
+            //'js' => array('assets/js/internal/dashboard-metrics.js'),
             'title' => 'Internal Dashboard',    
         );
         
