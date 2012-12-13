@@ -1,6 +1,7 @@
 $(document).ready(function(){
     /**** Event Settings ****/
     if (owner == true) {
+        var eid = eventID.split("/");
         $('#event-title').click(function(){
             $('#event-settings-save-wrap img').remove();
             $('#event-settings').show();
@@ -9,8 +10,6 @@ $(document).ready(function(){
             $('#event-settings').hide();
         });
         $('#event-settings input[type=button].save').click(function(){
-            $('<img src="/assets/img/spinner_blue_sm.gif" />').insertAfter('#event-settings input[type=button].save');
-            
             var addressIdParts = $('#event-settings-address').data('resourceUri').split("/");
             var data = {
                 title: $('#event-settings-title').val(),
@@ -28,6 +27,7 @@ $(document).ready(function(){
                 data.url = $('#event-settings-url').val();
             }
 
+            $('<img src="/assets/img/spinner_blue_sm.gif" />').insertAfter('#event-settings input[type=button].save');
             $.post('/ajax/put_event/'+eid[3], data, function(data)
             {
                 $('#event-settings').hide();
