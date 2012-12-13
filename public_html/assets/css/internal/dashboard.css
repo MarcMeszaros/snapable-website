@@ -15,6 +15,10 @@
 #metrics-range input[type="radio"]:checked + label {
     text-decoration: underline;
 }
+/* The metrics refresh button */
+#metrics-refresh:hover {
+    cursor: pointer;
+}
 
 #metrics-panels .panel {
     border: solid 1px #000;

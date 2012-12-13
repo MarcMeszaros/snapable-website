@@ -1,21 +1,24 @@
 // document load
 $(document).ready(function(){
+    update_metrics();
+
+    $('#metrics-refresh').click(function(){
+        update_metrics();
+    });
+    $('#metrics-range form input[type="radio"]').change(function(){
+        update_metrics();
+    });
+});
+
+// simple wrapper to call all the metric update functions
+function update_metrics() {
     metric_signups();
     past_events();
     photos_count();
     upcoming_events();
     past_events_photos();
     avg_event_photos();
-
-    $('#metrics-range form input[type="radio"]').change(function(){
-        metric_signups();
-        past_events();
-        photos_count();
-        upcoming_events();
-        past_events_photos();
-        avg_event_photos();
-    });
-});
+}
 
 
 // functions
@@ -86,6 +89,12 @@ function avg_event_photos() {
 }
 
 // time helping function
+function get_unix_days(days) {
+    var current_unix = Math.round(new Date().getTime() / 1000);
+    var days_unix = (current_unix + (days * 86400));
+    return days_unix;
+}
+
 function get_unix_start() {
     // get current unix
     var current_unix = Math.round(new Date().getTime() / 1000);

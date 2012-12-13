@@ -5,7 +5,9 @@
                 <h2>Metrics</h2>
             </div>
             <div id="metrics-range" class="span3">
+
                 <form>
+                    <span id="metrics-refresh">[Refresh]</span> |
                     <input type="radio" id="metrics-range-7d" name="metrics-range" value="7" checked />
                     <label for="metrics-range-7d">7d</label> |
                     <input type="radio" id="metrics-range-14d" name="metrics-range" value="14" />
@@ -80,7 +82,7 @@
             </div>
             <div id="metric-avg-guest-photos" class="panel">
                 <div class="title">Avg. photos/guest</div>
-                <div class="description">TBD</div>
+                <div class="description">Average photos per guest.</div>
                 <div class="value-container">
                     <div class="value">N/A</div><span class="status hide">&nbsp;</span>
                 </div>
