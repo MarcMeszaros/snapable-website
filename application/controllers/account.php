@@ -65,7 +65,7 @@ class Account extends CI_Controller {
 					$event_array = $this->account_model->eventDeets($userLogin['account_uri']);
 					$this->session->set_userdata('event_deets', $event_array);
 
-					redirect('/account/'.$event_array['url']);
+					redirect('/event/'.$event_array['url']);
 				}
 			} else {
 				redirect("/account/signin/error");
