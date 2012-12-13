@@ -5,6 +5,7 @@ $(document).ready(function(){
     photos_count();
     upcoming_events();
     past_events_photos();
+    avg_event_photos();
 
     $('#metrics-range form input[type="radio"]').change(function(){
         metric_signups();
@@ -12,6 +13,7 @@ $(document).ready(function(){
         photos_count();
         upcoming_events();
         past_events_photos();
+        avg_event_photos();
     });
 });
 
@@ -69,6 +71,17 @@ function past_events_photos() {
         $('#metric-past-events-photos .value').html(json.meta.total_count);
         $('#metric-past-events-photos .status').addClass('hide');
         $('#metric-past-events-photos .value').fadeIn();
+    });
+}
+
+function avg_event_photos() {
+    var start = get_unix_start();
+    $('#metric-avg-event-photos .status').removeClass('hide');
+    $('#metric-avg-event-photos .value').hide();
+    $.getJSON('/ajax_internal/avg_event_photos/'+start, function(json){
+        $('#metric-avg-event-photos .value').html(Math.round(json.metrics.avg*100)/100);
+        $('#metric-avg-event-photos .status').addClass('hide');
+        $('#metric-avg-event-photos .value').fadeIn();
     });
 }
 
