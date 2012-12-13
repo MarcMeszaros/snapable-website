@@ -1,4 +1,8 @@
 /* Metrics */
+#metrics-range form {
+    margin-top: 10px;
+    float: right;
+}
 #metrics-range label {
     display: inline;
 }
@@ -22,11 +26,19 @@
 }
 #metrics-panels .panel .title {
     font-weight: bold;
+    font-size: 1.1em;
+}
+#metrics-panels .panel .description {
+    font-style: italic;
+    font-size: 0.9em;
+    line-height: 0.9em;
 }
 #metrics-panels .panel .value {
     width: 55px;
-    margin: 0 auto;
+    margin: 5px auto;
     text-align: center;
+    font-weight: bold;
+    font-size: 1.4em;
 }
 
 /* Events */
