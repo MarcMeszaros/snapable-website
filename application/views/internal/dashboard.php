@@ -50,9 +50,9 @@
             </div>
             <div id="metric-past-events-photos" class="panel">
                 <div class="title">Past Events with Photos</div>
-                <div class="description">TBD</div>
+                <div class="description">Events with at least 1 photo.</div>
                 <div class="value-container">
-                    <div class="value">N/A</div><span class="status hide">&nbsp;</span>
+                    <div class="value"></div><span class="status hide">&nbsp;</span>
                 </div>
             </div>
             <div id="metric-upcoming-events" class="panel">

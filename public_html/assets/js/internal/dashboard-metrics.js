@@ -4,12 +4,14 @@ $(document).ready(function(){
     past_events();
     photos_count();
     upcoming_events();
+    past_events_photos();
 
     $('#metrics-range form input[type="radio"]').change(function(){
         metric_signups();
         past_events();
         photos_count();
         upcoming_events();
+        past_events_photos();
     });
 });
 
@@ -48,6 +50,15 @@ function upcoming_events() {
     $.getJSON('/ajax_internal/upcoming_events/'+start, function(json){
         $('#metric-upcoming-events .value').html(json.meta.total_count);
         $('#metric-upcoming-events .status').addClass('hide');
+    });
+}
+
+function past_events_photos() {
+    var start = get_unix_start();
+    $('#metric-past-events-photos .status').removeClass('hide');
+    $.getJSON('/ajax_internal/events_with_photo_count/1/'+start, function(json){
+        $('#metric-past-events-photos .value').html(json.meta.total_count);
+        $('#metric-past-events-photos .status').addClass('hide');
     });
 }
 

@@ -91,4 +91,25 @@ class Ajax_internal extends CI_Controller {
         
         echo $resp['response'];
     }
+
+    public function events_with_photo_count($photo_count, $start=0, $end=null)
+    {
+        if (!IS_AJAX)
+        {
+            show_error('Not an AJAX call.', 403);
+        }
+        $end = (isset($end)) ? $end : time();
+
+        // get upcoming events
+        $verb = 'GET';
+        $path = 'event';
+        $params = array(
+            'photo_count__gte' => $photo_count,
+            'end__gte' => gmdate('c', $start),
+            'end__lte' => gmdate('c', $end),
+        );
+        $resp = SnapApi::send($verb, $path, $params);
+        
+        echo $resp['response'];
+    }    
 }
