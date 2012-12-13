@@ -23,42 +23,65 @@
             <div id="metric-signups" class="panel">
                 <div class="title">Total Signups</div>
                 <div class="description">User signup count.</div>
-                <div class="value">N/A</div>
+                <div class="value-container">
+                    <div class="value"></div><span class="status hide">&nbsp;</span>
+                </div>
             </div>
             <div id="metric-uniques" class="panel">
                 <div class="title">Uniques</div>
-                <div class="value">N/A</div>
+                <div class="description">TBD</div>
+                <div class="value-container">
+                    <div class="value">N/A</div><span class="status hide">&nbsp;</span>
+                </div>
             </div>
             <div id="metric-signup-conversion" class="panel">
                 <div class="title">Signup Conversion</div>
-                <div class="value">N/A</div>
+                <div class="description">TBD</div>
+                <div class="value-container">
+                    <div class="value">N/A</div><span class="status hide">&nbsp;</span>
+                </div>
             </div>
             <div id="metric-past-events-count" class="panel">
                 <div class="title">Past Events</div>
                 <div class="description">Events ending in range.</div>
-                <div class="value">N/A</div>
+                <div class="value-container">
+                    <div class="value"></div><span class="status hide">&nbsp;</span>
+                </div>
             </div>
             <div id="metric-past-events-photos" class="panel">
                 <div class="title">Past Events with Photos</div>
-                <div class="value">N/A</div>
+                <div class="description">TBD</div>
+                <div class="value-container">
+                    <div class="value">N/A</div><span class="status hide">&nbsp;</span>
+                </div>
             </div>
-            <div id="metric-events-count" class="panel">
+            <div id="metric-upcoming-events" class="panel">
                 <div class="title">Upcoming Events</div>
                 <div class="description">...and current events.</div>
-                <div class="value"><?php echo $total_upcoming_events; ?></div>
+                <div class="value-container">
+                    <div class="value"></div><span class="status hide">&nbsp;</span>
+                </div>
             </div>
             <div id="metric-photos-count" class="panel">
-                <div class="title">Photos Count</div>
+                <div class="title">Photo Count</div>
                 <div class="description">Photos taken/uploaded.</div>
-                <div class="value">N/A</div>
+                <div class="value-container">
+                    <div class="value"></div><span class="status hide">&nbsp;</span>
+                </div>
             </div>
             <div id="metric-avg-event-photos" class="panel">
                 <div class="title">Avg. photos/event</div>
-                <div class="value">N/A</div>
+                <div class="description">TBD</div>
+                <div class="value-container">
+                    <div class="value">N/A</div><span class="status hide">&nbsp;</span>
+                </div>
             </div>
             <div id="metric-avg-guest-photos" class="panel">
                 <div class="title">Avg. photos/guest</div>
-                <div class="value">N/A</div>
+                <div class="description">TBD</div>
+                <div class="value-container">
+                    <div class="value">N/A</div><span class="status hide">&nbsp;</span>
+                </div>
             </div>
         </div>
     </div>

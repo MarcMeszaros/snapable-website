@@ -71,4 +71,24 @@ class Ajax_internal extends CI_Controller {
 
         echo $resp['response'];
     }
+
+    public function upcoming_events($start=0, $end=null)
+    {
+        if (!IS_AJAX)
+        {
+            show_error('Not an AJAX call.', 403);
+        }
+        $end = (isset($end)) ? $end : time();
+
+        // get upcoming events
+        $verb = 'GET';
+        $path = 'event';
+        $params = array(
+            'end__gte' => gmdate('c', $end),
+            'order_by' => 'start',
+        );
+        $resp = SnapApi::send($verb, $path, $params);
+        
+        echo $resp['response'];
+    }
 }

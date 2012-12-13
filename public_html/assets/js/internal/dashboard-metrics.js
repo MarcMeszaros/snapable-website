@@ -3,11 +3,13 @@ $(document).ready(function(){
     metric_signups();
     past_events();
     photos_count();
+    upcoming_events();
 
     $('#metrics-range form input[type="radio"]').change(function(){
         metric_signups();
         past_events();
         photos_count();
+        upcoming_events();
     });
 });
 
@@ -15,22 +17,37 @@ $(document).ready(function(){
 // functions
 function metric_signups() {
     var start = get_unix_start();
+    $('#metric-signups .status').removeClass('hide');
     $.getJSON('/ajax_internal/total_signups/'+start, function(json){
         $('#metric-signups .value').html(json.meta.total_count);
+        $('#metric-signups .status').addClass('hide');
     });
 }
 
 function past_events() {
     var start = get_unix_start();
+    $('#metric-past-events-count .status').removeClass('hide');
     $.getJSON('/ajax_internal/past_events/'+start, function(json){
         $('#metric-past-events-count .value').html(json.meta.total_count);
+        $('#metric-past-events-count .status').addClass('hide');
     });
 }
 
 function photos_count() {
     var start = get_unix_start();
+    $('#metric-photos-count .status').removeClass('hide');
     $.getJSON('/ajax_internal/photos_count/'+start, function(json){
         $('#metric-photos-count .value').html(json.meta.total_count);
+        $('#metric-photos-count .status').addClass('hide');
+    });
+}
+
+function upcoming_events() {
+    var start = get_unix_start();
+    $('#metric-upcoming-events .status').removeClass('hide');
+    $.getJSON('/ajax_internal/upcoming_events/'+start, function(json){
+        $('#metric-upcoming-events .value').html(json.meta.total_count);
+        $('#metric-upcoming-events .status').addClass('hide');
     });
 }
 
