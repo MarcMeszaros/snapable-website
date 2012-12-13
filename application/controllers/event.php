@@ -54,6 +54,8 @@ class Event extends CI_Controller {
 				'assets/js/event/photostream-settings.js',
 				'assets/js/event/photostream-guests.js',
 				'assets/js/event/photostream-addons.js',
+				'assets/js/event/photostream-share.js',
+				'assets/js/event/photostream-upload.js',
 			),
 			'url' => $event_details->event->url,
 			'type' => $this->uri->segment(1),
@@ -232,14 +234,9 @@ class Event extends CI_Controller {
 				'noTagline' => true,
 				'ext_css' => array(
 					'//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/themes/cupertino/jquery-ui.css',
-					'//cdnjs.cloudflare.com/ajax/libs/jquery-jcrop/0.9.10/jquery.Jcrop.min.css'
 				),
 				'css' => array(
 					'assets/css/signin.css',
-					'assets/css/fileuploader.css',
-					'assets/css/timePicker.css',
-					'assets/css/facebox.css',
-					'assets/css/tipsy.css',
 					'assets/css/setup.css',
 					'assets/css/header.css',
 					'assets/css/event.css',
@@ -247,20 +244,12 @@ class Event extends CI_Controller {
 				),
 				'ext_js' => array(
 					'//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js',
-					'//cdnjs.cloudflare.com/ajax/libs/jquery-jcrop/0.9.10/jquery.Jcrop.min.js',
 					'//cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.0/mustache.min.js'
 				),
 				'js' => array(
 					'assets/js/libs/jquery-Mustache.js',
-					'assets/js/libs/jquery.timePicker.min.js',
-					'assets/js/libs/jquery.tipsy.js',
-					'assets/js/uploader.js',
-					'assets/js/facebox.js',
 					'assets/js/event/photostream.js',
-					'assets/js/event/photostream-nav.js',
-					'assets/js/event/photostream-settings.js',
-					'assets/js/event/photostream-guests.js',
-					'assets/js/event/photostream-addons.js',
+					'assets/js/event/photostream-login.js',
 				),
 				'url' => $event_details->event->url,
 				'type' => $this->uri->segment(1),
