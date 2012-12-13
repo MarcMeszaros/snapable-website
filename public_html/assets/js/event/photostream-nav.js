@@ -100,4 +100,13 @@ $(document).ready(function(){
             $("#event-nav-menu-privacy").hide();
         }
     });
+
+    // CONTACT MENU
+    $('#event-nav-contact').click(function(){
+        $.Mustache.load('/assets/js/event/templates-nav.html').done(function () {
+            $('#contact').mustache('nav-contact', '', {method: "html"});
+            $('#contact').slideToggle();
+        });
+        return false;
+    });
 });

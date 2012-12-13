@@ -118,28 +118,34 @@ var owner = <?= (isset($owner) && $owner == 1) ? 'true' : 'false' ?>;
 		<ul id="event-nav">
 
 			<li><span>Photostream</span></li>
-			<li><a id="uploadBTN" href="#">Upload Photos</a></li>
+			<li><a id="uploadBTN" href="#">Add Photos</a></li>
 			<?php if ( $eventDeets->photos > 0 )
 			{
 				//echo '<li><a href="/event/' . $eventDeets->url . '/slideshow">Slideshow</a></li>';
 			} ?>
 
 			<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ) { ?>
-			<li><a href="#guest" id="guestBTN">Guests</a></li>
+			<li><a href="#guest" id="guestBTN">Invite Guests</a></li>
 			<?php } ?>
 			
-			<?php if ($eventDeets->privacy == 6): ?>
-			<!--<li>
+			<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ): ?>
+			<li>
 				<a id="event-nav-share" href="#">Share</a>
 				<div id="event-nav-menu-share" class="event-nav-menu">
-					<a class="photo-share-twitter" href="#">Tweet</a> 
-					<a class="photo-share-facebook" href="#">Share</a> 
-					<a class="photo-share-email" href="#">Email</a>
+					<p>Share your album with friends and family.</p>
+					<div class="share">
+						<a class="photo-share-twitter" target="_blank" href="http://twitter.com/share?text=<?= urlencode("Follow the photos on " . date("D M j", $eventDeets->start_epoch) . " at " .  date("g:i a", $eventDeets->start_epoch) . " for " . $eventDeets->title . " with @getsnapable") ?>&url=http://snapable.com/event/<?= $eventDeets->url ?>">Tweet</a> 
+						<a class="photo-share-facebook" target="_blank" href="http://www.facebook.com/sharer.php?u=http://snapable.com/event/<?= $eventDeets->url ?>">Share</a> 
+						<!--<a class="photo-share-email" href="#">Email</a>-->
+					</div>
 				</div>
-			</li>-->
+			</li>
 			<?php endif; ?>
 
 			<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ): ?>
+			<li>
+				<a id="event-nav-contact" href="#nav-contact">Contact</a>
+			</li>
 			<li>
 				<a id="event-nav-privacy" href="#">Privacy</a>
 				<div id="event-nav-menu-privacy" class="event-nav-menu">
@@ -156,7 +162,7 @@ var owner = <?= (isset($owner) && $owner == 1) ? 'true' : 'false' ?>;
 					<div id='privacySaveWrap'><input type="button" value="Save" /></div>
 				</div>
 			</li>
-		<?php endif; ?>
+			<?php endif; ?>
 		</ul>
 	</div>
 
@@ -179,7 +185,8 @@ var owner = <?= (isset($owner) && $owner == 1) ? 'true' : 'false' ?>;
 <div id="uploadedArea"></div>
 <div class="clearit">&nbsp;</div>
 
-<div id="guest"></div>
+<div id="contact" class="mustache-box"></div>
+<div id="guest" class="mustache-box"></div>
 
 <div id="photoArea"></div>
 
