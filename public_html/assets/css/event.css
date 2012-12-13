@@ -828,6 +828,13 @@ h3 {
 	float: left;
 	margin-right: 10px;
 }
+.mustache-box a:link,
+.mustache-box a:visited {
+	color: #006699;
+}
+.mustache-box a:hover {
+	color: #669900;
+}
 .mustache-box .section ul.connect li a:link,
 .mustache-box .section ul.connect li a:visited {
 	padding-left: 20px;
