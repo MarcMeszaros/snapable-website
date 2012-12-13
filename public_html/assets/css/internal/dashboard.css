@@ -34,14 +34,14 @@
     line-height: 0.9em;
 }
 #metrics-panels .panel .value-container {
-    width: 132px;
+    width: 162px;
     margin: 5px auto;
     text-align: center;
     font-weight: bold;
     font-size: 1.4em;
 }
 #metrics-panels .panel .value {
-    width: 100px;
+    width: 130px;
     margin: 0 auto 0 16px;
     display: inline-block;
     text-align: center;
