@@ -19,6 +19,7 @@
 #metrics-panels .panel {
     border: solid 1px #000;
     border-radius: 5px;
+    height: 62px;
     display: block;
     float: left;
     margin: 5px;
@@ -34,14 +35,14 @@
     line-height: 0.9em;
 }
 #metrics-panels .panel .value-container {
-    width: 162px;
+    width: 182px;
     margin: 5px auto;
     text-align: center;
     font-weight: bold;
     font-size: 1.4em;
 }
 #metrics-panels .panel .value {
-    width: 130px;
+    width: 150px;
     margin: 0 auto 0 16px;
     display: inline-block;
     text-align: center;
@@ -50,6 +51,8 @@
 }
 #metrics-panels .panel span.status {
     width: 16px;
+    height: 16px;
+    margin: 0;
     display: inline-block;
     background: url('/assets/img/spinner_blue_sm.gif') no-repeat right top;
 }
