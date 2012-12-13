@@ -4,6 +4,7 @@
 	    	<div id="sm-links">
 	    		<a id="sm-twitter" href="http://twitter.com/getsnapable" target="_blank">Follow us</a>
 	    		<a id="sm-facebook" href="http://facebook.com/snapable" target="_blank">Like us</a>
+	    		<a id="sm-pinterest" href="http://pinterest.com/snapable" target="_blank">Pin us</a>
 	    	</div>
 	    </section>
 	    
