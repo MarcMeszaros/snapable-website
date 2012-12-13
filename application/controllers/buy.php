@@ -6,6 +6,7 @@ class Buy extends CI_Controller {
 	{
     	parent::__construct();
     	$this->load->model('buy_model','',TRUE);
+    	$this->load->model('account_model','',TRUE);
 
     	$this->load->library('email');
     	$this->load->helper('stripe');
@@ -198,8 +199,10 @@ class Buy extends CI_Controller {
 				show_error('Unable to process payment.<br>We\'ve been notified and are looking into it the problem.', 500);
 			}
 			
-			// redirect to the dashboard
-			redirect('/account/dashboard');
+			$event_array = $this->account_model->eventDeets($session_data['account_uri']);
+			$this->session->set_userdata('event_deets', $event_array);
+			// redirect to the event
+			redirect('/event/'.$event_array['url']);
 		} else {
 			$raven_client = new Raven_Client(SENTRY_DSN);
 			$raven_client->captureMessage('Unable to process payment. There was no StripeToken or no user session.');

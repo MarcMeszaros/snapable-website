@@ -160,7 +160,7 @@ class Account extends CI_Controller {
 	
 	function reset($nonce = NULL)
 	{
-		
+		require_https();
 		$data = array(
 			'css' => array('assets/css/setup.css', 'assets/css/signin.css')
 		);
