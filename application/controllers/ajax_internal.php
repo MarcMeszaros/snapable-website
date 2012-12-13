@@ -111,5 +111,54 @@ class Ajax_internal extends CI_Controller {
         $resp = SnapApi::send($verb, $path, $params);
         
         echo $resp['response'];
-    }    
+    }
+
+    public function avg_event_photos($start=0, $end=null)
+    {
+        //if (!IS_AJAX)
+        //{
+        //    show_error('Not an AJAX call.', 403);
+        //}
+        $end = (isset($end)) ? $end : time();
+
+        // get events
+        $verb = 'GET';
+        $path = 'event';
+        $params = array(
+            'end__gte' => gmdate('c', $start),
+            'end__lte' => gmdate('c', $end),
+        );
+        $resp = SnapApi::send($verb, $path, $params);
+        $response = json_decode($resp['response'], true);
+        $response_loop = json_decode($resp['response']);
+
+        // get the inital count started
+        $total_count = $response['meta']['total_count'];
+        $avg = 0;
+        foreach ($response['objects'] as $event) {
+            $avg += $event['photo_count'];
+        }
+
+        // start looping through the pages of results
+        while (isset($response_loop->meta->next)) {
+            $resp_loop = SnapAPI::next($response_loop->meta->next);
+            $response_loop = json_decode($resp_loop);
+
+            // add to the average
+            foreach ($response_loop->objects as $event) {
+                $avg += $event->photo_count;
+            }
+        }
+
+        // calculate the average
+        $avg = $avg/$total_count;
+
+        // modify the response
+        unset($response['objects']);
+        $response['metrics'] = array(
+            'avg' => $avg,
+        );
+
+        echo json_encode($response);
+    }
 }
