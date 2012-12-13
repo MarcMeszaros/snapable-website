@@ -19,8 +19,12 @@ class Account extends CI_Controller {
 		require_https(); // make sure we are in ssl
 
 		// check if we are already logged in, and redirect if we are
-		if(SnapAuth::is_logged_in()) {
-			redirect('/account/dashboard');
+		$userLogin = SnapAuth::is_logged_in(); 
+		if($userLogin) {
+			$event_array = $this->account_model->eventDeets($userLogin['account_uri']);
+			$this->session->set_userdata('event_deets', $event_array);
+
+			redirect('/event/'.$event_array['url']);
 		}
 		
 		$segments = $this->uri->total_segments();
@@ -52,12 +56,16 @@ class Account extends CI_Controller {
 			// create password hash				
 			$pbHash = SnapAuth::snap_hash($_POST['email'], $_POST['password']);
 			// check if password matches
-			if ( SnapAuth::signin($_POST['email'], $pbHash) ) {
+			$userLogin = SnapAuth::signin($_POST['email'], $pbHash);
+			if ( $userLogin ) {
 				// send to dashboard/redirect
 				if($this->session->flashdata('redirect')){
 					redirect($this->session->flashdata('redirect'));
 				} else {
-					redirect("/account/dashboard");
+					$event_array = $this->account_model->eventDeets($userLogin['account_uri']);
+					$this->session->set_userdata('event_deets', $event_array);
+
+					redirect('/account/'.$event_array['url']);
 				}
 			} else {
 				redirect("/account/signin/error");

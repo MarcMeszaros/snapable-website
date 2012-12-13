@@ -24,7 +24,7 @@ class SnapAuth {
                 'loggedin' => true,
             );
             $this->session->set_userdata('logged_in', $sess_array);
-            return true;
+            return $sess_array;
         } else {
             return false;
         }
@@ -55,7 +55,7 @@ class SnapAuth {
                 'loggedin' => true,
             );
             $this->session->set_userdata('logged_in', $sess_array);
-            return true;
+            return $sess_array;
         } else {
             return false;
         }
@@ -128,7 +128,7 @@ class SnapAuth {
                 'loggedin' => true
             );
             $this->session->set_userdata('guest_login', $sess_array);
-            return true;
+            return $sess_array;
         } else {
             return false;
         }
@@ -148,7 +148,7 @@ class SnapAuth {
                 'loggedin' => true
             );
             $this->session->set_userdata('guest_login', $sess_array);
-            return true;
+            return $sess_array;
         } else {
             return false;
         }
