@@ -129,13 +129,10 @@ Class Signup_model extends CI_Model
 		    "terms" => true,
 		);
 		$resp = SnapApi::send($verb, $path, $params);
-
 		$response = $resp['response'];
-		$httpcode = $resp['code'];
 		
-		if ( $httpcode == 201 )
+		if ( $resp['code'] == 201 )
 		{
-		
 			$result = json_decode($response);
 			$user_uri = $result->resource_uri;
 			$tempResult = json_decode($response, true);
@@ -181,16 +178,14 @@ Class Signup_model extends CI_Model
 			    "start" => $start,
 			    "end" => $end,
 			    "pin" => $event_pin,
-			    "type" => "/".SnapApi::$api_version."/type/5/",
+			    "private" => true,
 			    "enabled" => true,
 			    "tz_offset" => $event['timezone'],
 			);
 			$resp = SnapApi::send($verb, $path, $params);
-
 			$response = $resp['response'];                                                                                
-			$httpcode = $resp['code'];
 			
-			if ( $httpcode == 201 )
+			if ( $resp['code'] == 201 )
 			{
 
 				$result = json_decode($response);
@@ -207,9 +202,6 @@ Class Signup_model extends CI_Model
 				    "lng" => $event['lng'],
 				);
 				$resp = SnapApi::send($verb, $path, $params);
-				
-				$response = $resp['response'];                                                                                
-				$httpcode = $resp['code'];
 
 				// add the user as the first guest
 				$verb = 'POST';
@@ -221,9 +213,8 @@ Class Signup_model extends CI_Model
 				    'name' => $user['first_name'] . ' ' . $user['last_name'],
 				);
 				$resp = SnapApi::send($verb, $path, $params);
-				$httpcode = $resp['code'];
 
-				if ( $httpcode == 201 )
+				if ( $resp['code'] == 201 )
 				{
 					$sess_array = array(
 			          'email' => $user['email'],
@@ -234,9 +225,7 @@ Class Signup_model extends CI_Model
 			          'loggedin' => true
 			        );
 			        $this->session->set_userdata('logged_in', $sess_array);
-			        
-					$result = json_decode($response);
-					
+
 					// SEND SIGN-UP NOTIFICATION EMAIL
 					$to = 'team@snapable.com';
 					$from = 'snapable@snapable.com';

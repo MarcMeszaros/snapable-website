@@ -7,11 +7,9 @@ Class Buy_model extends CI_Model
 		$verb = 'GET';
 		$path = '/package/';
 		$resp = SnapApi::send($verb, $path);
-
 		$response = $resp['response'];
-		$httpcode = $resp['code'];
 		
-		if ( $httpcode == 200 )
+		if ( $resp['code'] == 200 )
 		{
 			$result = json_decode($response); 
 			$jsonResp = array(

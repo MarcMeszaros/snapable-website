@@ -71,19 +71,11 @@ class Signup extends CI_Controller {
 		}
 
 		$create_event = $this->signup_model->createEvent($_POST['event'], $_POST['user']);
-		
-		if ( $create_event !== false )
+
+		if ( $create_event )
 		{
 			// set sessions var to log user in
-			$sess_array = array(
-	          'email' => $_POST['user']['email'],
-	          'fname' => $_POST['user']['first_name'],
-	          'lname' => $_POST['user']['last_name'],
-	          'resource_uri' => $create_event['user'],
-	          'account_uri' => $create_event['account'],
-	          'loggedin' => true
-	        );
-	        $this->session->set_userdata('logged_in', $sess_array);
+			SnapAuth::signin_nohash($_POST['user']['email']);
 	        
 	        // redirect to the package buying part
 	        redirect('/buy/'.$package); 

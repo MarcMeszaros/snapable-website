@@ -42,6 +42,10 @@ class Buy extends CI_Controller {
 			redirect('/account/signin?redirect=/buy/'.$package);
 		}
 
+		if(!isset($package)) {
+			$package = $this->session->userdata('signup_package');
+		}
+	
 		// get the package data
 		$data = array(
 			'package' => json_decode($this->buy_model->getPackageDetails($package))
