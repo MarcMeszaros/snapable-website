@@ -99,6 +99,7 @@
                 <th>Title</th>
                 <th>URL</th>
                 <th>Public</th>
+                <th>PIN</th>
                 <th>Start (UTC)</th>
                 <th>End (UTC)</th>
                 <th>Photos</th>
@@ -114,6 +115,7 @@
                     echo "\t\t".'<td>'.$event['title'].'</td>'.PHP_EOL;
                     echo "\t\t".'<td><a target="_blank" href="/event/'.$event['url'].'">'.$event['url'].'</a></td>'.PHP_EOL;
                     echo "\t\t".'<td>'.$public.'</td>'.PHP_EOL;
+                    echo "\t\t".'<td>'.$event['pin'].'</td>'.PHP_EOL;
                     echo "\t\t".'<td>'.str_replace('T', ' ', substr($event['start'], 0, -6)).'</td>'.PHP_EOL;
                     echo "\t\t".'<td>'.str_replace('T',' ', substr($event['end'], 0, -6)).'</td>'.PHP_EOL;
                     echo "\t\t".'<td>'.$event['photo_count'].'</td>'.PHP_EOL;
