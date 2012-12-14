@@ -7,7 +7,8 @@ class Troubleshoot extends CI_Controller {
         $head = array(
             'css' => array(
                 'assets/css/header.css',
-                'assets/css/footer-short.css'
+                'assets/css/footer-short.css',
+                'assets/css/troubleshoot.css'
             ),
         );
 
