@@ -5,7 +5,7 @@ class Event extends CI_Controller {
 	function __construct()
 	{
     	parent::__construct();
-    	$this->load->model('event_model','',TRUE);		    	
+    	$this->load->model('event_model','',TRUE);
 	} 
 	 
 	public function index()
@@ -40,7 +40,9 @@ class Event extends CI_Controller {
 				'assets/css/event/photostream-nav.css',
 			),
 			'ext_js' => array(
+				'//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js',
 				'//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js',
+				'//cdnjs.cloudflare.com/ajax/libs/jquery.form/3.20/jquery.form.js',
 				'//cdnjs.cloudflare.com/ajax/libs/jquery-jcrop/0.9.10/jquery.Jcrop.min.js',
 				'//cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.0/mustache.min.js',
 				'//maps.googleapis.com/maps/api/js?key=AIzaSyAofUaaxFh5DUuOdZHmoWETZNAzP1QEya0&sensor=false'
@@ -80,7 +82,8 @@ class Event extends CI_Controller {
 			$session_guest = SnapAuth::is_guest_logged_in();
 			if ($session_owner && $event_details->event->user == $session_owner['resource_uri'])
 			{
-				$head['js_vars']['owner'] = true; 
+				$head['js_vars']['owner'] = true;
+				$head['js_vars']['user_email'] = $session_owner['email']; 
 				$ownerLoggedin = true;
 				$data["logged_in_user_resource_uri"] = $session_owner['resource_uri'];
 				$head["loggedInBar"] = "owner";

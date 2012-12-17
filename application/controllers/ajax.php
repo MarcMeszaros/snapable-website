@@ -2,6 +2,12 @@
 
 class Ajax extends CI_Controller {
 
+    function __construct()
+    {
+        parent::__construct();
+        $this->load->library('email');
+    }
+
     public function index()
     {
         show_404();
@@ -128,5 +134,37 @@ class Ajax extends CI_Controller {
 
         $logged_in = SnapAuth::is_guest_logged_in();
         echo json_encode($logged_in);
+    }
+
+    public function send_email() {
+        if (!IS_AJAX)
+        {
+            show_error('Not an AJAX call.', 403);
+        }
+
+        // get the form values
+        $to = $this->input->post('to', TRUE); //( isset($_POST['to']) ) ? $_POST['to']:"team@snapable.com";
+        $from = $this->input->post('from', TRUE); //( isset($_POST['from']) ) ? $_POST['from']:"website@snapable.com";
+        $subject = $this->input->post('subject', TRUE);
+        $message = $this->input->post('message', TRUE);
+
+        // set some defaults
+        if (!$to) { $to = 'team@snapable.com'; }
+        if (!$from) { $from = 'team@snapable.com'; }
+        if (!$subject) { $subject = 'Snapable Automated Email'; }
+        if (!$message) { $message = ''; }
+
+        // send the email
+        $this->email->from($from);
+        $this->email->to($to);
+        $this->email->subject($subject);
+        $this->email->message($message);
+        $this->email->set_alt_message($message);       
+        if ($this->email->send()) 
+        {
+            echo "success";
+        } else {
+            echo "failed";
+        }
     }
 }
