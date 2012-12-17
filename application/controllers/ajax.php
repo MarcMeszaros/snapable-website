@@ -6,6 +6,12 @@ class Ajax extends CI_Controller {
     {
         parent::__construct();
         $this->load->library('email');
+
+        // always check if it's an AJAX call
+        if (!IS_AJAX)
+        {
+            show_error('Not a proper AJAX call.', 403);
+        }
     }
 
     public function index()
@@ -17,11 +23,6 @@ class Ajax extends CI_Controller {
      * Handle event ajax calls.
      */
     public function put_event() {
-        if (!IS_AJAX)
-        {
-            show_error('Not an AJAX call.', 403);
-        }
-
         // get all the post variables
         $post = array();
         foreach (array_keys($_POST) as $key) 
@@ -90,11 +91,6 @@ class Ajax extends CI_Controller {
     }
 
     public function timezone() {
-        if (!IS_AJAX)
-        {
-            show_error('Not an AJAX call.', 403);
-        }
-
         $lat = $this->input->get('lat');
         $lng = $this->input->get('lng');
         $timestamp = $this->input->get('timestamp');
@@ -117,31 +113,16 @@ class Ajax extends CI_Controller {
     }
 
     public function is_logged_in() {
-        if (!IS_AJAX)
-        {
-            show_error('Not an AJAX call.', 403);
-        }
-
         $logged_in = SnapAuth::is_logged_in();
         echo json_encode($logged_in);
     }
 
     public function is_guest_logged_in() {
-        if (!IS_AJAX)
-        {
-            show_error('Not an AJAX call.', 403);
-        }
-
         $logged_in = SnapAuth::is_guest_logged_in();
         echo json_encode($logged_in);
     }
 
     public function send_email() {
-        if (!IS_AJAX)
-        {
-            show_error('Not an AJAX call.', 403);
-        }
-
         // get the form values
         $to = $this->input->post('to', TRUE); //( isset($_POST['to']) ) ? $_POST['to']:"team@snapable.com";
         $from = $this->input->post('from', TRUE); //( isset($_POST['from']) ) ? $_POST['from']:"website@snapable.com";

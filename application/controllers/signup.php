@@ -70,7 +70,7 @@ class Signup extends CI_Controller {
 			}
 		}
 
-		$create_event = $this->signup_model->createEvent($_POST['event'], $_POST['user']);
+		$create_event = $this->signup_model->createEvent($this->input->post('event'), $this->input->post('user'));
 
 		if ( $create_event )
 		{

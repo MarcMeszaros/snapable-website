@@ -16,13 +16,15 @@ class Ajax_internal extends CI_Controller {
         if (!isset($logged_in_parts[3]) || $logged_in_parts[3] >= 1000) {
             show_404(); // returning 404 makes the internal dashboard more obscure
         }
+
+        // alway check if it's an ajax call
+        if (!IS_AJAX)
+        {
+            show_error('Not a proper AJAX call.', 403);
+        }
     }
 
     public function total_signups($start=0, $end=null) {
-        if (!IS_AJAX)
-        {
-            show_error('Not an AJAX call.', 403);
-        }
         $end = (isset($end)) ? $end : time();
 
         $verb = 'GET';
@@ -37,10 +39,6 @@ class Ajax_internal extends CI_Controller {
     }
 
     public function past_events($start=0, $end=null) {
-        if (!IS_AJAX)
-        {
-            show_error('Not an AJAX call.', 403);
-        }
         $end = (isset($end)) ? $end : time();
 
         $verb = 'GET';
@@ -55,10 +53,6 @@ class Ajax_internal extends CI_Controller {
     }
 
     public function photos_count($start=0, $end=null) {
-        if (!IS_AJAX)
-        {
-            show_error('Not an AJAX call.', 403);
-        }
         $end = (isset($end)) ? $end : time();
 
         $verb = 'GET';
@@ -74,10 +68,6 @@ class Ajax_internal extends CI_Controller {
 
     public function upcoming_events($start=0, $end=null)
     {
-        if (!IS_AJAX)
-        {
-            show_error('Not an AJAX call.', 403);
-        }
         $end = (isset($end)) ? $end : time();
 
         // get upcoming events
@@ -94,10 +84,6 @@ class Ajax_internal extends CI_Controller {
 
     public function events_with_photo_count($photo_count, $start=0, $end=null)
     {
-        if (!IS_AJAX)
-        {
-            show_error('Not an AJAX call.', 403);
-        }
         $end = (isset($end)) ? $end : time();
 
         // get upcoming events
@@ -115,10 +101,6 @@ class Ajax_internal extends CI_Controller {
 
     public function avg_event_photos($start=0, $end=null)
     {
-        //if (!IS_AJAX)
-        //{
-        //    show_error('Not an AJAX call.', 403);
-        //}
         $end = (isset($end)) ? $end : time();
 
         // get events
