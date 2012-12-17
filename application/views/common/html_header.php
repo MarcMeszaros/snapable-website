@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-
 	<meta charset="utf-8">
 	<title><?php echo (isset($title)) ? 'Snapable - '.$title : "Snapable - The easiest way to instantly capture every photo at your wedding without missing a single moment."; ?></title>
     
@@ -66,6 +65,16 @@
             Stripe.setPublishableKey('<?= STRIPE_KEY_PUBLIC ?>');
         </script>
     <?php } ?>
+
+    <?php if (isset($js_vars)) { ?>
+    <script type="text/javascript">
+        <?php
+            foreach ($js_vars as $key => $value) {
+                echo 'var '.$key.'='.str_replace('\/', '/', json_encode($value)).';'.PHP_EOL;
+            }
+        ?>
+    </script>
+    <? } ?>
 
     <!--[if lt IE 9]>
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js"></script>

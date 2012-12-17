@@ -1,41 +1,8 @@
-<?php
-	// get session vars
-	$session_owner = $this->session->userdata('logged_in');
-	$session_guest = $this->session->userdata('guest_login');
-
-	// check if user is logged in		
-	$ownerLoggedin = ( $session_owner['loggedin'] == true ) ? true : false;
-	$guestLoggedin = ( $session_guest['loggedin'] == true ) ? true : false;
-	
-	if ( (isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user) || $guestLoggedin ) 
-	{
-		$show_upload = true;
-	} else {
-		$show_upload = false;
-	}
-
-	$guestID = '';
-	if (isset($session_owner['guest_id'])) {
-		$guestID = $session_owner['guest_id'];
-	} 
-	else if (isset($session_guest['id'])) {
-		$guestID = $session_guest['id'];
-	}
-?>
-<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?key=AIzaSyAofUaaxFh5DUuOdZHmoWETZNAzP1QEya0&sensor=false"></script>
-<script type="text/javascript">
-var eventID = "<?= $eventDeets->resource_uri ?>";
-var guestID = "/private_v1/guest/<?= $guestID ?>/";
-var typeID = "/private_v1/type/<?php echo (isset($session_guest['type']))? $session_guest['type']: '1'; ?>/";
-var photo_count = <?= $eventDeets->photos ?>;
-var owner = <?= (isset($owner) && $owner == 1) ? 'true' : 'false' ?>;
-</script>
-
 <div id="event-top">
 
 	<div id="event-cover-wrap"><img id="event-cover-image" src="/assets/img/FPO/cover-image.jpg" /></div>
 	<div id="event-title-wrap">
-		<h1><span id="event-address"><?php echo ($eventDeets->privacy < 6) ? $eventDeets->addresses[0]->{'address'} : '&nbsp;'; ?></span></h1>
+		<h1><span id="event-address"><?php echo (!$eventDeets->public) ? $eventDeets->addresses[0]->{'address'} : '&nbsp;'; ?></span></h1>
 		<h1><span id="event-timestamp-start"><?= $eventDeets->human_start ?></span> to <span id="event-timestamp-end"><?= $eventDeets->human_end ?></span></h1>
 		<h2 id="event-title" class="<?php echo ($ownerLoggedin)? 'edit': '';?>"><?= $eventDeets->title ?></h2>
 		<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ) { ?>

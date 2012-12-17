@@ -37,11 +37,13 @@ class Event extends CI_Controller {
 				'assets/css/header.css',
 				'assets/css/event.css',
 				'assets/css/footer.css',
+				'assets/css/event/photostream-nav.css',
 			),
 			'ext_js' => array(
 				'//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js',
 				'//cdnjs.cloudflare.com/ajax/libs/jquery-jcrop/0.9.10/jquery.Jcrop.min.js',
-				'//cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.0/mustache.min.js'
+				'//cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.0/mustache.min.js',
+				'//maps.googleapis.com/maps/api/js?key=AIzaSyAofUaaxFh5DUuOdZHmoWETZNAzP1QEya0&sensor=false'
 			),
 			'js' => array(
 				'assets/js/libs/jquery-Mustache.js',
@@ -67,7 +69,9 @@ class Event extends CI_Controller {
 			'url' => $url,
 			'eventDeets' => $event_details->event
 		);
-		
+		$head['js_vars']['photo_count'] = $event_details->event->photos;
+		$head['js_vars']['eventID'] = $event_details->event->resource_uri;
+
 		$ownerLoggedin = false;
 		$guestLoggedin = false;
 		if ( $event_details->status == 200 )
@@ -76,7 +80,7 @@ class Event extends CI_Controller {
 			$session_guest = SnapAuth::is_guest_logged_in();
 			if ($session_owner && $event_details->event->user == $session_owner['resource_uri'])
 			{
-				$data['owner'] = true;
+				$head['js_vars']['owner'] = true; 
 				$ownerLoggedin = true;
 				$data["logged_in_user_resource_uri"] = $session_owner['resource_uri'];
 				$head["loggedInBar"] = "owner";
@@ -91,23 +95,23 @@ class Event extends CI_Controller {
 					'email' => $session_owner['email'],
 				);
 				$resp = SnapApi::send($verb, $path, $params);
-
 				$response = json_decode($resp['response']);
-				$httpcode = $resp['code'];
 
-				// the guest was properly created, set the session
-				if ($httpcode == 200 && count($response->objects) > 0) {
-					$guestID = explode("/", $response->objects[0]->resource_uri);
-					$session_owner['guest_id'] = $guestID[3];
-			        $this->session->set_userdata('logged_in', $session_owner);
+				// the owner guestID was found
+				if ($resp['code'] == 200 && count($response->objects) > 0) {
+			        $head['js_vars']['guestID'] = $response->objects[0]->resource_uri;
+			        $head['js_vars']['typeID'] = '/'.SnapApi::$api_version.'/type/1/';
 				}
 			} 
 			else if($session_guest)
 			{
 				$guestLoggedin = true;
 				$head["loggedInBar"] = "guest";
-				$data['typeID'] = $session_guest['type'];
+				$head['js_vars']['guestID'] = '/'.SnapApi::$api_version.'/guest/'.$session_guest['id'].'/';
+				$head['js_vars']['typeID'] = '/'.SnapApi::$api_version.'/guest/'.$session_guest['type'].'/';
 			}
+			$data['ownerLoggedin'] = $ownerLoggedin;
+			$data['guestLoggedin'] = $guestLoggedin;
 			
 			// show the correct loggin screen if required
 			if (!$event_details->event->public && ($guestLoggedin != true && $ownerLoggedin != true))

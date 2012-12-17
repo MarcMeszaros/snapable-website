@@ -57,7 +57,7 @@
 				<li><a href="faq"<?php if($active == "faq") { echo ' class="active"'; } ?>>FAQ</a></li>
 				<li><a href="terms"<?php if($active == "terms") { echo ' class="active"'; } ?>>Terms</a></li>
 				<li><a href="privacy"<?php if($active == "privacy") { echo ' class="active"'; } ?>>Privacy</a></li>
-				<li><a href="contact"<?php if($active == "contact") { echo ' class="active"'; } ?>>Contact</a></li>
+				<!--<li><a href="contact"<?php if($active == "contact") { echo ' class="active"'; } ?>>Contact</a></li>-->
 			</ul>
 			
 			<dl>
