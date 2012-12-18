@@ -80,6 +80,7 @@ class Event extends CI_Controller {
 		{
 			$session_owner = SnapAuth::is_logged_in();
 			$session_guest = SnapAuth::is_guest_logged_in();
+			$head['js_vars']['owner'] = false; // false unless otherwise noted
 			if ($session_owner && $event_details->event->user == $session_owner['resource_uri'])
 			{
 				$head['js_vars']['owner'] = true;
