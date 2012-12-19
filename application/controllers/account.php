@@ -11,7 +11,7 @@ class Account extends CI_Controller {
 	
 	public function index()
 	{
-		redirect('/account/signin');
+		redirect('/account/signin', 'refresh');
 	}
 	
 	public function signin()
