@@ -24,7 +24,7 @@ class Home extends CI_Controller {
 			'keywords' => array('wedding', 'photo', 'photography', 'disposable', 'camera', 'share', 'sharing', 'day', 'big'),
 			'description' => 'The easiest way to capture every moment at your wedding.',
 			'css' => array(
-				'assets/home/snap.css', 
+				'assets/home/jan2013.css', 
 				'assets/home/overlays.css', 
 				'assets/home/colorbox.css'
 			),
@@ -39,9 +39,7 @@ class Home extends CI_Controller {
 			),
 		);
 
-		$this->load->view('common/html_header', $head);
-		$this->load->view('home/december2012');
-		$this->load->view('common/html_footer');
+		$this->load->view('home/jan2013', $head);
 	}
 }
 
