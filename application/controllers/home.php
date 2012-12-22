@@ -26,7 +26,8 @@ class Home extends CI_Controller {
 			'css' => array(
 				'assets/home/jan2013.css', 
 				'assets/home/overlays.css', 
-				'assets/home/colorbox.css'
+				'assets/home/colorbox.css', 
+				'assets/css/home_footer.css'
 			),
 			'js' => array('assets/home/jquery.anchor.js'),
 			'meta' => array(
@@ -40,6 +41,7 @@ class Home extends CI_Controller {
 		);
 
 		$this->load->view('home/jan2013', $head);
+		$this->load->view('common/home_footer.php');
 	}
 }
 

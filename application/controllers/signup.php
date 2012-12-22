@@ -39,8 +39,8 @@ class Signup extends CI_Controller {
 			'css' => array(
 				'assets/css/timePicker.css',
 				'assets/css/setup.css',
-				'assets/css/header.css',
-				'assets/css/signup.css'
+				'assets/css/signup_jan2013.css', 
+				'assets/css/home_footer.css'
 			),
 			'ext_js' => array(
 				'//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js',
@@ -52,7 +52,8 @@ class Signup extends CI_Controller {
 			'url' => 'blank'	
 		);
 		$this->load->view('common/html_header', $head);
-		$this->load->view('signup/index', $head);
+		$this->load->view('signup/signup-jan2013', $head);
+		$this->load->view('common/home_footer.php');
 		$this->load->view('common/html_footer');
 	}
 	

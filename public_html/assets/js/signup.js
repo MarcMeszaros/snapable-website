@@ -52,7 +52,7 @@ function geocoder(address)
 		} else {
 			$("#event_location_status").removeClass("spinner-16px").addClass("location_bad");
 		}
-
+		/*
 		var mapOptions = {
 			center: new google.maps.LatLng(lat, lng),
 			zoom: 15,
@@ -79,7 +79,7 @@ function geocoder(address)
 			});
        	});
         $('#map_canvas_container').slideDown();
-
+        */
 		var timestamp = Math.round((new Date()).getTime() / 1000);
 		var tzRequest = '/ajax/timezone?lat='+lat+'&lng='+lng+'&timestamp='+timestamp;
 		$.getJSON(tzRequest, function(data){
@@ -308,6 +308,118 @@ $(document).ready(function()
 	});
 	
 	// form verification and submission 
+	$(".button").click( function()
+	{
+		var id = $(this).attr("id");
+		
+		$(".field-error").css({ "display":"none" });
+		$("input").removeClass("input-error");
+		$("#terms-refund h3").css({"color":"#444"});
+		
+		if ( id == "eventDeets" )
+		{
+			var title = $("#event_title").val(); // cannot be blank
+			var location = $("#event_location").val(); // cannot be blank
+			var lat = $("#lat").val(); // cannot be zero
+			var lng = $("#lng").val(); // cannot be zero
+			var url = $("#event_url").val();
+			
+			if ( title == "" )
+			{
+				$("#event_title").focus();
+				$("#event_title").addClass("input-error");
+				$("#event_title_error").fadeIn();
+				location.href="#event-details";
+			}
+			else if ( location == "" )
+			{
+				$("#event_location").focus();
+				$("#event_location").addClass("input-error");
+				$("#event_location_error").fadeIn();
+				location.href="#event-details";
+			}
+			else if ( (lat == "" || lat == "0") && (lng == "" || lng == "0") )
+			{
+				$("#event_location").focus();
+				$("#event_location").addClass("input-error");
+				location.href="#event-details";
+			}
+			else if ( validUrl == 0 )
+			{
+				$("#event_url_status").removeClass("url_good").removeClass("spinner-16px").addClass("url_bad");	
+				$("#event_url").addClass("input-error");
+				$("#event_url_error").fadeIn();	
+			} else {
+				$("#event").fadeOut("fast", function()
+				{
+					$("#navEvent").removeClass("active");
+					$("#navYour").addClass("active");
+					$("#your").fadeIn("fast");
+				})
+			}
+		} 
+		else if ( id == "yourDeets" )
+		{
+			var fname = $("#user_first_name").val(); // cannot be blank
+			var lname = $("#user_last_name").val(); // cannot be blank
+			var email = $("#user_email").val(); // cannot be blank and must be valid
+			var password1 = $("#user_password").val(); // cannot be blank or less than 6 characters
+			var password2 = $("#user_password_confirmation").val(); // must match password1
+			
+			if ( fname == "" )
+			{
+				$("#user_first_name").focus();
+				$("#user_first_name").addClass("input-error");
+				$("#user_first_name_error").fadeIn();
+				location.href="#your-details";
+			}
+			else if ( lname == "" )
+			{
+				$("#user_last_name").focus();
+				$("#user_last_name").addClass("input-error");
+				$("#user_last_name_error").fadeIn();
+				location.href="#your-details";
+			}
+			else if ( validEmail == 0 )
+			{
+				$("#user_email").focus();
+				$("#user_email").addClass("input-error");
+				$("#user_email_error").fadeIn();
+				$("#email_status").removeClass("spinner-16px").removeClass("email_good").addClass("email_bad");
+				location.href="#your-details";
+			}
+			else if ( password1 == "" )
+			{
+				$("#user_password").focus();
+				$("#user_password").addClass("input-error");
+				$("#user_password_error").html("You must provide a password.").fadeIn();
+				location.href="#your-details";
+			}
+			else if ( password1 != password2 )
+			{
+				$("#user_password").focus();
+				$("#user_password").addClass("input-error");
+				$("#user_password_error").html("Your passwords do not match.").fadeIn();
+				location.href="#your-details";
+			}
+			else if ( password1.length < 6 )
+			{
+				$("#user_password").focus();
+				$("#user_password").addClass("input-error");
+				$("#user_password_error").html("Your password is not long enough.").fadeIn();
+				location.href="#your-details";
+			} else {
+				$("#your").fadeOut("fast", function()
+				{
+					$("#navYour").removeClass("active");
+					$("#navBilling").addClass("active");
+					$("#billing").fadeIn("fast");
+				})
+			}
+		}
+		return false;
+	});
+	
 	$("#btn-sign-up").click( function()
 	{
 		// setup variables
