@@ -101,4 +101,30 @@ class Signup extends CI_Controller {
 		echo $is_registered;
 	}
 	
+	function promo()
+	{
+		if ( IS_AJAX && isset($_GET['code']) )
+		{
+			$promo_codes = array(
+				"test" => 5,
+				"weddingful" => 10
+			);
+			
+			if ( array_key_exists($_GET['code'], $promo_codes) ) 
+			{
+			    // success
+			    echo '{
+			    	"status": 200,
+			    	"value": ' . $promo_codes[$_GET['code']] . '
+			    }';
+			} else {
+			    echo '{
+			    	"status": 404
+			    }';
+			}
+		} else {
+			show_404();	
+		}		
+	}
+	
 }

@@ -97,6 +97,10 @@ ul#nav {
 	text-decoration: none;
 	padding: 5px 15px 3px 15px;
 }
+#nav a.signin { 
+	font-size: 12px;
+	font-weight: normal; 
+	}
 #nav a:link, #nav a:visited {
 	color: #336699;
 }

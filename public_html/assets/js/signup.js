@@ -307,6 +307,34 @@ $(document).ready(function()
 		}
 	});
 	
+	
+	$("#apply-promo-code").click( function()
+	{
+		if ( $("input[name=promo-code]").val() == "" )
+		{
+			alert("You haven't provided a promo code.");
+		} else {
+			$.getJSON("/signup/promo", { "code": $("input[name=promo-code]").val() }, function(json)
+			{	
+				var promoApplied = $("input[name=promo-code-applied]").val();
+				
+				if ( json.status == 200 && promoApplied == 0 )
+				{
+					var amount = parseFloat($("#package-amount").html());
+					var discount = parseFloat(json.value);
+					$("#package-amount").html(amount - discount);
+					$("input[name=promo-code-applied]").val(1)
+				} 
+				else if ( promoApplied == 1 )
+				{
+					alert("Sorry, you've already applied a promo code.");
+				} else {
+					alert("Sorry, that's not a valid promo code.");
+				}
+			});
+		}
+	});
+	
 	// form verification and submission 
 	$(".button").click( function()
 	{

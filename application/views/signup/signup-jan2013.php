@@ -234,8 +234,14 @@
         	
 	        	<div class="package-big-bottom">
 	        	
-	        		$79
+	        		$<span id="package-amount">79</span>
 	        		
+	        	</div>
+	        	
+	        	<div class="package-promo">
+	        		Got a promo code? Enter it here:
+	        		<br /><input name="promo-code" /> <a id="apply-promo-code" href="#">Apply</a>
+	        		<input type="hidden" name="promo-code-applied" value="0" />
 	        	</div>
 				
 			</div>

@@ -421,8 +421,38 @@ hr {
 	font-weight: bold;
 }
 
+.package-promo {
+	font-size: 12px;
+	text-align: center;
+	font-weight: normal;
+	margin: 15px 0;
+}
 
-
+.package-promo input {
+	width: 75px;
+	font-size:12px;
+	padding:3px;
+	margin-top: 5px;
+	margin-bottom: 10px;
+	border-radius: 3px;
+	border: 1px solid #ccc;
+	
+	background-color: #f4f9fc;
+}
+#apply-promo-code {
+	display: inline-block;
+	width: 40px;
+	background: #99cc33;
+	color: #fff;
+	margin-left: 5px;
+	padding: 4px 10px;
+	text-align: center;
+	border-radius: 10px;
+	text-decoration: none;
+}
+#apply-promo-code:hover {
+	background: #669900;
+}
 
 
 a.button:link, a.button:visited, #completSignup {

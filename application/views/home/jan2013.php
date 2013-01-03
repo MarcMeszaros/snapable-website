@@ -108,6 +108,7 @@
 			
 			<ul id="nav">
 				<li><a href="signup" onClick="_gaq.push(['_trackEvent', 'Signups', 'Clicked', 'Signup (Header)']);">Sign-up</a></li>
+				<li><a class="signin" href="/account/signin">Sign-in</a></li>
 				<li><a href="http://blog.snapable.com/">Blog</a></li>
 				<li><a href="#pricing" class="anchorLink">Pricing</a></li>
 				<li><a href="#how-it-works" class="anchorLink">How It Works</a></li>
