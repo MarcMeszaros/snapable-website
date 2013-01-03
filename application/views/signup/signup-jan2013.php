@@ -145,7 +145,7 @@
 					<h3>Billing Info</h3>
 					
 					<form action="/checkout/pay" method="post" id="billingForm">
-						<script src="/assets/js/jquery.validate.min.js" type="text/javascript"></script>
+						<script src="/assets/js/lib/jquery.validate.min.js" type="text/javascript"></script>
 			
 					<div class="form-field field-separated" id="card_type">
 						<label for="billing_type">We Accept:</label>
