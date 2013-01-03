@@ -133,6 +133,7 @@ class Ajax_internal extends CI_Controller {
         }
 
         // calculate the average
+        $total_count = ($total_count > 0) ? $total_count : 1; // prevent division by 0 errors
         $avg = $avg/$total_count;
 
         // modify the response
