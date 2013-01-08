@@ -1,3 +1,6 @@
+<form action="/signup/setup" method="post" name="signupForm" id="payment-form">
+	<script src="/assets/js/libs/jquery.validate.min.js" type="text/javascript"></script>
+						
 	<div id="wrap">
 		
 		<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?key=AIzaSyAofUaaxFh5DUuOdZHmoWETZNAzP1QEya0&sensor=false"></script>
@@ -143,9 +146,6 @@
 				<div id="billing">
 				
 					<h3>Billing Info</h3>
-					
-					<form action="/checkout/pay" method="post" id="billingForm">
-						<script src="/assets/js/lib/jquery.validate.min.js" type="text/javascript"></script>
 			
 					<div class="form-field field-separated" id="card_type">
 						<label for="billing_type">We Accept:</label>
@@ -159,17 +159,19 @@
 					
 					<div class="form-field field-separated">
 						<label for="name">Name on Card</label>
-						<input type="text" name="name" class="card-name required" />			
+						<input type="text" name="name" id="creditcard_name" class="card-name required" />		
+						<div class="field-error" id="creditcard_name_error">You must provide the name on your credit card.</div>	
 					</div>
 					
 					<div class="form-field field-separated">
 						<label for="card-number">Card Number</label>
-						<input type="text" name="card-number" class="card-number stripe-sensitive required" />
+						<input type="text" name="card-number" id="creditcard_number" class="card-number stripe-sensitive required" />
+						<div class="field-error" id="creditcard_number_error">The number you have entered is invalid.</div>
 					</div>
 					
 					<div class="form-field field-separated">
 						<label for="card-expiry-month">Expiration Date:</label> 
-						<select name="card-expiry-month" class="card-expiry-month stripe-sensitive required"> 
+						<select name="card-expiry-month" id="creditcard_month" class="card-expiry-month stripe-sensitive required"> 
 							<option value="01">1 - January</option> 
 							<option value="02">2 - February</option> 
 							<option value="03">3 - March</option> 
@@ -184,26 +186,27 @@
 							<option value="12">12 - December</option> 
 						</select> 
 						
-						<select name="card-expiry-year" class="card-expiry-year stripe-sensitive required"> 
-							<option value="2012">2012</option> 
-							<option value="2013">2013</option> 
-							<option value="2014">2014</option> 
-							<option value="2015">2015</option> 
-							<option value="2016">2016</option> 
-							<option value="2017">2017</option> 
-							<option value="2018">2018</option> 
-							<option value="2019">2019</option> 
-							<option value="2020">2020</option> 
-							<option value="2021">2021</option> 
-							<option value="2022">2022</option> 
-							<option value="2023">2023</option> 
-							<option value="2024">2024</option> 
+						<select name="card-expiry-year" id="creditcard_year" class="card-expiry-year stripe-sensitive required"> 
+							<?php
+								// get the current year
+								$year = date('Y');
+								// print this year as the default selected one
+								echo '<option value="'.$year.'" selected="selected">'.$year.'</option>'.PHP_EOL;
+								// loop through and add the years for the next 10
+								for ($i = 0; $i < 5; $i++)
+								{
+									$year++;
+									echo '<option value="'.$year.'">'.$year.'</option>'.PHP_EOL;
+								}
+							?> 
 						</select>
+						<div class="field-error" id="creditcard_exp_error">Expiration date is invalid.</div>
 					</div>
 					
 					<div class="small-field field-separated">
 						<label for="card-cvc">CVV</label>
-						<input type="text" name="card-cvc" class="shortInput card-cvc stripe-sensitive required" />
+						<input type="text" name="card-cvc" id="creditcard_cvc" class="shortInput card-cvc stripe-sensitive required" />
+						<div class="field-error" id="creditcard_cvc_error">You must provide the security code from the back of your credit card.</div>
 					</div>
 					
 					<div class="payment-errors"></div>
@@ -242,6 +245,7 @@
 	        		Got a promo code? Enter it here:
 	        		<br /><input name="promo-code" /> <a id="apply-promo-code" href="#">Apply</a>
 	        		<input type="hidden" name="promo-code-applied" value="0" />
+	        		<input type="hidden" name="promo-code-amount" value="0" />
 	        	</div>
 				
 			</div>
@@ -249,5 +253,7 @@
 		</div>
 		
 	</div>
+
+</form>
 	
 <div class="clearit">&nbsp;</div>

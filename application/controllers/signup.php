@@ -32,6 +32,7 @@ class Signup extends CI_Controller {
 		}
 		
 		$head = array(
+			'stripe' => true,
 			'linkHome' => true,
 			'ext_css' => array(
 				'//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/themes/cupertino/jquery-ui.css',
@@ -55,6 +56,278 @@ class Signup extends CI_Controller {
 		$this->load->view('signup/signup-jan2013', $head);
 		$this->load->view('common/home_footer.php');
 		$this->load->view('common/html_footer');
+	}
+	
+	
+	function setup()
+	{
+		// USED BY /signup as of Jan 4, 2013
+		
+		if ( isset($_POST) && isset($_POST['stripeToken']) )
+		{
+			/*
+			 echo "<pre>";
+			 print_r($_POST);
+			 echo "</pre>";
+			 */
+			 
+			 /*
+			 
+			 EXPECTED DATA:
+
+			Array
+			(
+			    [event] => Array
+			        (
+			            [title] => The Big Awesome Event
+			            [start_date] => Jan 4, 2013
+			            [start_time] => 12:00 PM
+			            [duration_num] => 12
+			            [duration_type] => hours
+			            [location] => My House
+			            [url] => the-big-awesome-event
+			        )
+			
+			    [user] => Array
+			        (
+			            [first_name] => Andrew
+			            [last_name] => Draper
+			            [email] => andrew.draper+pay@gmail.com
+			            [password] => golden123
+			            [password_confirmation] => golden123
+			        )
+			
+			    [amount] => 10
+			    [name] => Andrew Draper
+			    [card-number] => 4242424242424242
+			    [card-expiry-month] => 01
+			    [card-expiry-year] => 2013
+			    [card-cvc] => 123
+			    [submit-button] => Setup Event â€º
+			    [promo-code] => test
+			    [promo-code-applied] => 1
+			)
+			*/
+			
+			
+			// Step 1: Setup account/user and log them in
+			
+			$create_event = $this->signup_model->createEvent($_POST['event'], $_POST['user']);
+			
+			if ( $create_event )
+			{
+				// set sessions var to log user in
+				SnapAuth::signin_nohash($_POST['user']['email']);
+		        
+		        // Step 2: Bill'em Dano
+		        
+		        $this->load->model('account_model','',TRUE);
+		
+		    	$this->load->library('email');
+		    	$this->load->helper('stripe');
+		    	$this->load->helper('currency');
+		    	
+		    	$session_data = SnapAuth::is_logged_in();
+				if ( isset($_POST['stripeToken']) && $session_data)
+				{	
+					// get user/account details from session data set during signup
+					$userParts = explode('/', $session_data['resource_uri']);
+					$accountParts = explode('/', $session_data['account_uri']);
+					
+					// set price in cents
+					$amount_in_dollars = 79;
+					$amount_in_cents = 7900;
+					
+					if ( $_POST['promo-code-applied'] == 1 )
+					{
+						$discount = $_POST['promo-code-amount'] * 100;
+						$amount_in_cents = $amount_in_cents - $discount;
+						$amount_in_dollars = $amount_in_dollars - $_POST['promo-code-amount'];
+					}
+					
+					if ( $amount_in_cents > 0 )
+					{
+						// get the credit card details submitted by the form
+						$token = $_POST['stripeToken'];
+						
+						try {
+							// create the charge on Stripe's servers - this will charge the user's card
+							$charge = Stripe_Charge::create(array(
+							  'amount' => $amount_in_cents, // amount in cents, again
+							  'currency' => 'usd',
+							  'card' => $token,
+							  'description' => "$" . ($amount / 100) . " charge for Snapable event to " . $session_data['email'],
+							));
+							$chargeData = json_decode($charge);
+							
+							// send email to user regardless of what happens after
+							// ie. they should know we managed to charge their credit card,
+							// even if stuff breaks after here
+							$items = array(
+								'Snapable Event' => array(
+									'price' => $amount_in_dollars,
+								),
+							);
+							$receipt = array(
+								'total' => $amount_in_dollars,
+								'items' => $items,
+							);
+			
+							$this->email->initialize(array('mailtype'=>'html'));
+							$this->email->from('team@snapable.com', 'Snapable');
+							$this->email->to($session_data['email']);
+							$this->email->subject('Your Snapable order has been processed');
+							$this->email->message($this->load->view('email/receipt_html', $receipt, true));
+							$this->email->set_alt_message($this->load->view('email/receipt_text', $receipt, true));
+							$this->email->send();
+			
+							// if it makes the account invalid
+							$validUntil = null;
+						} catch (Stripe_CardError $e) {
+							// keep the flash data if the user goes back
+							$this->session->keep_flashdata('package_id');
+							$this->session->keep_flashdata('package_price');
+							show_error('Unable to process payment.<br>'.$e->getMessage(), 500);
+						} catch (Exception $e) {
+							// keep the flash data if the user goes back
+							$this->session->keep_flashdata('package_id');
+							$this->session->keep_flashdata('package_price');
+							// send the exception to sentry
+							$raven_client = new Raven_Client(SENTRY_DSN);
+							$raven_client->captureException($e);
+							show_error('Unable to process payment.<br>We\'ve been notified and are looking into it the problem.', 500);
+						}
+					}
+					
+					$event_array = $this->account_model->eventDeets($session_data['account_uri']);
+					$this->session->set_userdata('event_deets', $event_array);
+					// redirect to the event
+					redirect('/event/'.$event_array['url']);
+				} else {
+					$raven_client = new Raven_Client(SENTRY_DSN);
+					$raven_client->captureMessage('Unable to process payment. There was no StripeToken or no user session.');
+					show_error('Unable to process payment.<br>We\'ve been notified and are looking into it the problem.', 500);
+					// redirect to form and display error
+				}
+		        
+		        /*
+		        
+		
+					try {
+						// create the charge on Stripe's servers - this will charge the user's card
+						$charge = Stripe_Charge::create(array(
+						  'amount' => $package->price, // amount in cents, again
+						  'currency' => 'usd',
+						  'card' => $token,
+						  'description' => $session_data['email'],
+						));
+						$chargeData = json_decode($charge);
+					
+						// create a Snapable order using the API
+						$verb = 'POST';
+						$path = 'order';
+						$params = array(
+							'total_price' => $package->price,
+							'account' => $session_data['account_uri'],
+							'user' => $session_data['resource_uri'],
+							'paid' => $chargeData->paid,
+							'items' => array(
+								'package' => $this->session->flashdata('package_id'), // the package id
+								'account_addons' => array(), // required field, but empty
+								'event_addons' => array(), // required field, but empty
+							),
+							'payment_gateway_invoice_id' => $chargeData->id,
+						);
+						$resp = SnapApi::send($verb, $path, $params);
+		
+						// send email to user regardless of what happens after
+						// ie. they should know we managed to charge their credit card,
+						// even if stuff breaks after here
+						$items = array(
+							$package->name.' (package)' => array(
+								'price' => $package->price,
+							),
+						);
+						$receipt = array(
+							'total' => $package->price,
+							'items' => $items,
+						);
+		
+						$this->email->initialize(array('mailtype'=>'html'));
+						$this->email->from('team@snapable.com', 'Snapable');
+						$this->email->to($session_data['email']);
+						$this->email->subject('Your Snapable order has been processed');
+						$this->email->message($this->load->view('email/receipt_html', $receipt, true));
+						$this->email->set_alt_message($this->load->view('email/receipt_text', $receipt, true));
+						$this->email->send();
+		
+						// if it makes the account invalid
+						$validUntil = null;
+						if (isset($package->interval) && isset($package->interval_count) && isset($package->trial_period_days))
+						{
+							// get the current datetime
+							$dt = new DateTime('now', new DateTimeZone('UTC'));
+							// make the trial time interval
+							$intervalTrial = new DateInterval('P'.$package->trial_period_days.'D');
+							
+							// create the package interval based on package info
+							$intervalStr = 'P'.$package->interval_count;
+							if ($package->interval == 'day') {
+								$intervalStr .= 'D';
+							} else if ($package->interval == 'month') {
+								$intervalStr .= 'M';
+							} else if ($package->interval == 'year') {
+								$intervalStr .= 'Y';
+							}
+							$intervalPackage = new DateInterval($intervalStr);
+		
+							// figure out when this all ends in the future by adding the two intervals
+							$dt->add($intervalTrial);
+							$dt->add($intervalPackage);
+							$validUntil = $dt->format('c');
+						}
+		
+						// update the account's package
+						$verb = 'PUT';
+						$path = 'account/'.$accountParts[3];
+						$params = array(
+							'package' => $package->resource_uri,
+							'valid_until' => $validUntil,
+						);
+						$resp = SnapApi::send($verb, $path, $params);
+		
+					} catch (Stripe_CardError $e) {
+						// keep the flash data if the user goes back
+						$this->session->keep_flashdata('package_id');
+						$this->session->keep_flashdata('package_price');
+						show_error('Unable to process payment.<br>'.$e->getMessage(), 500);
+					} catch (Exception $e) {
+						// keep the flash data if the user goes back
+						$this->session->keep_flashdata('package_id');
+						$this->session->keep_flashdata('package_price');
+						// send the exception to sentry
+						$raven_client = new Raven_Client(SENTRY_DSN);
+						$raven_client->captureException($e);
+						show_error('Unable to process payment.<br>We\'ve been notified and are looking into it the problem.', 500);
+					}
+					
+					$event_array = $this->account_model->eventDeets($session_data['account_uri']);
+					$this->session->set_userdata('event_deets', $event_array);
+					// redirect to the event
+					redirect('/event/'.$event_array['url']);
+				} else {
+					$raven_client = new Raven_Client(SENTRY_DSN);
+					$raven_client->captureMessage('Unable to process payment. There was no StripeToken or no user session.');
+					show_error('Unable to process payment.<br>We\'ve been notified and are looking into it the problem.', 500);
+				}
+				
+				*/
+			} else {
+				echo "Error: Unable to create event";	
+			}
+		} else {
+			show_404();
+		}
 	}
 	
 	
