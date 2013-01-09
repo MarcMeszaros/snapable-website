@@ -129,6 +129,24 @@ class Signup extends CI_Controller {
 							));
 							$chargeData = json_decode($charge);
 							
+							// create a Snapable order using the API
+							$verb = 'POST';
+							$path = 'order';
+							$params = array(
+								'total_price' => 79,
+								'account' => $session_data['account_uri'],
+								'user' => $session_data['resource_uri'],
+								'paid' => $chargeData->paid,
+								'items' => array(
+									'package' => 0, // the package id
+									'account_addons' => array(), // required field, but empty
+									'event_addons' => array(), // required field, but empty
+								),
+								'payment_gateway_invoice_id' => $chargeData->id,
+							);
+							$resp = SnapApi::send($verb, $path, $params);
+							
+							
 							// send email to user regardless of what happens after
 							// ie. they should know we managed to charge their credit card,
 							// even if stuff breaks after here
