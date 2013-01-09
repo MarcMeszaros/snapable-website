@@ -28,6 +28,11 @@
 				<div id="event">
 				
 					<h3>Event Details</h3>
+
+					<!-- some required data magically figured out via AJAXy stuff -->
+					<input type="hidden" id="lat" name="event[lat]" value="0" />
+					<input type="hidden" id="lng" name="event[lng]" value="0" />
+					<input type="hidden" id="timezone" name="event[timezone]" value="0" />
 					
 					<div class="form-field field-separated">
 						<label for="event_title">Title</label>
@@ -87,10 +92,7 @@
 					</div>
 					<div class="clearit">&nbsp;</div>
 					
-					
-					
 					<hr />
-					
 					
 					<a class="button" id="eventDeets" href="#">Next: Your Details ›</a>
 					
@@ -204,7 +206,7 @@
 					</div>
 					
 					<div class="small-field field-separated">
-						<label for="card-cvc">CVV</label>
+						<label for="card-cvc">CVC</label>
 						<input type="text" name="card-cvc" id="creditcard_cvc" class="shortInput card-cvc stripe-sensitive required" />
 						<div class="field-error" id="creditcard_cvc_error">You must provide the security code from the back of your credit card.</div>
 					</div>
