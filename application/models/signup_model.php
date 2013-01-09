@@ -148,12 +148,12 @@ Class Signup_model extends CI_Model
 			$event_pin = rand($min,$max);
 			
 			//GET TIMEZONE 
-			$earth_uri  = "http://www.earthtools.org/timezone/" . $event['lat'] . "/" . $event['lng'];
-			$earth_response = simplexml_load_file($earth_uri);
-			$timezone_offset = $earth_response->offset;
-			$timezone_offset_seconds = $timezone_offset * 3600;
+			//$earth_uri  = "http://www.earthtools.org/timezone/" . $event['lat'] . "/" . $event['lng'];
+			//$earth_response = simplexml_load_file($earth_uri);
+			//$timezone_offset = $earth_response->offset;
+			$timezone_offset_seconds = $event['tz_offset'] * 60;
 			// SET TO UTC
-			$start_timestamp = strtotime($event['start_date'] . " " . $event['start_time']) - ($timezone_offset_seconds);
+			$start_timestamp = strtotime($event['start_date'] . " " . $event['start_time']) + ($timezone_offset_seconds);
 			
 			$start = gmdate( "c", $start_timestamp ); //date( "Y-m-d", $start_timestamp ) . "T" . date( "H:i:s", $start_timestamp ); // formatted: 2010-11-10T03:07:43 
 			
@@ -167,7 +167,7 @@ Class Signup_model extends CI_Model
 			$end_timestamp = $start_timestamp + $duration_in_seconds;
 			$end = gmdate( "c", $end_timestamp );
 			
-			$created = date( "Y-m-d" ) . "T" . date( "H:i:s" );
+			//$created = date( "Y-m-d" ) . "T" . date( "H:i:s" );
 			
 			$verb = 'POST';
 			$path = '/event/';
@@ -180,10 +180,10 @@ Class Signup_model extends CI_Model
 			    "pin" => $event_pin,
 			    "private" => true,
 			    "enabled" => true,
-			    "tz_offset" => $event['timezone'],
+			    "tz_offset" => $event['tz_offset'],
 			);
 			$resp = SnapApi::send($verb, $path, $params);
-			$response = $resp['response'];                                                                                
+			$response = $resp['response'];
 			
 			if ( $resp['code'] == 201 )
 			{
@@ -216,15 +216,8 @@ Class Signup_model extends CI_Model
 
 				if ( $resp['code'] == 201 )
 				{
-					$sess_array = array(
-			          'email' => $user['email'],
-			          'fname' => $user['first_name'],
-			          'lname' => $user['last_name'],
-			          'resource_uri' => $user_uri,
-			          'account_uri' => $account_uri,
-			          'loggedin' => true
-			        );
-			        $this->session->set_userdata('logged_in', $sess_array);
+					// set sessions var to log user in
+					SnapAuth::signin_nohash($user['email']);
 
 					// SEND SIGN-UP NOTIFICATION EMAIL
 					$to = 'team@snapable.com';
