@@ -61,6 +61,30 @@ class SnapAuth {
         }
     }
 
+    // signin (no network/API call: use a user API response object)
+    public function signin_nonetwork($user)
+    {
+        if (isset($user)) {
+            $sess_array = array(
+                'email' => $user->email,
+                'first_name' => $user->first_name,
+                'last_name' => $user->last_name,
+                'user_uri' => $user->resource_uri,
+                'account_uri' => $user->accounts[0],
+
+                // TODO deprecated (look through the code and try and stop using these)
+                'fname' => $user->first_name,
+                'lname' => $user->last_name,
+                'resource_uri' => $user->resource_uri,
+                'loggedin' => true,
+            );
+            $this->session->set_userdata('logged_in', $sess_array);
+            return $sess_array;
+        } else {
+            return false;
+        }
+    }
+
     // signout
     public function signout()
     {
