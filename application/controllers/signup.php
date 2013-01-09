@@ -71,53 +71,16 @@ class Signup extends CI_Controller {
 			 echo "</pre>";
 			 */
 			 
-			 /*
-			 
-			 EXPECTED DATA:
-
-			Array
-			(
-			    [event] => Array
-			        (
-			            [title] => The Big Awesome Event
-			            [start_date] => Jan 4, 2013
-			            [start_time] => 12:00 PM
-			            [duration_num] => 12
-			            [duration_type] => hours
-			            [location] => My House
-			            [url] => the-big-awesome-event
-			        )
-			
-			    [user] => Array
-			        (
-			            [first_name] => Andrew
-			            [last_name] => Draper
-			            [email] => andrew.draper+pay@gmail.com
-			            [password] => golden123
-			            [password_confirmation] => golden123
-			        )
-			
-			    [amount] => 10
-			    [name] => Andrew Draper
-			    [card-number] => 4242424242424242
-			    [card-expiry-month] => 01
-			    [card-expiry-year] => 2013
-			    [card-cvc] => 123
-			    [submit-button] => Setup Event â€º
-			    [promo-code] => test
-			    [promo-code-applied] => 1
-			)
-			*/
-			
-			
-			// Step 1: Setup account/user and log them in
+			 // Step 1: Setup account/user and log them in
 			
 			$create_event = $this->signup_model->createEvent($_POST['event'], $_POST['user']);
 			
 			if ( $create_event )
 			{
 				// set sessions var to log user in
-				SnapAuth::signin_nohash($_POST['user']['email']);
+				//SnapAuth::signin_nohash($_POST['user']['email']);
+				$hash = SnapAuth::snap_hash($_POST['user']['email'], $_POST['user']['password']);
+				SnapAuth::signin($_POST['user']['email'], $hash);
 		        
 		        // Step 2: Bill'em Dano
 		        
@@ -128,7 +91,13 @@ class Signup extends CI_Controller {
 		    	$this->load->helper('currency');
 		    	
 		    	$session_data = SnapAuth::is_logged_in();
-				if ( isset($_POST['stripeToken']) && $session_data)
+				
+				//echo "<pre>";
+				//print_r($session_data);
+				//echo "</pre>";
+				
+				
+				if ( $session_data )
 				{	
 					// get user/account details from session data set during signup
 					$userParts = explode('/', $session_data['resource_uri']);
@@ -156,7 +125,7 @@ class Signup extends CI_Controller {
 							  'amount' => $amount_in_cents, // amount in cents, again
 							  'currency' => 'usd',
 							  'card' => $token,
-							  'description' => "$" . ($amount / 100) . " charge for Snapable event to " . $session_data['email'],
+							  'description' => "$" . ($amount_in_cents / 100) . " charge for Snapable event to " . $session_data['email'],
 							));
 							$chargeData = json_decode($charge);
 							
@@ -169,7 +138,7 @@ class Signup extends CI_Controller {
 								),
 							);
 							$receipt = array(
-								'total' => $amount_in_dollars,
+								'total' => $amount_in_cents,
 								'items' => $items,
 							);
 			

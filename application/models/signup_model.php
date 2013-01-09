@@ -131,6 +131,10 @@ Class Signup_model extends CI_Model
 		$resp = SnapApi::send($verb, $path, $params);
 		$response = $resp['response'];
 		
+		//echo "<pre>";
+		//print_r($response);
+		//echo "</pre>";
+		
 		if ( $resp['code'] == 201 )
 		{
 			$result = json_decode($response);

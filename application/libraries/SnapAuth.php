@@ -39,7 +39,7 @@ class SnapAuth {
         );
         $resp = SnapApi::send($verb, $path, $params);
         $users = json_decode($resp['response']);
-
+        
         if ($resp['code'] == 200 && $users->meta->total_count > 0) {
             $sess_array = array(
                 'email' => $users->objects[0]->email,
