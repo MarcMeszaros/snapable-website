@@ -141,15 +141,15 @@
 			
 			<section id="why-use">
 		      <div class="inner">
-		        <h2>Why Should You Use Snapable?</h2>
+		        <h2>Why Use Snapable?</h2>
 		        
-		        <h3>Letting your guests take photos during your wedding is a fun and easy way to get them involved. Best of all there's no need to beg for photos or sift through their Facebook pages to find them, you'll have them all in one place.</h3>
+		        <h3>Letting your guests take photos during your wedding is a fun and easy way to get them involved. Best of all, the photos will be instantly added to your Snapable album, so you’ll have everything on one place.</h3>
 		
 		        <div class="box box-1">
 			    	<div class="image"></div>
 			    	<div class="text">
 			        	<h3>A Complete Picture Of Your Wedding Day</h3>
-			        	<p>With all the excitement at your wedding one photographer can't catch all the action. Snapable captures every photo taken by your wedding guests, giving you a complete picture of the day.</p>
+			        	<p>One photographer can't catch all the action. Snapable helps collect each photo taken by friends and family, giving you a full picture of the day.</p>
 			        </div>
 		        </div>
 		
@@ -157,15 +157,15 @@
 		        	<div class="image"></div>
 		        	<div class="text">
 		        		<h3>Instantly Capture And Preserve Your Memories</h3>
-		        		<p>Photos taken at your wedding end up everywhere. Avoid begging guests for their photos and let Snapable instantly capture and preserve your wedding photos in one place. </p>
+		        		<p>Photos taken at your wedding end up everywhere. Avoid begging guests for photos and let Snapable instantly upload them into your online album.</p>
 		        	</div>
 		        </div>
 		
 		        <div class="box box-3">
 		        	<div class="image"></div>
 		        	<div class="text">
-		        		<h3>Choose Which Photos To Print, Share, Or Keep Private.</h3>
-		        		<p>Let’s face it, not every photo is meant for every pair of eyes. After your wedding, you can choose which photos to print, share, or keep private, giving you ultimate control. </p>
+		        		<h3>Share Photos, Or Keep Them Private </h3>
+		        		<p>Let’s face it, not every photo is meant for every pair of eyes. You can choose to share photos with some or all of your guests. Or just keep them private! </p>
 		        	</div>
 		        </div>
 		
@@ -173,7 +173,7 @@
 		        	<div class="image"></div>
 		        	<div class="text">
 		        		<h3>Instant Gratification</h3>
-		        		<p>Couples often wait up to 6 weeks for their photographs. With Snapable, you won't wait for your photos or have to sift through your friend’s Facebook. They’re all in one handy spot&mdash;Even before the honeymoon.</p>
+		        		<p>You could be waiting weeks for your photographs. With Snapable, there is no waiting or sifting through Facebook for photos. You’ll have them all—even before the honeymoon!</p>
 		        	</div>
 		        </div>
 		
@@ -192,7 +192,17 @@
 		            <div class="browser1"></div>
 		          </div>
 		          <h3>Before Your Wedding</h3>
-		          <p>Create your wedding album in just a few easy steps. You can upload photos before the wedding and share the album with friends and family. That’s it, you’re done and are ready to capture each moment on your big day.</p>
+		          <p>Create your wedding album in just a few easy steps. You’ll be able to:</p>
+		          
+		          <ul>
+			          <li>Upload photos from your computer before the wedding.</li>
+			          <li>Add photos from the Snapable app before the wedding. </li>
+			          <li>Share the album with friends and family. </li>
+		          </ul>
+
+		          <p>Once your album is set up, you’re ready to collect your  photos!</p>
+		          
+		          <p class="pLink"><a href="#">See a sample</a></p>
 		        </div>
 		
 		        <div class="box">
@@ -200,7 +210,16 @@
 		            <div class="phone"></div>
 		          </div>
 		          <h3>During Your Wedding</h3>
-		          <p>Let guests know about Snapable with an elegant table card (provided by us!) with instructions on how to download and use the app. Then, a copy of any photo taken by friends and family will be instantly added to your album.</p>
+		          <p>Remind guests to use Snapable with an elegant table card that includes:</p>
+
+		          <ul>
+		          	<li>Instructions on how to download and use Snapable.</li>
+		          	<li>A description of how it works.</li>
+		          	<li>Your wedding album link. </li>
+		          </ul>
+		          <p>A copy of each photo taken with the Snapable app will be instantly added to your album.</p>
+		          
+		          <p class="pLink"><a href="#">See a sample</a></p>
 		        </div>
 		
 		        <div class="box">
@@ -208,7 +227,17 @@
 		            <div class="browser2"></div>
 		          </div>
 		          <h3>After Your Wedding</h3>
-		          <p>Decide which photos you would like to print, download, share or keep private. You can also upload an unlimited number of photos after your wedding, ensuring that all your wedding memories are in one spot!</p>
+		          <p>Once your big day has passed, you’ll be able to peruse your album. You can:</p>
+
+		          <ul>
+		          	<li>Decide which photos you would like to download</li>
+		          	<li>Share individual photos or your entire album with friends. </li>
+		          	<li>Upload additional photos after the wedding. </li>
+		          </ul>
+
+			       <p>It’s that easy! All of your photos in one spot, ensuring you don’t miss a single moment. </p>
+		          
+		          <p class="pLink"><a href="/signup">Signup</a></p>
 		        </div>
 		
 		      </div>
@@ -233,7 +262,7 @@
 			        		<li>Download your photos anytime</li>
 			        		<li>Upload additional photos</li>
 			        		<li>Unlimited guest email notifications</li>
-			        		<li>Personalized downloadable instruction cards for guests</li>
+			        		<li>Personalized downloadable instruction<br />cards for guests</li>
 			        	</ul>
 			        	
 		        	</div>

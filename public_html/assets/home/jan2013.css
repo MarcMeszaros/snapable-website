@@ -235,9 +235,22 @@ section#how-it-works h2 {
 }
 
 #restOfPageWrap section .box p {
-	line-height:25px;
+	line-height:20px;
 	color:#555;
-	font-size:14px;
+	font-size:12px;
+}
+#restOfPageWrap section .box ul {
+	padding-left: 10px;
+	margin: 10px 0;
+}
+#restOfPageWrap section .box li {
+	margin: 2px 0;
+	line-height:20px;
+	color:#555;
+	font-size:12px;
+}
+p.pLink {
+	margin-top: 10px;
 }
 
 #restOfPageWrap section .box .image {
