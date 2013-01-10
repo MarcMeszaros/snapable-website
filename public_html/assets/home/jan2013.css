@@ -250,7 +250,17 @@ section#how-it-works h2 {
 	font-size:12px;
 }
 p.pLink {
-	margin-top: 10px;
+	margin-top: 20px;
+}
+
+#restOfPageWrap section .box a {
+	background: #0099cc;
+	color: #fff;
+	text-align: center;
+	text-decoration: none;
+	padding: 5px 15px;
+	border-radius: 10px;
+	font-size: 12px;
 }
 
 #restOfPageWrap section .box .image {
