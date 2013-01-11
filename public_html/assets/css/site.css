@@ -181,7 +181,8 @@ h3:first-child {
         margin-top: 0;
 }
 
-p {
+.right ol { padding-left: 20px; }
+p, .right li {
         font-weight: normal;
         font-size: 16px;
         line-height: 22px;

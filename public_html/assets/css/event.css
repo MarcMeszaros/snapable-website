@@ -1071,7 +1071,7 @@ a#guest-link-upload:hover, a#guest-link-manual:hover {
 #notify-group {
 	float: left;
 	display: inline;
-	width: 120px;
+	width: 160px;
 	padding: 20px 0;
 }
 #notify-group p {
@@ -1125,12 +1125,20 @@ a.buttonBox:hover {
 	line-height: 16px;
 }
 
-#do-notify-guests {
+a#do-send-to-guests {
 	display: block;
-	width: 120px;
-	height: 33px;
-	text-indent: -8000px;
-	background: transparent url('/assets/img/btnSendEmail.png') no-repeat;
+	width: 140px;
+	color: #fff;
+	background: #99cc33;
+	border-radius: 20px;
+	padding: 10px;
+	font-size: 18px;
+	line-height: 20px;
+	text-align: center;
+	text-decoration: none;
+}
+a#do-send-to-guests:hover {
+	background: #669900;
 }
 
 /**** GUEST LIST ****/
@@ -1179,6 +1187,29 @@ a.buttonBox:hover {
 .guest-type {
 	float: right;
 	width: 206px;
+}
+
+#tablecards {
+	font-size: 14px;
+	line-height: 20px;
+}
+#tablecards:after  {
+	content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+#tablecards img {
+	float: right;
+	margin-left: 25px;
+	width: 300px;
+	height: 227px;
+	border: 1px solid #ccc;
+	border-radius: 10px;
 }
 
 /**** OVERLAY CROPPING PHOTO ****/

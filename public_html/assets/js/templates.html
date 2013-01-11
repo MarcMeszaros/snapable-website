@@ -86,9 +86,8 @@
 	
 	<ul class="tabs">
 		<li class="active" id="addTab"><a href="#add">Add</a></li>
-		<li id="notifyTab"><a href="#notify">Send</a></li>
-		<li id="tablecardTab"><a href="#tablecard">Table Cards</a></li>
 		<li id="guestsTab"><a href="#guestlist">Guest List</a></li>
+		<li id="notifyTab"><a href="#notify">Preview + Send</a></li>
 	</ul>
 	
 	<div id="addBox" class="tab-content">{{>guest-addbox}}</div>
@@ -98,10 +97,23 @@
 </script>
 
 
+<script id="tablecards" type="text/html">
+	<h3>Table Cards</h3>
+	
+	<img src="/assets/img/tablecard.png" alt="Table card sample" />
+	
+	<p>
+		Make sure your guests know about Snapable! In addition to inviting them before your big day, you can also use our custom table cards at the wedding. 
+	</p>
+	<br>
+	<p>
+		To order your downloadable, printable PDF please email <a href="mailto:team@snapable.com">team@snapable.com</a> at least 3 days prior to your event.  
+	</p>	
+</script>
+
+
 <script id="guest-addbox" type="text/html">
 	<p>Make sure everyone knows about Snapable before the big day! You can add your wedding guests and set their role.</p>
-	
-	<h4><em><a name="guest-type"></a><strong>Types include: </strong>Organizer, Bride/Groom, Wedding Party, Family, or Guest</em></h4>
 	
 	<div id="guest-choices" class="choiceBox">{{>guest-options}}</div>
 </script>
@@ -116,15 +128,7 @@
 	<div id="notify-wrap">	
 		<div id="notify-group">
 		
-			<p><strong>Send email to:</strong></p>
-			
-			<p>
-				<input type="checkbox" name="notify-type" value="2" /> Bride/Groom
-				<br /><input type="checkbox" name="notify-type" value="3" /> Wedding party
-				<br /><input type="checkbox" name="notify-type" value="4" /> Family
-				<br /><input type="checkbox" name="notify-type" value="5" CHECKED /> All Guests
-			</p>
-			<div id="do-notify-wrap"><a href="#" id="do-notify-guests">Send Email(s)</a></div>
+			<a href="#" id="do-send-to-guests">Send Email(s)</a>
 		</div>		
 		<div id="notify-message"></div>
 		<div class="clearit">&nbsp;</div>
@@ -163,7 +167,7 @@
 		* One guest per line
 		-->
 		
-		Copy/Paste or Input Manually
+		Copy/Paste or Manual Entry
 		
 	</a>
 	
@@ -212,7 +216,6 @@
 		<select id="csvHeaderOne">
 			<option value="email">Email</option>
 			<option value="name">Name</option>
-			<option value="type">Guest Type</option>
 		</select>
 		
 		<ul id="rowOneContents"></ul>
@@ -222,7 +225,6 @@
 		<select id="csvHeaderTwo">
 			<option value="email">Email</option>
 			<option value="name">Name</option>
-			<option value="type">Guest Type</option>
 		</select>
 		
 		<ul id="rowTwoContents"></ul>
@@ -247,7 +249,7 @@
 </script>
 
 <script id="guest-list" type="text/html">
-	<li><div class="guest-name">{{name}}</div><div class="guest-email"><a href="mailto:{{email}}">{{email}}</a></div><div class="guest-type">{{type}}</div></li>
+	<li><div class="guest-name">{{name}}</div><div class="guest-email"><a href="mailto:{{email}}">{{email}}</a></div></li>
 </script>
 
 <script id="checkout-photo" type="text/html">

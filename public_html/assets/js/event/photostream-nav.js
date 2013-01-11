@@ -57,6 +57,14 @@ $(document).ready(function(){
         });
         //$("#guest").slideToggle();
     });
+    
+    // TABLE CARDS
+    $('#tableBTN').click(function(){
+        $.Mustache.load('/assets/js/event/templates-nav.html').done(function () {
+            $('#tablecards').mustache('tablecards', "", {method: "html"}).slideToggle();
+        });
+        return false;
+    });
 
     // PRIVACY MENU
     $("#event-nav-privacy").click(function(e) 

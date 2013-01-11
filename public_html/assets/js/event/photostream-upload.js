@@ -7,7 +7,7 @@ $(document).ready(function(){
         maxsize     : 2,
         post_upload : "/upload",
         folder      : "./here",
-        ini_text    : "<div class='uploadText'>Drag files (or click) into this area to upload</div>",
+        ini_text    : "<div class='uploadText'>Drag photos (or click) into this area to upload</div>",
         over_text   : "<div class='uploadText'>Drop file here</div>",
         over_col    : 'white',
         over_bkcol  : '#006699',

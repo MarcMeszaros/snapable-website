@@ -93,6 +93,7 @@
 
 			<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ) { ?>
 			<li><a href="#guest" id="guestBTN">Invite Guests</a></li>
+			<li><a href="#tablecards" id="tableBTN">Table Cards</a></li>
 			<?php } ?>
 			
 			<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ): ?>
@@ -154,6 +155,7 @@
 
 <div id="contact" class="mustache-box"></div>
 <div id="guest" class="mustache-box"></div>
+<div id="tablecards" class="mustache-box"></div>
 
 <div id="photoArea"></div>
 

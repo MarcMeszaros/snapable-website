@@ -96,6 +96,10 @@
  	var _gaq = _gaq || [];
  <?php } ?>
 	</script>
+    
+    <script type="text/javascript">var switchTo5x=true;</script>
+    <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+    <script type="text/javascript">stLight.options({publisher: "e0bd9da5-9c45-4ad2-b1a3-81ca7d809ede"}); </script>
 
 </head>
 
@@ -173,7 +177,7 @@
 		        	<div class="image"></div>
 		        	<div class="text">
 		        		<h3>Instant Gratification</h3>
-		        		<p>You could be waiting weeks for your photographs. With Snapable, there is no waiting or sifting through Facebook for photos. You’ll have them all—even before the honeymoon!</p>
+		        		<p>Don’t wait weeks for your photos. With Snapable, there is no waiting or sifting through Facebook. You’ll have them all—even before the honeymoon!</p>
 		        	</div>
 		        </div>
 		
@@ -195,8 +199,8 @@
 		          <p>Create your wedding album in just a few easy steps. You’ll be able to:</p>
 		          
 		          <ul>
-			          <li>Upload photos from your computer before the wedding.</li>
-			          <li>Add photos from the Snapable app before the wedding. </li>
+			          <li>Upload photos from your computer.</li>
+			          <li>Add photos from the Snapable app. </li>
 			          <li>Share the album with friends and family. </li>
 		          </ul>
 
@@ -213,7 +217,7 @@
 		          <p>Remind guests to use Snapable with an elegant table card that includes:</p>
 
 		          <ul>
-		          	<li>Instructions on how to download and use Snapable.</li>
+		          	<li>How to download and use Snapable.</li>
 		          	<li>A description of how it works.</li>
 		          	<li>Your wedding album link. </li>
 		          </ul>
@@ -230,8 +234,8 @@
 		          <p>Once your big day has passed, you’ll be able to peruse your album. You can:</p>
 
 		          <ul>
-		          	<li>Decide which photos you would like to download</li>
-		          	<li>Share individual photos or your entire album with friends. </li>
+		          	<li>Download your favorite photos.</li>
+		          	<li>Share photos or the entire album with friends. </li>
 		          	<li>Upload additional photos after the wedding. </li>
 		          </ul>
 
