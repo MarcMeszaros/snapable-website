@@ -144,7 +144,7 @@ class Signup extends CI_Controller {
 							// even if stuff breaks after here
 							$items = array(
 								'Snapable Event' => array(
-									'price' => $amount_in_dollars,
+									'price' => $amount_in_cents,
 								),
 							);
 							$receipt = array(

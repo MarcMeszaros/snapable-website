@@ -13,4 +13,4 @@ Item(s)                                 | Price
 <?php echo str_pad('Total:', 40).'  $'.currency_cents_to_dollars($total).PHP_EOL; ?>
 
 ----------------
-(c)2012 Snapable
+(c)<?php echo date('Y'); ?> Snapable
