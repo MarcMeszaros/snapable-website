@@ -245,7 +245,7 @@
 	        	
 	        	<div class="package-promo">
 	        		Got a promo code? Enter it here:
-	        		<br /><input name="promo-code" /> <a id="apply-promo-code" href="#">Apply</a>
+	        		<br /><input type="text" name="promo-code" /> <a id="apply-promo-code" href="#">Apply</a>
 	        		<input type="hidden" name="promo-code-applied" value="0" />
 	        		<input type="hidden" name="promo-code-amount" value="0" />
 	        	</div>
