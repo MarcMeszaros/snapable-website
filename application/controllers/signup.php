@@ -2,11 +2,21 @@
 
 class Signup extends CI_Controller {
 
+	// promo codes key/value pairs (in cents)
+	public static $PROMO_CODES = array(
+		'weddingful' => 2000,
+	);
+
 	function __construct()
 	{
     	parent::__construct(); 
     	$this->load->library('email');
-    	$this->load->model('signup_model','',TRUE);		    	
+    	$this->load->model('signup_model','',TRUE);		
+    	$this->load->model('account_model','',TRUE);
+		
+    	$this->load->library('email');
+    	$this->load->helper('stripe');
+    	$this->load->helper('currency');    	
 	}
 
 	public function _remap($method, $params = array())
@@ -77,12 +87,6 @@ class Signup extends CI_Controller {
 				SnapAuth::signin($_POST['user']['email'], $hash);
 		        
 		        // Step 2: Bill'em Dano
-		        $this->load->model('account_model','',TRUE);
-		
-		    	$this->load->library('email');
-		    	$this->load->helper('stripe');
-		    	$this->load->helper('currency');
-		    	
 		    	$session_data = SnapAuth::is_logged_in();
 								
 				if ( $session_data )
@@ -98,14 +102,12 @@ class Signup extends CI_Controller {
 					$package = json_decode($resp['response']);
 
 					// set price in cents
-					$amount_in_dollars = 79;
 					$amount_in_cents = 7900;
-					
-					if ( $_POST['promo-code-applied'] == 1 )
+
+					if ( $_POST['promo-code-applied'] == 1 && array_key_exists($_POST['promo-code'], self::$PROMO_CODES))
 					{
-						$discount = $this->promo($_POST['promo-code']) * 100;
+						$discount = self::$PROMO_CODES[$_POST['promo-code']];
 						$amount_in_cents = $amount_in_cents - $discount;
-						$amount_in_dollars = $amount_in_dollars - $_POST['promo-code-amount'];
 					}
 					
 					if ( $amount_in_cents > 0 )
@@ -279,21 +281,16 @@ class Signup extends CI_Controller {
 	{
 		$numargs = func_num_args();
 		
-		$promo_codes = array(
-			"test" => 5,
-			"weddingful" => 10
-		);
-		
 		if ( IS_AJAX && isset($_GET['code']) && $numargs == 0 )
 		{
 			
 			
-			if ( array_key_exists($_GET['code'], $promo_codes) ) 
+			if ( array_key_exists($_GET['code'], self::$PROMO_CODES) ) 
 			{
 			    // success
 			    echo '{
 			    	"status": 200,
-			    	"value": ' . $promo_codes[$_GET['code']] . '
+			    	"value": ' . self::$PROMO_CODES[$_GET['code']]/100 . '
 			    }';
 			} else {
 			    echo '{
