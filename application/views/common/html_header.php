@@ -28,7 +28,7 @@
     // internal resources
     if ( isset($css) ) {
     	// add assets
-		if(defined('DEBUG') && DEBUG == true) {
+		if(defined('MINIFY') && MINIFY == false) {
 			foreach ($css as $asset) {
 	    		echo '<link type="text/css" rel="stylesheet" href="/' . $asset . '" media="screen" />'.PHP_EOL;
 			}
@@ -50,7 +50,7 @@
         // internal resources
 	    if ( isset($js) ) {
             // add assets
-			if(defined('DEBUG') && DEBUG == true) {
+			if(defined('MINIFY') && MINIFY == false) {
 				foreach ($js as $asset) {
 		    		echo '<script type="text/javascript" src="/' . $asset . '"></script>'.PHP_EOL;
 				}
