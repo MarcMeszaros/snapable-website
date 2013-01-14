@@ -38,7 +38,7 @@ function geocoder(address)
 {
 	// do geocode to get addresses lat/lng
 	// set #lat and #lng
-	$("#event_location_status").removeClass("location_good").removeClass("location_bad").addClass("spinner-16px")
+	//$("#event_location_status").removeClass("location_good").removeClass("location_bad").addClass("spinner-16px")
 	$.getJSON("http://where.yahooapis.com/geocode?location=" + encodeURIComponent(address) + "&flags=J&appid=qrVViDXV34GuS1yV7Mi2ya09wffvK6zlXaN1LFLQ3Q7fIXQI2MVhMtLMKQkDWMPP_g--", function(data)
 	{
 		if ( data['ResultSet']['Error'] == 0 )
@@ -48,9 +48,9 @@ function geocoder(address)
 			$("#lat").val(lat);
 			$("#lng").val(lng);
 			// set spinner to checkmark
-			$("#event_location_status").removeClass("spinner-16px").addClass("location_good");
+			//$("#event_location_status").removeClass("spinner-16px").addClass("location_good");
 		} else {
-			$("#event_location_status").removeClass("spinner-16px").addClass("location_bad");
+			//$("#event_location_status").removeClass("spinner-16px").addClass("location_bad");
 		}
 		/*
 		var mapOptions = {
@@ -359,19 +359,6 @@ $(document).ready(function()
 				$("#event_title").focus();
 				$("#event_title").addClass("input-error");
 				$("#event_title_error").fadeIn();
-				location.href="#event-details";
-			}
-			else if ( location == "" )
-			{
-				$("#event_location").focus();
-				$("#event_location").addClass("input-error");
-				$("#event_location_error").fadeIn();
-				location.href="#event-details";
-			}
-			else if ( (lat == "" || lat == "0") && (lng == "" || lng == "0") )
-			{
-				$("#event_location").focus();
-				$("#event_location").addClass("input-error");
 				location.href="#event-details";
 			}
 			else if ( validUrl == 0 )
