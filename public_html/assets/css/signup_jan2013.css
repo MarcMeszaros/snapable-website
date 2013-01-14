@@ -457,15 +457,15 @@ hr {
 
 a.button:link, a.button:visited, #completSignup {
 	display: block;
-	width: 200px;
+	width: 210px;
     padding: 20px;
     background: #99cc33;
     border-radius: 30px;
     border: none;
     
     color: #fff;
-    font-size: 22px;
-    line-height: 24px;
+    font-size: 20px;
+    line-height: 22px;
     font-weight: normal;
     text-decoration: none;
 	text-align: center;
