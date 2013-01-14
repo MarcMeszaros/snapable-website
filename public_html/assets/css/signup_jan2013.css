@@ -476,6 +476,10 @@ a.button:hover, #completSignup:hover {
 	background: #669900;
 }
 
+#completSignup:disabled {
+	background: #ccc;
+}
+
 
 .secureInfo {
 	float: right;

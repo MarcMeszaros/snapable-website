@@ -47,39 +47,8 @@ function geocoder(address)
 			var lng = data['ResultSet']['Results'][0]['longitude'];
 			$("#lat").val(lat);
 			$("#lng").val(lng);
-			// set spinner to checkmark
-			//$("#event_location_status").removeClass("spinner-16px").addClass("location_good");
-		} else {
-			//$("#event_location_status").removeClass("spinner-16px").addClass("location_bad");
 		}
-		/*
-		var mapOptions = {
-			center: new google.maps.LatLng(lat, lng),
-			zoom: 15,
-			mapTypeId: google.maps.MapTypeId.ROADMAP,
-			streetViewControl: false
-		};
-		var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
-		var marker = new google.maps.Marker({
-		    position: new google.maps.LatLng(lat, lng),
-		    map: map,
-		    draggable: true,
-		    animation: google.maps.Animation.DROP
-		});
-		google.maps.event.addListener(marker, "dragend", function(event) {
-       		var point = marker.getPosition();
-       		$("#lat").val(point.lat());
-			$("#lng").val(point.lng());
-       		map.panTo(point);
-
-			var timestamp = Math.round((new Date()).getTime() / 1000);
-			var tzRequest = '/ajax/timezone?lat='+point.lat()+'&lng='+point.lng()+'&timestamp='+timestamp;
-			$.getJSON(tzRequest, function(data){
-				$('#timezone').val((data.rawOffset/60));
-			});
-       	});
-        $('#map_canvas_container').slideDown();
-        */
+		
 		var timestamp = Math.round((new Date()).getTime() / 1000);
 		var tzRequest = '/ajax/timezone?lat='+lat+'&lng='+lng+'&timestamp='+timestamp;
 		$.getJSON(tzRequest, function(data){
@@ -228,21 +197,8 @@ $(document).ready(function()
 		}
 		
 		return false;
-	})/*
-	$("#user_email").blur( function()
-	{
-		if ( checkEmail($("#user_email").val()) == false )
-		{
-			$("#user_email").focus();
-			$("#user_email").addClass("input-error");
-			$("#user_email_error").fadeIn();
-		} else {
-			$("#user_email").removeClass("input-error");
-			$("#user_email_error").fadeOut();
-		}
-		
-		return false;
-	})*/
+	})
+	
 	$("#user_password, #user_password_confirmation").blur( function()
 	{
 		if ( $("#user_password").val().length < 6 )
@@ -444,7 +400,7 @@ $(document).ready(function()
 	
 	$("#payment-form").submit(function(event) {
 		// disable the submit button to prevent repeated clicks
-		$('#completSignup').attr("disabled", "disabled");
+		$('input[name=submit-button]').attr("disabled", "disabled");
 		
 		// check form fields
 		$("#creditcard_name").blur();

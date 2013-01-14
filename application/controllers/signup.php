@@ -63,6 +63,7 @@ class Signup extends CI_Controller {
 	{
 		// USED BY /signup as of Jan 4, 2013
 		
+		
 		if ( isset($_POST) && isset($_POST['stripeToken']) )
 		{	 
 			// Step 1: Setup account/user and log them in	
@@ -102,7 +103,7 @@ class Signup extends CI_Controller {
 					
 					if ( $_POST['promo-code-applied'] == 1 )
 					{
-						$discount = $_POST['promo-code-amount'] * 100;
+						$discount = $this->promo($_POST['promo-code']) * 100;
 						$amount_in_cents = $amount_in_cents - $discount;
 						$amount_in_dollars = $amount_in_dollars - $_POST['promo-code-amount'];
 					}
@@ -276,12 +277,16 @@ class Signup extends CI_Controller {
 	
 	function promo()
 	{
-		if ( IS_AJAX && isset($_GET['code']) )
+		$numargs = func_num_args();
+		
+		$promo_codes = array(
+			"test" => 5,
+			"weddingful" => 10
+		);
+		
+		if ( IS_AJAX && isset($_GET['code']) && $numargs == 0 )
 		{
-			$promo_codes = array(
-				"test" => 5,
-				"weddingful" => 10
-			);
+			
 			
 			if ( array_key_exists($_GET['code'], $promo_codes) ) 
 			{
@@ -295,8 +300,12 @@ class Signup extends CI_Controller {
 			    	"status": 404
 			    }';
 			}
+		}
+		else if ( $numargs == 1 ) 
+		{
+			return $promo_codes[func_get_arg(0)];
 		} else {
-			show_404();	
+			return 0;
 		}		
 	}
 	
