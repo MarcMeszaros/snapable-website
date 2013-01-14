@@ -16,8 +16,18 @@ class Checkout extends CI_Controller {
 	    
     	$this->head = array(
 			'noTagline' => true,
-			'css' => base64_encode('assets/css/signin.css,assets/css/setup.css,assets/css/checkout.css,assets/css/header.css,assets/css/footer.css'),
-			'js' => base64_encode('assets/js/mustache.js,assets/js/jquery-Mustache.js,assets/js/checkout.js'),
+			'css' => array(
+				'assets/css/signin.css',
+				'assets/css/setup.css',
+				'assets/css/checkout.css',
+				'assets/css/header.css',
+				'assets/css/footer.css'
+			),
+			'js' => array(
+				'assets/js/mustache.js',
+				'assets/js/libs/jquery-Mustache.js',
+				'assets/js/checkout.js'
+			),
 			'title' => "Get Prints from Snapable",
 			'type' => "checkout",
 			'url' => $event_url
@@ -91,7 +101,7 @@ class Checkout extends CI_Controller {
 			$step = array(
 				'step' => 'shipping'
 			);
-			$this->head['js'] = base64_encode('assets/js/checkout-shipping.js'); 
+			$this->head['js'] = array('assets/js/checkout-shipping.js'); 
 			
 			// CHECK ORDER CONTENTS
 			if ( isset($_COOKIE['phCart']) )
@@ -173,7 +183,7 @@ class Checkout extends CI_Controller {
 			$step = array(
 				'step' => 'billing'
 			);
-			$this->head['js'] = base64_encode('assets/js/checkout-billing.js');
+			$this->head['js'] = array('assets/js/checkout-billing.js');
 			$this->head['stripe'] = true;
 			
 			$allowed_hosts = array('snapable.com', 'www.snapable.com', 'internal.snapable.com');
@@ -306,7 +316,7 @@ class Checkout extends CI_Controller {
 			$step = array(
 				'step' => 'complete'
 			);
-			$this->head['js'] = base64_encode('assets/js/checkout-complete.js'); 
+			$this->head['js'] = array('assets/js/checkout-complete.js'); 
 			
 			$this->load->view('common/html_header', $this->head);
 			$this->load->view('common/header2', $this->head);

@@ -11,10 +11,10 @@ class Internal extends CI_Controller {
         $this->load->model('user_model','',TRUE);
 
         // make sure 'super' users (ie. id < 1000 are logged in)
-        $logged_in_user = $this->session->userdata('logged_in');
+        $logged_in_user = SnapAuth::is_logged_in();
         $logged_in_parts = explode('/', $logged_in_user['resource_uri']);
         if (!isset($logged_in_parts[3]) || $logged_in_parts[3] >= 1000) {
-            redirect('/account/signin');
+            show_404(); // returning 404 makes the internal dashboard more obscure
         }
     }
     
@@ -25,9 +25,16 @@ class Internal extends CI_Controller {
 
     public function dashboard()
     {
+        require_https();
         $data = array(
-            //'css' => base64_encode('assets/css/setup.css,assets/css/signin.css'),
-            //'js' => base64_encode('assets/js/signin.js'),
+            'ext_css' => array(
+                '//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.1/css/bootstrap.min.css',
+            ),
+            'css' => array('assets/css/internal/dashboard.css'),
+            'ext_js' => array(
+                '//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.1/bootstrap.min.js'
+            ),
+            'js' => array('assets/js/internal/dashboard-metrics.js'),
             'title' => 'Internal Dashboard',    
         );
         

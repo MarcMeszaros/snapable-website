@@ -6,9 +6,7 @@ class Min extends CI_Controller {
 	{
     	parent::__construct();
     	// MINIFY CSS
-    	$this->load->driver('minify');
-    	
-    	//$this->load->model('photo_model','',TRUE);		    	
+    	$this->load->driver('minify');    	
 	}
 
 	public function index()

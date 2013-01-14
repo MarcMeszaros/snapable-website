@@ -47,9 +47,7 @@
 	<div id="eventFirstRun">
 		<ul id="eventFirstRunText">
 			<li id="uploadText" class="displayMe">
-				<h1>There’s no photos in your event yet.</h1>
-				<h2>Why not upload a few to get started?</h2>
-				<h3>(Maybe a few of the bride/groom to start the photostream with?)</h3>
+				<h1>Add a few photos to get started!</h1>
 			</li>
 			<!--<li id="slideshowText">
 				<h1>Create a slideshow</h1>
@@ -58,7 +56,7 @@
 			</li>-->
 			<li id="guestsText">
 				<h1>Let people know to use Snapable</h1>
-				<h2>Add your guest list & set their roles</h2>
+				<h2>Add your guest list</h2>
 				<h3>(To ensure only the people you want can take and see the photos)</h3>
 			</li>
 			<!--<li id="shareText">
@@ -73,7 +71,7 @@
 			</li>-->
 		</ul>
 		<div id="eventFirstRunDots">
-			<a id="uploadDot" class="blue" href="#upload">Upload Photos</a>
+			<a id="uploadDot" class="blue" href="#upload">Add Photos</a>
 			<!--<a id="slideshowDot" href="#slideshow">Slideshow</a>-->
 			<a id="guestsDot" href="#guests">Invite Guests</a>
 			<!--<a id="shareDot" href="#share">Share</a>
@@ -88,49 +86,69 @@
 	
 	<ul class="tabs">
 		<li class="active" id="addTab"><a href="#add">Add</a></li>
-		<li id="notifyTab"><a href="#notify">Notify</a></li>
-		<li id="tablecardTab"><a href="#tablecard">Table Cards</a></li>
 		<li id="guestsTab"><a href="#guestlist">Guest List</a></li>
+		<li id="notifyTab"><a href="#notify">Preview + Send</a></li>
 	</ul>
 	
 	<div id="addBox" class="tab-content">{{>guest-addbox}}</div>
 	<div id="notifyBox" class="tab-content">{{>guest-notifybox}}</div>	
 	<div id="guestlistBox" class="tab-content">Guest List</div>	
-	<div id="tablecardBox" class="tab-content">
-		<p>If you haven't emailed your guests about Snapable (or there's guests that weren't on the list) use our custom table cards (see example) to inform them at the event. <a href="mailto:team@snapable.com">Email us</a> (<a href="mailto:team@snapable.com">team@snapable.com</a>) with how many cards you'll need, any custom messages you'd like to include and where you'd like the cards to be shipped.</p>
-	</div>	
+	<div id="tablecardBox" class="tab-content">{{>guest-tablecardbox}}</div>	
+</script>
+
+
+<script id="tablecards" type="text/html">
+	<h3>Table Cards</h3>
+	
+	<img src="/assets/img/tablecard.png" alt="Table card sample" />
+	
+	<p>
+		Make sure your guests know about Snapable! In addition to inviting them before your big day, you can also use our custom table cards at the wedding. 
+	</p>
+	<br>
+	<p>
+		To order your downloadable, printable PDF please email <a href="mailto:team@snapable.com">team@snapable.com</a> at least 3 days prior to your event.  
+	</p>	
 </script>
 
 
 <script id="guest-addbox" type="text/html">
-	<p>Add guests and let them know to download the Snapable mobile app before your big day. <em>Include their type* to give more access to some guests.</em></p>
-	
-	<h3><em><a name="guest-type"></a><strong>* Types include: </strong>Organizer, Bride/Groom, Wedding Party, Family, or Guest</em></h3>
+	<p>Make sure everyone knows about Snapable before the big day! Import your guest list or enter the email addresses manually.</p>
 	
 	<div id="guest-choices" class="choiceBox">{{>guest-options}}</div>
 </script>
 
 <script id="guest-notifybox" type="text/html">
-	<p>Let your guests know to download Snapable in advance.</p>
+	<p>
+		Let your guests know to download Snapable in advance. 
+	</p>
 	
 	<div id="notify-wrap">	
 		<div id="notify-group">
 		
-			<p><strong>Send email to:</strong></p>
-			
-			<p>
-				<input type="checkbox" name="notify-type" value="2" /> Bride/Groom
-				<br /><input type="checkbox" name="notify-type" value="3" /> Wedding party
-				<br /><input type="checkbox" name="notify-type" value="4" /> Family
-				<br /><input type="checkbox" name="notify-type" value="5" CHECKED /> All Guests
-			</p>
-			<div id="do-notify-wrap"><a href="#" id="do-notify-guests">Send Email(s)</a></div>
+			<a href="#" id="do-send-to-guests">Send Email(s)</a>
 		</div>		
 		<div id="notify-message"></div>
 		<div class="clearit">&nbsp;</div>
 	</div>
 </script>
 
+<script id="guest-tablecardbox" type="text/html">
+	<p>
+		Make sure your guests know about Snapable! In addition to inviting them before your big day, 
+		you can also use our custom table cards at the wedding. Here’s a sample card complete with 
+		instructions on how to use the app.
+	</p>
+	<br>
+	<p>
+		To order your PDF or printed cards, email us at: <a href="mailto:team@snapable.com" target="_blank">team@snapable.com</a>. 
+		If you would like printed cards, please provide, the number of cards required and your shipping address.
+	</p>
+	<br>
+	<p>
+		Please note that there is a fee and a 14 day lead time is required. 
+	</p>
+</script>
 
 <script id="guest-options">
 	<a id="guest-link-upload" href="#">
@@ -147,7 +165,7 @@
 		* One guest per line
 		-->
 		
-		Copy/Paste or Input Manually
+		Copy/Paste or Manual Entry
 		
 	</a>
 	
@@ -161,7 +179,7 @@
 	
 	<form id="guests-file-uploader"><input type="file" accept="text/csv" id="guests-csv-input" name="guests-file-input" /> <input id="guests-upload-csv" type="button" value="Upload" /></form>
 	
-	<p><em>The expected format is <strong>Name, Email, Type</strong></em></p>	
+	<p><em>The expected format is <strong>Name, Email</strong></em></p>	
 	
 	<p>&rarr; <a href="#" id="guests-file-how-to-csv-link">How-to Save a CSV file</a> &nbsp; &nbsp; &rarr; <a href="/assets/csv_sample.csv">Download a Sample CSV file</a></p>		
 	
@@ -182,7 +200,7 @@
 	<a class="guests-back-to-choices" href="#">‹ Back</a>
 			
 			Copy/paste (or type) your guests below then click "Done".
-			<br /><em>The expected format is <strong>Name, Email, Type</strong> (one per line)</em>
+			<br /><em>The expected format is <strong>Name, Email</strong> (one per line)</em>
 			
 			<textarea id="guests-manual-textarea"></textarea>
 			
@@ -196,7 +214,6 @@
 		<select id="csvHeaderOne">
 			<option value="email">Email</option>
 			<option value="name">Name</option>
-			<option value="type">Guest Type</option>
 		</select>
 		
 		<ul id="rowOneContents"></ul>
@@ -206,7 +223,6 @@
 		<select id="csvHeaderTwo">
 			<option value="email">Email</option>
 			<option value="name">Name</option>
-			<option value="type">Guest Type</option>
 		</select>
 		
 		<ul id="rowTwoContents"></ul>
@@ -231,7 +247,7 @@
 </script>
 
 <script id="guest-list" type="text/html">
-	<li><div class="guest-name">{{name}}</div><div class="guest-email"><a href="mailto:{{email}}">{{email}}</a></div><div class="guest-type">{{type}}</div></li>
+	<li><div class="guest-name">{{name}}</div><div class="guest-email"><a href="mailto:{{email}}">{{email}}</a></div></li>
 </script>
 
 <script id="checkout-photo" type="text/html">

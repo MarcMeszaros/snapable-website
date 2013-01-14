@@ -70,7 +70,6 @@ Class Event_model extends CI_Model
 					'url' => $e->url,
 					'title' => $e->title,
 					'pin' => $e->pin,
-					'package' => $e->package,
 					'start' => $e->start,
 					'end' => $e->end,
 					'human_start' => $human_start,
@@ -81,6 +80,7 @@ Class Event_model extends CI_Model
 					'resource_uri' => $e->resource_uri,
 					'user' => $e->user,
 					'privacy' => $privacyParts[3],
+					'public' => $e->public,
 					'photos' => $e->photo_count,
 					'tz_offset' => $e->tz_offset,
 				);
@@ -122,44 +122,6 @@ Class Event_model extends CI_Model
 					"response": ' . $response . '
 				}';
 	}
-	
-	function validateGuest($details, $email, $pin)
-	{
-		// check events privacy setting, if email address is in guest list and if PIN matches event's pin
-		$privacy = $details->event->privacy;
-		$pin = $details->event->pin;
-		$eventID = explode("/", $details->event->resource_uri);
-
-		$verb = 'GET';
-		$path = '/guest/';
-		$params = array(
-			'email' => $email,
-			'event' => $eventID[3],
-		);
-		$resp = SnapApi::send($verb, $path, $params);
-
-		$response = $resp['response'];
-		$response = str_replace("false", "\"0\"", $response);
-		$response = str_replace("true", "\"1\"", $response);
-		$result = json_decode($response);
-		$httpcode = $resp['code'];
-		
-		if ( $httpcode == 200 && $result->meta->total_count > 0 )
-		{
-			$json = '{
-				"status": 200,
-				"name": "' . $result->objects[0]->name . '",
-				"type": "' . substr($result->objects[0]->type, -2, 1) . '",
-				"resource_uri": "' . $result->objects[0]->resource_uri . '"
-			}';
-		} else {
-			$json = '{
-				"status": 404
-			}';
-		}
-		return $json;
-	}
-	
 	
 	function guestCount($resource_uri)
 	{
@@ -346,13 +308,10 @@ Class Event_model extends CI_Model
 			$session_data = $this->session->userdata('logged_in');
 			$event_data = $this->session->userdata('event_deets');
 			
-			if ( isset($post['message']) && isset($post['sendto']) )
+			if ( isset($post['message']) )
 			{
 				$message = $post['message'];
-				$sendTo = $post['sendto'];
 				$event_id = explode("/", $post['resource_uri']);
-				
-				$privacy_level = max($sendTo);
 				
 				// get guests
 				$verb = 'GET';
@@ -385,58 +344,55 @@ Class Event_model extends CI_Model
 					{
 						$type = explode("/", $o->type);
 						
-						if ( $type[3] <= $privacy_level )
+						$to = $o->email;
+						$toname = $o->name;
+						
+						if ( $o->name == "" )
 						{
-							$to = $o->email;
-							$toname = $o->name;
-							
-							if ( $o->name == "" )
-							{
-								$name_html = "";
-								$name_text = "";
-							} else {
-								$name_html = $o->name . ", <br /><br />";
-								$name_text = $o->name . ', \n\n';
-							}
-							
-							$data = array(
-								'display' => "email",
-								'message' => $message,
-								'name' => $name_html,
-								'fromname' => $fromname
-							);
-							$message_html = $this->load->view('email/guest_notification', $data, true);
-							
-							$message_text = $name_text . $fromname . ' has sent you this message:\n\n ' . $message . '\n\nWhat is Snapable?\n\nBy downloading the Snapable app, you can take photos at the wedding and share them the Bride and Groom, allowing them and everyone at the wedding to get a full view of what happened during the event and get the ones they like best printed to display with pride.\n\nFind out more at http://snapable.com\n\n(c) ' . date("Y") . ' Snapable. All rights reserved.';
-							
-							$params = array(
-							    'api_user'  => $user,
-							    'api_key'   => $pass,
-							    'to'        => $to,
-							    'toname'	=> $toname,
-							    'subject'   => $subject,
-							    'html'      => $message_html,
-							    'text'      => $message_text,
-							    'from'      => $from,
-							    'fromname'	=> $fromname
-							  );
-							
-							$request =  $url.'api/mail.send.json';
-							
-							// Generate curl request
-							$session = curl_init($request);
-							// Tell curl to use HTTP POST
-							curl_setopt ($session, CURLOPT_POST, true);
-							// Tell curl that this is the body of the POST
-							curl_setopt ($session, CURLOPT_POSTFIELDS, $params);
-							// Tell curl not to return headers, but do return the response
-							curl_setopt($session, CURLOPT_HEADER, false);
-							curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
-							
-							// obtain response
-							$response = json_decode(curl_exec($session));
-							curl_close($session);
+							$name_html = "";
+							$name_text = "";
+						} else {
+							$name_html = $o->name . ", <br /><br />";
+							$name_text = $o->name . ', \n\n';
 						}
+						
+						$data = array(
+							'display' => "email",
+							'message' => $message,
+							'name' => $name_html,
+							'fromname' => $fromname
+						);
+						$message_html = $this->load->view('email/guest_notification', $data, true);
+						
+						$message_text = $name_text . $fromname . ' has sent you this message:\n\n ' . $message . '\n\nWhat is Snapable?\n\nBy downloading the Snapable app, you can take photos at the wedding and share them the Bride and Groom, allowing them and everyone at the wedding to get a full view of what happened during the event and get the ones they like best printed to display with pride.\n\nFind out more at http://snapable.com\n\n(c) ' . date("Y") . ' Snapable. All rights reserved.';
+						
+						$params = array(
+						    'api_user'  => $user,
+						    'api_key'   => $pass,
+						    'to'        => $to,
+						    'toname'	=> $toname,
+						    'subject'   => $subject,
+						    'html'      => $message_html,
+						    'text'      => $message_text,
+						    'from'      => $from,
+						    'fromname'	=> $fromname
+						  );
+						
+						$request =  $url.'api/mail.send.json';
+						
+						// Generate curl request
+						$session = curl_init($request);
+						// Tell curl to use HTTP POST
+						curl_setopt ($session, CURLOPT_POST, true);
+						// Tell curl that this is the body of the POST
+						curl_setopt ($session, CURLOPT_POSTFIELDS, $params);
+						// Tell curl not to return headers, but do return the response
+						curl_setopt($session, CURLOPT_HEADER, false);
+						curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
+						
+						// obtain response
+						$response = json_decode(curl_exec($session));
+						curl_close($session);
 					}
 					
 					return 'sent';
@@ -636,18 +592,11 @@ Class Event_model extends CI_Model
 	
 	function updatePrivacy($event_uri, $setting)
 	{
-		if ( $setting == 0 )
-		{
-			$type_uri = "/".SnapApi::$api_version."/type/5/";	
-		} else {
-			$type_uri = "/".SnapApi::$api_version."/type/6/";
-		}
-
 		$eventParts = explode('/',$event_uri);
 		$verb = 'PUT';
 		$path = '/event/'.$eventParts[3].'/';
 		$params = array(
-			"type" => $type_uri,
+			'public' => ($setting == 0) ? false : true,
 		);
 		$resp = SnapApi::send($verb, $path, $params);
 
@@ -655,13 +604,9 @@ Class Event_model extends CI_Model
         $httpcode = $resp['code'];
                
         if(!$response) {
-            return '{
-	        	"status": 404
-	        }';
+            return json_encode(array('status' => 404));
         } else {
-        	return '{
-	        	"status": ' . $httpcode . '
-	        }';
+        	return json_encode(array('status' => $httpcode));
         }
 	}
 

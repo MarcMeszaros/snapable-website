@@ -113,17 +113,7 @@ Class Signup_model extends CI_Model
 	
 	function createEvent($event, $user)
 	{
-		// Charge Credit Card then do rest if it comes back ok
-		/*
-	    [user] => Array
-	        (
-	            [first_name] => Andrew
-	            [last_name] => Draper
-	            [email] => andrew.draper@gmail.com
-	            [password] => golden123
-	            [password_confirmation] => golden123
-	        )
-	        */
+		$successResp = array();
 	    
 	    // USER
 	    $email_address = $user['email'];
@@ -139,17 +129,22 @@ Class Signup_model extends CI_Model
 		    "terms" => true,
 		);
 		$resp = SnapApi::send($verb, $path, $params);
-
 		$response = $resp['response'];
-		$httpcode = $resp['code'];
 		
-		if ( $httpcode == 201 )
+		//echo "<pre>";
+		//print_r($response);
+		//echo "</pre>";
+		
+		if ( $resp['code'] == 201 )
 		{
-		
 			$result = json_decode($response);
 			$user_uri = $result->resource_uri;
 			$tempResult = json_decode($response, true);
 			$account_uri = $tempResult['accounts'][0];
+
+			// set the account/user id's
+			$successResp['user'] = $user_uri;
+			$successResp['account'] = $account_uri;
 			
 			// EVENT
 		    $min = 1000;
@@ -157,12 +152,12 @@ Class Signup_model extends CI_Model
 			$event_pin = rand($min,$max);
 			
 			//GET TIMEZONE 
-			$earth_uri  = "http://www.earthtools.org/timezone/" . $event['lat'] . "/" . $event['lng'];
-			$earth_response = simplexml_load_file($earth_uri);
-			$timezone_offset = $earth_response->offset;
-			$timezone_offset_seconds = $timezone_offset * 3600;
+			//$earth_uri  = "http://www.earthtools.org/timezone/" . $event['lat'] . "/" . $event['lng'];
+			//$earth_response = simplexml_load_file($earth_uri);
+			//$timezone_offset = $earth_response->offset;
+			$timezone_offset_seconds = $event['tz_offset'] * 60;
 			// SET TO UTC
-			$start_timestamp = strtotime($event['start_date'] . " " . $event['start_time']) - ($timezone_offset_seconds);
+			$start_timestamp = strtotime($event['start_date'] . " " . $event['start_time']) + ($timezone_offset_seconds);
 			
 			$start = gmdate( "c", $start_timestamp ); //date( "Y-m-d", $start_timestamp ) . "T" . date( "H:i:s", $start_timestamp ); // formatted: 2010-11-10T03:07:43 
 			
@@ -176,32 +171,30 @@ Class Signup_model extends CI_Model
 			$end_timestamp = $start_timestamp + $duration_in_seconds;
 			$end = gmdate( "c", $end_timestamp );
 			
-			$created = date( "Y-m-d" ) . "T" . date( "H:i:s" );
+			//$created = date( "Y-m-d" ) . "T" . date( "H:i:s" );
 			
 			$verb = 'POST';
 			$path = '/event/';
 			$params = array(
 				"account" => $account_uri,
-				"package" => "/".SnapApi::$api_version."/package/1/",
 				"title" => $event['title'],
 			    "url" => $event['url'],
 			    "start" => $start,
 			    "end" => $end,
 			    "pin" => $event_pin,
-			    "type" => "/".SnapApi::$api_version."/type/5/",
+			    "private" => true,
 			    "enabled" => true,
-			    "tz_offset" => $event['timezone'],
+			    "tz_offset" => $event['tz_offset'],
 			);
 			$resp = SnapApi::send($verb, $path, $params);
-
-			$response = $resp['response'];                                                                                
-			$httpcode = $resp['code'];
+			$response = $resp['response'];
 			
-			if ( $httpcode == 201 )
+			if ( $resp['code'] == 201 )
 			{
 
 				$result = json_decode($response);
-				$event_uri = $result->resource_uri; 
+				$event_uri = $result->resource_uri;
+				$successResp['event'] = $event_uri; 
 				
 				// ADDRESS
 				$verb = 'POST';
@@ -213,9 +206,6 @@ Class Signup_model extends CI_Model
 				    "lng" => $event['lng'],
 				);
 				$resp = SnapApi::send($verb, $path, $params);
-				
-				$response = $resp['response'];                                                                                
-				$httpcode = $resp['code'];
 
 				// add the user as the first guest
 				$verb = 'POST';
@@ -227,74 +217,38 @@ Class Signup_model extends CI_Model
 				    'name' => $user['first_name'] . ' ' . $user['last_name'],
 				);
 				$resp = SnapApi::send($verb, $path, $params);
-				$httpcode = $resp['code'];
 
-				if ( $httpcode == 201 )
+				if ( $resp['code'] == 201 )
 				{
-					$sess_array = array(
-			          'email' => $user['email'],
-			          'fname' => $user['first_name'],
-			          'lname' => $user['last_name'],
-			          'resource_uri' => $user_uri,
-			          'account_uri' => $account_uri,
-			          'loggedin' => true
-			        );
-			        $this->session->set_userdata('logged_in', $sess_array);
-			        
-					$result = json_decode($response);
-					
+					// set sessions var to log user in
+					SnapAuth::signin_nohash($user['email']);
+
 					// SEND SIGN-UP NOTIFICATION EMAIL
-	
-					$url = 'http://sendgrid.com/';
-					$user = 'snapable';
-					$pass = 'Snapa!23'; 
-					
 					$to = 'team@snapable.com';
-					$from = 'Snapable@snapable.com';
+					$from = 'snapable@snapable.com';
 					
 					$subject = 'Say Cheese, a Snapable Sign-up!';
 					$message_html = '<p><b>Woot!</b> ' . $email_address . ' just signed up to Snapable.</p><p>Their event starts ' . date( "Y-m-d", $start_timestamp ) . " @ " . date( "H:i:s", $start_timestamp ) . ' until ' . date( "Y-m-d", $end_timestamp ) . " @ " . date( "H:i:s", $end_timestamp ) . '.</p>';
 					$message_text = 'Woot! ' . $email_address . ' just signed up to Snapable. Their event starts ' . date( "Y-m-d", $start_timestamp ) . " @ " . date( "H:i:s", $start_timestamp ) . ' until ' . date( "Y-m-d", $end_timestamp ) . " @ " . date( "H:i:s", $end_timestamp ) . '.';
 					
-					$params = array(
-					    'api_user'  => $user,
-					    'api_key'   => $pass,
-					    'to'        => $to,
-					    'subject'   => $subject,
-					    'html'      => $message_html,
-					    'text'      => $message_text,
-					    'from'      => $from,
-					  );
-					
-					$request =  $url.'api/mail.send.json';
-					
-					// Generate curl request
-					$session = curl_init($request);
-					// Tell curl to use HTTP POST
-					curl_setopt ($session, CURLOPT_POST, true);
-					// Tell curl that this is the body of the POST
-					curl_setopt ($session, CURLOPT_POSTFIELDS, $params);
-					// Tell curl not to return headers, but do return the response
-					curl_setopt($session, CURLOPT_HEADER, false);
-					curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
-					
-					// execute request if not in debug obtain response
+					$this->email->from($from, 'Snapable');
+					$this->email->to($to);
+					$this->email->subject($subject);
+					$this->email->message($message_html);
+					$this->email->set_alt_message($message_text);		
 					if (DEBUG == false) {
-						$response = json_decode(curl_exec($session));
+						$this->email->send();
 					}
-					curl_close($session);
 					
-					//echo "sent";
-					
-					return 1;
+					return $successResp;
 				} else {
-					return 0;
+					return false;
 				}
 			} else {
-				return 0;
+				return false;
 			}
 		} else {
-			return 0;
+			return false;
 		}
 	} 
 

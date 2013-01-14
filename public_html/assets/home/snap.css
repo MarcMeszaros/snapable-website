@@ -160,7 +160,7 @@ ul#nav {
 	position: absolute;
 	top: 160px;
 	left: 15px;
-	width: 450px;
+	width: 470px;
 }
 
 #hand {
@@ -188,12 +188,12 @@ a.signUp {
 	float: left;
 	display: inline;
 	text-indent: -8000px;
-	width: 276px;
-	height: 101px;
-	background: transparent url('/assets/home/img/sign-up.png') no-repeat;
+	width: 300px;
+	height: 65px;
+	background: transparent url('/assets/home/img/package-sign-up.png') no-repeat;
 }
 a.signUp:hover {
-	opacity: 0.8;
+	opacity: 0.9;
 }
 a.findOutMore {
 	float: right;
@@ -202,7 +202,7 @@ a.findOutMore {
 	font-size: 18px;
 	line-height: 26px;
 	color: #00ccff;
-	margin-top: 57px;
+	margin-top: 22px;
 	text-decoration: none;
 	text-align: right;
 	text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.8);
@@ -456,8 +456,9 @@ section#how-it-works h2 {
 
 .package-big-bottom {
 	text-align: center;
-	padding: 25px 0 7px 0;
-	height: 146px;
+	padding: 22px 0 0 0;
+	margin-left: 1px;
+	height: 90px;
 	background:  transparent url('/assets/home/img/package-big-bottom-bg.png') no-repeat left bottom;
 }
 .package-price {
@@ -475,10 +476,13 @@ section#how-it-works h2 {
 #package-sign-up {
 	display: block;
 	text-indent: -8000px;
-	width: 276px;
-	height: 101px;
-	margin-left: 122px;
-	background: transparent url('/assets/home/img/sign-up.png') no-repeat;
+	width: 300px;
+	height: 65px;
+	margin-left: 86px;
+	background: url('/assets/home/img/package-sign-up.png') no-repeat;
+}
+#package-sign-up:hover {
+	opacity: 0.9;
 }
 
 #package-always {

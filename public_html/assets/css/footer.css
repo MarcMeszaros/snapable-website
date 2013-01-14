@@ -36,5 +36,11 @@ section#footer a:hover {
 #sm-facebook {
 	padding-top: 2px;
 	padding-left: 22px;
+    padding-right: 10px;
 	background: transparent url('/assets/img/icons/16px/facebook.png') no-repeat;
+}
+#sm-pinterest {
+    padding-top: 2px;
+    padding-left: 22px;
+    background: transparent url('/assets/img/icons/16px/pinterest.png') no-repeat;
 }

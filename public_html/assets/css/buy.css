@@ -40,6 +40,14 @@ section { margin-left: 20px; margin-bottom: 25px; }
 	width: 290px;
 	color: #fff;
 }
+.form-column-right h1,
+.form-column-right h2,
+.form-column-right h3,
+.form-column-right h4,
+.form-column-right h5,
+.form-column-right h6 {
+    color: #ffffff;
+}
 .form-column-right a:link, .form-column-right a:visited {
 	color: #66ccff;
 }
@@ -121,7 +129,7 @@ section { margin-left: 20px; margin-bottom: 25px; }
 
 .expires-field {
 	float: left;
-	width: 150px;
+	width: 160px;
 }
 .cvv-field {
 	float: left;
@@ -261,6 +269,14 @@ span.left { float: left; }
 
 #btn-sign-up {
 	margin-left: 15px;
+}
+
+#package-details ul {
+    list-style: none;
+}
+
+#package-details ul li {
+    padding: 5px 0;
 }
 
 /**** STEP 2 ****/
@@ -406,3 +422,25 @@ p {
 	border:2px solid #cc3300;
 }
 
+.submit-button {
+    width: 250px;
+    height: 75px;
+    background: transparent url('/assets/img/complete.png') no-repeat;
+    border: 0;
+    text-indent: -10000px;
+}
+.submit-button:hover {
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+#processing-order-msg {
+    margin: 10px 0 0 25px;
+}
+
+#processing-order-msg span.status {
+    margin-left: 4px;
+    width: 16px;
+    display: inline-block;
+    background: url('/assets/img/spinner_blue_sm.gif') no-repeat right top;
+}

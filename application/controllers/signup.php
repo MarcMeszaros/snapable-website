@@ -2,50 +2,262 @@
 
 class Signup extends CI_Controller {
 
+	// promo codes key/value pairs (in cents)
+	public static $PROMO_CODES = array(
+		'weddingful' => 2000,
+	);
+
 	function __construct()
 	{
     	parent::__construct(); 
-    	$this->load->model('signup_model','',TRUE);		    	
+    	$this->load->library('email');
+    	$this->load->model('signup_model','',TRUE);		
+    	$this->load->model('account_model','',TRUE);
+		
+    	$this->load->library('email');
+    	$this->load->helper('stripe');
+    	$this->load->helper('currency');    	
+	}
+
+	public function _remap($method, $params = array())
+	{
+	    if (method_exists($this, $method)) {
+	    	return call_user_func_array(array($this, $method), $params);
+	    } else {
+	    	array_unshift($params, $method); // add the method as the first param
+	    	return call_user_func_array(array($this, 'index'), $params);
+	    }
 	}
 	
-	public function index()
+	public function index($package=null)
 	{
-		if( (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] != "on") && $_SERVER['HTTP_HOST'] != "snapable")
-		{
-		    header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
-		    exit();
+		require_https();
+
+		// use the "userdata" session because the flashdata is having problems...
+		if (isset($package)) {
+			$this->session->set_userdata('signup_package', $package);
+		} else {
+			// TODO: figure out a more elegant way than hardcoding the package name here as fallback
+			$this->session->set_userdata('signup_package', 'standard');
 		}
 		
 		$head = array(
+			'stripe' => true,
 			'linkHome' => true,
-			'css' => base64_encode('assets/css/cupertino/jquery-ui-1.8.21.custom.css,assets/css/timePicker.css,assets/css/setup.css,assets/css/header.css,assets/css/signup.css'),
-			'js' => base64_encode('assets/js/jquery-ui-1.8.21.custom.min.js,assets/js/jquery.timePicker.min.js,assets/js/signup.js'),
+			'ext_css' => array(
+				'//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/themes/cupertino/jquery-ui.css',
+			),
+			'css' => array(
+				'assets/css/timePicker.css',
+				'assets/css/setup.css',
+				'assets/css/signup_jan2013.css', 
+				'assets/css/home_footer.css'
+			),
+			'ext_js' => array(
+				'//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js',
+			),
+			'js' => array(
+				'assets/js/libs/jquery.timePicker.min.js',
+				'assets/js/signup.js'
+			),
 			'url' => 'blank'	
 		);
 		$this->load->view('common/html_header', $head);
-		$this->load->view('signup/index', $head);
-		$this->load->view('common/html_footer', $head);
+		$this->load->view('signup/signup-jan2013', $head);
+		$this->load->view('common/home_footer.php');
+		$this->load->view('common/html_footer');
+	}
+	
+	
+	function setup()
+	{
+		// USED BY /signup as of Jan 4, 2013
+		
+		
+		if ( isset($_POST) && isset($_POST['stripeToken']) )
+		{	 
+			// Step 1: Setup account/user and log them in	
+			$create_event = $this->signup_model->createEvent($_POST['event'], $_POST['user']);
+			
+			if ( $create_event )
+			{
+				// set sessions var to log user in
+				//SnapAuth::signin_nohash($_POST['user']['email']);
+				$hash = SnapAuth::snap_hash($_POST['user']['email'], $_POST['user']['password']);
+				SnapAuth::signin($_POST['user']['email'], $hash);
+		        
+		        // Step 2: Bill'em Dano
+		    	$session_data = SnapAuth::is_logged_in();
+								
+				if ( $session_data )
+				{	
+					// get user/account details from session data set during signup
+					$userParts = explode('/', $session_data['resource_uri']);
+					$accountParts = explode('/', $session_data['account_uri']);
+					
+					// get package details
+					$verb = 'GET';
+					$path = 'package/2'; // standard package
+					$resp = SnapApi::send($verb, $path);
+					$package = json_decode($resp['response']);
+
+					// set price in cents
+					$amount_in_cents = 7900;
+
+					if ( $_POST['promo-code-applied'] == 1 && array_key_exists($_POST['promo-code'], self::$PROMO_CODES))
+					{
+						$discount = self::$PROMO_CODES[$_POST['promo-code']];
+						$amount_in_cents = $amount_in_cents - $discount;
+					}
+					
+					if ( $amount_in_cents > 0 )
+					{
+						// get the credit card details submitted by the form
+						$token = $_POST['stripeToken'];
+						
+						try {
+							// create the charge on Stripe's servers - this will charge the user's card
+							$charge = Stripe_Charge::create(array(
+							  'amount' => $amount_in_cents, // amount in cents, again
+							  'currency' => 'usd',
+							  'card' => $token,
+							  'description' => "$" . ($amount_in_cents / 100) . " charge for Snapable event to " . $session_data['email'],
+							));
+							$chargeData = json_decode($charge);
+							
+							// create a Snapable order using the API
+							$verb = 'POST';
+							$path = 'order';
+							$params = array(
+								'total_price' => $amount_in_cents,
+								'account' => $session_data['account_uri'],
+								'user' => $session_data['resource_uri'],
+								'paid' => $chargeData->paid,
+								'items' => array(
+									'package' => 2, // the package id
+									'account_addons' => array(), // required field, but empty
+									'event_addons' => array(), // required field, but empty
+								),
+								'payment_gateway_invoice_id' => $chargeData->id,
+							);
+							$resp = SnapApi::send($verb, $path, $params);
+							
+							// send email to user regardless of what happens after
+							// ie. they should know we managed to charge their credit card,
+							// even if stuff breaks after here
+							$items = array(
+								'Snapable Event' => array(
+									'price' => $amount_in_cents,
+								),
+							);
+							$receipt = array(
+								'total' => $amount_in_cents,
+								'items' => $items,
+							);
+			
+							$this->email->initialize(array('mailtype'=>'html'));
+							$this->email->from('team@snapable.com', 'Snapable');
+							$this->email->to($session_data['email']);
+							$this->email->subject('Your Snapable order has been processed');
+							$this->email->message($this->load->view('email/receipt_html', $receipt, true));
+							$this->email->set_alt_message($this->load->view('email/receipt_text', $receipt, true));
+							$this->email->send();
+			
+							// if it makes the account invalid
+							$validUntil = null;
+							if (isset($package->interval) && isset($package->interval_count) && isset($package->trial_period_days))
+							{
+								// get the current datetime
+								$dt = new DateTime('now', new DateTimeZone('UTC'));
+								// make the trial time interval
+								$intervalTrial = new DateInterval('P'.$package->trial_period_days.'D');
+								
+								// create the package interval based on package info
+								$intervalStr = 'P'.$package->interval_count;
+								if ($package->interval == 'day') {
+									$intervalStr .= 'D';
+								} else if ($package->interval == 'month') {
+									$intervalStr .= 'M';
+								} else if ($package->interval == 'year') {
+									$intervalStr .= 'Y';
+								}
+								$intervalPackage = new DateInterval($intervalStr);
+
+								// figure out when this all ends in the future by adding the two intervals
+								$dt->add($intervalTrial);
+								$dt->add($intervalPackage);
+								$validUntil = $dt->format('c');
+							}
+
+							// update the account's package
+							$verb = 'PUT';
+							$path = 'account/'.$accountParts[3];
+							$params = array(
+								'package' => $package->resource_uri,
+								'valid_until' => $validUntil,
+							);
+							$resp = SnapApi::send($verb, $path, $params);
+						} catch (Stripe_CardError $e) {
+							// keep the flash data if the user goes back
+							//$this->session->keep_flashdata('package_id');
+							//$this->session->keep_flashdata('package_price');
+							show_error('Unable to process payment.<br>'.$e->getMessage(), 500);
+						} catch (Exception $e) {
+							// keep the flash data if the user goes back
+							//$this->session->keep_flashdata('package_id');
+							//$this->session->keep_flashdata('package_price');
+							// send the exception to sentry
+							$raven_client = new Raven_Client(SENTRY_DSN);
+							$raven_client->captureException($e);
+							show_error('Unable to process payment.<br>We\'ve been notified and are looking into the problem.', 500);
+						}
+					}
+					
+					$event_array = $this->account_model->eventDeets($session_data['account_uri']);
+					$this->session->set_userdata('event_deets', $event_array);
+					// redirect to the event
+					redirect('/event/'.$event_array['url']);
+				} else {
+					$raven_client = new Raven_Client(SENTRY_DSN);
+					$raven_client->captureMessage('Unable to process payment. There was no StripeToken or no user session.');
+					show_error('Unable to process payment.<br>We\'ve been notified and are looking into the problem.', 500);
+					// redirect to form and display error
+				}
+			} else {
+				$raven_client = new Raven_Client(SENTRY_DSN);
+				$raven_client->captureMessage('Unable to create event. There was no valid response after creating the event..');
+				show_error('Unable to create the event.<br>We\'ve been notified and are looking into the problem.', 500);
+			}
+		} else {
+			show_404();
+		}
 	}
 	
 	
 	function complete()
 	{
-		$data = array(
-			'title' => $_POST['event']['title'],
-			'css' => base64_encode('assets/css/loader.css'),
-		);
-		$this->load->view('common/html_header', $data);
-		$this->load->view('signup/complete', $data);
-		$this->load->view('common/html_footer', $data);
-		
-		$create_event = $this->signup_model->createEvent($_POST['event'], $_POST['user']);
-		
-		if ( $create_event == 1 )
+		// get the package from the session and remove the data from the session
+		$package = $this->session->userdata('signup_package');
+		$this->session->unset_userdata('signup_package');
+
+		// check for bots
+		foreach ($_POST['re-cap'] as $key => $value) {
+			if ($value != '') {
+				show_error('We think you are a spam bot...', 403);
+			}
+		}
+
+		$create_event = $this->signup_model->createEvent($this->input->post('event'), $this->input->post('user'));
+
+		if ( $create_event )
 		{
 			// set sessions var to log user in
-			redirect('/account/dashboard'); //redirect('/event/setup/' . $_POST['event']['url']);
+			SnapAuth::signin_nohash($_POST['user']['email']);
+	        
+	        // redirect to the package buying part
+	        redirect('/buy/'.$package); 
 		} else {
-			//redirect('/buy/error');
+			show_error('Unable to create event.', 500);
 		}
 	}
 	
@@ -63,6 +275,35 @@ class Signup extends CI_Controller {
 			$is_registered = '{ "status": 404 }';
 		}
 		echo $is_registered;
+	}
+	
+	function promo()
+	{
+		$numargs = func_num_args();
+		
+		if ( IS_AJAX && isset($_GET['code']) && $numargs == 0 )
+		{
+			
+			
+			if ( array_key_exists($_GET['code'], self::$PROMO_CODES) ) 
+			{
+			    // success
+			    echo '{
+			    	"status": 200,
+			    	"value": ' . self::$PROMO_CODES[$_GET['code']]/100 . '
+			    }';
+			} else {
+			    echo '{
+			    	"status": 404
+			    }';
+			}
+		}
+		else if ( $numargs == 1 ) 
+		{
+			return $promo_codes[func_get_arg(0)];
+		} else {
+			return 0;
+		}		
 	}
 	
 }

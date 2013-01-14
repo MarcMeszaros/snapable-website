@@ -7,17 +7,15 @@ Class Buy_model extends CI_Model
 		$verb = 'GET';
 		$path = '/package/';
 		$resp = SnapApi::send($verb, $path);
-
 		$response = $resp['response'];
-		$httpcode = $resp['code'];
 		
-		if ( $httpcode == 200 )
+		if ( $resp['code'] == 200 )
 		{
 			$result = json_decode($response); 
-			
-			$json = '{
-						"status": 404
-					}';
+			$jsonResp = array(
+				'status' => 404,
+			);
+			$json = json_encode($jsonResp);
 			
 			foreach ( $result->objects as $r )
 			{
@@ -25,90 +23,22 @@ Class Buy_model extends CI_Model
 				if ( $r->short_name == $url)
 				{
 					// short_name, name, price, prints, album
-					$json = '{
-						"status": 200,
-						"resource_uri": "' . $r->resource_uri . '",
-						"short_name": "' . $r->short_name . '",
-						"name": "' . $r->name . '",
-						"price": "' . $r->price . '",
-						"prints": "' . $r->prints . '",
-						"albums": "' . $r->albums . '"
-					}';
+					$jsonResp = array(
+						'status' => 200,
+						'resource_uri' => $r->resource_uri,
+						'short_name' => $r->short_name,
+						'name' => $r->name,
+						'price' => $r->price,
+						'items' => $r->items,
+					);
 				}
 			}
 			
-			return $json;
+			return json_encode($jsonResp);
 		} else {
-			return '{
-				"status": 404
-			}';
+			$jsonResp = array('status' => 404);
+			return json_encode($jsonResp);
 		}
-	}
-	
-	function checkEmail($email)
-	{
-		$verb = 'GET';
-		$path = '/user/';
-		$params = array(
-			'email' => $email,
-		);
-		$resp = SnapApi::send($verb, $path, $params);
-
-		$response = $resp['response'];
-		$httpcode = $resp['code'];
-
-		if ( $httpcode == 200 )
-		{
-			$result = json_decode($response);
-			$return = $result->meta->total_count;
-			
-			//$status = '{ "status": 200 }';
-			
-			if ( $return > 0 )
-			{
-				$status = '{ "status": 200 }';
-			} else {
-				$status = '{ "status": 404 }';
-			}
-			//echo $return;
-			return $status;
-		} else {
-			$status = '{ "status": 404 }';
-		}
-		return $status;
-	}
-	
-	function checkUrl($url)
-	{
-		$verb = 'GET';
-		$path = '/event/';
-		$params = array(
-			'url' => $url,
-		);
-		$resp = SnapApi::send($verb, $path, $params);
-                                                                                                    
-		$response = $resp['response'];
-		$httpcode = $resp['code'];
-
-		if ( $httpcode == 200 )
-		{
-			$result = json_decode($response);
-			$return = $result->meta->total_count;
-			
-			//$status = '{ "status": 200 }';
-			
-			if ( $return > 0 )
-			{
-				$status = '{ "status": 200 }';
-			} else {
-				$status = '{ "status": 404 }';
-			}
-			//echo $return;
-			return $status;
-		} else {
-			$status = '{ "status": 404 }';
-		}
-		return $status;
 	}
 	
 	function createEvent($event, $user, $cc, $address)
@@ -146,12 +76,12 @@ Class Buy_model extends CI_Model
 		$verb = 'POST';
 		$path = '/user/';
 		$params = array(
-			"billing_zip" => (isset($address['zip'])? $address['zip']:'',
+			"billing_zip" => (isset($address['zip']))? $address['zip']:'',
 		    "email" => $user['email'],
 		    "first_name" => $user['first_name'],
 		    "last_name" => $user['last_name'],
 		    "password" => $user['password'],
-		    "terms": true,
+		    "terms" => true,
 		);
 		$resp = SnapApi::send($verb, $path, $params);
 

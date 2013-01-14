@@ -16,7 +16,12 @@ class P extends CI_Controller {
 	public function load_photo($photo) {
 		echo "&nbsp;";
 		$head = array(
-			'css' => base64_encode('assets/css/setup.css,assets/css/header.css,assets/css/photo.css,assets/css/footer.css'),
+			'css' => array(
+				'assets/css/setup.css',
+				'assets/css/header.css',
+				'assets/css/photo.css',
+				'assets/css/footer.css',
+			),
 			'url' => 'blank'
 		);
 		
@@ -48,6 +53,22 @@ class P extends CI_Controller {
 		}
 	}
 
+	public function get_event($event, $size='150x150') {
+		$verb = 'GET';
+		$path = '/event/' . $event . '/';
+		$params = array(
+			'size' => $size,
+		);
+		$headers = array(
+			'Accept' => 'image/jpeg',
+		);
+		$resp = SnapApi::send($verb, $path, $params, $headers);
+
+		$response = $resp['response'];
+		$this->output->set_content_type('jpeg'); // You could also use ".jpeg" which will have the full stop removed before looking in config/mimes.php
+		$this->output->set_output($response);
+	}
+
 	public function get_photo($photo, $size=null) {
 		$verb = 'GET';
 		$path = '/photo/' . $photo . '/';
@@ -62,7 +83,7 @@ class P extends CI_Controller {
 
 		$response = $resp['response'];
 		$this->output->set_content_type('jpeg'); // You could also use ".jpeg" which will have the full stop removed before looking in config/mimes.php
-        $this->output->set_output($response);
+		$this->output->set_output($response);
 	}
 
 	public function delete_photo($photo) {

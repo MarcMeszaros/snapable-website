@@ -38,7 +38,7 @@ function geocoder(address)
 {
 	// do geocode to get addresses lat/lng
 	// set #lat and #lng
-	$("#event_location_status").removeClass("location_good").removeClass("location_bad").addClass("spinner-16px")
+	//$("#event_location_status").removeClass("location_good").removeClass("location_bad").addClass("spinner-16px")
 	$.getJSON("http://where.yahooapis.com/geocode?location=" + encodeURIComponent(address) + "&flags=J&appid=qrVViDXV34GuS1yV7Mi2ya09wffvK6zlXaN1LFLQ3Q7fIXQI2MVhMtLMKQkDWMPP_g--", function(data)
 	{
 		if ( data['ResultSet']['Error'] == 0 )
@@ -47,39 +47,8 @@ function geocoder(address)
 			var lng = data['ResultSet']['Results'][0]['longitude'];
 			$("#lat").val(lat);
 			$("#lng").val(lng);
-			// set spinner to checkmark
-			$("#event_location_status").removeClass("spinner-16px").addClass("location_good");
-		} else {
-			$("#event_location_status").removeClass("spinner-16px").addClass("location_bad");
 		}
-
-		var mapOptions = {
-			center: new google.maps.LatLng(lat, lng),
-			zoom: 15,
-			mapTypeId: google.maps.MapTypeId.ROADMAP,
-			streetViewControl: false
-		};
-		var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
-		var marker = new google.maps.Marker({
-		    position: new google.maps.LatLng(lat, lng),
-		    map: map,
-		    draggable: true,
-		    animation: google.maps.Animation.DROP
-		});
-		google.maps.event.addListener(marker, "dragend", function(event) {
-       		var point = marker.getPosition();
-       		$("#lat").val(point.lat());
-			$("#lng").val(point.lng());
-       		map.panTo(point);
-
-			var timestamp = Math.round((new Date()).getTime() / 1000);
-			var tzRequest = '/ajax/timezone?lat='+point.lat()+'&lng='+point.lng()+'&timestamp='+timestamp;
-			$.getJSON(tzRequest, function(data){
-				$('#timezone').val((data.rawOffset/60));
-			});
-       	});
-        $('#map_canvas_container').slideDown();
-
+		
 		var timestamp = Math.round((new Date()).getTime() / 1000);
 		var tzRequest = '/ajax/timezone?lat='+lat+'&lng='+lng+'&timestamp='+timestamp;
 		$.getJSON(tzRequest, function(data){
@@ -228,21 +197,8 @@ $(document).ready(function()
 		}
 		
 		return false;
-	})/*
-	$("#user_email").blur( function()
-	{
-		if ( checkEmail($("#user_email").val()) == false )
-		{
-			$("#user_email").focus();
-			$("#user_email").addClass("input-error");
-			$("#user_email_error").fadeIn();
-		} else {
-			$("#user_email").removeClass("input-error");
-			$("#user_email_error").fadeOut();
-		}
-		
-		return false;
-	})*/
+	})
+	
 	$("#user_password, #user_password_confirmation").blur( function()
 	{
 		if ( $("#user_password").val().length < 6 )
@@ -307,106 +263,234 @@ $(document).ready(function()
 		}
 	});
 	
-	// form verification and submission 
-	$("#btn-sign-up").click( function()
+	
+	$("#apply-promo-code").click( function()
 	{
-		// setup variables
-		var fname = $("#user_first_name").val(); // cannot be blank
-		var lname = $("#user_last_name").val(); // cannot be blank
-		var email = $("#user_email").val(); // cannot be blank and must be valid
-		var password1 = $("#user_password").val(); // cannot be blank or less than 6 characters
-		var password2 = $("#user_password_confirmation").val(); // must match password1
-		
-		var title = $("#event_title").val(); // cannot be blank
-		var location = $("#event_location").val(); // cannot be blank
-		var lat = $("#lat").val(); // cannot be zero
-		var lng = $("#lng").val(); // cannot be zero
-		var url = $("#event_url").val();
+		if ( $("input[name=promo-code]").val() == "" )
+		{
+			alert("You haven't provided a promo code.");
+		} else {
+			$.getJSON("/signup/promo", { "code": $("input[name=promo-code]").val() }, function(json)
+			{	
+				var promoApplied = $("input[name=promo-code-applied]").val();
+				
+				if ( json.status == 200 && promoApplied == 0 )
+				{
+					var amount = parseFloat($("#package-amount").html());
+					var discount = parseFloat(json.value);
+					$("#package-amount").html(amount - discount);
+					$("input[name=promo-code-applied]").val(1);
+					$("input[name=promo-code-amount]").val(amount - discount);
+				} 
+				else if ( promoApplied == 1 )
+				{
+					alert("Sorry, you've already applied a promo code.");
+				} else {
+					alert("Sorry, that's not a valid promo code.");
+				}
+			});
+		}
+		return false;
+	});
+	
+	// form verification and submission 
+	$(".button").click( function()
+	{
+		var id = $(this).attr("id");
 		
 		$(".field-error").css({ "display":"none" });
 		$("input").removeClass("input-error");
 		$("#terms-refund h3").css({"color":"#444"});
 		
-		if ( fname == "" )
+		if ( id == "eventDeets" )
 		{
-			$("#user_first_name").focus();
-			$("#user_first_name").addClass("input-error");
-			$("#user_first_name_error").fadeIn();
-			location.href="#your-details";
+			var title = $("#event_title").val(); // cannot be blank
+			var location = $("#event_location").val(); // cannot be blank
+			var lat = $("#lat").val(); // cannot be zero
+			var lng = $("#lng").val(); // cannot be zero
+			var url = $("#event_url").val();
+			
+			if ( title == "" )
+			{
+				$("#event_title").focus();
+				$("#event_title").addClass("input-error");
+				$("#event_title_error").fadeIn();
+				location.href="#event-details";
+			}
+			else if ( validUrl == 0 )
+			{
+				$("#event_url_status").removeClass("url_good").removeClass("spinner-16px").addClass("url_bad");	
+				$("#event_url").addClass("input-error");
+				$("#event_url_error").fadeIn();	
+			} else {
+				$("#event").fadeOut("fast", function()
+				{
+					$("#navEvent").removeClass("active");
+					$("#navYour").addClass("active");
+					$("#your").fadeIn("fast");
+				})
+			}
+		} 
+		else if ( id == "yourDeets" )
+		{
+			var fname = $("#user_first_name").val(); // cannot be blank
+			var lname = $("#user_last_name").val(); // cannot be blank
+			var email = $("#user_email").val(); // cannot be blank and must be valid
+			var password1 = $("#user_password").val(); // cannot be blank or less than 6 characters
+			var password2 = $("#user_password_confirmation").val(); // must match password1
+			
+			if ( fname == "" )
+			{
+				$("#user_first_name").focus();
+				$("#user_first_name").addClass("input-error");
+				$("#user_first_name_error").fadeIn();
+				location.href="#your-details";
+			}
+			else if ( lname == "" )
+			{
+				$("#user_last_name").focus();
+				$("#user_last_name").addClass("input-error");
+				$("#user_last_name_error").fadeIn();
+				location.href="#your-details";
+			}
+			else if ( validEmail == 0 )
+			{
+				$("#user_email").focus();
+				$("#user_email").addClass("input-error");
+				$("#user_email_error").fadeIn();
+				$("#email_status").removeClass("spinner-16px").removeClass("email_good").addClass("email_bad");
+				location.href="#your-details";
+			}
+			else if ( password1 == "" )
+			{
+				$("#user_password").focus();
+				$("#user_password").addClass("input-error");
+				$("#user_password_error").html("You must provide a password.").fadeIn();
+				location.href="#your-details";
+			}
+			else if ( password1 != password2 )
+			{
+				$("#user_password").focus();
+				$("#user_password").addClass("input-error");
+				$("#user_password_error").html("Your passwords do not match.").fadeIn();
+				location.href="#your-details";
+			}
+			else if ( password1.length < 6 )
+			{
+				$("#user_password").focus();
+				$("#user_password").addClass("input-error");
+				$("#user_password_error").html("Your password is not long enough.").fadeIn();
+				location.href="#your-details";
+			} else {
+				$("#your").fadeOut("fast", function()
+				{
+					$("#navYour").removeClass("active");
+					$("#navBilling").addClass("active");
+					$("#billing").fadeIn("fast");
+				})
+			}
 		}
-		else if ( lname == "" )
+		return false;
+	});
+	
+	$("#btn-sign-up").click( function()
+	{
+		document.forms["signupForm"].submit();
+	});
+	
+	$("#payment-form").submit(function(event) {
+		// disable the submit button to prevent repeated clicks
+		$('input[name=submit-button]').attr("disabled", "disabled");
+		
+		// check form fields
+		$("#creditcard_name").blur();
+		$("#creditcard_number").blur();
+		$("#creditcard_cvc").blur();
+		//$("#creditcard_year").change(); // checking one of the two exp date fields checks both
+		
+		Stripe.createToken({
+			name: $('#creditcard_name').val(),
+		    number: $('#creditcard_number').val(),
+		    cvc: $('#creditcard_cvc').val(),
+		    exp_month: $('#creditcard_month').val(),
+		    exp_year: $('#creditcard_year').val(),
+		    address_zip: $('#address_zip').val()
+		}, stripeResponseHandler);
+		
+		// prevent the form from submitting with the default action
+		return false;
+	});
+	
+	function stripeResponseHandler(status, response) {
+	    if (response.error) {
+	    	console.log(response);
+	        // show the errors on the form
+	        //$(".payment-errors").text(response.error.message);
+	        $(".submit-button").removeAttr("disabled");
+	    } else {
+	        var form = $("#payment-form");
+	        // token contains id, last4, and card type
+	        var token = response['id'];
+	        // insert the token into the form so it gets submitted to the server
+	        form.append("<input type='hidden' name='stripeToken' value='" + token + "'/>");
+	        // and submit
+	        form.get(0).submit();
+	        $('#processing-order-msg').fadeIn();
+	    }
+	}
+
+	$("#creditcard_name").blur( function()
+	{
+		if ( $("#creditcard_name").val() == "" )
 		{
-			$("#user_last_name").focus();
-			$("#user_last_name").addClass("input-error");
-			$("#user_last_name_error").fadeIn();
-			location.href="#your-details";
-		}/*
-		else if ( checkEmail(email) == true )
-		{
-			$("#user_email").focus();
-			$("#user_email").addClass("input-error");
-			$("#user_email_error").fadeIn();
-			$("#email_status").removeClass("spinner-16px").removeClass("email_good").addClass("email_bad");
-			location.href="#your-details";
-		}*/
-		else if ( validEmail == 0 )
-		{
-			$("#user_email").focus();
-			$("#user_email").addClass("input-error");
-			$("#user_email_error").fadeIn();
-			$("#email_status").removeClass("spinner-16px").removeClass("email_good").addClass("email_bad");
-			location.href="#your-details";
-		}
-		else if ( password1 == "" )
-		{
-			$("#user_password").focus();
-			$("#user_password").addClass("input-error");
-			$("#user_password_error").html("You must provide a password.").fadeIn();
-			location.href="#your-details";
-		}
-		else if ( password1 != password2 )
-		{
-			$("#user_password").focus();
-			$("#user_password").addClass("input-error");
-			$("#user_password_error").html("Your passwords do not match.").fadeIn();
-			location.href="#your-details";
-		}
-		else if ( password1.length < 6 )
-		{
-			$("#user_password").focus();
-			$("#user_password").addClass("input-error");
-			$("#user_password_error").html("Your password is not long enough.").fadeIn();
-			location.href="#your-details";
-		}
-		else if ( title == "" )
-		{
-			$("#event_title").focus();
-			$("#event_title").addClass("input-error");
-			$("#event_title_error").fadeIn();
-			location.href="#event-details";
-		}
-		else if ( location == "" )
-		{
-			$("#event_location").focus();
-			$("#event_location").addClass("input-error");
-			$("#event_location_error").fadeIn();
-			location.href="#event-details";
-		}
-		else if ( (lat == "" || lat == "0") && (lng == "" || lng == "0") )
-		{
-			$("#event_location").focus();
-			$("#event_location").addClass("input-error");
-			location.href="#event-details";
-		}
-		else if ( validUrl == 0 )
-		{
-			$("#event_url_status").removeClass("url_good").removeClass("spinner-16px").addClass("url_bad");	
-			$("#event_url").addClass("input-error");
-			$("#event_url_error").fadeIn();	
+			$("#creditcard_name").focus();
+			$("#creditcard_name").addClass("input-error");
+			$("#creditcard_name_error").fadeIn();
 		} else {
-			document.forms["create_event"].submit();
+			$("#creditcard_name").removeClass("input-error");
+			$("#creditcard_name_error").fadeOut();
 		}
 		
 		return false;
 	});
+	$("#creditcard_number").blur( function()
+	{
+		if ( $("#creditcard_number").val() == "" || !Stripe.validateCardNumber($(this).val()) )
+		{
+			$("#creditcard_number").focus();
+			$("#creditcard_number").addClass("input-error");
+			$("#creditcard_number_error").fadeIn();
+		} else {
+			$("#creditcard_number").removeClass("input-error");
+			$("#creditcard_number_error").fadeOut();
+		}
+		
+		return false;
+	});
+	$("#creditcard_month, #creditcard_year").change( function()
+	{
+		if ( $(this).val() == "" || !Stripe.validateExpiry($('#creditcard_month').val(), $('#creditcard_year').val()) )
+		{
+			$("#creditcard_exp_error").fadeIn();
+		} else {
+			$("#creditcard_exp_error").fadeOut();
+		}
+		
+		return false;
+	}); 
+	$("#creditcard_cvc").blur( function()
+	{
+		if ( !Stripe.validateCVC($(this).val()) )
+		{
+			$("#creditcard_cvc").focus();
+			$("#creditcard_cvc").addClass("input-error");
+			$("#creditcard_cvc_error").fadeIn();
+		} else {
+			$("#creditcard_cvc").removeClass("input-error");
+			$("#creditcard_cvc_error").fadeOut();
+		}
+		
+		return false;
+	});
+	
 });

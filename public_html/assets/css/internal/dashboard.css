@@ -1,0 +1,70 @@
+/* Metrics */
+#metrics-range form {
+    margin-top: 10px;
+    float: right;
+}
+#metrics-range label {
+    display: inline;
+}
+#metrics-range label:hover {
+    cursor: pointer;
+}
+#metrics-range input[type="radio"] {
+    display: none;
+}
+#metrics-range input[type="radio"]:checked + label {
+    text-decoration: underline;
+}
+/* The metrics refresh button */
+#metrics-refresh:hover {
+    cursor: pointer;
+}
+
+#metrics-panels .panel {
+    border: solid 1px #000;
+    border-radius: 5px;
+    height: 62px;
+    display: block;
+    float: left;
+    margin: 5px;
+    padding: 5px;
+}
+#metrics-panels .panel .title {
+    font-weight: bold;
+    font-size: 1.1em;
+}
+#metrics-panels .panel .description {
+    font-style: italic;
+    font-size: 0.9em;
+    line-height: 0.9em;
+}
+#metrics-panels .panel .value-container {
+    width: 182px;
+    margin: 5px auto;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.4em;
+}
+#metrics-panels .panel .value {
+    width: 150px;
+    margin: 0 auto 0 16px;
+    display: inline-block;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.4em;
+}
+#metrics-panels .panel span.status {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    display: inline-block;
+    background: url('/assets/img/spinner_blue_sm.gif') no-repeat right top;
+}
+#metrics-panels .panel span.status.hide {
+    background: none;
+}
+/* Events */
+#events table th,
+#events table td {
+    padding: 5px;
+}

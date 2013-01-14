@@ -4,8 +4,17 @@ class Site extends CI_Controller {
 
 	function __construct()
 	{
-    	parent::__construct(); 
-    	$this->data['css'] = base64_encode('assets/css/setup.css,assets/css/header.css,assets/css/site.css,assets/css/footer.css');			    	
+    	parent::__construct();
+    	$this->head['css'] = array(
+    		'assets/css/site.css',
+    	);
+    	$this->head['ext_js'] = array(
+    		'//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js',
+    		'//cdnjs.cloudflare.com/ajax/libs/jquery.form/3.20/jquery.form.js',
+    	);
+    	$this->head['js'] = array(
+    		'assets/js/site/site.js',
+    	);
 	}
 	
 	public function index()
@@ -15,49 +24,53 @@ class Site extends CI_Controller {
 	
 	public function contact()
 	{
-		$head = array(
-			'css' => $this->data['css'],
+		$data = array(
 			'url' => 'blank',
 			'active' => 'contact'
 		);
-		$this->load->view('common/header-site', $head);
+		$this->load->view('common/html_header', $this->head);
+		$this->load->view('common/header-site', $data);
 		$this->load->view('site/contact');
 		$this->load->view('common/footer-site');
+		$this->load->view('common/html_footer');
 	}
 	
 	public function faq()
-	{	
+	{
 		$data = array(
-			'css' => $this->data['css'],
 			'active' => 'faq'
 		);
+		$this->load->view('common/html_header', $this->head);
 		$this->load->view('common/header-site', $data);
 		$this->load->view('site/faq');
 		$this->load->view('common/footer-site');
+		$this->load->view('common/html_footer');
 	}
 	
 	public function terms()
 	{
-		$head = array(
-			'css' => $this->data['css'],
+		$data = array(
 			'url' => 'blank',
 			'active' => 'terms'
 		);
-		$this->load->view('common/header-site', $head);
+		$this->load->view('common/html_header', $this->head);
+		$this->load->view('common/header-site', $data);
 		$this->load->view('site/terms');
 		$this->load->view('common/footer-site');
+		$this->load->view('common/html_footer');
 	}
 	
 	public function privacy()
 	{
-		$head = array(
-			'css' => $this->data['css'],
+		$data = array(
 			'url' => 'blank',
 			'active' => 'privacy'
 		);
-		$this->load->view('common/header-site', $head);
+		$this->load->view('common/html_header', $this->head);
+		$this->load->view('common/header-site', $data);
 		$this->load->view('site/privacy');
 		$this->load->view('common/footer-site');
+		$this->load->view('common/html_footer');
 	}
 }
 

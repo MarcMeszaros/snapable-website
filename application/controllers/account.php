@@ -5,30 +5,42 @@ class Account extends CI_Controller {
 	function __construct()
 	{
     	parent::__construct();
+    	$this->load->library('email');
     	$this->load->model('account_model','',TRUE);  		    	
 	}
 	
 	public function index()
 	{
-		redirect('/account/signin');
+		redirect('/account/signin', 'refresh');
 	}
 	
 	public function signin()
 	{
-		if( (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] != "on") && $_SERVER['HTTP_HOST'] != "snapable")
-		{
-		    header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
-		    exit();
+		require_https(); // make sure we are in ssl
+
+		// check if we are already logged in, and redirect if we are
+		$userLogin = SnapAuth::is_logged_in(); 
+		if($userLogin) {
+			$event_array = $this->account_model->eventDeets($userLogin['account_uri']);
+			$this->session->set_userdata('event_deets', $event_array);
+
+			redirect('/event/'.$event_array['url']);
 		}
 		
 		$segments = $this->uri->total_segments();
 		
 		$error = ( $segments == 3 && $this->uri->segment(3) == "error" ) ? true:false;
 		$reset = ( isset($_GET['reset']) ) ? true:false;
+
+		// if there a redirect param, use it
+		$redirect = $this->input->get('redirect');
+		if($redirect) {
+			$this->session->set_flashdata('redirect', $redirect);
+		}
 		
     	$data = array(
-			'css' => base64_encode('assets/css/setup.css,assets/css/signin.css'),
-			'js' => base64_encode('assets/js/signin.js'),
+			'css' => array('assets/css/setup.css', 'assets/css/signin.css'),
+			'js' => array('assets/js/signin.js'),
 			'error' => $error,
 			'reset' => $reset,
 		);
@@ -41,34 +53,19 @@ class Account extends CI_Controller {
 	{
 		if ( isset($_POST) )
 		{
-			// check if email is registered
-			$userDeets = json_decode($this->account_model->userDetails($_POST['email']));
-			
-			if ( $userDeets->status == 200 )
-			{
-				// create password hash				
-				$pbHash = base64_encode($this->account_model->pbkdf2('sha256', $_POST['password'], $userDeets->password_salt, $userDeets->password_iterations, 32, true));
-				// check if password matches
-				$validate = json_decode($this->account_model->checkPassword($_POST['email'], $pbHash));
-				
-				if ( $validate->status == 200 )
-				{
-					// get users events
-					// http://devapi.snapable.com/private_v1/event/?format=json&user=1
-					// set sessions var to log user in
-					$sess_array = array(
-			          'email' => $validate->email,
-			          'fname' => $validate->fname,
-			          'lname' => $validate->lname,
-			          'resource_uri' => $validate->resource_uri,
-			          'account_uri' => $validate->account_uri,
-			          'loggedin' => true
-			        );
-			        $this->session->set_userdata('logged_in', $sess_array);
-					// send to dashboard
-					redirect("/account/dashboard");
+			// create password hash				
+			$pbHash = SnapAuth::snap_hash($_POST['email'], $_POST['password']);
+			// check if password matches
+			$userLogin = SnapAuth::signin($_POST['email'], $pbHash);
+			if ( $userLogin ) {
+				// send to dashboard/redirect
+				if($this->session->flashdata('redirect')){
+					redirect($this->session->flashdata('redirect'));
 				} else {
-					redirect("/account/signin/error");
+					$event_array = $this->account_model->eventDeets($userLogin['account_uri']);
+					$this->session->set_userdata('event_deets', $event_array);
+
+					redirect('/event/'.$event_array['url']);
 				}
 			} else {
 				redirect("/account/signin/error");
@@ -80,6 +77,7 @@ class Account extends CI_Controller {
 	
 	public function dashboard()
 	{
+		require_https();
 		if($this->session->userdata('logged_in'))
 		{
 			// get event details
@@ -103,8 +101,8 @@ class Account extends CI_Controller {
 				
 				$data = array(
 					'session' => $this->session->userdata('logged_in'), 
-					'css' => base64_encode('assets/css/setup.css,assets/css/dashboard.css'),
-					'js' => base64_encode('assets/js/dashboard.js'),
+					'css' => array('assets/css/setup.css', 'assets/css/dashboard.css'),
+					'js' => array('assets/js/dashboard.js'),
 					'eventDeets' => $event_array,
 					'days_until' => $days_until,
 					'days_verb' => $days_verb
@@ -124,10 +122,6 @@ class Account extends CI_Controller {
 	{
 		if ( IS_AJAX && isset($_POST['type']) && isset($_POST['message']) )
 		{
-			$url = 'http://sendgrid.com/';
-			$user = 'snapable';
-			$pass = 'Snapa!23'; 
-			
 			$to = ( isset($_POST['to']) ) ? $_POST['to']:"team@snapable.com";
 			$from = ( isset($_POST['from']) ) ? $_POST['from']:"website@snapable.com";
 			
@@ -141,34 +135,13 @@ class Account extends CI_Controller {
 				$message_html = $_POST['message'];
 				$message_text = $_POST['message'];
 			}
-			
-			$params = array(
-			    'api_user'  => $user,
-			    'api_key'   => $pass,
-			    'to'        => $to,
-			    'subject'   => $subject,
-			    'html'      => $message_html,
-			    'text'      => $message_text,
-			    'from'      => $from,
-			  );
-			
-			$request =  $url.'api/mail.send.json';
-			
-			// Generate curl request
-			$session = curl_init($request);
-			// Tell curl to use HTTP POST
-			curl_setopt ($session, CURLOPT_POST, true);
-			// Tell curl that this is the body of the POST
-			curl_setopt ($session, CURLOPT_POSTFIELDS, $params);
-			// Tell curl not to return headers, but do return the response
-			curl_setopt($session, CURLOPT_HEADER, false);
-			curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
-			
-			// obtain response
-			$response = json_decode(curl_exec($session));
-			curl_close($session);
-			
-			if ( $response->message == "success" )
+
+			$this->email->from($from, 'Snapable');
+			$this->email->to($to);
+			$this->email->subject($subject);
+			$this->email->message($message_html);
+			$this->email->set_alt_message($message_text);		
+			if ( $this->email->send() )
 			{
 				echo "sent";
 			} else {
@@ -181,16 +154,15 @@ class Account extends CI_Controller {
 	
 	function signout()
 	{
-		$this->session->unset_userdata('logged_in');
-		//session_destroy();
-		redirect('/account/dashboard', 'refresh');
+		SnapAuth::signout();
+		redirect('/account/signin', 'refresh');
 	}
 	
 	function reset($nonce = NULL)
 	{
-		
+		require_https();
 		$data = array(
-			'css' => base64_encode('assets/css/setup.css,assets/css/signin.css')
+			'css' => array('assets/css/setup.css', 'assets/css/signin.css')
 		);
 		
 		if ( $nonce == NULL )
@@ -226,7 +198,7 @@ class Account extends CI_Controller {
 				if ( $nonce = 1 )
 				{
 					$data = array(
-						'css' => base64_encode('assets/css/setup.css,assets/css/signin.css')
+						'css' => array('assets/css/setup.css', 'assets/css/signin.css')
 					);
 					$this->load->view('common/html_header', $data);
 					$this->load->view('account/email_sent', $data);
