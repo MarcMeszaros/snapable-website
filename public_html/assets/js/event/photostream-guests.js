@@ -221,25 +221,19 @@ $(document).ready(function(){
             $(this).val("Enter a message for your guests.").css({"color":"#999"});
         } 
     });
-    $(document).on("click", "#do-notify-guests", function(e)
+    $(document).on("click", "#do-send-to-guests", function(e)
     {
+    	$("#notify-group").html("<img style='vertical-align:middle' src='/assets/img/spinner_blue_sm.gif' width='16' height='16' alt='*' /> Sending...");
+    	
         // get checkboxes checked and message
-        var sendTo = new Array();
-        $("input:checkbox[name=notify-type]:checked").each(function(){
-            var val = $(this).val();
-            sendTo.push(val);
-        });
         var message = $("#notify-custom-message").val();
         
         if ( message == "" || message == "Enter a message for your guests." )
         {
             alert("You haven't supplied a message for your guests.")
         }
-        else if ( sendTo.length === 0 )
-        {
-            alert("You haven't selected any of the guests to invite to use Snapable!");
-        } else {
-            $.post("/event/send/invites", { resource_uri:eventID, message:message, sendto:sendTo }, function(data)
+        else {
+            $.post("/event/send/invites", { resource_uri:eventID, message:message }, function(data)
             {
                 if ( data == "sent" )
                 {
@@ -247,6 +241,7 @@ $(document).ready(function(){
                 } else {
                     alert("Sad trombone. We weren't able to email your guests the invitations, contact us and we'll be happy to help.");
                 }
+                $("#notify-group").html('<a href="#" id="do-send-to-guests">Send Email(s)</a>');
             });
         }
     });

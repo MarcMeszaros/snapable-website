@@ -308,13 +308,10 @@ Class Event_model extends CI_Model
 			$session_data = $this->session->userdata('logged_in');
 			$event_data = $this->session->userdata('event_deets');
 			
-			if ( isset($post['message']) && isset($post['sendto']) )
+			if ( isset($post['message']) )
 			{
 				$message = $post['message'];
-				$sendTo = $post['sendto'];
 				$event_id = explode("/", $post['resource_uri']);
-				
-				$privacy_level = max($sendTo);
 				
 				// get guests
 				$verb = 'GET';
@@ -347,58 +344,55 @@ Class Event_model extends CI_Model
 					{
 						$type = explode("/", $o->type);
 						
-						if ( $type[3] <= $privacy_level )
+						$to = $o->email;
+						$toname = $o->name;
+						
+						if ( $o->name == "" )
 						{
-							$to = $o->email;
-							$toname = $o->name;
-							
-							if ( $o->name == "" )
-							{
-								$name_html = "";
-								$name_text = "";
-							} else {
-								$name_html = $o->name . ", <br /><br />";
-								$name_text = $o->name . ', \n\n';
-							}
-							
-							$data = array(
-								'display' => "email",
-								'message' => $message,
-								'name' => $name_html,
-								'fromname' => $fromname
-							);
-							$message_html = $this->load->view('email/guest_notification', $data, true);
-							
-							$message_text = $name_text . $fromname . ' has sent you this message:\n\n ' . $message . '\n\nWhat is Snapable?\n\nBy downloading the Snapable app, you can take photos at the wedding and share them the Bride and Groom, allowing them and everyone at the wedding to get a full view of what happened during the event and get the ones they like best printed to display with pride.\n\nFind out more at http://snapable.com\n\n(c) ' . date("Y") . ' Snapable. All rights reserved.';
-							
-							$params = array(
-							    'api_user'  => $user,
-							    'api_key'   => $pass,
-							    'to'        => $to,
-							    'toname'	=> $toname,
-							    'subject'   => $subject,
-							    'html'      => $message_html,
-							    'text'      => $message_text,
-							    'from'      => $from,
-							    'fromname'	=> $fromname
-							  );
-							
-							$request =  $url.'api/mail.send.json';
-							
-							// Generate curl request
-							$session = curl_init($request);
-							// Tell curl to use HTTP POST
-							curl_setopt ($session, CURLOPT_POST, true);
-							// Tell curl that this is the body of the POST
-							curl_setopt ($session, CURLOPT_POSTFIELDS, $params);
-							// Tell curl not to return headers, but do return the response
-							curl_setopt($session, CURLOPT_HEADER, false);
-							curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
-							
-							// obtain response
-							$response = json_decode(curl_exec($session));
-							curl_close($session);
+							$name_html = "";
+							$name_text = "";
+						} else {
+							$name_html = $o->name . ", <br /><br />";
+							$name_text = $o->name . ', \n\n';
 						}
+						
+						$data = array(
+							'display' => "email",
+							'message' => $message,
+							'name' => $name_html,
+							'fromname' => $fromname
+						);
+						$message_html = $this->load->view('email/guest_notification', $data, true);
+						
+						$message_text = $name_text . $fromname . ' has sent you this message:\n\n ' . $message . '\n\nWhat is Snapable?\n\nBy downloading the Snapable app, you can take photos at the wedding and share them the Bride and Groom, allowing them and everyone at the wedding to get a full view of what happened during the event and get the ones they like best printed to display with pride.\n\nFind out more at http://snapable.com\n\n(c) ' . date("Y") . ' Snapable. All rights reserved.';
+						
+						$params = array(
+						    'api_user'  => $user,
+						    'api_key'   => $pass,
+						    'to'        => $to,
+						    'toname'	=> $toname,
+						    'subject'   => $subject,
+						    'html'      => $message_html,
+						    'text'      => $message_text,
+						    'from'      => $from,
+						    'fromname'	=> $fromname
+						  );
+						
+						$request =  $url.'api/mail.send.json';
+						
+						// Generate curl request
+						$session = curl_init($request);
+						// Tell curl to use HTTP POST
+						curl_setopt ($session, CURLOPT_POST, true);
+						// Tell curl that this is the body of the POST
+						curl_setopt ($session, CURLOPT_POSTFIELDS, $params);
+						// Tell curl not to return headers, but do return the response
+						curl_setopt($session, CURLOPT_HEADER, false);
+						curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
+						
+						// obtain response
+						$response = json_decode(curl_exec($session));
+						curl_close($session);
 					}
 					
 					return 'sent';
