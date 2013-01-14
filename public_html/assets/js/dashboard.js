@@ -138,7 +138,7 @@ $(document).ready(function()
             return false;
         } else {
             $.post("/account/email", {type:"question",message:message,email:$("input[name=email]").val()}, function(data){
-                if ( data == "sent" )
+                if ( data == "success" )
                 {
                     $("form#questionForm").html("<h3>Thanks! Your message has been sent</h3><p>We'll be in touch shortly.</p>");
                 } else {
