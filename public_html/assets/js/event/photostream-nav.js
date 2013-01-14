@@ -2,6 +2,8 @@ $(document).ready(function(){
     // UPLOAD MENU
     $("#uploadBTN").click( function()
     {
+    	$(".slidContent").fadeOut("normal");
+    	
         $.getJSON('/ajax/is_logged_in/', function(json_user){
             // if the owner isn't logged in
             if (json_user == false) {
@@ -35,6 +37,7 @@ $(document).ready(function(){
     $("#guestBTN").click( function(e)
     {
         e.preventDefault();
+    	$(".slidContent").fadeOut("normal");
         
         $.Mustache.load('/assets/js/templates.html').done(function () 
         {
@@ -59,7 +62,10 @@ $(document).ready(function(){
     });
     
     // TABLE CARDS
-    $('#tableBTN').click(function(){
+    $('#tableBTN').click(function()
+    {
+    	$(".slidContent").fadeOut("normal");
+    	
         $.Mustache.load('/assets/js/event/templates-nav.html').done(function () {
             $('#tablecards').mustache('tablecards', "", {method: "html"}).slideToggle();
         });
@@ -110,7 +116,10 @@ $(document).ready(function(){
     });
 
     // CONTACT MENU
-    $('#event-nav-contact').click(function(){
+    $('#event-nav-contact').click(function()
+    {
+    	$(".slidContent").fadeOut("fast");
+    	
         $.Mustache.load('/assets/js/event/templates-nav.html').done(function () {
             var viewData = {
                 email: user_email

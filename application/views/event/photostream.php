@@ -2,12 +2,12 @@
 
 	<div id="event-cover-wrap"><img id="event-cover-image" src="/assets/img/FPO/cover-image.jpg" /></div>
 	<div id="event-title-wrap">
-		<h1><span id="event-address"><?php echo (!$eventDeets->public) ? $eventDeets->addresses[0]->{'address'} : '&nbsp;'; ?></span></h1>
-		<h1><span id="event-timestamp-start"><?= $eventDeets->human_start ?></span> to <span id="event-timestamp-end"><?= $eventDeets->human_end ?></span></h1>
 		<h2 id="event-title" class="<?php echo ($ownerLoggedin)? 'edit': '';?>"><?= $eventDeets->title ?></h2>
+		<h1 id="event-address"><?php echo (!$eventDeets->public) ? $eventDeets->addresses[0]->{'address'} : '&nbsp;'; ?></h1>
+		<h1 id="event-timestamp-start"><?= $eventDeets->human_start ?></span> to <span id="event-timestamp-end"><?= $eventDeets->human_end ?></h1>
 		<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ) { ?>
 		<form id="event-settings">
-			<h3>Event Details &amp; Settings</h3>
+			<h3>Edit Your Event Details</h3>
 			<input id="event-settings-lat" name="lat" type="hidden" value="<?php echo $eventDeets->addresses[0]->{'lat'}; ?>"/>
 			<input id="event-settings-lng" name="lng" type="hidden" value="<?php echo $eventDeets->addresses[0]->{'lng'}; ?>"/>
 			<input id="event-settings-timezone" name="tz_offset" type="hidden" value="<?php echo $eventDeets->tz_offset; ?>"/>
@@ -96,24 +96,15 @@
 			<li><a href="#tablecards" id="tableBTN">Table Cards</a></li>
 			<?php } ?>
 			
-			<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ): ?>
-			<li>
-				<a id="event-nav-share" href="#">Share</a>
-				<div id="event-nav-menu-share" class="event-nav-menu">
-					<p>Share your album with friends and family.</p>
-					<div class="share">
-						<a class="photo-share-twitter" target="_blank" href="http://twitter.com/share?text=<?= urlencode("Follow the photos on " . date("D M j", $eventDeets->start_epoch) . " at " .  date("g:i a", $eventDeets->start_epoch) . " for " . $eventDeets->title . " with @getsnapable") ?>&url=http://snapable.com/event/<?= $eventDeets->url ?>">Tweet</a> 
-						<a class="photo-share-facebook" target="_blank" href="http://www.facebook.com/sharer.php?u=http://snapable.com/event/<?= $eventDeets->url ?>">Share</a> 
-						<!--<a class="photo-share-email" href="#">Email</a>-->
-					</div>
-				</div>
-			</li>
-			<?php endif; ?>
+			
 
 			<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ): ?>
 			<li>
 				<a id="event-nav-contact" href="#nav-contact">Contact</a>
 			</li>
+			<?php endif; ?>
+			
+			<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ): ?>
 			<li>
 				<a id="event-nav-privacy" href="#">Privacy</a>
 				<div id="event-nav-menu-privacy" class="event-nav-menu">
@@ -128,6 +119,20 @@
 					</ul>
 					<div class="clearit">&nbsp;</div>
 					<div id='privacySaveWrap'><input type="button" value="Save" /></div>
+				</div>
+			</li>
+			<?php endif; ?>
+			
+			<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ): ?>
+			<li>
+				<a id="event-nav-share" href="#">Share</a>
+				<div id="event-nav-menu-share" class="event-nav-menu">
+					<p>Share your album with friends and family.</p>
+					<div class="share">
+						<a class="photo-share-twitter" target="_blank" href="http://twitter.com/share?text=<?= urlencode("Follow the photos on " . date("D M j", $eventDeets->start_epoch) . " at " .  date("g:i a", $eventDeets->start_epoch) . " for " . $eventDeets->title . " with @getsnapable") ?>&url=http://snapable.com/event/<?= $eventDeets->url ?>">Tweet</a> 
+						<a class="photo-share-facebook" target="_blank" href="http://www.facebook.com/sharer.php?u=http://snapable.com/event/<?= $eventDeets->url ?>">Share</a> 
+						<!--<a class="photo-share-email" href="#">Email</a>-->
+					</div>
 				</div>
 			</li>
 			<?php endif; ?>
@@ -149,13 +154,13 @@
 	-->
 </div>
 
-<div id="uploadArea"></div>
+<div id="uploadArea" class="slidContent"></div>
 <div id="uploadedArea"></div>
 <div class="clearit">&nbsp;</div>
 
-<div id="contact" class="mustache-box"></div>
-<div id="guest" class="mustache-box"></div>
-<div id="tablecards" class="mustache-box"></div>
+<div id="contact" class="mustache-box slidContent"></div>
+<div id="guest" class="mustache-box slidContent"></div>
+<div id="tablecards" class="mustache-box slidContent"></div>
 
 <div id="photoArea"></div>
 

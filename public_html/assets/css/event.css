@@ -192,10 +192,11 @@ a.menu-open {
 
 #event-title.edit {
 	cursor: pointer;
-	background: url('/assets/img/icons/blue/pen_alt_fill_12x12.png') no-repeat center left;
+	background: url('/assets/img/icons/pen_alt_fill_12x12-lgt_grey.png') no-repeat center left;
 }
 #event-title.edit:hover {
-	color: #dddddd;
+	text-decoration: underline;
+	background: url('/assets/img/icons/pen_alt_fill_12x12-blue.png') no-repeat center left;
 }
 
 #event-title input {
@@ -221,12 +222,12 @@ a.menu-open {
 /** Event Settings **/
 #event-settings {
 	display: none;
-	width: 285px;
+	width: 350px;
 	position: absolute;
 	top: 25px;
-	padding: 10px;
+	padding: 25px;
 	color: #999;
-	background: #ddeef6;
+	background: #fff;
 	border-radius: 3px;
 	-webkit-box-shadow: 1px 1px 5px rgba(50, 50, 50, 0.75);
 	-moz-box-shadow: 1px 1px 5px rgba(50, 50, 50, 0.75);
@@ -234,7 +235,11 @@ a.menu-open {
 	z-index: 100;
 }
 #event-settings h3 {
-	margin: 0 0 5px 0;
+	padding-bottom: 10px;
+	margin: 0 0 10px 0;
+	font-weight: 600;
+	color: #000;
+	border-bottom: 1px solid #ccc;
 }
 #event-settings span.status {
 	margin-left: 4px;
@@ -245,8 +250,21 @@ a.menu-open {
 	padding: 10px 0;
 }
 
+#event-settings label {
+	font-size: 12px;
+	line-height: 14px;
+	color: #333;
+}
+
 #event-settings input[type=text] {
 	width: 255px;
+	padding: 7px 10px 5px 10px;
+	border: 1px solid #f4f4f4;
+	border-radius: 3px;
+	font-size: 16px;
+	line-height: 18px;
+	-webkit-box-shadow: inset 0px 1px 1px 1px rgba(0, 0, 0, .3);
+	box-shadow: inset 0px 1px 1px 1px rgba(0, 0, 0, .3);
 }
 #event-settings .status.bad {
 	background: url('/assets/img/x_alt_16x16.png') no-repeat right bottom;
@@ -259,9 +277,19 @@ a.menu-open {
 }
 
 #event-settings .small-field {
-	width: 300px;
+	width: 350px;
 	padding: 5px 0;
 }
+#event-settings .small-field:after {
+	content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+    margin: 0;
+    padding: 0;
+}
+
 #event-settings .small-field label {
 	display: block;
 }
@@ -270,7 +298,7 @@ a.menu-open {
 	margin-right: 5px;
 }
 #event-settings .small-field-inner input[type=text] {
-	width: 75px;
+	width: 85px;
 	display: block;
 }
 
@@ -790,6 +818,9 @@ h1 {
 	line-height: 14px;
 	color: #666;
 	font-weight: normal;
+}
+h1#event-timestamp-start {
+	margin-bottom: 10px;
 }
 #setup-wrap #event-top h2 {
 	padding-top: 20px;
