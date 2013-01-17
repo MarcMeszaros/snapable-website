@@ -2,9 +2,10 @@
 
 class Signup extends CI_Controller {
 
-	// promo codes key/value pairs (in cents)
-	public static $PROMO_CODES = array(
+	// coupon codes key/value pairs (in cents)
+	public static $COUPON_CODES = array(
 		'weddingful' => 2000,
+		'WR2013' => 3000,
 	);
 
 	function __construct()
@@ -104,10 +105,11 @@ class Signup extends CI_Controller {
 					// set price in cents
 					$amount_in_cents = 7900;
 
-					if ( $_POST['promo-code-applied'] == 1 && array_key_exists($_POST['promo-code'], self::$PROMO_CODES))
+					if ( $_POST['promo-code-applied'] == 1 && array_key_exists($_POST['promo-code'], self::$COUPON_CODES))
 					{
-						$discount = self::$PROMO_CODES[$_POST['promo-code']];
+						$discount = self::$COUPON_CODES[$_POST['promo-code']];
 						$amount_in_cents = $amount_in_cents - $discount;
+						$coupon = $_POST['promo-code'];
 					}
 					
 					if ( $amount_in_cents > 0 )
@@ -140,6 +142,10 @@ class Signup extends CI_Controller {
 								),
 								'payment_gateway_invoice_id' => $chargeData->id,
 							);
+							// add the coupon if there was one
+							if (isset($coupon)) {
+								$params['coupon'] = $coupon;
+							}
 							$resp = SnapApi::send($verb, $path, $params);
 							
 							// send email to user regardless of what happens after
@@ -285,12 +291,12 @@ class Signup extends CI_Controller {
 		{
 			
 			
-			if ( array_key_exists($_GET['code'], self::$PROMO_CODES) ) 
+			if ( array_key_exists($_GET['code'], self::$COUPON_CODES) ) 
 			{
 			    // success
 			    echo '{
 			    	"status": 200,
-			    	"value": ' . self::$PROMO_CODES[$_GET['code']]/100 . '
+			    	"value": ' . self::$COUPON_CODES[$_GET['code']]/100 . '
 			    }';
 			} else {
 			    echo '{
@@ -300,7 +306,7 @@ class Signup extends CI_Controller {
 		}
 		else if ( $numargs == 1 ) 
 		{
-			return $promo_codes[func_get_arg(0)];
+			return self::$COUPON_CODES[func_get_arg(0)];
 		} else {
 			return 0;
 		}		
