@@ -304,6 +304,8 @@ $(document).ready(function()
 		
 		if ( id == "eventDeets" )
 		{
+			_gaq.push(['trackPageview', 'signup/event_details']);
+			
 			var title = $("#event_title").val(); // cannot be blank
 			var location = $("#event_location").val(); // cannot be blank
 			var lat = $("#lat").val(); // cannot be zero
@@ -333,6 +335,8 @@ $(document).ready(function()
 		} 
 		else if ( id == "yourDeets" )
 		{
+			_gaq.push(['trackPageview', 'signup/your_details']);
+			
 			var fname = $("#user_first_name").val(); // cannot be blank
 			var lname = $("#user_last_name").val(); // cannot be blank
 			var email = $("#user_email").val(); // cannot be blank and must be valid
@@ -423,11 +427,13 @@ $(document).ready(function()
 	
 	function stripeResponseHandler(status, response) {
 	    if (response.error) {
-	    	console.log(response);
+	    	_gaq.push(['trackPageview', 'signup/error']);
 	        // show the errors on the form
 	        //$(".payment-errors").text(response.error.message);
 	        $(".submit-button").removeAttr("disabled");
 	    } else {
+	        _gaq.push(['trackPageview', 'signup/submit']);
+	        
 	        var form = $("#payment-form");
 	        // token contains id, last4, and card type
 	        var token = response['id'];
