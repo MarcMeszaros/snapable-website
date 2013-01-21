@@ -29,7 +29,11 @@ class Home extends CI_Controller {
 				'assets/home/colorbox.css', 
 				'assets/css/home_footer.css'
 			),
-			'js' => array('assets/home/jquery.anchor.js'),
+			'js' => array(
+				'assets/home/jquery.anchor.js',
+				'assets/home/jquery.colorbox-min.js',
+				'assets/home/jan2013.js'	
+			),
 			'meta' => array(
 				'og:title' => 'Snapable',
 				'og:type' => 'Photo sharing',
@@ -42,6 +46,12 @@ class Home extends CI_Controller {
 
 		$this->load->view('home/jan2013', $head);
 		$this->load->view('common/home_footer.php');
+	}
+	
+	
+	function app()
+	{
+		$this->load->view('home/app');
 	}
 }
 

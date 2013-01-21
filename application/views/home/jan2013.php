@@ -206,7 +206,7 @@
 
 		          <p>Once your album is set up, you’re ready to collect your  photos!</p>
 		          
-		          <p class="pLink"><a href="#">See a sample</a></p>
+		          <p class="pLink"><a href="http://snapable.com/event/demo" target="_blank">See a sample</a></p>
 		        </div>
 		
 		        <div class="box">
@@ -223,7 +223,7 @@
 		          </ul>
 		          <p>A copy of each photo taken with the Snapable app will be instantly added to your album.</p>
 		          
-		          <p class="pLink"><a href="#">See a sample</a></p>
+		          <p class="pLink"><a href="/home/app" class="overlay">See a sample</a></p>
 		        </div>
 		
 		        <div class="box">
