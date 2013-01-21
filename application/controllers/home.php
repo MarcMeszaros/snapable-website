@@ -44,8 +44,11 @@ class Home extends CI_Controller {
 			),
 		);
 
+
+		$this->load->view('common/html_header', $head);
 		$this->load->view('home/jan2013', $head);
 		$this->load->view('common/home_footer.php');
+		$this->load->view('common/html_footer', $head);
 	}
 	
 	
