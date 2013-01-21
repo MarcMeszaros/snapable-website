@@ -1,5 +1,44 @@
 /**** OVERLAYS ****/
 
+.during_wedding {
+	width: 445px;
+	padding: 25px;
+}
+.during_wedding:after {
+	content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+    margin: 0;
+    padding: 0;
+}
+.during_wedding .iphone {
+	float: left;
+	display: inline;
+	width: 200px;
+}
+.during_wedding .download {
+	float: right;
+	display: inline;
+	width: 225px;
+	padding-top: 50px;
+	font-size: 14px;
+	line-height: 20px;
+}
+
+.appstore {
+	display: block;
+	border: 0;
+	text-decoration: none;
+	width: 161px;
+	height: 56px;
+	margin-top: 25px;
+	
+	text-indent: -8000px;
+	background: transparent url('/assets/home/img/jan2013/appstore.png') no-repeat;
+}
+
 #signupWrap {
 	width: 310px;
 	padding: 20px;
