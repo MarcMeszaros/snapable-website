@@ -3,9 +3,11 @@
 class Signup extends CI_Controller {
 
 	// coupon codes key/value pairs (in cents)
+	// NOTE: coupon codes need to be lowercase!
+	// (ie. case insensitive input, but all lowercase behind the scenes)
 	public static $COUPON_CODES = array(
 		'weddingful' => 2000,
-		'WR2013' => 3000,
+		'wr2013' => 3000,
 	);
 
 	function __construct()
@@ -73,8 +75,6 @@ class Signup extends CI_Controller {
 	function setup()
 	{
 		// USED BY /signup as of Jan 4, 2013
-		
-		
 		if ( isset($_POST) && isset($_POST['stripeToken']) )
 		{	 
 			// Step 1: Setup account/user and log them in	
@@ -105,11 +105,18 @@ class Signup extends CI_Controller {
 					// set price in cents
 					$amount_in_cents = 7900;
 
-					if ( $_POST['promo-code-applied'] == 1 && array_key_exists($_POST['promo-code'], self::$COUPON_CODES))
+					// if there is a promo code to process
+					if ( $_POST['promo-code-applied'] == 1 && isset($_POST['promo-code']))
 					{
-						$discount = self::$COUPON_CODES[$_POST['promo-code']];
-						$amount_in_cents = $amount_in_cents - $discount;
-						$coupon = $_POST['promo-code'];
+						// sanitize the data (ie. remove invalid characters and lowercase)
+						$code = strtolower(preg_replace('/[^a-zA-Z0-9-_]/', '', $_POST['promo-code']));
+
+						// only apply discount if coupon is valid
+						if (array_key_exists($code, self::$COUPON_CODES)) {
+							$discount = self::$COUPON_CODES[$code];
+							$amount_in_cents = $amount_in_cents - $discount;
+							$coupon = $code;
+						}
 					}
 					
 					if ( $amount_in_cents > 0 )
@@ -286,27 +293,24 @@ class Signup extends CI_Controller {
 	function promo()
 	{
 		$numargs = func_num_args();
-		
-		if ( IS_AJAX && isset($_GET['code']) && $numargs == 0 )
+
+		if ( IS_AJAX && isset($_GET['code']) && ($numargs == 0 || $numargs == 1) )
 		{
+			// sanitize the data (ie. remove invalid characters and lowercase)
+			$code = strtolower(preg_replace('/[^a-zA-Z0-9-_]/', '', $_GET['code']));
 			
-			
-			if ( array_key_exists($_GET['code'], self::$COUPON_CODES) ) 
+			if ( array_key_exists($code, self::$COUPON_CODES) )
 			{
 			    // success
 			    echo '{
 			    	"status": 200,
-			    	"value": ' . self::$COUPON_CODES[$_GET['code']]/100 . '
+			    	"value": ' . self::$COUPON_CODES[$code]/100 . '
 			    }';
 			} else {
 			    echo '{
 			    	"status": 404
 			    }';
 			}
-		}
-		else if ( $numargs == 1 ) 
-		{
-			return self::$COUPON_CODES[func_get_arg(0)];
 		} else {
 			return 0;
 		}		
