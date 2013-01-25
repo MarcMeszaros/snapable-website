@@ -189,8 +189,21 @@ class Signup extends CI_Controller {
 							'total' => $amount_in_cents,
 							'items' => $items,
 						);
-		
+
+						// disable the subscribe link sendgrid automatically adds
+						$email_headers = array(
+					        'filters' => array(
+					            'subscriptiontrack' => array(
+					                'settings' => array(
+					                    'enable' => 0,
+					                ),
+					            ),
+					        ),
+					    );
+
+					    // send the receipt email
 						$this->email->initialize(array('mailtype'=>'html'));
+						$this->email->set_header('X-SMTPAPI', json_encode($email_headers));
 						$this->email->from('team@snapable.com', 'Snapable');
 						$this->email->to($session_data['email']);
 						$this->email->subject('Your Snapable order has been processed');
