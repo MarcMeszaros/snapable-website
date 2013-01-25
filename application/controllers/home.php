@@ -44,6 +44,20 @@ class Home extends CI_Controller {
 			),
 		);
 
+		// set utm/affiliate cookie if required
+		if (isset($_GET['utm_source']) && isset($_GET['utm_medium']) && $_GET['utm_medium'] == 'affiliate') {
+			$domain = (DEBUG) ? $_SERVER['HTTP_HOST'] : '.snapable.com';
+			//$secure = (DEBUG) ? false : true; 
+			$cookie = array(
+				'name'   => 'affiliate',
+				'value'  => $_GET['utm_source'],
+				'expire' => '2592000', // 30 days
+				'domain' => $domain,
+				'path'   => '/',
+				//'secure' => $secure,
+			);
+			$this->input->set_cookie($cookie);
+		}
 
 		$this->load->view('common/html_header', $head);
 		$this->load->view('home/jan2013', $head);

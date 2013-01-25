@@ -20,7 +20,8 @@ class Signup extends CI_Controller {
 		
     	$this->load->library('email');
     	$this->load->helper('stripe');
-    	$this->load->helper('currency');    	
+    	$this->load->helper('currency');
+    	$this->load->helper('cookie');  	
 	}
 
 	public function _remap($method, $params = array())
@@ -155,7 +156,27 @@ class Signup extends CI_Controller {
 							}
 							$resp = SnapApi::send($verb, $path, $params);
 						}
-						
+
+						// send the affiliate email
+						if ($this->input->cookie('affiliate')) {
+							// get the cookie/create the message
+							$cookie = $this->input->cookie('affiliate');
+							$msg = $_POST['user']['email'] . ' signed up for a package with affiliate code: ' . $cookie;
+
+							// send the email
+							$this->email->initialize(array('mailtype'=>'html'));
+							$this->email->from('team@snapable.com', 'Snapable');
+							$this->email->to('team@snapable.com');
+							$this->email->subject('['.$cookie.'] An affiliate user signed up');
+							$this->email->message($msg);
+							if (DEBUG == false) {
+								$this->email->send();
+							}
+
+							// delete the cookie
+							delete_cookie('affiliate');
+						}
+
 						// send email to user regardless of what happens after
 						// ie. they should know we managed to charge their credit card,
 						// even if stuff breaks after here
