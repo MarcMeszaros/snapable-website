@@ -3,9 +3,12 @@
 class Signup extends CI_Controller {
 
 	// coupon codes key/value pairs (in cents)
+	// NOTE: coupon codes need to be lowercase!
+	// (ie. case insensitive input, but all lowercase behind the scenes)
 	public static $COUPON_CODES = array(
-		'weddingful' => 2000,
-		'WR2013' => 3000,
+		'adorii' => 7900, // added: 2013-01-24; valid_until: TBD
+		'weddingful' => 2000, // added: 2013-01-14; valid_until: TBD
+		'wr2013' => 3000, // added: 2013-01-17; valid_until: TBD
 	);
 
 	function __construct()
@@ -17,7 +20,8 @@ class Signup extends CI_Controller {
 		
     	$this->load->library('email');
     	$this->load->helper('stripe');
-    	$this->load->helper('currency');    	
+    	$this->load->helper('currency');
+    	$this->load->helper('cookie');  	
 	}
 
 	public function _remap($method, $params = array())
@@ -72,11 +76,32 @@ class Signup extends CI_Controller {
 	
 	function setup()
 	{
+		// get package details
+		$verb = 'GET';
+		$path = 'package/2'; // standard package
+		$resp = SnapApi::send($verb, $path);
+		$package = json_decode($resp['response']);
+
+		// set price in cents
+		$amount_in_cents = $package->price;
+
+		// if there is a promo code to process
+		if (isset($_POST) && $_POST['promo-code-applied'] == 1 && isset($_POST['promo-code']))
+		{
+			// sanitize the data (ie. remove invalid characters and lowercase)
+			$code = strtolower(preg_replace('/[^a-zA-Z0-9-_]/', '', $_POST['promo-code']));
+
+			// only apply discount if coupon is valid
+			if (array_key_exists($code, self::$COUPON_CODES)) {
+				$discount = self::$COUPON_CODES[$code];
+				$amount_in_cents = $amount_in_cents - $discount;
+				$coupon = $code;
+			}
+		}
+
 		// USED BY /signup as of Jan 4, 2013
-		
-		
-		if ( isset($_POST) && isset($_POST['stripeToken']) )
-		{	 
+		if ( isset($_POST) && ($amount_in_cents == 0 || ($amount_in_cents > 0 && isset($_POST['stripeToken']))) )
+		{
 			// Step 1: Setup account/user and log them in	
 			$create_event = $this->signup_model->createEvent($_POST['event'], $_POST['user']);
 			
@@ -96,28 +121,11 @@ class Signup extends CI_Controller {
 					$userParts = explode('/', $session_data['resource_uri']);
 					$accountParts = explode('/', $session_data['account_uri']);
 					
-					// get package details
-					$verb = 'GET';
-					$path = 'package/2'; // standard package
-					$resp = SnapApi::send($verb, $path);
-					$package = json_decode($resp['response']);
+					try {
+						if ($amount_in_cents > 0) {
+							// get the credit card details submitted by the form
+							$token = $_POST['stripeToken'];
 
-					// set price in cents
-					$amount_in_cents = 7900;
-
-					if ( $_POST['promo-code-applied'] == 1 && array_key_exists($_POST['promo-code'], self::$COUPON_CODES))
-					{
-						$discount = self::$COUPON_CODES[$_POST['promo-code']];
-						$amount_in_cents = $amount_in_cents - $discount;
-						$coupon = $_POST['promo-code'];
-					}
-					
-					if ( $amount_in_cents > 0 )
-					{
-						// get the credit card details submitted by the form
-						$token = $_POST['stripeToken'];
-						
-						try {
 							// create the charge on Stripe's servers - this will charge the user's card
 							$charge = Stripe_Charge::create(array(
 							  'amount' => $amount_in_cents, // amount in cents, again
@@ -147,76 +155,109 @@ class Signup extends CI_Controller {
 								$params['coupon'] = $coupon;
 							}
 							$resp = SnapApi::send($verb, $path, $params);
-							
-							// send email to user regardless of what happens after
-							// ie. they should know we managed to charge their credit card,
-							// even if stuff breaks after here
-							$items = array(
-								'Snapable Event' => array(
-									'price' => $amount_in_cents,
-								),
-							);
-							$receipt = array(
-								'total' => $amount_in_cents,
-								'items' => $items,
-							);
-			
+						}
+
+						// send the affiliate email
+						if ($this->input->cookie('affiliate')) {
+							// get the cookie/create the message
+							$cookie = $this->input->cookie('affiliate');
+							$msg = $_POST['user']['email'] . ' signed up for a package with affiliate code: ' . $cookie;
+
+							// send the email
 							$this->email->initialize(array('mailtype'=>'html'));
 							$this->email->from('team@snapable.com', 'Snapable');
-							$this->email->to($session_data['email']);
-							$this->email->subject('Your Snapable order has been processed');
-							$this->email->message($this->load->view('email/receipt_html', $receipt, true));
-							$this->email->set_alt_message($this->load->view('email/receipt_text', $receipt, true));
-							$this->email->send();
-			
-							// if it makes the account invalid
-							$validUntil = null;
-							if (isset($package->interval) && isset($package->interval_count) && isset($package->trial_period_days))
-							{
-								// get the current datetime
-								$dt = new DateTime('now', new DateTimeZone('UTC'));
-								// make the trial time interval
-								$intervalTrial = new DateInterval('P'.$package->trial_period_days.'D');
-								
-								// create the package interval based on package info
-								$intervalStr = 'P'.$package->interval_count;
-								if ($package->interval == 'day') {
-									$intervalStr .= 'D';
-								} else if ($package->interval == 'month') {
-									$intervalStr .= 'M';
-								} else if ($package->interval == 'year') {
-									$intervalStr .= 'Y';
-								}
-								$intervalPackage = new DateInterval($intervalStr);
-
-								// figure out when this all ends in the future by adding the two intervals
-								$dt->add($intervalTrial);
-								$dt->add($intervalPackage);
-								$validUntil = $dt->format('c');
+							$this->email->to('team@snapable.com');
+							$this->email->subject('['.$cookie.'] An affiliate user signed up');
+							$this->email->message($msg);
+							if (DEBUG == false) {
+								$this->email->send();
 							}
 
-							// update the account's package
-							$verb = 'PUT';
-							$path = 'account/'.$accountParts[3];
-							$params = array(
-								'package' => $package->resource_uri,
-								'valid_until' => $validUntil,
-							);
-							$resp = SnapApi::send($verb, $path, $params);
-						} catch (Stripe_CardError $e) {
-							// keep the flash data if the user goes back
-							//$this->session->keep_flashdata('package_id');
-							//$this->session->keep_flashdata('package_price');
-							show_error('Unable to process payment.<br>'.$e->getMessage(), 500);
-						} catch (Exception $e) {
-							// keep the flash data if the user goes back
-							//$this->session->keep_flashdata('package_id');
-							//$this->session->keep_flashdata('package_price');
-							// send the exception to sentry
-							$raven_client = new Raven_Client(SENTRY_DSN);
-							$raven_client->captureException($e);
-							show_error('Unable to process payment.<br>We\'ve been notified and are looking into the problem.', 500);
+							// delete the cookie
+							delete_cookie('affiliate');
 						}
+
+						// send email to user regardless of what happens after
+						// ie. they should know we managed to charge their credit card,
+						// even if stuff breaks after here
+						$items = array(
+							'Snapable Event' => array(
+								'price' => $amount_in_cents,
+							),
+						);
+						$receipt = array(
+							'total' => $amount_in_cents,
+							'items' => $items,
+						);
+
+						// disable the subscribe link sendgrid automatically adds
+						$email_headers = array(
+					        'filters' => array(
+					            'subscriptiontrack' => array(
+					                'settings' => array(
+					                    'enable' => 0,
+					                ),
+					            ),
+					        ),
+					    );
+
+					    // send the receipt email
+						$this->email->initialize(array('mailtype'=>'html'));
+						$this->email->set_header('X-SMTPAPI', json_encode($email_headers));
+						$this->email->from('team@snapable.com', 'Snapable');
+						$this->email->to($session_data['email']);
+						$this->email->subject('Your Snapable order has been processed');
+						$this->email->message($this->load->view('email/receipt_html', $receipt, true));
+						$this->email->set_alt_message($this->load->view('email/receipt_text', $receipt, true));
+						$this->email->send();
+		
+						// if it makes the account invalid
+						$validUntil = null;
+						if (isset($package->interval) && isset($package->interval_count) && isset($package->trial_period_days))
+						{
+							// get the current datetime
+							$dt = new DateTime('now', new DateTimeZone('UTC'));
+							// make the trial time interval
+							$intervalTrial = new DateInterval('P'.$package->trial_period_days.'D');
+							
+							// create the package interval based on package info
+							$intervalStr = 'P'.$package->interval_count;
+							if ($package->interval == 'day') {
+								$intervalStr .= 'D';
+							} else if ($package->interval == 'month') {
+								$intervalStr .= 'M';
+							} else if ($package->interval == 'year') {
+								$intervalStr .= 'Y';
+							}
+							$intervalPackage = new DateInterval($intervalStr);
+
+							// figure out when this all ends in the future by adding the two intervals
+							$dt->add($intervalTrial);
+							$dt->add($intervalPackage);
+							$validUntil = $dt->format('c');
+						}
+
+						// update the account's package
+						$verb = 'PUT';
+						$path = 'account/'.$accountParts[3];
+						$params = array(
+							'package' => $package->resource_uri,
+							'valid_until' => $validUntil,
+						);
+						$resp = SnapApi::send($verb, $path, $params);
+					} catch (Stripe_CardError $e) {
+						// keep the flash data if the user goes back
+						//$this->session->keep_flashdata('package_id');
+						//$this->session->keep_flashdata('package_price');
+						show_error('Unable to process payment.<br>'.$e->getMessage(), 500);
+					} catch (Exception $e) {
+						// keep the flash data if the user goes back
+						//$this->session->keep_flashdata('package_id');
+						//$this->session->keep_flashdata('package_price');
+						// send the exception to sentry
+						$raven_client = new Raven_Client(SENTRY_DSN);
+						$raven_client->captureException($e);
+						show_error('Unable to process payment.<br>We\'ve been notified and are looking into the problem.', 500);
 					}
 					
 					$event_array = $this->account_model->eventDeets($session_data['account_uri']);
@@ -286,27 +327,24 @@ class Signup extends CI_Controller {
 	function promo()
 	{
 		$numargs = func_num_args();
-		
-		if ( IS_AJAX && isset($_GET['code']) && $numargs == 0 )
+
+		if ( IS_AJAX && isset($_GET['code']) && ($numargs == 0 || $numargs == 1) )
 		{
+			// sanitize the data (ie. remove invalid characters and lowercase)
+			$code = strtolower(preg_replace('/[^a-zA-Z0-9-_]/', '', $_GET['code']));
 			
-			
-			if ( array_key_exists($_GET['code'], self::$COUPON_CODES) ) 
+			if ( array_key_exists($code, self::$COUPON_CODES) )
 			{
 			    // success
 			    echo '{
 			    	"status": 200,
-			    	"value": ' . self::$COUPON_CODES[$_GET['code']]/100 . '
+			    	"value": ' . self::$COUPON_CODES[$code]/100 . '
 			    }';
 			} else {
 			    echo '{
 			    	"status": 404
 			    }';
 			}
-		}
-		else if ( $numargs == 1 ) 
-		{
-			return self::$COUPON_CODES[func_get_arg(0)];
 		} else {
 			return 0;
 		}		

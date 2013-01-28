@@ -281,6 +281,11 @@ $(document).ready(function()
 					$("#package-amount").html(amount - discount);
 					$("input[name=promo-code-applied]").val(1);
 					$("input[name=promo-code-amount]").val(amount - discount);
+
+					// if the amount is 0, disable credit card fields
+					if ((amount - discount) == 0) {
+						$('#billing input,select').not('#completSignup').attr("disabled", "disabled");
+					}
 				} 
 				else if ( promoApplied == 1 )
 				{
@@ -406,23 +411,29 @@ $(document).ready(function()
 		// disable the submit button to prevent repeated clicks
 		$('input[name=submit-button]').attr("disabled", "disabled");
 		
-		// check form fields
-		$("#creditcard_name").blur();
-		$("#creditcard_number").blur();
-		$("#creditcard_cvc").blur();
-		//$("#creditcard_year").change(); // checking one of the two exp date fields checks both
-		
-		Stripe.createToken({
-			name: $('#creditcard_name').val(),
-		    number: $('#creditcard_number').val(),
-		    cvc: $('#creditcard_cvc').val(),
-		    exp_month: $('#creditcard_month').val(),
-		    exp_year: $('#creditcard_year').val(),
-		    address_zip: $('#address_zip').val()
-		}, stripeResponseHandler);
-		
-		// prevent the form from submitting with the default action
-		return false;
+		// check form fields if the total > 0
+		var amount = parseFloat($("#package-amount").html());
+		if (amount > 0) {
+			$("#creditcard_name").blur();
+			$("#creditcard_number").blur();
+			$("#creditcard_cvc").blur();
+			//$("#creditcard_year").change(); // checking one of the two exp date fields checks both
+
+			Stripe.createToken({
+				name: $('#creditcard_name').val(),
+			    number: $('#creditcard_number').val(),
+			    cvc: $('#creditcard_cvc').val(),
+			    exp_month: $('#creditcard_month').val(),
+			    exp_year: $('#creditcard_year').val(),
+			    //address_zip: $('#address_zip').val()
+			}, stripeResponseHandler);
+
+			// prevent the form from submitting with the default action
+			return false;
+		} else {
+			_gaq.push(['trackPageview', 'signup/submit']);
+		}
+
 	});
 	
 	function stripeResponseHandler(status, response) {
