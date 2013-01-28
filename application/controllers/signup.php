@@ -100,7 +100,7 @@ class Signup extends CI_Controller {
 		}
 
 		// USED BY /signup as of Jan 4, 2013
-		if ( isset($_POST) && ($amount_in_cents == 0 || ($amount_in_cents > 0 && $isset($_POST['stripeToken']))) )
+		if ( isset($_POST) && ($amount_in_cents == 0 || ($amount_in_cents > 0 && isset($_POST['stripeToken']))) )
 		{
 			// Step 1: Setup account/user and log them in	
 			$create_event = $this->signup_model->createEvent($_POST['event'], $_POST['user']);
