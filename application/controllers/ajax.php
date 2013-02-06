@@ -123,6 +123,14 @@ class Ajax extends CI_Controller {
     }
 
     public function send_email() {
+        // check for bots
+        foreach ($_POST['re-cap'] as $key => $value) {
+            if ($value != '') {
+                $this->output->set_status_header(403);
+                return;
+            }
+        }
+
         // get the form values
         $to = $this->input->post('to', TRUE); //( isset($_POST['to']) ) ? $_POST['to']:"team@snapable.com";
         $from = $this->input->post('from', TRUE); //( isset($_POST['from']) ) ? $_POST['from']:"website@snapable.com";
@@ -145,6 +153,7 @@ class Ajax extends CI_Controller {
         {
             echo "success";
         } else {
+            $this->output->set_status_header(500);
             echo "failed";
         }
     }
