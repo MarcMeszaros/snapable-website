@@ -315,29 +315,4 @@ function loadPhotos(photos) {
 		document.location = '/download/photo/'+$(this).attr('data-photo_id');
 		return false; // end execution of the javascript
 	});
-	
-	
-	$(document).on("submit", "form#questionForm", function(e) 
-    {
-    	$('input[name=submit]').attr("disabled", "disabled");
-        var message = $("textarea[name=message]").val();
-        if ( message == "" || message == "Enter a question, comment or message...")
-        {
-            alert("Forget to include your message?");
-            e.preventDefault();
-            return false;
-        } else {
-            $.post("/account/email", {type:"question",message:message,email:$("input[name=from]").val()}, function(data){
-                if ( data == "sent" )
-                {
-                    $("form#questionForm").html("<h3>Thanks! Your message has been sent</h3><p>We'll be in touch shortly.</p>");
-                } else {
-                    alert("An error occurred while trying to send your message. Please email us direct at team@snapable.com");
-                    $('input[name=submit]').attr("disabled", "enabled");
-                }
-            })  
-            e.preventDefault();
-            return false;
-        }
-    });
 }

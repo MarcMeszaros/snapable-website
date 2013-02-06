@@ -45,7 +45,11 @@ class Event extends CI_Controller {
 				'//cdnjs.cloudflare.com/ajax/libs/jquery.form/3.20/jquery.form.js',
 				'//cdnjs.cloudflare.com/ajax/libs/jquery-jcrop/0.9.10/jquery.Jcrop.min.js',
 				'//cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.0/mustache.min.js',
-				'//maps.googleapis.com/maps/api/js?key=AIzaSyAofUaaxFh5DUuOdZHmoWETZNAzP1QEya0&sensor=false'
+				'//maps.googleapis.com/maps/api/js?key=AIzaSyAofUaaxFh5DUuOdZHmoWETZNAzP1QEya0&sensor=false',
+				'//cdnjs.cloudflare.com/ajax/libs/jquery-noty/2.0.3/jquery.noty.js',
+    			'//cdnjs.cloudflare.com/ajax/libs/jquery-noty/2.0.3/layouts/top.js',
+    			'//cdnjs.cloudflare.com/ajax/libs/jquery-noty/2.0.3/layouts/center.js',
+    			'//cdnjs.cloudflare.com/ajax/libs/jquery-noty/2.0.3/themes/default.js',
 			),
 			'js' => array(
 				'assets/js/libs/jquery-Mustache.js',
@@ -60,6 +64,7 @@ class Event extends CI_Controller {
 				'assets/js/event/photostream-addons.js',
 				'assets/js/event/photostream-share.js',
 				'assets/js/event/photostream-upload.js',
+				'assets/js/event/photostream-contact.js',
 			),
 			'url' => $event_details->event->url,
 			'type' => $this->uri->segment(1),
