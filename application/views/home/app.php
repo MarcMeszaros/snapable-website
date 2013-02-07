@@ -4,10 +4,12 @@
 	
 	<div class="download">
 	
-		Download the Snapable iPhone app from the App store  and find the <strong>"Snapable Demo Event"</strong> to see how it will work on your wedding day.
+		Download the Snapable app from the app store and find the <strong>"Snapable Demo Event"</strong> to see how it will work on your wedding day.
 		
 		<a class="appstore" href="http://itunes.com/apps/snapable" target="_blank">Available on the App Store</a>
-	
+		<a class="playstore" href="https://play.google.com/store/apps/details?id=ca.hashbrown.snapable">
+			<img alt="Android app on Google Play" src="https://developer.android.com/images/brand/en_app_rgb_wo_60.png" />
+		</a>
 	</div>
 	
 </div>
