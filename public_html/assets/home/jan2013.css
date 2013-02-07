@@ -143,13 +143,8 @@ ul#nav {
 	text-decoration: none;
 	position: absolute;
 	z-index: 200;
-	width: 161px;
-	height: 56px;
 	top: 338px;
 	right: 150px;
-	
-	text-indent: -8000px;
-	background: transparent url('/assets/img/android_badge.png') no-repeat;
 }
 
 #hand {

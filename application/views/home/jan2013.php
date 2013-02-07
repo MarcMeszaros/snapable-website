@@ -19,7 +19,9 @@
 		<div id="cta">
 			
 			<a id="appstore" href="http://itunes.com/apps/snapable">Available on the App Store</a>
-			<a id="playstore" href="#">Coming Soon to Android</a>
+			<a id="playstore" href="https://play.google.com/store/apps/details?id=ca.hashbrown.snapable">
+				<img alt="Android app on Google Play" src="https://developer.android.com/images/brand/en_app_rgb_wo_60.png" />
+			</a>
 			
 			<h1>Every Moment, Captured.</h1>
 			<h2>The fun and easy way for your guests to share photos from your wedding.</h2>
