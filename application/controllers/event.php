@@ -40,7 +40,6 @@ class Event extends CI_Controller {
 				'assets/css/event/photostream-nav.css',
 			),
 			'ext_js' => array(
-				'//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js',
 				'//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js',
 				'//cdnjs.cloudflare.com/ajax/libs/jquery.form/3.20/jquery.form.js',
 				'//cdnjs.cloudflare.com/ajax/libs/jquery-jcrop/0.9.10/jquery.Jcrop.min.js',

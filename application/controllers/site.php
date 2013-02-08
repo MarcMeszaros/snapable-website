@@ -9,7 +9,6 @@ class Site extends CI_Controller {
     		'assets/css/site.css',
     	);
     	$this->head['ext_js'] = array(
-    		'//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js',
     		'//cdnjs.cloudflare.com/ajax/libs/jquery.form/3.20/jquery.form.js',
     		'//cdnjs.cloudflare.com/ajax/libs/jquery-noty/2.0.3/jquery.noty.js',
     		'//cdnjs.cloudflare.com/ajax/libs/jquery-noty/2.0.3/layouts/top.js',
