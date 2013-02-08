@@ -169,24 +169,59 @@ class Signup extends CI_Controller {
 							$resp = SnapApi::send($verb, $path, $params);
 						}
 
-						// send the affiliate email
-						if ($this->input->cookie('affiliate')) {
-							// get the cookie/create the message
-							$cookie = $this->input->cookie('affiliate');
-							$msg = $_POST['user']['email'] . ' signed up for a package with affiliate code: ' . $cookie;
+						// disable the subscribe link sendgrid automatically adds
+						$email_headers = array(
+					        'filters' => array(
+					            'subscriptiontrack' => array(
+					                'settings' => array(
+					                    'enable' => 0,
+					                ),
+					            ),
+					        ),
+					    );
 
-							// send the email
-							$this->email->initialize(array('mailtype'=>'html'));
-							$this->email->from('team@snapable.com', 'Snapable');
-							$this->email->to('team@snapable.com');
-							$this->email->subject('['.$cookie.'] An affiliate user signed up');
-							$this->email->message($msg);
-							if (DEBUG == false) {
-								$this->email->send();
-							}
+						// signup email
+						//GET TIMEZONE
+						$timezone_offset_seconds = $_POST['event']['tz_offset'] * 60;
+						// SET TO UTC
+						$start_timestamp = strtotime($_POST['event']['start_date'] . " " . $_POST['event']['start_time']) + ($timezone_offset_seconds);
+
+						// CREATE END DATE
+						if ( $_POST['event']['duration_type'] == "days" )
+						{
+							$duration_in_seconds = $_POST['event']['duration_num'] * 86400;
+						} else {
+							$duration_in_seconds = $_POST['event']['duration_num'] * 3600;
+						}
+						$end_timestamp = $start_timestamp + $duration_in_seconds;
+
+						$signup_details = array(
+							'start_timestamp' => $start_timestamp,
+							'end_timestamp' => $end_timestamp,
+							'email_address' => $_POST['user']['email'],
+							'affiliate' => '',
+							'total' => $amount_in_cents,
+						);
+						$signup_details['coupon'] = (isset($coupon)) ? $coupon : '';
+						if ($this->input->cookie('affiliate')) {
+							$signup_details['affiliate'] = $this->input->cookie('affiliate');
 
 							// delete the cookie
 							delete_cookie('affiliate');
+						}
+
+						// SEND SIGN-UP NOTIFICATION EMAIL
+						$subject = 'Say Cheese, a Snapable Sign-up!';
+
+						$this->email->initialize(array('mailtype'=>'html'));
+						$this->email->set_header('X-SMTPAPI', json_encode($email_headers));
+						$this->email->from('snapable@snapable.com', 'Snapable');
+						$this->email->to('team@snapable.com');
+						$this->email->subject($subject);
+						$this->email->message($this->load->view('email/user_signup_html', $signup_details, true));
+						$this->email->set_alt_message($this->load->view('email/user_signup_txt', $signup_details, true));		
+						if (DEBUG == false) {
+							$this->email->send();
 						}
 
 						// send email to user regardless of what happens after
@@ -201,17 +236,6 @@ class Signup extends CI_Controller {
 							'total' => $amount_in_cents,
 							'items' => $items,
 						);
-
-						// disable the subscribe link sendgrid automatically adds
-						$email_headers = array(
-					        'filters' => array(
-					            'subscriptiontrack' => array(
-					                'settings' => array(
-					                    'enable' => 0,
-					                ),
-					            ),
-					        ),
-					    );
 
 					    // send the receipt email
 						$this->email->initialize(array('mailtype'=>'html'));

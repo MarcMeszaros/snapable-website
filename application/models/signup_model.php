@@ -222,21 +222,6 @@ Class Signup_model extends CI_Model
 				{
 					// set sessions var to log user in
 					SnapAuth::signin_nohash($user['email']);
-
-					// SEND SIGN-UP NOTIFICATION EMAIL
-					$subject = 'Say Cheese, a Snapable Sign-up!';
-					$message_html = '<p><b>Woot!</b> ' . $email_address . ' just signed up to Snapable.</p><p>Their event starts ' . date( "Y-m-d", $start_timestamp ) . " @ " . date( "H:i:s", $start_timestamp ) . ' until ' . date( "Y-m-d", $end_timestamp ) . " @ " . date( "H:i:s", $end_timestamp ) . '.</p>';
-					$message_text = 'Woot! ' . $email_address . ' just signed up to Snapable. Their event starts ' . date( "Y-m-d", $start_timestamp ) . " @ " . date( "H:i:s", $start_timestamp ) . ' until ' . date( "Y-m-d", $end_timestamp ) . " @ " . date( "H:i:s", $end_timestamp ) . '.';
-
-					$this->email->initialize(array('mailtype'=>'html'));
-					$this->email->from('snapable@snapable.com', 'Snapable');
-					$this->email->to('team@snapable.com');
-					$this->email->subject($subject);
-					$this->email->message($message_html);
-					$this->email->set_alt_message($message_text);		
-					if (DEBUG == false) {
-						$this->email->send();
-					}
 					
 					return $successResp;
 				} else {

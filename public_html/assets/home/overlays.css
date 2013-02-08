@@ -38,6 +38,12 @@
 	text-indent: -8000px;
 	background: transparent url('/assets/home/img/jan2013/appstore.png') no-repeat;
 }
+.playstore {
+    display: block;
+    border: 0;
+    text-decoration: none;
+    margin-top: 10px;
+}
 
 #signupWrap {
 	width: 310px;

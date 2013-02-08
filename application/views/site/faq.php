@@ -7,8 +7,7 @@
 
 <h3>What kind of phones does this work on?</h3>
 <p>
-    Currently, <b>Snapable</b> is only available for iPhone. 
-    However, stay tuned we’ll be coming up with an Android version soon!
+    Currently, <b>Snapable</b> is only available for iPhone and Android.
 </p>
 
 <h3>Can I edit my wedding / album information?</h3>
