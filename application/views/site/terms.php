@@ -27,13 +27,13 @@
 </p>
 
 <p>
-    You can request a full refund at any time up to 30 days after you signup for a Snapable
-    package and we will immediately delete all information (including photos) of the event.
+    You can request a full refund for the amount on your receipt at any time up to 30 days 
+    after you signup for a Snapable package and we will delete all information (including photos) of the event.
 </p>
 
 <h2>Copyrights & Trademarks</h2>
 <p>
-    All web site design, text, graphics and arrangements are © <b>Snapable</b>, 2012 except 
+    All web site design, text, graphics and arrangements are © <b>Snapable</b>, 2013 except 
     where noted. <b>Snapable</b> web site and all content provided on the <b>Snapable</b> 
     web site is protected by copyright, trademark, and other applicable intellectual property 
     and proprietary rights laws, and is owned, controlled, and/or licensed by <b>Snapable</b>.
