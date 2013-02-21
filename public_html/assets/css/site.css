@@ -181,6 +181,12 @@ h3:first-child {
         margin-top: 0;
 }
 
+h4 {
+        font-weight: normal;
+        font-size: 16px;
+        margin-top: 40px;
+}
+
 .right ol { padding-left: 20px; }
 p, .right li {
         font-weight: normal;
