@@ -68,3 +68,8 @@
 #events table td {
     padding: 5px;
 }
+
+.stack-content-center .ui-pnotify-title,
+.stack-content-center .ui-pnotify-text {
+    text-align: center;
+}

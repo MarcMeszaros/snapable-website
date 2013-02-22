@@ -89,6 +89,20 @@
             </div>
         </div>
     </div>
+
+    <div id="edit" class="span12">
+        <h3>Manage</h3>
+        <form id="delete-event-form" method="post" action="/ajax_internal/delete_event">
+            <label for="delete-event">Delete event:</label>
+            <input type="number" id="delete-event" name="event_id" placeholder="Event ID" />
+            <input type="submit" value="Delete" onclick="return sendForm(this, deleteCallback);" />
+        </form>
+        <form id="delete-user-form" method="post" action="/ajax_internal/delete_user">
+            <label for="delete-user">Delete user:</label>
+            <input type="number" id="delete-user" name="user_id" placeholder="User ID" />
+            <input type="submit" value="Delete" onclick="return sendForm(this, deleteCallback);" />
+        </form>
+    </div>
     
     <div id="events" class="span12">
         <h2>Events</h2>
