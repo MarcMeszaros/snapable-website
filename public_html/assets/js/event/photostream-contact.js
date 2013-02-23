@@ -11,10 +11,9 @@ $(document).ready(function(){
         var message = $("textarea[name=message]").val();
         if ( message == "" || message == "Enter a question, comment or message...")
         {
-            noty({
-                layout: 'center',
+            $.pnotify({
                 type: 'error',
-                timeout: 5000,
+                title: 'Message Not Sent',
                 text: 'Forget to include your message?'
             });
             e.preventDefault();
@@ -23,18 +22,16 @@ $(document).ready(function(){
             $.post("/ajax/send_email", {subject:$("input[name=subject]").val(),message:message,from:$("input[name=from]").val()}, function(data){
                 if ( data == "success" )
                 {
-                    noty({
-                        layout: 'center',
+                    $.pnotify({
                         type: 'success',
-                        timeout: 5000,
+                        title: 'Message Sent',
                         text: 'Thanks! Your message has been sent.'
                     });
                 } else {
-                    noty({
-                        layout: 'center',
+                    $.pnotify({
                         type: 'error',
-                        timeout: 10000,
-                        text: 'An error occurred while trying to send your message. Please email us directy at team@snapable.com'
+                        title: 'Message Not Sent',
+                        text: 'An error occurred while trying to send your message. Please email us directy at <a href="mailto:team@snapable.com">team@snapable.com</a>'
                     });
                     $('input[name=submit]').attr("disabled", "enabled");
                 }
