@@ -76,6 +76,7 @@ ul#nav {
 	display: inline;
 	float: right;
 	width: 650px;
+	margin: 0;
 	padding-top: 3px;
 	font-size: 14px;
 	line-height: 18px;
@@ -410,6 +411,7 @@ p.pLink {
 .package-big-box ul {
 	list-style: none;
 	padding: 0 35px;
+	margin: 0;
 }
 .package-big-box li {
 	text-align: center;
