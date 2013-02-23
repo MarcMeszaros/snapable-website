@@ -47,6 +47,8 @@ body {
 		color-stop(0, rgb(240,240,240)),
 		color-stop(0.5, rgb(255,255,255))
 	);
+
+	box-shadow: 0 1px 10px #666;
 }
 #head {
 	width: 960px;
@@ -108,17 +110,12 @@ ul#nav {
 	color: #ff6600;
 }
 
-#ctaWrap {
-	box-shadow:inset 0 1px 10px #666;
-}
 #cta {
 	position: relative;
 	width: 960px;
-	height: 542px;
+	height: 547px;
 	margin: 0 auto;
-	padding-top: 25px;
 	color: #fff;
-	
 	text-align: center;
 }
 
@@ -392,6 +389,10 @@ p.pLink {
 	padding: 35px 0 0 0;
 	background: transparent url('/assets/home/img/package-big-box-bg.png') no-repeat;
 }
+.package-big-box ul {
+	margin-bottom: 0;
+}
+
 .package-name {
 	text-align: center;
 	font-size: 30px;
@@ -429,15 +430,16 @@ p.pLink {
 
 .package-big-bottom {
 	text-align: center;
-	padding: 25px 0 7px 0;
-	height: 196px;
-	background:  transparent url('/assets/home/img/jan2013/package-big-bottom-bg.png') no-repeat left bottom;
-	overflow: hidden;
-	
+	height: 228px;
+	background: transparent url('/assets/home/img/jan2013/package-big-bottom-bg.png') no-repeat 1px bottom;
 	font-size: 96px;
 	line-height: 98px;
 	color: #357a9e;
 	font-weight: bold;
+}
+.package-big-bottom .price {
+	position: relative;
+	top: 20px;
 }
 .package-price {
 	font-size: 42px;

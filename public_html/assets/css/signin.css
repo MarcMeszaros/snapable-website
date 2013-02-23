@@ -92,7 +92,7 @@ h2#guestH2 { margin-top: 15px; }
 	color: #cc3300;
 }
 
-#signinWrap input[type=text], #signinWrap input[type=password] {
+#signinWrap input {
 	border-radius: 10px;
 	background: #f4f4f4;
 	padding: 10px 10px 8px 10px;
@@ -100,12 +100,12 @@ h2#guestH2 { margin-top: 15px; }
 	line-height: 18px;
 	width: 330px;
 }
-input#pinInput[type=text] {
+input#pinInput {
 	display: block;
 	width: 80px;
 	margin: 0 auto;
 }
-#signinWrap input[type=text]:focus, #signinWrap input[type=password]:focus {
+#signinWrap input:focus {
 	background: #f5ffe8;
 }
 .inputError {

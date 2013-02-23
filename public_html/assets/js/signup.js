@@ -284,7 +284,7 @@ $(document).ready(function()
 
 					// if the amount is 0, disable credit card fields
 					if ((amount - discount) == 0) {
-						$('#billing input,select').not('#completSignup').attr("disabled", "disabled");
+						$('#billing input,#billing select').not('#completSignup').attr("disabled", "disabled");
 					}
 				} 
 				else if ( promoApplied == 1 )

@@ -10,11 +10,10 @@ $(document).ready(function(){
     $('#questionForm').ajaxForm({
         success: function() {
             // show a notification
-            noty({
-                layout: 'center',
+            $.pnotify({
                 type: 'success',
-                timeout: 5000,
-                text: 'Thanks! Your message has been sent.'
+                title: 'Message Sent',
+                text: 'Your message has been successfully sent.'
             });
 
             // reset the form
@@ -22,11 +21,10 @@ $(document).ready(function(){
         },
         error: function(){ 
             // show a notification
-            noty({
-                layout: 'center',
+            $.pnotify({
                 type: 'error',
-                timeout: 10000,
-                text: 'An error occurred while trying to send your message. Please email us directly at team@snapable.com'
+                title: 'Message Not Sent',
+                text: 'An error occurred while trying to send your message. Please email us directly at <a href="mailto:team@snapable.com">team@snapable.com</a>'
             });
         }
     });

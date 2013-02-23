@@ -14,7 +14,6 @@ class P extends CI_Controller {
 	}
 
 	public function load_photo($photo) {
-		echo "&nbsp;";
 		$head = array(
 			'css' => array(
 				'assets/css/setup.css',
@@ -39,11 +38,9 @@ class P extends CI_Controller {
 		
 		if ( IS_AJAX )
 		{
-			$this->load->view('common/html_header');
 			$this->load->view('photo/header');
 			$this->load->view('photo/index', $data);
 			$this->load->view('photo/footer');
-			$this->load->view('common/html_footer');
 		} else {
 			$this->load->view('common/html_header', $head);
 			$this->load->view('common/header', $head);

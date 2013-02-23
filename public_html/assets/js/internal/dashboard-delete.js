@@ -1,5 +1,4 @@
 function deleteCallback(e) {
-    var stack_bar_top = {"dir1": "down", "dir2": "right", "push": "top", "firstpos1": -1, "firstpos2": 0};
     var msg = new Object();
     if (this.status == 204) {
         msg.type = 'success';
@@ -22,11 +21,7 @@ function deleteCallback(e) {
     $.pnotify({
         type: msg.type,
         title: msg.title,
-        text: msg.text,
-        width: '100%',
-        addclass: "stack-content-center",
-        stack: stack_bar_top,
-        history: false
+        text: msg.text
     });
 }
 
