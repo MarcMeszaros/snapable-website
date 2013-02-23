@@ -16,8 +16,9 @@
     <link rel="icon" type="image/vnd.microsoft.icon" href="/favicon.ico" /> 
 	<link rel="SHORTCUT ICON" href="/favicon.ico"/> 
     
-    <link type="text/css" rel="stylesheet" href="//fonts.googleapis.com/css?family=PT+Sans+Caption:400,700">
-    <link type="text/css" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.0/css/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="//fonts.googleapis.com/css?family=PT+Sans+Caption:400,700" />
+    <link type="text/css" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.0/css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="/assets/libs/pnotify/jquery.pnotify.default.css" />
     <?php 
     // external resources
     if ( isset($ext_css) ) {
@@ -42,6 +43,7 @@
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/assets/libs/pnotify/jquery.pnotify.min.js"></script>
     <?php
         // external resources
         if ( isset($ext_js) ) {
@@ -81,8 +83,26 @@
 
     <!--[if lt IE 9]>
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js"></script>
-    <![endif]--> 
-    
+    <![endif]-->
+
+    <!-- Pnotify Defaults -->
+    <script type="text/javascript">
+        $.pnotify.defaults.history = false;
+        $.pnotify.defaults.icon = false;
+        $.pnotify.defaults.animation = "slide";
+        $.pnotify.defaults.width = "100%";
+        $.pnotify.defaults.addclass = "stack-content-center";
+        $.pnotify.defaults.stack = {"dir1": "down", "dir2": "right", "push": "bottom", "firstpos1": -1, "firstpos2": -1, "spacing1":0, "spacing2":0};
+    </script>
+
+    <!-- Custom Pnotify Style -->
+    <style type="text/css">
+        .stack-content-center .ui-pnotify-title,
+        .stack-content-center .ui-pnotify-text {
+            text-align: center;
+        }
+    </style>
+
     <script type="text/javascript">
 <?php if ( $_SERVER['HTTP_HOST'] == "snapable.com" || $_SERVER['HTTP_HOST'] == "www.snapable.com" ) { ?>  
 	  var _gaq = _gaq || [];
