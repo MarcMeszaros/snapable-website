@@ -8,7 +8,6 @@
 
 
 #facebox .popup{
-	margin-top: 40px;
   position:relative;
   border:3px solid rgba(0,0,0,0);
   -webkit-border-radius:5px;
@@ -41,13 +40,13 @@
 
 #facebox .close{
   position:absolute;
-  top:5px;
-  right:5px;
+  top:10px;
+  right:15px;
   padding:2px;
   background:#fff;
 }
 #facebox .close img{
-  opacity:0.3;
+  opacity:0.5;
 }
 #facebox .close:hover img{
   opacity:1.0;

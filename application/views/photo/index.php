@@ -2,7 +2,7 @@
 
 <div id="details">
 	
-	<a id="back" href="<a href="/event/<?= $event_url ?>">‹ Back</a>
+	<a id="back" href="/event/<?= $event_url ?>">‹ Back</a>
 	
 	<?php 
 	if ( $caption != "" )
