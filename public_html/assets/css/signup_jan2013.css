@@ -24,7 +24,7 @@ body {
 }
 
 #wrap {
-        width: 875px;
+        width: 960px;
         margin: 85px auto 40px auto;
 }
 #wrap:after {
@@ -107,7 +107,7 @@ body {
 .right {
         display: inline;
         float: right;
-        width: 725px;
+        width: 740px;
         min-height: 250px;
 }
 
@@ -246,7 +246,10 @@ p {
 	width: 110px;
 }
 .small-field-inner-wide {
-	width: 140px;
+	width: 150px;
+}
+.small-field-inner-wide select {
+  width: 72px;
 }
 
 .expires-field {
@@ -501,4 +504,8 @@ a.button:hover, #completSignup:hover {
 }
 .input-error {
 	border:2px solid #cc3300;
+}
+
+#billing select {
+  width: 130px;
 }

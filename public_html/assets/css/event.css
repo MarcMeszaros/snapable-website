@@ -5,7 +5,7 @@ body {
 	color: #666;
 }
 #restOfPageWrap {
-	margin: 82px auto 0 auto;
+	margin: 96px auto 0 auto;
 	width: 900px;
 }
 
@@ -50,7 +50,7 @@ body {
 	float: right;
 	display: inline;
 	width: 100px;
-	margin-top: 17px;
+	margin-top: 30px;
 	padding: 10px 10px 5px 10px;
 	text-align: center;
 	font-size: 16px;
@@ -91,7 +91,7 @@ body {
 	width: 60px;
 	height: 60px;
 	padding: 5px 6px 6px 5px;
-	margin: 25px 10px 0 0;
+	margin: 40px 10px 0 0;
 	background: transparent url('/assets/img/cover-image-wrap.png') no-repeat;
 }
 #event-cover-image {
@@ -190,6 +190,10 @@ a.menu-open {
 	padding-left: 16px;
 }
 
+#event-title-wrap ul {
+	margin: 0;
+}
+
 #event-title.edit {
 	cursor: pointer;
 	background: url('/assets/img/icons/pen_alt_fill_12x12-lgt_grey.png') no-repeat center left;
@@ -222,10 +226,10 @@ a.menu-open {
 /** Event Settings **/
 #event-settings {
 	display: none;
-	width: 350px;
+	width: 375px;
 	position: absolute;
 	top: 25px;
-	padding: 25px;
+	padding: 20px;
 	color: #999;
 	background: #fff;
 	border-radius: 3px;
@@ -257,14 +261,17 @@ a.menu-open {
 }
 
 #event-settings input[type=text] {
-	width: 255px;
-	padding: 7px 10px 5px 10px;
+	width: 330px;
+	padding: 7px 10px;
 	border: 1px solid #f4f4f4;
 	border-radius: 3px;
 	font-size: 16px;
 	line-height: 18px;
 	-webkit-box-shadow: inset 0px 1px 1px 1px rgba(0, 0, 0, .3);
 	box-shadow: inset 0px 1px 1px 1px rgba(0, 0, 0, .3);
+}
+#event-settings select {
+	width: 72px;
 }
 #event-settings .status.bad {
 	background: url('/assets/img/x_alt_16x16.png') no-repeat right bottom;
@@ -277,7 +284,7 @@ a.menu-open {
 }
 
 #event-settings .small-field {
-	width: 350px;
+	width: 375px;
 	padding: 5px 0;
 }
 #event-settings .small-field:after {
@@ -533,6 +540,7 @@ ul#photo-action {
 	display: block;
 	position: absolute;
 	bottom: 0px;
+	margin: 0;
 }
 
 ul#photo-action li {

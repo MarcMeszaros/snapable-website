@@ -72,7 +72,7 @@
 			<div class="small-field">
 				<label for="event-settings-address">Event Location</label>
 				<input id="event-settings-address" name="address" type="text" data-resource-uri="<?php echo $eventDeets->addresses[0]->{'resource_uri'}; ?>" value="<?php echo $eventDeets->addresses[0]->{'address'}; ?>"/><span id="event-settings-address-status" class="status">&nbsp;</span>
-				<div id="map_canvas-wrap" style="display:none;"><div id="map_canvas" style="width:285px; height:285px;"></div></div>
+				<div id="map_canvas-wrap" style="display:none;"><div id="map_canvas" style="width:370px; height:280px;"></div></div>
 			</div>
 			<div class="small-field">
 				<div id="event-settings-save-wrap">
