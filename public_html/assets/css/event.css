@@ -45,6 +45,15 @@ body {
 #event-top {
 	margin-bottom: 25px;
 }
+#event-top h1,
+#event-top h2,
+#event-top h3,
+#event-top h4,
+#event-top h5,
+#event-top h6 {
+	margin: 0;
+}
+
 
 #event-pin {
 	float: right;
