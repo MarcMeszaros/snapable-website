@@ -237,9 +237,17 @@ $(document).ready(function(){
             {
                 if ( data == "sent" )
                 {
-                    sendNotification("positive","Your invitations were successfully sent.");
+                    $.pnotify({
+                        type: 'success',
+                        title: 'Invitations',
+                        text: 'Your invitations were successfully sent.'
+                    });
                 } else {
-                    alert("Sad trombone. We weren't able to email your guests the invitations, contact us and we'll be happy to help.");
+                    $.pnotify({
+                        type: 'error',
+                        title: 'Invitations',
+                        text: "We weren't able to email your guests the invitations, contact us and we'll be happy to help."
+                    });
                 }
                 $("#notify-group").html('<a href="#" id="do-send-to-guests">Send Email(s)</a>');
             });

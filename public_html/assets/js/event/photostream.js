@@ -287,7 +287,7 @@ function loadPhotos(photos) {
 	// setup the delete
 	$('#photo-action a.photo-delete').click(function(){
 		var deleteButton = $(this); // save a reference to that button
-		var photoDeleting = setTimeout(function(){
+		var photoDeleting = function() {
 			$.getJSON('/p/delete_photo/'+$(deleteButton).attr('data-photo_id'), function(json) {
 				console.log('photo deletion response code: '+json.status);
 				if (json.status == 200 || json.status == 204) {
@@ -296,14 +296,19 @@ function loadPhotos(photos) {
 				}
 			});
 			$(deleteButton).closest('div.photo').remove();
-		}, 4000);
-		sendNotification('caution', 'Photo will be deleted. <a class="undo" href="#">Undo</a>', 3000);
-		$('#notification a.undo').click(function(){
-			clearTimeout(photoDeleting);
-			$('#notification').html('Photo deletion cancelled.').stop(true, true).slideDown();
-			setTimeout(function(){
-				$('#notification').slideUp();
-			},3000);
+		}
+		$.pnotify({
+			type: 'info',
+			title: 'Photo Delete',
+			text: 'Photo will be deleted. <a class="undo" href="#" style="text-decoration:underline;">Undo</a>',
+			after_close: function(pnotify) {
+				photoDeleting();
+			}
+		});
+
+		$('.ui-pnotify a.undo').click(function(){
+			photoDeleting = function() {return false;} // redefine the function
+			$(this).parent('.ui-pnotify-text').html('Photo deletion cancelled.');
 			return false;
 		});
 
