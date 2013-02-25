@@ -9,37 +9,6 @@ body {
 	width: 900px;
 }
 
-#notification {
-	display: none;
-	position: fixed;
-	z-index: 9000;
-	top: 96px;
-	width: 100%;
-	font-size: 26px;
-	line-height: 28px;
-	padding: 20px 0;
-	text-align: center;
-}
-#notification.positive {
-	color: #fff;
-	background: #67ac1c;
-	border-bottom: 1px solid #569117;
-}
-#notification.caution {
-	color: #fff;
-	background: #ff9900;
-	border-bottom: 1px solid #cc6600;
-}
-
-#notification a.undo {
-	font-size: 0.75em;
-	color: #e4e4e4;
-}
-
-#notification a.undo:hover, #notification a.undo:focus {
-	color: #ffffff;
-}
-
 /**** EVENT TITLE AREA ****/
 
 #event-top {
@@ -163,20 +132,8 @@ ul#event-nav  {
 	-moz-box-shadow:    1px 1px 5px rgba(50, 50, 50, 0.75);
 	box-shadow:         1px 1px 5px rgba(50, 50, 50, 0.75);
 }
-.event-nav-menu input[type=button] {
-	width: 50px;
-	margin: 10px auto 0 auto;
-	padding-top: 10px;
-}
 #event-nav-menu-share {
 	width: 135px;
-}
-a.menu-open {
-	/*
-	background:#ddeef6!important;
-	color:#666!important;
-	outline:none;
-	*/
 }
 #event-nav-menu-privacy ul {
 	float:left;
