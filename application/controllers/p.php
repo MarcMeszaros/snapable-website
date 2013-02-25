@@ -84,31 +84,7 @@ class P extends CI_Controller {
 	}
 
 	public function delete_photo($photo) {
-		if ($this->session->userdata('logged_in')) {
-			$session_owner = $this->session->userdata('logged_in');
-
-			// get photo details
-			$verb = 'GET';
-			$path = '/photo/' . $photo . '/';
-			$resp = SnapApi::send($verb, $path);
-			$result = json_decode($resp['response']);
-			$photoEventParts = explode('/', $result->event);
-			
-			// get event session details
-			$session_event = $this->session->userdata('event_deets');
-			$eventUriParts = explode('/', $session_event['resource_uri']);
-
-			// make sure the the user is logged in as the event owner
-			if ( $session_owner['loggedin'] == true && $eventUriParts[3] == $photoEventParts[3] && IS_AJAX) {
-				$verb = 'DELETE';
-				$path = '/photo/' . $photo . '/';
-				$resp = SnapApi::send($verb, $path);
-
-				echo json_encode(array('status' => $resp['code']));
-			} else {
-				show_404();
-			}
-		}
+		$this->output->set_status_header('301');
 	}
 }
 
