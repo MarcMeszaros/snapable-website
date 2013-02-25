@@ -121,7 +121,7 @@
     <div id="events" class="span12">
         <h2>Events</h2>
         <p>Next 50 events:</p>
-        <table border="1">
+        <table class="table table-hover">
             <tr>
                 <th>ID</th>
                 <th>Title</th>
@@ -144,8 +144,8 @@
                     echo "\t\t".'<td><a target="_blank" href="/event/'.$event['url'].'">'.$event['url'].'</a></td>'.PHP_EOL;
                     echo "\t\t".'<td>'.$public.'</td>'.PHP_EOL;
                     echo "\t\t".'<td>'.$event['pin'].'</td>'.PHP_EOL;
-                    echo "\t\t".'<td>'.str_replace('T', ' ', substr($event['start'], 0, -3)).'</td>'.PHP_EOL;
-                    echo "\t\t".'<td>'.str_replace('T',' ', substr($event['end'], 0, -3)).'</td>'.PHP_EOL;
+                    echo "\t\t".'<td>'.str_replace('T', ' ', substr($event['start'], 0, -9)).'</td>'.PHP_EOL;
+                    echo "\t\t".'<td>'.str_replace('T',' ', substr($event['end'], 0, -9)).'</td>'.PHP_EOL;
                     echo "\t\t".'<td>'.$event['photo_count'].'</td>'.PHP_EOL;
                     echo "\t\t".'<td>'.PHP_EOL;
                     echo "\t\t\t".'<form method="post" action="/ajax_internal/delete_event" style="margin: 0;">'.PHP_EOL;
