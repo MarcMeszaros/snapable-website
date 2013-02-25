@@ -157,7 +157,7 @@ class Ajax_internal extends CI_Controller {
 
             echo $resp['response'];
         } else {
-            show_error('Missing "event_id".', 400);
+            $this->output->set_status_header('400');
         }
     }
 
@@ -174,7 +174,24 @@ class Ajax_internal extends CI_Controller {
 
             echo $resp['response'];
         } else {
-            show_error('Missing "user_id".', 400);
+            $this->output->set_status_header('400');
+        }
+    }
+
+    public function delete_photo()
+    {
+        $photo_id = $this->input->get_post('photo_id');
+
+        if ($photo_id) {
+            // delete user
+            $verb = 'DELETE';
+            $path = 'photo/'.$photo_id;
+            $resp = SnapApi::send($verb, $path);
+            $this->output->set_status_header($resp['code']);
+
+            echo $resp['response'];
+        } else {
+            $this->output->set_status_header('400');
         }
     }
 }
