@@ -268,7 +268,10 @@ $(document).ready(function()
 	{
 		if ( $("input[name=promo-code]").val() == "" )
 		{
-			alert("You haven't provided a promo code.");
+			$.pnotify({
+				type: 'info',
+				text: "You haven't provided a promo code."
+			});
 		} else {
 			$.getJSON("/signup/promo", { "code": $("input[name=promo-code]").val() }, function(json)
 			{	
@@ -289,9 +292,15 @@ $(document).ready(function()
 				} 
 				else if ( promoApplied == 1 )
 				{
-					alert("Sorry, you've already applied a promo code.");
+					$.pnotify({
+						type: 'info',
+						text: "Sorry, you've already applied a promo code."
+					});
 				} else {
-					alert("Sorry, that's not a valid promo code.");
+					$.pnotify({
+						type: 'info',
+						text: "Sorry, that's not a valid promo code."
+					});
 				}
 			});
 		}
