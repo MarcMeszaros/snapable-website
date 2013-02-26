@@ -12,6 +12,7 @@ class Signup extends CI_Controller {
 		'betheman' => 3000, // added: 2013-01-31; valid_until: TBD
 		'bridaldetective' => 3000, // added: 2013-01-31; valid_until: TBD
 		'brokeass' => 3000, // added: 2013-01-31; valid_until: TBD
+		'budgetsavvy' => 3000, // added: 2013-02-26; valid_until: TBD
 		'enfianced' => 3000, // added: 2013-01-31; valid_until: TBD
 		'gbg' => 3000, // added: 2013-01-31; valid_until: TBD
 		'poptastic' => 3000, // added: 2013-01-31; valid_until: TBD
