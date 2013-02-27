@@ -148,7 +148,7 @@
             'over_col'	  : 'white',
 			'over_bkcol'  : 'green',
 			'post_upload' : './upload.php',
-            'maxsize'     : '1', //default 1MB
+            'maxsize'     : '10', //default 1MB
 			'type'		  : '',
 			'folder'	  : './',
 			'user_data'	  : '',

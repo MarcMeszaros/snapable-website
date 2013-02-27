@@ -18,7 +18,7 @@
 		Email Address
 		<div>This doesn't look like a proper email address</div>
 	</label>
-	<input type="text" name="email" />
+	<input type="email" name="email" />
 	
 	<?php if(!$eventDeets->public) {?>
 		<label for="pin">

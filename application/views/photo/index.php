@@ -2,7 +2,7 @@
 
 <div id="details">
 	
-	<a id="back" href="<a href="/event/<?= $event_url ?>">‹ Back</a>
+	<a id="back" href="/event/<?= $event_url ?>">‹ Back</a>
 	
 	<?php 
 	if ( $caption != "" )
@@ -11,7 +11,10 @@
 	}
 	?>
 	
-	<!--From the photo album “<a href="#">Andrew’s Big Ass Album</a>”, t-->Taken <strong><?= $date ?></strong><br />at “<a href="/event/<?= $event_url ?>"><?= $event_name ?></a>”<br />by <strong><?= $photographer ?></strong>
+	<!--From the photo album “<a href="#">Andrew’s Big Ass Album</a>”, t-->
+	Taken <strong><?= $date ?></strong><br />
+	at “<a href="/event/<?= $event_url ?>"><?= $event_name ?></a>”<br />
+	by <strong><?php echo (strlen($photographer) > 0) ? $photographer:'Anonymous'; ?></strong>
 	<!--
 	<h2>Share:</h2>
 	

@@ -39,15 +39,28 @@ $(document).ready(function(){
 
                     // we shanged the url, redirect
                     if ($('#event-settings-url').val() != $('#event-settings-url').data('orig')) {
-                        sendNotification("positive", "Your event settings have been updated.<br>Redirecting you to the new event url...", 4000);
-                        setTimeout(function(){
-                            window.location = '/event/'+$('#event-settings-url').val();
-                        }, 5000);
-                    } else {        
-                        sendNotification("positive", "Your event settings have been updated.");
+                        $.pnotify({
+                            type: 'success',
+                            title: 'Settings',
+                            text: "Your event settings have been updated.<br>We will redirect you to the new event url...",
+                            delay: 3000,
+                            after_close: function(pnotify) {
+                                window.location = '/event/'+$('#event-settings-url').val();
+                            }
+                        });
+                    } else {
+                        $.pnotify({
+                            type: 'success',
+                            title: 'Settings',
+                            text: 'Your event settings have been updated.'
+                        });
                     }
                 } else {
-                    sendNotification("caution", "This is embarassing, something went wrong on our end and we weren't able to change your event settings—never fear, we're on it!");
+                    $.pnotify({
+                        type: 'error',
+                        title: 'Settings',
+                        text: "This is embarassing, something went wrong and we weren't able to change your event settings. If the problem persists, please contact us!"
+                    });
                 }
             });
         });

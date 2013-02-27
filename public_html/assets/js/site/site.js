@@ -5,24 +5,15 @@ $(document).ready(function(){
         $('#questionForm .message').attr('placeholder', $('#questionForm .message').html());
         $('#questionForm .message').html('');
     }
-    // if we can do the email form
-    if (Modernizr.inputtypes.email) {
-        var oldInput = $('#contact-email');
-        var newInput = $('#contact-email').clone();
-        newInput.attr('type', 'email');
-        newInput.insertBefore(oldInput);
-        oldInput.remove();
-    }
 
     // setup the ajax form
     $('#questionForm').ajaxForm({
         success: function() {
             // show a notification
-            noty({
-                layout: 'center',
+            $.pnotify({
                 type: 'success',
-                timeout: 5000,
-                text: 'Thanks! Your message has been sent.'
+                title: 'Message Sent',
+                text: 'Your message has been successfully sent.'
             });
 
             // reset the form
@@ -30,11 +21,10 @@ $(document).ready(function(){
         },
         error: function(){ 
             // show a notification
-            noty({
-                layout: 'center',
+            $.pnotify({
                 type: 'error',
-                timeout: 10000,
-                text: 'An error occurred while trying to send your message. Please email us directly at team@snapable.com'
+                title: 'Message Not Sent',
+                text: 'An error occurred while trying to send your message. Please email us directly at <a href="mailto:team@snapable.com">team@snapable.com</a>'
             });
         }
     });

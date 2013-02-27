@@ -1,4 +1,4 @@
-<div class="during_wedding">
+<div class="during_wedding" style="height: 420px;">
 
 	<img class="iphone" src="/assets/home/img/sample_iphone.png" width="184" height="386" border="0" alt="iPhone" />
 	

@@ -62,12 +62,16 @@ class SnapApi {
         $path = (substr($path, -1, 1) == '/') ? substr($path, 0, strlen($path)-1):$path; // remove the trailling '/' if it exists
         $path = '/'.self::$api_version.'/'.$path.'/'; // build the path with the API version
 
+        $sign_array = array(
+            'snap_key="'.$sign['api_key'].'"',
+            'snap_signature="'.$sign['signature'].'"',
+            'snap_nonce="'.$sign['x_snap_nonce'].'"',
+            'snap_date="'.$sign['x_snap_date'].'"',
+        );
         // define default headers
         $defaultHeaders = array(
             'Accept' => 'application/json',
-            'X-SNAP-Date' => $sign['x_snap_date'],
-            'X-SNAP-nonce' => $sign['x_snap_nonce'],
-            'Authorization' => 'SNAP '.$sign['api_key'].':'. $sign['signature'],
+            'Authorization' => 'SNAP '.implode(',',$sign_array),
         );
 
         // if it's a GET request, put params in query string

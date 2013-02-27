@@ -89,11 +89,39 @@
             </div>
         </div>
     </div>
+
+    <div id="edit" class="span12">
+        <h3>Manage</h3>
+        <p>When refunding an account (do that in Stripe), delete the event first, then the user.</p>
+        <div class="row">
+            <div class="span4">
+                <form id="delete-event-form" method="post" action="/ajax_internal/delete_event">
+                    <label for="delete-event">Delete event:</label>
+                    <input type="number" id="delete-event" name="event_id" placeholder="Event ID" />
+                    <input type="submit" value="Delete" onclick="return sendForm(this, deleteCallback);" />
+                </form>
+            </div>
+            <div class="span4">
+                <form id="delete-user-form" method="post" action="/ajax_internal/delete_user">
+                    <label for="delete-user">Delete user:</label>
+                    <input type="number" id="delete-user" name="user_id" placeholder="User ID" />
+                    <input type="submit" value="Delete" onclick="return sendForm(this, deleteCallback);" />
+                </form>
+            </div>
+            <div class="span4">
+                <form id="delete-photo-form" method="post" action="/ajax_internal/delete_photo">
+                    <label for="delete-photo">Delete photo:</label>
+                    <input type="number" id="delete-photo" name="photo_id" placeholder="Photo ID" />
+                    <input type="submit" value="Delete" onclick="return sendForm(this, deleteCallback);" />
+                </form>
+            </div>
+        </div>
+    </div>
     
     <div id="events" class="span12">
         <h2>Events</h2>
         <p>Next 50 events:</p>
-        <table border="1">
+        <table class="table table-hover">
             <tr>
                 <th>ID</th>
                 <th>Title</th>
@@ -116,10 +144,15 @@
                     echo "\t\t".'<td><a target="_blank" href="/event/'.$event['url'].'">'.$event['url'].'</a></td>'.PHP_EOL;
                     echo "\t\t".'<td>'.$public.'</td>'.PHP_EOL;
                     echo "\t\t".'<td>'.$event['pin'].'</td>'.PHP_EOL;
-                    echo "\t\t".'<td>'.str_replace('T', ' ', substr($event['start'], 0, -6)).'</td>'.PHP_EOL;
-                    echo "\t\t".'<td>'.str_replace('T',' ', substr($event['end'], 0, -6)).'</td>'.PHP_EOL;
+                    echo "\t\t".'<td>'.str_replace('T', ' ', substr($event['start'], 0, -9)).'</td>'.PHP_EOL;
+                    echo "\t\t".'<td>'.str_replace('T',' ', substr($event['end'], 0, -9)).'</td>'.PHP_EOL;
                     echo "\t\t".'<td>'.$event['photo_count'].'</td>'.PHP_EOL;
-                    echo "\t\t".'<td>(delete, edit, etc...)</td>'.PHP_EOL;
+                    echo "\t\t".'<td>'.PHP_EOL;
+                    echo "\t\t\t".'<form method="post" action="/ajax_internal/delete_event" style="margin: 0;">'.PHP_EOL;
+                    echo "\t\t\t\t".'<input type="hidden" name="event_id" value="'.$eventID[3].'" />'.PHP_EOL;
+                    echo "\t\t\t\t".'<input type="image" src="/assets/img/x_alt_16x16.png" onclick="return sendForm(this, deleteCallback);" />'.PHP_EOL;
+                    echo "\t\t\t".'</form>'.PHP_EOL;
+                    echo "\t\t".'</td>'.PHP_EOL;
                     echo "\t".'</tr>'.PHP_EOL;
                 }
             ?>

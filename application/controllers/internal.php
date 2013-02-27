@@ -27,14 +27,13 @@ class Internal extends CI_Controller {
     {
         require_https();
         $data = array(
-            'ext_css' => array(
-                '//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.1/css/bootstrap.min.css',
+            'css' => array(
+                'assets/css/internal/dashboard.css',
             ),
-            'css' => array('assets/css/internal/dashboard.css'),
-            'ext_js' => array(
-                '//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.1/bootstrap.min.js'
+            'js' => array(
+                'assets/js/internal/dashboard-metrics.js',
+                'assets/js/internal/dashboard-delete.js',
             ),
-            'js' => array('assets/js/internal/dashboard-metrics.js'),
             'title' => 'Internal Dashboard',    
         );
         

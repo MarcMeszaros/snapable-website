@@ -168,9 +168,7 @@
 		        	</div>
 		        	
 		        	<div class="package-big-bottom">
-		        	
-		        		$79
-		        		
+		        		<span class="price">$79</span>
 		        		<a href="/signup"><img src="/assets/home/img/jan2013/setup_event-sm.png" width="300" height="62" border="0" alt="Setup Your Event" /></a>
 		        		
 		        	</div>

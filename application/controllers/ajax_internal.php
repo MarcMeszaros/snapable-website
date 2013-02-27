@@ -144,4 +144,54 @@ class Ajax_internal extends CI_Controller {
 
         echo json_encode($response);
     }
+
+    public function delete_event()
+    {
+        $event_id = $this->input->get_post('event_id');
+        if($event_id) {
+            // delete event
+            $verb = 'DELETE';
+            $path = 'event/'.$event_id;
+            $resp = SnapApi::send($verb, $path);
+            $this->output->set_status_header($resp['code']);
+
+            echo $resp['response'];
+        } else {
+            $this->output->set_status_header('400');
+        }
+    }
+
+    public function delete_user()
+    {
+        $user_id = $this->input->get_post('user_id');
+
+        if ($user_id) {
+            // delete user
+            $verb = 'DELETE';
+            $path = 'user/'.$user_id;
+            $resp = SnapApi::send($verb, $path);
+            $this->output->set_status_header($resp['code']);
+
+            echo $resp['response'];
+        } else {
+            $this->output->set_status_header('400');
+        }
+    }
+
+    public function delete_photo()
+    {
+        $photo_id = $this->input->get_post('photo_id');
+
+        if ($photo_id) {
+            // delete user
+            $verb = 'DELETE';
+            $path = 'photo/'.$photo_id;
+            $resp = SnapApi::send($verb, $path);
+            $this->output->set_status_header($resp['code']);
+
+            echo $resp['response'];
+        } else {
+            $this->output->set_status_header('400');
+        }
+    }
 }

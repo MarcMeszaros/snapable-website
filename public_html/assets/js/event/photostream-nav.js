@@ -94,7 +94,11 @@ $(document).ready(function(){
             var json = jQuery.parseJSON(data);
             if ( json.status = 202 )
             {
-                sendNotification("positive", "Your privacy settings have been updated.");
+                $.pnotify({
+                    type: 'success',
+                    title: 'Settings',
+                    text: 'Your privacy settings have been updated.'
+                });
                 $("#privacySaveWrap").html("<input type='button' value='Save' />");
                 if (privacy_selected == 0) {
                     $('#event-pin').fadeIn();
@@ -102,7 +106,11 @@ $(document).ready(function(){
                     $('#event-pin').fadeOut();
                 }
             } else {
-                alert("This is embarassing, something went wrong on our end and we weren't able to change your privacy setting—never fear, we're on it!");
+                $.pnotify({
+                    type: 'error',
+                    title: 'Settings',
+                    text: "This is embarassing, something went wrong and we weren't able to change your privacy setting. If the problem persists, please contact us!"
+                });
             }
             $('#event-nav-menu-privacy').hide();
         });
