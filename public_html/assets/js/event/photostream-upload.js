@@ -4,7 +4,7 @@ $(document).ready(function(){
     
     $('#uploadArea').mfupload({
         type        : '',   //all types
-        maxsize     : 2,
+        maxsize     : 10, // max size in MB
         post_upload : "/upload",
         folder      : "./here",
         ini_text    : "<div class='uploadText'>Drag photos (or click) into this area to upload</div>",
