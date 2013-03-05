@@ -216,7 +216,7 @@ function loadPhotos(photos) {
 				caption_icon = "blank.png";
 			}
 			
-			var inPhotoArr = photoArr.indexOf(resource_uri[3]);
+			var inPhotoArr = $.inArray(resource_uri[3], photoArr);
 			var photoClass = "";
 			var buttonClass = "addto-prints";
 			var buttonText = "Add to Prints";
