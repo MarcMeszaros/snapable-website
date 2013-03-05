@@ -13,42 +13,44 @@ class Upload extends CI_Controller {
 		$allowedExtensions = array("jpeg","jpg","JPG","JPEG");
 		// max file size in bytes
 		$sizeLimit = 10 * 1024 * 1024;
-		
-		if ( isset($_POST['file_element']) && isset($_POST['event']) && isset($_POST['guest']) && isset($_POST['type']))
+
+		if ( isset($_FILES['file_element']) && isset($_POST['event']) && isset($_POST['guest']) && isset($_POST['type']))
 		{
-			$image = $_POST['file_element'];
+			$image = $_FILES['file_element'];
 			$event = $_POST['event'];
 			$guest = $_POST['guest'];
-			$type = $_POST['type'];
-			
-			$filename = $_FILES['mf_file_uploadArea']['name']; // Get the name of the file (including file extension).
+			$type = (!empty($_POST['type'])) ? $_POST['type'] : '/'.SnapApi::$api_version.'/type/6/';
+
+			$filename = $image['name']; // Get the name of the file (including file extension).
 			$ext = substr($filename, strpos($filename,'.')+1, strlen($filename)-1); // Get the extension from the filename.
-			$tmp_file = $_FILES['mf_file_uploadArea']['tmp_name'];
+			$tmp_file = $image['tmp_name'];
 			
 			if(!in_array($ext,$allowedExtensions))
 			{
 				$these = implode(', ', $allowedExtensions);
-				$result = '{"error":"File has an invalid extension, it should be one of '. $these . '."}';
+				$result = array(
+					'error' => "File has an invalid extension, it should be one of ". $these,
+				);
 			} else {
 				$new_filename = time() . "-" . preg_replace("/[^A-Za-z0-9.]/", "", $filename);
 				
-				move_uploaded_file($_FILES["mf_file_uploadArea"]["tmp_name"],
-  $_SERVER['DOCUMENT_ROOT'] . "/tmp-files/" . $new_filename);
+				move_uploaded_file($image["tmp_name"], $_SERVER['DOCUMENT_ROOT'] . "/tmp-files/" . $new_filename);
   				
 				list($width, $height, $type, $attr) = getimagesize($_SERVER['DOCUMENT_ROOT'] . "/tmp-files/" . $new_filename);
 				
-				$result = '{
-					"status":200,
-					"image":"' . $new_filename . '",
-					"width":' . $width . ',
-					"height":' . $height . ',
-					"type":"' . $type . '"
-				}';
+				$result = array(
+					'status' => 200,
+					'image' => $new_filename,
+					'width' => $width,
+					'height' => $height,
+					'type' => $type,
+				);
 			}
 			
-			echo $result;
+			echo json_encode($result);
 		} else {
-			echo '{"error":"Something went horribly wrong."}';
+			$this->output->set_status_header('400');
+			echo json_encode(array("error" => "Something went horribly wrong."));
 		}
 	}
 	

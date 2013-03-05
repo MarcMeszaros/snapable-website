@@ -154,7 +154,16 @@
 	-->
 </div>
 
-<div id="uploadArea" class="slidContent"></div>
+<div id="uploadArea" class="slidContent">
+	<form method="post" action="/upload" enctype="multipart/form-data">
+		<input type="hidden" name="event" value="<?php echo $eventDeets->resource_uri; ?>" />
+		<input type="hidden" name="guest" value="" />
+		<input type="hidden" name="type" value="" />
+		<input type="file" name="file_element" required />
+		<input type="submit" id="photo-upload-btn" value="Upload">
+		<img id="photo-upload-spinner" class="hide" src="/assets/img/spinner_blue_sm.gif" />
+	</form>
+</div>
 <div id="uploadedArea"></div>
 <div class="clearit">&nbsp;</div>
 
