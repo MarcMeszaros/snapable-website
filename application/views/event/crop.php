@@ -100,16 +100,42 @@ $("#cropDone").click( function()
 				};
 				$.Mustache.load('/assets/js/templates.html').done(function () 
 				{
-					$('#photoArea').removeClass("noPhotos").mustache('event-list-photo', viewData, { method:"prepend" });
-				});
+					// prepend
+					$("#eventFirstRun").css({"display":"none"});
+					var viewData = { 
+						url: resource_uri[3],
+						photo: '/p/get/' + resource_uri[3],
+						caption: json.result.caption,
+						photographer: json.result.author_name
+					};
+					$.Mustache.load('/assets/js/templates.html').done(function () 
+					{
+						$('#photoArea').removeClass("noPhotos").mustache('event-list-photo', viewData, { method:"prepend" });
+					});
+				} else {
+					// html
+					$("#eventFirstRun").css({"display":"none"});
+					var viewData = { 
+						url: resource_uri[3],
+						photo: '/p/get/' + resource_uri[3],
+						caption: json.result.caption,
+						photographer: json.result.author_name
+					};
+					$.Mustache.load('/assets/js/templates.html').done(function () 
+					{
+						$('#photoArea').removeClass("noPhotos").mustache('event-list-photo', viewData, { method:"prepend" });
+					});
+				}
+			} else {
+				alert("Something went wrong during upload and your photo didn't get added.");
 			}
 		}, "json").fail(function(){
-			$.facebox.close();
-			$("#cropLoader").fadeOut();
+			$("#cropLoader").fadeOut("fast");
+			$.facebox.close(); 
 			$.pnotify({
 				type: 'error',
 				title: 'Image Upload',
-				text: "Something went wrong during upload and your photo didn't get added."
+				text: "Something went wrong during upload and your photo didn't get added. We are looking into the issue."
 			});
 		});
 	})
