@@ -48,8 +48,20 @@ $("#cropDone").click( function()
 	$("#cropBox").fadeOut("fast", function()
 	{
 		$("#cropLoader").fadeIn("fast");
-		
-		$.post("/upload/square", { image:image, x:xVal, y:yVal, w:wVal, h:hVal, new_width:<?= $width ?>, new_height:<?= $height ?>, orig_width:<?= $orig_width ?>, orig_height:<?= $orig_height ?>, wRatio:<?= $wRatio ?>, hRatio:<?= $hRatio ?>, guest:guestID, event:eventID, type:typeID }, function(data)
+
+		// params for uploading image
+		var params = { image:image, x:xVal, y:yVal, w:wVal, h:hVal, new_width:<?= $width ?>, new_height:<?= $height ?>, orig_width:<?= $orig_width ?>, orig_height:<?= $orig_height ?>, wRatio:<?= $wRatio ?>, hRatio:<?= $hRatio ?> };
+		if (typeof guestID !== 'undefined') {
+    		params.guest = guestID;
+		}
+		if (typeof eventID !== 'undefined') {
+    		params.event = eventID;
+		}
+		if (typeof typeID !== 'undefined') {
+    		params.type = typeID;
+		}
+
+		$.post("/upload/square", params, function(data)
 		{
 			var json = eval(data);
 			if ( json.status == 200 )
@@ -58,12 +70,12 @@ $("#cropDone").click( function()
 				var resource_uri = json.result.resource_uri.split("/");
 				
 				// HIDE FACEBOX
-				$.facebox.close(); 
+				$.facebox.close();
 				// CLOSE ALL UPLOAD ITEMS
 				$("#uploadedArea").fadeOut("fast", function()
 				{
 					$("#uploadArea").slideToggle("fast");
-				})
+				});
 				// PREPEND PHOTO TO PHOTOSTREAM (IF FIRST PHOTO ENSURE FIRST-RUN STUFF IS HIDDEN)
 				if ( $("#eventFirstRun").length == 0 )
 				{

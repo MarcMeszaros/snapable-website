@@ -157,8 +157,12 @@
 <div id="uploadArea" class="slidContent">
 	<form method="post" action="/upload" enctype="multipart/form-data">
 		<input type="hidden" name="event" value="<?php echo $eventDeets->resource_uri; ?>" />
-		<input type="hidden" name="guest" value="" />
-		<input type="hidden" name="type" value="" />
+		<?php if(isset($guest_uri)) { ?>
+		<input type="hidden" name="guest" value="<?php echo $guest_uri; ?>" />
+		<?php } ?>
+		<?php if(isset($type_uri)) { ?>
+		<input type="hidden" name="type" value="<?php echo $type_uri; ?>" />
+		<?php } ?>
 		<input type="file" name="file_element" required />
 		<input type="submit" id="photo-upload-btn" value="Upload">
 		<img id="photo-upload-spinner" class="hide" src="/assets/img/spinner_blue_sm.gif" />

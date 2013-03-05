@@ -103,14 +103,24 @@ class Event extends CI_Controller {
 				if ($resp['code'] == 200 && count($response->objects) > 0) {
 			        $head['js_vars']['guestID'] = $response->objects[0]->resource_uri;
 			        $head['js_vars']['typeID'] = '/'.SnapApi::$api_version.'/type/1/';
+			        // set data for the event view
+			        $data['guest_uri'] = $response->objects[0]->resource_uri;
+			        $data['type_uri'] = '/'.SnapApi::$api_version.'/type/1/';
 				}
 			} 
 			else if($session_guest)
 			{
 				$guestLoggedin = true;
 				$head["loggedInBar"] = "guest";
-				$head['js_vars']['guestID'] = '/'.SnapApi::$api_version.'/guest/'.$session_guest['id'].'/';
-				$head['js_vars']['typeID'] = '/'.SnapApi::$api_version.'/guest/'.$session_guest['type'].'/';
+				// set data for event view
+				if (!empty($session_guest['id'])) {
+					$head['js_vars']['guestID'] = '/'.SnapApi::$api_version.'/guest/'.$session_guest['id'].'/';
+					$data['guest_uri'] = '/'.SnapApi::$api_version.'/guest/'.$session_guest['id'].'/';
+				}
+				if (!empty($session_guest['type'])) {
+			    	$head['js_vars']['typeID'] = '/'.SnapApi::$api_version.'/type/'.$session_guest['type'].'/';
+			    	$data['type_uri'] = '/'.SnapApi::$api_version.'/type/'.$session_guest['type'].'/';
+				}
 			}
 			$data['ownerLoggedin'] = $ownerLoggedin;
 			$data['guestLoggedin'] = $guestLoggedin;

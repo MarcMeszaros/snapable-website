@@ -14,11 +14,10 @@ class Upload extends CI_Controller {
 		// max file size in bytes
 		$sizeLimit = 10 * 1024 * 1024;
 
-		if ( isset($_FILES['file_element']) && isset($_POST['event']) && isset($_POST['guest']) && isset($_POST['type']))
+		if ( isset($_FILES['file_element']) && isset($_POST['event']) )
 		{
 			$image = $_FILES['file_element'];
 			$event = $_POST['event'];
-			$guest = $_POST['guest'];
 			$type = (!empty($_POST['type'])) ? $_POST['type'] : '/'.SnapApi::$api_version.'/type/6/';
 
 			$filename = $image['name']; // Get the name of the file (including file extension).
@@ -54,48 +53,37 @@ class Upload extends CI_Controller {
 		}
 	}
 	
-	public function crop()
-	{
-		$segments = $this->uri->total_segments();
+	public function crop($image, $orig_width, $orig_height)
+	{		
+		// Calculate aspect ratio
+		$maxSize = 700;
+        $wRatio = $maxSize / $orig_width;
+        $hRatio = $maxSize / $orig_height;
+
+        // Calculate a proportional width and height no larger than the max size.
+        if ( ($wRatio * $orig_height) < $maxSize )
+        {
+            // Image is horizontal
+            $tHeight = ceil($wRatio * $orig_height);
+            $tWidth  = $maxSize;
+        }
+        else
+        {
+            // Image is vertical
+            $tWidth  = ceil($hRatio * $orig_width);
+            $tHeight = $maxSize;
+        }
 		
-		if ( $segments == 5 && $this->uri->segment(2) == "crop" )
-		{
-			$image = $this->uri->segment(3);
-			$orig_width = $this->uri->segment(4);
-			$orig_height = $this->uri->segment(5);
-			
-			// Calculate aspect ratio
-			$maxSize = 700;
-	        $wRatio = $maxSize / $orig_width;
-	        $hRatio = $maxSize / $orig_height;
-	
-	        // Calculate a proportional width and height no larger than the max size.
-	        if ( ($wRatio * $orig_height) < $maxSize )
-	        {
-	            // Image is horizontal
-	            $tHeight = ceil($wRatio * $orig_height);
-	            $tWidth  = $maxSize;
-	        }
-	        else
-	        {
-	            // Image is vertical
-	            $tWidth  = ceil($hRatio * $orig_width);
-	            $tHeight = $maxSize;
-	        }
-			
-			$data = array(
-				'image' => $image,
-				'orig_width' => $orig_width,
-				'orig_height' => $orig_height,
-				'width' => $tWidth,
-				'height' => $tHeight,
-				'wRatio' => $wRatio,
-				'hRatio' => $hRatio
-			);
-			$this->load->view('event/crop', $data);
-		} else {
-			echo "Something went wrong with the upload.";
-		}
+		$data = array(
+			'image' => $image,
+			'orig_width' => $orig_width,
+			'orig_height' => $orig_height,
+			'width' => $tWidth,
+			'height' => $tHeight,
+			'wRatio' => $wRatio,
+			'hRatio' => $hRatio
+		);
+		$this->load->view('event/crop', $data);
 	}
 	
 	public function square()
@@ -145,11 +133,15 @@ class Upload extends CI_Controller {
 			// Data to send
 			$params = array(
 				'event' => $_POST['event'],
-				'guest' => $_POST['guest'],
-				'type' => $_POST['type'],
 				// The Photo
 				'image' => "@" . $_SERVER['DOCUMENT_ROOT'] . "/tmp-files/" . $filename,
 			);
+			if (!empty($_POST['type'])) {
+				$params['type'] = $_POST['type'];
+			}
+			if (!empty($_POST['guest'])) {
+				$params['guest'] = $_POST['guest'];
+			}
 			$headers = array(
 				'Content-Type' => 'multipart/form-data',
 			);
@@ -181,8 +173,7 @@ class Upload extends CI_Controller {
 			
 			$server_path = $_SERVER['DOCUMENT_ROOT'] . "/tmp-files/";
 	        $new_filename = time() . "-" . preg_replace("/[^A-Za-z0-9.]/", "", $filename);
-			move_uploaded_file($_FILES["guests-file-input"]["tmp_name"],
-  $server_path . $new_filename);  
+			move_uploaded_file($_FILES["guests-file-input"]["tmp_name"], $server_path . $new_filename);  
 	       
 	       	$row = 1;
 	       	$email_row = 0;
