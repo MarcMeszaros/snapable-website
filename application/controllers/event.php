@@ -24,15 +24,14 @@ class Event extends CI_Controller {
 		$head = array(
 			'noTagline' => true,
 			'ext_css' => array(
-				'//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/themes/cupertino/jquery-ui.css',
 				'//cdnjs.cloudflare.com/ajax/libs/jquery-jcrop/0.9.10/jquery.Jcrop.min.css'
 			),
 			'css' => array(
+				'assets/libs/jquery-ui/css/cupertino/jquery-ui-1.10.1.custom.min.css',
 				'assets/css/signin.css',
 				'assets/css/fileuploader.css',
 				'assets/css/timePicker.css',
 				'assets/css/facebox.css',
-				'assets/css/tipsy.css',
 				'assets/css/setup.css',
 				'assets/css/header.css',
 				'assets/css/event.css',
@@ -40,16 +39,15 @@ class Event extends CI_Controller {
 				'assets/css/event/photostream-nav.css',
 			),
 			'ext_js' => array(
-				'//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js',
 				'//cdnjs.cloudflare.com/ajax/libs/jquery.form/3.20/jquery.form.js',
 				'//cdnjs.cloudflare.com/ajax/libs/jquery-jcrop/0.9.10/jquery.Jcrop.min.js',
 				'//cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.0/mustache.min.js',
 				'//maps.googleapis.com/maps/api/js?key=AIzaSyAofUaaxFh5DUuOdZHmoWETZNAzP1QEya0&sensor=false',
 			),
 			'js' => array(
+				'assets/libs/jquery-ui/js/jquery-ui-1.10.1.custom.min.js',
 				'assets/js/libs/jquery-Mustache.js',
 				'assets/js/libs/jquery.timePicker.min.js',
-				'assets/js/libs/jquery.tipsy.js',
 				'assets/js/uploader.js',
 				'assets/js/facebox.js',
 				'assets/js/event/photostream.js',

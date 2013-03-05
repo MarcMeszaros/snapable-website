@@ -180,9 +180,7 @@ $(document).ready(function()
 		});
 	}
 
-	/**** OTHER ****/
-	$(".photo-comment").tipsy({fade: true, live: true, offset: -80});
-	
+	/**** OTHER ****/	
 	$(document).on("click", ".addto-album", function()
 	{ 
 		alert("Show album menu")
@@ -315,6 +313,9 @@ function loadPhotos(photos) {
 
 		return false;
 	});
+
+	// setup the tooltips
+	$(".photo-comment").tooltip();
 
 	// setup the download
 	$('#photo-action a.photo-download').click(function(){
