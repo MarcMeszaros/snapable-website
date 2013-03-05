@@ -149,6 +149,7 @@ class Upload extends CI_Controller {
 			
 			$response = $resp['response'];
 			unlink($_SERVER['DOCUMENT_ROOT'] . "/tmp-files/" . $filename);
+			$this->output->set_status_header($resp['code']);
 			echo '{"status":200,"result":' . $response . '}';
 		} else {
 			show_404();
