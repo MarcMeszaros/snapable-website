@@ -96,7 +96,15 @@ $("#cropDone").click( function()
 			} else {
 				alert("Something went wrong during upload and your photo didn't get added.");
 			}
-		}, "json");
+		}, "json").fail(function(){
+			$("#cropLoader").fadeOut("fast");
+			$.facebox.close(); 
+			$.pnotify({
+				type: 'error',
+				title: 'Image Upload',
+				text: "Something went wrong during upload and your photo didn't get added. We are looking into the issue."
+			});
+		});
 	})
 });
 
