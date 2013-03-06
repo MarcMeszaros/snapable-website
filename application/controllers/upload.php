@@ -136,9 +136,7 @@ class Upload extends CI_Controller {
 				// The Photo
 				'image' => "@" . $_SERVER['DOCUMENT_ROOT'] . "/tmp-files/" . $filename,
 			);
-			if (!empty($_POST['type'])) {
-				$params['type'] = $_POST['type'];
-			}
+			$params['type'] = (!empty($_POST['type'])) ? $_POST['type'] : '/'.SnapApi::$api_version.'/type/6/';
 			if (!empty($_POST['guest'])) {
 				$params['guest'] = $_POST['guest'];
 			}
@@ -147,10 +145,9 @@ class Upload extends CI_Controller {
 			);
 			$resp = SnapApi::send($verb, $path, $params, $headers);
 			
-			$response = $resp['response'];
 			unlink($_SERVER['DOCUMENT_ROOT'] . "/tmp-files/" . $filename);
 			$this->output->set_status_header($resp['code']);
-			echo '{"status":200,"result":' . $response . '}';
+			echo '{"status":200,"result":' . $resp['response'] . '}';
 		} else {
 			show_404();
 		}
