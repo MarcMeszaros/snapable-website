@@ -61,8 +61,7 @@ $("#cropDone").click( function()
     		params.type = typeID;
 		}
 
-		$.post("/upload/square", params, function(data)
-		{
+		$.post("/upload/square", params, function(data) {
 			var json = eval(data);
 			// set photo id
 			var resource_uri = json.result.resource_uri.split("/");
@@ -70,13 +69,11 @@ $("#cropDone").click( function()
 			// HIDE FACEBOX
 			$.facebox.close();
 			// CLOSE ALL UPLOAD ITEMS
-			$("#uploadedArea").fadeOut("fast", function()
-			{
+			$("#uploadedArea").fadeOut("fast", function() {
 				$("#uploadArea").slideToggle("fast");
 			});
 			// PREPEND PHOTO TO PHOTOSTREAM (IF FIRST PHOTO ENSURE FIRST-RUN STUFF IS HIDDEN)
-			if ( $("#eventFirstRun").length == 0 )
-			{
+			if ( $("#eventFirstRun").length == 0 ) {
 				// prepend
 				$("#eventFirstRun").css({"display":"none"});
 				var viewData = { 
@@ -85,8 +82,7 @@ $("#cropDone").click( function()
 					caption: json.result.caption,
 					photographer: json.result.author_name
 				};
-				$.Mustache.load('/assets/js/templates.html').done(function () 
-				{
+				$.Mustache.load('/assets/js/templates.html').done(function() {
 					$('#photoArea').removeClass("noPhotos").mustache('event-list-photo', viewData, { method:"prepend" });
 				});
 			} else {
@@ -98,8 +94,7 @@ $("#cropDone").click( function()
 					caption: json.result.caption,
 					photographer: json.result.author_name
 				};
-				$.Mustache.load('/assets/js/templates.html').done(function () 
-				{
+				$.Mustache.load('/assets/js/templates.html').done(function() {
 					$('#photoArea').removeClass("noPhotos").mustache('event-list-photo', viewData, { method:"prepend" });
 				});
 			}
