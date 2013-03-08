@@ -22,7 +22,15 @@ var hVal = 0;
 $('#target').Jcrop({
 	aspectRatio: 1/1,
 	trueSize: [<?= $orig_width ?>, <?= $orig_height ?>],
-	onSelect: updateCoords
+	onSelect: function(c) {
+		// update the cropping values
+		xVal = c.x;
+		x2Val = c.x2;
+		yVal = c.y;
+		y2Val = c.y2;
+		wVal = c.w;
+		hVal = c.h;
+	}
 },function(){
 	<?php if ($orig_width > $orig_height) { ?>
 		this.setSelect([0,0,<?= $orig_height ?>,<?= $orig_height ?>]);
@@ -31,27 +39,15 @@ $('#target').Jcrop({
 	<?php } ?>
 });
 
-function updateCoords(c)
-{
-	xVal = c.x;
-	x2Val = c.x2;
-	yVal = c.y;
-	y2Val = c.y2;
-	wVal = c.w;
-	hVal = c.h;
-};
-
 $("#cropDone").click( function()
 {
-	var image = '<?= $image ?>';
-	
 	// switch content of Facebox to a load graphic
 	$("#cropBox").fadeOut("fast", function()
 	{
 		$("#cropLoader").fadeIn("fast");
 
 		// params for uploading image
-		var params = { image:image, x:xVal, x2:x2Val, y:yVal, y2:y2Val, w:wVal, h:hVal };
+		var params = { image:'<?= $image ?>', x:xVal, x2:x2Val, y:yVal, y2:y2Val, w:wVal, h:hVal };
 		if (typeof guestID !== 'undefined') {
     		params.guest = guestID;
 		}

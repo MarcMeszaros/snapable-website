@@ -84,8 +84,6 @@ class Upload extends CI_Controller {
 			'orig_height' => $height,
 			'width' => $tWidth,
 			'height' => $tHeight,
-			'wRatio' => $wRatio,
-			'hRatio' => $hRatio
 		);
 		$this->load->view('event/crop', $data);
 	}
