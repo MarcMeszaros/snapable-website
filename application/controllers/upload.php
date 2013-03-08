@@ -111,28 +111,36 @@ class Upload extends CI_Controller {
 			)
 			*/
 			try{
-				list($width, $height, $type, $attr) = getimagesize($_SERVER['DOCUMENT_ROOT'] . $image);
+				list($width, $height, $type, $attr) = getimagesize($_SERVER['DOCUMENT_ROOT'] . $_POST['image']);
 				$file = explode("/", $_POST['image']);
 				$filename = time() . "-" . end($file);
 				
 				// GET COORDINATES OF ORIGINAL
-				$multiple = $width / $_POST['new_width'];
-				$orig_x = round($multiple * $_POST['x']);
-				$orig_y = round($multiple * $_POST['y']);
-				$orig_w = round($multiple * $_POST['w']);
-				$orig_h = round($multiple * $_POST['h']);
+				//$multiple = $width / $_POST['new_width'];
+				$orig_x = round($_POST['x']);
+				$orig_x2 = round($_POST['x2']);
+				$orig_y = round($_POST['y']);
+				$orig_y2 = round($_POST['y2']);
+				$orig_w = round($_POST['w']);
+				$orig_h = round($_POST['h']);
 
 				// CROP TO SQUARE			
 				$targ_w = $targ_h = $orig_w;
 				$jpeg_quality = 90;
 
+				// get a handle on the non-cropped image
 				$src = $_SERVER['DOCUMENT_ROOT'] . $_POST['image'];
 				$img_r = imagecreatefromjpeg($src);
 				$dst_r = ImageCreateTrueColor( $targ_w, $targ_h );
 
+				// create the cropped image
 				imagecopyresampled($dst_r, $img_r, 0, 0, $orig_x, $orig_y, $targ_w, $targ_h, $orig_w, $orig_h);
 				imagejpeg($dst_r, $_SERVER['DOCUMENT_ROOT'] . "/tmp-files/" . $filename, $jpeg_quality);
-							
+
+				// delete non-cropped temp image
+				unlink($_SERVER['DOCUMENT_ROOT'] . $_POST['image']);
+
+				// upload the image
 				$verb = 'POST';
 				$path = '/photo/';
 				// Data to send

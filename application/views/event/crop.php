@@ -13,29 +13,36 @@
 <script type="text/javascript">
 
 var xVal = 0;
+var x2Val = 0;
 var yVal = 0;
+var y2Val = 0;
 var wVal = 0;
 var hVal = 0;
 
-var jcrop_api, boundx, boundy;
+var jcrop_api;
 
 $('#target').Jcrop({
-	aspectRatio: 1,
+	aspectRatio: 1/1,
+	trueSize: [<?= $orig_width ?>, <?= $orig_height ?>],
 	onSelect: updateCoords
 },function(){
-	// Use the API to get the real image size
-	var bounds = this.getBounds();
-	boundx = bounds[0];
-	boundy = bounds[1];
 	// Store the API in the jcrop_api variable
 	jcrop_api = this;
-	jcrop_api.setSelect([0,0,<?= $width ?>,<?= $width ?>]);
+	<?php if ($orig_width > $orig_height) { ?>
+		jcrop_api.setSelect([0,0,<?= $orig_height ?>,<?= $orig_height ?>]);
+	<?php } else { ?>
+		jcrop_api.setSelect([0,0,<?= $orig_width ?>,<?= $orig_width ?>]);
+	<?php } ?>
+
 });
 
 function updateCoords(c)
 {
+	console.log(c);
 	xVal = c.x;
+	x2Val = c.x2;
 	yVal = c.y;
+	y2Val = c.y2;
 	wVal = c.w;
 	hVal = c.h;
 };
@@ -50,7 +57,7 @@ $("#cropDone").click( function()
 		$("#cropLoader").fadeIn("fast");
 
 		// params for uploading image
-		var params = { image:image, x:xVal, y:yVal, w:wVal, h:hVal, new_width:<?= $width ?>, new_height:<?= $height ?>, orig_width:<?= $orig_width ?>, orig_height:<?= $orig_height ?>, wRatio:<?= $wRatio ?>, hRatio:<?= $hRatio ?> };
+		var params = { image:image, x:xVal, x2:x2Val, y:yVal, y2:y2Val, w:wVal, h:hVal };
 		if (typeof guestID !== 'undefined') {
     		params.guest = guestID;
 		}
