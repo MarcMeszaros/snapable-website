@@ -11,7 +11,7 @@ class Upload extends CI_Controller {
 	{
 		// list of valid extensions, ex. array("jpeg", "xml", "bmp")
 		$allowedExtensions = array("jpeg","jpg","JPG","JPEG");
-		// max file size in bytes
+		// max file size in bytes (10MB)
 		$sizeLimit = 10 * 1024 * 1024;
 
 		if ( isset($_FILES['file_element']) && isset($_POST['event']) )
@@ -25,7 +25,7 @@ class Upload extends CI_Controller {
 			$tmp_file = $image['tmp_name'];
 
 			// if it's a jpeg continue
-			if(isset($img_type[1]) && $img_type[1] == 'jpeg')
+			if(isset($img_type[1]) && $img_type[1] == 'jpeg' && $image['size'] <= $sizeLimit)
 			{
 				$new_filename = time() . "-" . preg_replace("/[^A-Za-z0-9.]/", "", $filename);
 				
@@ -54,7 +54,7 @@ class Upload extends CI_Controller {
 		}
 	}
 	
-	public function crop($image, $orig_width, $orig_height)
+	public function crop($image)
 	{		
 		// get the temp image details
 		list($width, $height, $type, $attr) = getimagesize($_SERVER['DOCUMENT_ROOT'] . "/tmp-files/" . $image);
