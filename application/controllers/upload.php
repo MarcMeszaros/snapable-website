@@ -94,26 +94,9 @@ class Upload extends CI_Controller {
 	{
 		if ( IS_AJAX && isset($_POST) )
 		{
-			/*
-			Array
-			(
-			    [image] => /tmp-files/1345052357-goonies.jpg
-			    [x] => 0
-			    [y] => 22
-			    [w] => 460
-			    [h] => 460
-			    [new_width] => 460
-			    [new_height] => 700
-			    [orig_width] => 957
-			    [orig_height] => 1458
-			    [wRatio] => 0.73145245559
-			    [hRatio] => 0.480109739369
-			)
-			*/
 			try{
-				list($width, $height, $type, $attr) = getimagesize($_SERVER['DOCUMENT_ROOT'] . $_POST['image']);
-				$file = explode("/", $_POST['image']);
-				$filename = time() . "-" . end($file);
+				list($width, $height, $type, $attr) = getimagesize($_SERVER['DOCUMENT_ROOT'] . "/tmp-files/" . $_POST['image']);
+				$filename = time() . "-" . $_POST['image'];
 				
 				// GET COORDINATES OF ORIGINAL
 				//$multiple = $width / $_POST['new_width'];
@@ -129,7 +112,7 @@ class Upload extends CI_Controller {
 				$jpeg_quality = 90;
 
 				// get a handle on the non-cropped image
-				$src = $_SERVER['DOCUMENT_ROOT'] . $_POST['image'];
+				$src = $_SERVER['DOCUMENT_ROOT'] . "/tmp-files/" . $_POST['image'];
 				$img_r = imagecreatefromjpeg($src);
 				$dst_r = ImageCreateTrueColor( $targ_w, $targ_h );
 
@@ -138,7 +121,7 @@ class Upload extends CI_Controller {
 				imagejpeg($dst_r, $_SERVER['DOCUMENT_ROOT'] . "/tmp-files/" . $filename, $jpeg_quality);
 
 				// delete non-cropped temp image
-				unlink($_SERVER['DOCUMENT_ROOT'] . $_POST['image']);
+				unlink($_SERVER['DOCUMENT_ROOT'] . "/tmp-files/" . $_POST['image']);
 
 				// upload the image
 				$verb = 'POST';

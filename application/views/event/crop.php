@@ -19,26 +19,20 @@ var y2Val = 0;
 var wVal = 0;
 var hVal = 0;
 
-var jcrop_api;
-
 $('#target').Jcrop({
 	aspectRatio: 1/1,
 	trueSize: [<?= $orig_width ?>, <?= $orig_height ?>],
 	onSelect: updateCoords
 },function(){
-	// Store the API in the jcrop_api variable
-	jcrop_api = this;
 	<?php if ($orig_width > $orig_height) { ?>
-		jcrop_api.setSelect([0,0,<?= $orig_height ?>,<?= $orig_height ?>]);
+		this.setSelect([0,0,<?= $orig_height ?>,<?= $orig_height ?>]);
 	<?php } else { ?>
-		jcrop_api.setSelect([0,0,<?= $orig_width ?>,<?= $orig_width ?>]);
+		this.setSelect([0,0,<?= $orig_width ?>,<?= $orig_width ?>]);
 	<?php } ?>
-
 });
 
 function updateCoords(c)
 {
-	console.log(c);
 	xVal = c.x;
 	x2Val = c.x2;
 	yVal = c.y;
@@ -49,7 +43,7 @@ function updateCoords(c)
 
 $("#cropDone").click( function()
 {
-	var image = $("#target").attr("src");
+	var image = '<?= $image ?>';
 	
 	// switch content of Facebox to a load graphic
 	$("#cropBox").fadeOut("fast", function()
@@ -68,11 +62,9 @@ $("#cropDone").click( function()
     		params.type = typeID;
 		}
 
-		$.post("/upload/square", params, function(data) {
-			console.log(data);
-			var json = eval(data);
+		$.post("/upload/square", params, function(data, textStatus, jqXHR) {
 			// set photo id
-			var resource_uri = json.result.resource_uri.split("/");
+			var resource_uri = data.result.resource_uri.split("/");
 			
 			// HIDE FACEBOX
 			$.facebox.close();
@@ -85,8 +77,8 @@ $("#cropDone").click( function()
 			var viewData = { 
 				url: resource_uri[3],
 				photo: '/p/get/' + resource_uri[3],
-				caption: json.result.caption,
-				photographer: json.result.author_name
+				caption: data.result.caption,
+				photographer: data.result.author_name
 			};
 			$.Mustache.load('/assets/js/templates.html').done(function() {
 				$('#photoArea').removeClass("noPhotos").mustache('event-list-photo', viewData, { method:"prepend" });
