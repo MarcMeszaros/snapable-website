@@ -20,22 +20,17 @@ class Upload extends CI_Controller {
 			$event = $_POST['event'];
 			$type = (!empty($_POST['type'])) ? $_POST['type'] : '/'.SnapApi::$api_version.'/type/6/';
 
+			$img_type = explode('/', $image['type']);
 			$filename = $image['name']; // Get the name of the file (including file extension).
-			$ext = substr($filename, strpos($filename,'.')+1, strlen($filename)-1); // Get the extension from the filename.
 			$tmp_file = $image['tmp_name'];
-			
-			if(!in_array($ext,$allowedExtensions))
+
+			// if it's a jpeg continue
+			if(isset($img_type[1]) && $img_type[1] == 'jpeg')
 			{
-				$these = implode(', ', $allowedExtensions);
-				$result = array(
-					'error' => "File has an invalid extension, it should be one of ". $these,
-				);
-			} else {
 				$new_filename = time() . "-" . preg_replace("/[^A-Za-z0-9.]/", "", $filename);
 				
 				move_uploaded_file($image["tmp_name"], $_SERVER['DOCUMENT_ROOT'] . "/tmp-files/" . $new_filename);
-  				
-				list($width, $height, $type, $attr) = getimagesize($_SERVER['DOCUMENT_ROOT'] . "/tmp-files/" . $new_filename);
+  				list($width, $height, $type, $attr) = getimagesize($_SERVER['DOCUMENT_ROOT'] . "/tmp-files/" . $new_filename);
 				
 				$result = array(
 					'status' => 200,
@@ -44,8 +39,14 @@ class Upload extends CI_Controller {
 					'height' => $height,
 					'type' => $type,
 				);
+			} else {
+				$this->output->set_status_header('400');
+				$these = implode(', ', $allowedExtensions);
+				$result = array(
+					'error' => "File has an invalid extension, it should be one of ". $these,
+				);
 			}
-			
+
 			echo json_encode($result);
 		} else {
 			$this->output->set_status_header('400');
