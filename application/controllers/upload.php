@@ -55,29 +55,32 @@ class Upload extends CI_Controller {
 	
 	public function crop($image, $orig_width, $orig_height)
 	{		
+		// get the temp image details
+		list($width, $height, $type, $attr) = getimagesize($_SERVER['DOCUMENT_ROOT'] . "/tmp-files/" . $image);
+		
 		// Calculate aspect ratio
 		$maxSize = 700;
-        $wRatio = $maxSize / $orig_width;
-        $hRatio = $maxSize / $orig_height;
+		$wRatio = $maxSize / $width;
+        $hRatio = $maxSize / $height;
 
         // Calculate a proportional width and height no larger than the max size.
-        if ( ($wRatio * $orig_height) < $maxSize )
+        if ( $wRatio < $hRatio )
         {
             // Image is horizontal
-            $tHeight = ceil($wRatio * $orig_height);
+            $tHeight = ceil($wRatio * $height);
             $tWidth  = $maxSize;
         }
         else
         {
             // Image is vertical
-            $tWidth  = ceil($hRatio * $orig_width);
+            $tWidth  = ceil($hRatio * $width);
             $tHeight = $maxSize;
         }
 		
 		$data = array(
 			'image' => $image,
-			'orig_width' => $orig_width,
-			'orig_height' => $orig_height,
+			'orig_width' => $width,
+			'orig_height' => $height,
 			'width' => $tWidth,
 			'height' => $tHeight,
 			'wRatio' => $wRatio,
@@ -106,48 +109,52 @@ class Upload extends CI_Controller {
 			    [hRatio] => 0.480109739369
 			)
 			*/
-			
-			$file = explode("/", $_POST['image']);
-			$filename = time() . "-" . end($file);
-			
-			// GET COORDINATES OF ORIGINAL
-			$multiple = $_POST['orig_width'] / $_POST['new_width'];
-			$orig_x = round($multiple * $_POST['x']);
-			$orig_y = round($multiple * $_POST['y']);
-			$orig_w = round($multiple * $_POST['w']);
-			$orig_h = round($multiple * $_POST['h']);
+			try{
+				list($width, $height, $type, $attr) = getimagesize($_SERVER['DOCUMENT_ROOT'] . $image);
+				$file = explode("/", $_POST['image']);
+				$filename = time() . "-" . end($file);
+				
+				// GET COORDINATES OF ORIGINAL
+				$multiple = $width / $_POST['new_width'];
+				$orig_x = round($multiple * $_POST['x']);
+				$orig_y = round($multiple * $_POST['y']);
+				$orig_w = round($multiple * $_POST['w']);
+				$orig_h = round($multiple * $_POST['h']);
 
-			// CROP TO SQUARE			
-			$targ_w = $targ_h = $orig_w;
-			$jpeg_quality = 90;
-		
-			$src = $_SERVER['DOCUMENT_ROOT'] . $_POST['image'];
-			$img_r = imagecreatefromjpeg($src);
-			$dst_r = ImageCreateTrueColor( $targ_w, $targ_h );
-		
-			imagecopyresampled($dst_r, $img_r, 0, 0, $orig_x, $orig_y, $targ_w, $targ_h, $orig_w, $orig_h);
-			imagejpeg($dst_r, $_SERVER['DOCUMENT_ROOT'] . "/tmp-files/" . $filename, $jpeg_quality);
-						
-			$verb = 'POST';
-			$path = '/photo/';
-			// Data to send
-			$params = array(
-				'event' => $_POST['event'],
-				// The Photo
-				'image' => "@" . $_SERVER['DOCUMENT_ROOT'] . "/tmp-files/" . $filename,
-			);
-			$params['type'] = (!empty($_POST['type'])) ? $_POST['type'] : '/'.SnapApi::$api_version.'/type/6/';
-			if (!empty($_POST['guest'])) {
-				$params['guest'] = $_POST['guest'];
+				// CROP TO SQUARE			
+				$targ_w = $targ_h = $orig_w;
+				$jpeg_quality = 90;
+
+				$src = $_SERVER['DOCUMENT_ROOT'] . $_POST['image'];
+				$img_r = imagecreatefromjpeg($src);
+				$dst_r = ImageCreateTrueColor( $targ_w, $targ_h );
+
+				imagecopyresampled($dst_r, $img_r, 0, 0, $orig_x, $orig_y, $targ_w, $targ_h, $orig_w, $orig_h);
+				imagejpeg($dst_r, $_SERVER['DOCUMENT_ROOT'] . "/tmp-files/" . $filename, $jpeg_quality);
+							
+				$verb = 'POST';
+				$path = '/photo/';
+				// Data to send
+				$params = array(
+					'event' => $_POST['event'],
+					// The Photo
+					'image' => "@" . $_SERVER['DOCUMENT_ROOT'] . "/tmp-files/" . $filename,
+				);
+				$params['type'] = (!empty($_POST['type'])) ? $_POST['type'] : '/'.SnapApi::$api_version.'/type/6/';
+				if (!empty($_POST['guest'])) {
+					$params['guest'] = $_POST['guest'];
+				}
+				$headers = array(
+					'Content-Type' => 'multipart/form-data',
+				);
+				$resp = SnapApi::send($verb, $path, $params, $headers);
+
+				unlink($_SERVER['DOCUMENT_ROOT'] . "/tmp-files/" . $filename);
+				$this->output->set_status_header($resp['code']);
+				echo '{"status":200,"result":' . $resp['response'] . '}';
+			} catch (Exception $e) {
+				// TODO handle error
 			}
-			$headers = array(
-				'Content-Type' => 'multipart/form-data',
-			);
-			$resp = SnapApi::send($verb, $path, $params, $headers);
-			
-			unlink($_SERVER['DOCUMENT_ROOT'] . "/tmp-files/" . $filename);
-			$this->output->set_status_header($resp['code']);
-			echo '{"status":200,"result":' . $resp['response'] . '}';
 		} else {
 			show_404();
 		}
