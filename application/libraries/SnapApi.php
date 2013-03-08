@@ -70,6 +70,7 @@ class SnapApi {
         );
         // define default headers
         $defaultHeaders = array(
+            'User-Agent' => 'SnapApi/1.0',
             'Accept' => 'application/json',
             'Authorization' => 'SNAP '.implode(',',$sign_array),
         );
@@ -109,13 +110,11 @@ class SnapApi {
 
         // set various curl parameters
         curl_setopt($ch, CURLOPT_TIMEOUT, '10');
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headersArray);
 
         // execute the request and parse response
         $response = curl_exec($ch);
-        //$response = str_replace('false', '"0"', $response);
-        //$response = str_replace('true', '"1"', $response);
         $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
