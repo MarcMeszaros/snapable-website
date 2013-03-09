@@ -32,7 +32,7 @@
     	// add assets
 		if(defined('MINIFY') && MINIFY == false) {
 			foreach ($css as $asset) {
-	    		echo '<link type="text/css" rel="stylesheet" href="/' . $asset . '" media="screen" />'.PHP_EOL;
+                echo '<link type="text/css" rel="stylesheet" href="/' . $asset . '?'. md5_file($asset) .'" media="screen" />'.PHP_EOL;
 			}
 		} else {
 			echo '<link type="text/css" rel="stylesheet" href="/min/c/' . base64_encode(implode(',', $css)) . '" media="screen" />';
@@ -57,7 +57,7 @@
             // add assets
 			if(defined('MINIFY') && MINIFY == false) {
 				foreach ($js as $asset) {
-		    		echo '<script type="text/javascript" src="/' . $asset . '"></script>'.PHP_EOL;
+                    echo '<script type="text/javascript" src="/' . $asset . '?'. md5_file($asset) .'"></script>'.PHP_EOL;
 				}
 			} else {
 				echo '<script type="text/javascript" src="/min/j/' . base64_encode(implode(',', $js)) . '"></script>';
