@@ -106,8 +106,7 @@ $(document).ready(function(){
                     
                     $.Mustache.load('/assets/js/templates.html').done(function () 
                     {
-                        var viewData = { 
-                            var: 'data', 
+                        var viewData = {
                         };
                         $("#guest-choices").removeClass("choiceBox").addClass("csvParse").mustache('guest-csv-parse', viewData, {method: "html"});
                         

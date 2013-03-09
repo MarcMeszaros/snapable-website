@@ -23,7 +23,7 @@ textarea {
 }
 
 input[type=submit] {
-    display: block;
+    /*display: block;*/
     color: #fff;
     background: #6699cc;
     padding: 10px 20px 8px 20px;

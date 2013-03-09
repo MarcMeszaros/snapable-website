@@ -11,152 +11,140 @@ class Upload extends CI_Controller {
 	{
 		// list of valid extensions, ex. array("jpeg", "xml", "bmp")
 		$allowedExtensions = array("jpeg","jpg","JPG","JPEG");
-		// max file size in bytes
+		// max file size in bytes (10MB)
 		$sizeLimit = 10 * 1024 * 1024;
-		
-		if ( isset($_POST['file_element']) && isset($_POST['event']) && isset($_POST['guest']) && isset($_POST['type']))
+
+		if ( isset($_FILES['file_element']) && isset($_POST['event']) )
 		{
-			$image = $_POST['file_element'];
+			$image = $_FILES['file_element'];
 			$event = $_POST['event'];
-			$guest = $_POST['guest'];
-			$type = $_POST['type'];
-			
-			$filename = $_FILES['mf_file_uploadArea']['name']; // Get the name of the file (including file extension).
-			$ext = substr($filename, strpos($filename,'.')+1, strlen($filename)-1); // Get the extension from the filename.
-			$tmp_file = $_FILES['mf_file_uploadArea']['tmp_name'];
-			
-			if(!in_array($ext,$allowedExtensions))
+			$type = (!empty($_POST['type'])) ? $_POST['type'] : '/'.SnapApi::$api_version.'/type/6/';
+
+			$img_type = explode('/', $image['type']);
+			$filename = $image['name']; // Get the name of the file (including file extension).
+			$tmp_file = $image['tmp_name'];
+
+			// if it's a jpeg continue
+			if(isset($img_type[1]) && $img_type[1] == 'jpeg' && $image['size'] <= $sizeLimit)
 			{
-				$these = implode(', ', $allowedExtensions);
-				$result = '{"error":"File has an invalid extension, it should be one of '. $these . '."}';
-			} else {
 				$new_filename = time() . "-" . preg_replace("/[^A-Za-z0-9.]/", "", $filename);
 				
-				move_uploaded_file($_FILES["mf_file_uploadArea"]["tmp_name"],
-  $_SERVER['DOCUMENT_ROOT'] . "/tmp-files/" . $new_filename);
-  				
-				list($width, $height, $type, $attr) = getimagesize($_SERVER['DOCUMENT_ROOT'] . "/tmp-files/" . $new_filename);
+				move_uploaded_file($image["tmp_name"], $_SERVER['DOCUMENT_ROOT'] . "/tmp-files/" . $new_filename);
+  				list($width, $height, $type, $attr) = getimagesize($_SERVER['DOCUMENT_ROOT'] . "/tmp-files/" . $new_filename);
 				
-				$result = '{
-					"status":200,
-					"image":"' . $new_filename . '",
-					"width":' . $width . ',
-					"height":' . $height . ',
-					"type":"' . $type . '"
-				}';
+				$result = array(
+					'status' => 200,
+					'image' => $new_filename,
+					'width' => $width,
+					'height' => $height,
+					'type' => $type,
+				);
+			} else {
+				$this->output->set_status_header('400');
+				$these = implode(', ', $allowedExtensions);
+				$result = array(
+					'error' => "File has an invalid extension, it should be one of ". $these,
+				);
 			}
-			
-			echo $result;
+
+			echo json_encode($result);
 		} else {
-			echo '{"error":"Something went horribly wrong."}';
+			$this->output->set_status_header('400');
+			echo json_encode(array("error" => "Something went horribly wrong."));
 		}
 	}
 	
-	public function crop()
-	{
-		$segments = $this->uri->total_segments();
+	public function crop($image)
+	{		
+		// get the temp image details
+		list($width, $height, $type, $attr) = getimagesize($_SERVER['DOCUMENT_ROOT'] . "/tmp-files/" . $image);
 		
-		if ( $segments == 5 && $this->uri->segment(2) == "crop" )
-		{
-			$image = $this->uri->segment(3);
-			$orig_width = $this->uri->segment(4);
-			$orig_height = $this->uri->segment(5);
-			
-			// Calculate aspect ratio
-			$maxSize = 700;
-	        $wRatio = $maxSize / $orig_width;
-	        $hRatio = $maxSize / $orig_height;
-	
-	        // Calculate a proportional width and height no larger than the max size.
-	        if ( ($wRatio * $orig_height) < $maxSize )
-	        {
-	            // Image is horizontal
-	            $tHeight = ceil($wRatio * $orig_height);
-	            $tWidth  = $maxSize;
-	        }
-	        else
-	        {
-	            // Image is vertical
-	            $tWidth  = ceil($hRatio * $orig_width);
-	            $tHeight = $maxSize;
-	        }
-			
-			$data = array(
-				'image' => $image,
-				'orig_width' => $orig_width,
-				'orig_height' => $orig_height,
-				'width' => $tWidth,
-				'height' => $tHeight,
-				'wRatio' => $wRatio,
-				'hRatio' => $hRatio
-			);
-			$this->load->view('event/crop', $data);
-		} else {
-			echo "Something went wrong with the upload.";
-		}
+		// Calculate aspect ratio
+		$maxSize = 700;
+		$wRatio = $maxSize / $width;
+        $hRatio = $maxSize / $height;
+
+        // Calculate a proportional width and height no larger than the max size.
+        if ( $wRatio < $hRatio )
+        {
+            // Image is horizontal
+            $tHeight = ceil($wRatio * $height);
+            $tWidth  = $maxSize;
+        }
+        else
+        {
+            // Image is vertical
+            $tWidth  = ceil($hRatio * $width);
+            $tHeight = $maxSize;
+        }
+		
+		$data = array(
+			'image' => $image,
+			'orig_width' => $width,
+			'orig_height' => $height,
+			'width' => $tWidth,
+			'height' => $tHeight,
+		);
+		$this->load->view('event/crop', $data);
 	}
 	
 	public function square()
 	{
 		if ( IS_AJAX && isset($_POST) )
 		{
-			/*
-			Array
-			(
-			    [image] => /tmp-files/1345052357-goonies.jpg
-			    [x] => 0
-			    [y] => 22
-			    [w] => 460
-			    [h] => 460
-			    [new_width] => 460
-			    [new_height] => 700
-			    [orig_width] => 957
-			    [orig_height] => 1458
-			    [wRatio] => 0.73145245559
-			    [hRatio] => 0.480109739369
-			)
-			*/
-			
-			$file = explode("/", $_POST['image']);
-			$filename = time() . "-" . end($file);
-			
-			// GET COORDINATES OF ORIGINAL
-			$multiple = $_POST['orig_width'] / $_POST['new_width'];
-			$orig_x = round($multiple * $_POST['x']);
-			$orig_y = round($multiple * $_POST['y']);
-			$orig_w = round($multiple * $_POST['w']);
-			$orig_h = round($multiple * $_POST['h']);
+			try{
+				list($width, $height, $type, $attr) = getimagesize($_SERVER['DOCUMENT_ROOT'] . "/tmp-files/" . $_POST['image']);
+				$filename = time() . "-" . $_POST['image'];
+				
+				// GET COORDINATES OF ORIGINAL
+				//$multiple = $width / $_POST['new_width'];
+				$orig_x = round($_POST['x']);
+				$orig_x2 = round($_POST['x2']);
+				$orig_y = round($_POST['y']);
+				$orig_y2 = round($_POST['y2']);
+				$orig_w = round($_POST['w']);
+				$orig_h = round($_POST['h']);
 
-			// CROP TO SQUARE			
-			$targ_w = $targ_h = $orig_w;
-			$jpeg_quality = 90;
-		
-			$src = $_SERVER['DOCUMENT_ROOT'] . $_POST['image'];
-			$img_r = imagecreatefromjpeg($src);
-			$dst_r = ImageCreateTrueColor( $targ_w, $targ_h );
-		
-			imagecopyresampled($dst_r, $img_r, 0, 0, $orig_x, $orig_y, $targ_w, $targ_h, $orig_w, $orig_h);
-			imagejpeg($dst_r, $_SERVER['DOCUMENT_ROOT'] . "/tmp-files/" . $filename, $jpeg_quality);
-						
-			$verb = 'POST';
-			$path = '/photo/';
-			// Data to send
-			$params = array(
-				'event' => $_POST['event'],
-				'guest' => $_POST['guest'],
-				'type' => $_POST['type'],
-				// The Photo
-				'image' => "@" . $_SERVER['DOCUMENT_ROOT'] . "/tmp-files/" . $filename,
-			);
-			$headers = array(
-				'Content-Type' => 'multipart/form-data',
-			);
-			$resp = SnapApi::send($verb, $path, $params, $headers);
-			
-			$response = $resp['response'];
-			unlink($_SERVER['DOCUMENT_ROOT'] . "/tmp-files/" . $filename);
-			$this->output->set_status_header($resp['code']);
-			echo '{"status":200,"result":' . $response . '}';
+				// CROP TO SQUARE			
+				$targ_w = $targ_h = $orig_w;
+				$jpeg_quality = 90;
+
+				// get a handle on the non-cropped image
+				$src = $_SERVER['DOCUMENT_ROOT'] . "/tmp-files/" . $_POST['image'];
+				$img_r = imagecreatefromjpeg($src);
+				$dst_r = ImageCreateTrueColor( $targ_w, $targ_h );
+
+				// create the cropped image
+				imagecopyresampled($dst_r, $img_r, 0, 0, $orig_x, $orig_y, $targ_w, $targ_h, $orig_w, $orig_h);
+				imagejpeg($dst_r, $_SERVER['DOCUMENT_ROOT'] . "/tmp-files/" . $filename, $jpeg_quality);
+
+				// delete non-cropped temp image
+				unlink($_SERVER['DOCUMENT_ROOT'] . "/tmp-files/" . $_POST['image']);
+
+				// upload the image
+				$verb = 'POST';
+				$path = '/photo/';
+				// Data to send
+				$params = array(
+					'event' => $_POST['event'],
+					// The Photo
+					'image' => "@" . $_SERVER['DOCUMENT_ROOT'] . "/tmp-files/" . $filename,
+				);
+				$params['type'] = (!empty($_POST['type'])) ? $_POST['type'] : '/'.SnapApi::$api_version.'/type/6/';
+				if (!empty($_POST['guest'])) {
+					$params['guest'] = $_POST['guest'];
+				}
+				$headers = array(
+					'Content-Type' => 'multipart/form-data',
+				);
+				$resp = SnapApi::send($verb, $path, $params, $headers);
+
+				unlink($_SERVER['DOCUMENT_ROOT'] . "/tmp-files/" . $filename);
+				$this->output->set_status_header($resp['code']);
+				echo '{"status":200,"result":' . $resp['response'] . '}';
+			} catch (Exception $e) {
+				// TODO handle error
+			}
 		} else {
 			show_404();
 		}
@@ -180,8 +168,7 @@ class Upload extends CI_Controller {
 			
 			$server_path = $_SERVER['DOCUMENT_ROOT'] . "/tmp-files/";
 	        $new_filename = time() . "-" . preg_replace("/[^A-Za-z0-9.]/", "", $filename);
-			move_uploaded_file($_FILES["guests-file-input"]["tmp_name"],
-  $server_path . $new_filename);  
+			move_uploaded_file($_FILES["guests-file-input"]["tmp_name"], $server_path . $new_filename);  
 	       
 	       	$row = 1;
 	       	$email_row = 0;
