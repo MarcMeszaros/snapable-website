@@ -1,0 +1,10 @@
+/* setup default font */
+*, body {
+    font-family: Vegur, 'PT Sans Caption', Helvetica, Arial, sans-serif;
+}
+
+/* pnotify default */
+.stack-content-center .ui-pnotify-title,
+.stack-content-center .ui-pnotify-text {
+    text-align: center;
+}
