@@ -24,7 +24,7 @@ class Event extends CI_Controller {
 		$head = array(
 			'noTagline' => true,
 			'ext_css' => array(
-				'//cdnjs.cloudflare.com/ajax/libs/jquery-jcrop/0.9.10/jquery.Jcrop.min.css',
+				'//cdnjs.cloudflare.com/ajax/libs/jquery-jcrop/0.9.12/jquery.Jcrop.min.css',
 				'//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.0.0/css/datepicker.css',
 			),
 			'css' => array(
@@ -40,8 +40,8 @@ class Event extends CI_Controller {
 				'assets/css/event/photostream-upload.css',
 			),
 			'ext_js' => array(
-				'//cdnjs.cloudflare.com/ajax/libs/jquery.form/3.20/jquery.form.js',
-				'//cdnjs.cloudflare.com/ajax/libs/jquery-jcrop/0.9.10/jquery.Jcrop.min.js',
+				'//cdnjs.cloudflare.com/ajax/libs/jquery.form/3.24/jquery.form.js',
+				'//cdnjs.cloudflare.com/ajax/libs/jquery-jcrop/0.9.12/jquery.Jcrop.min.js',
 				'//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.0.0/js/bootstrap-datepicker.min.js',
 				'//cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.0/mustache.min.js',
 				'//maps.googleapis.com/maps/api/js?key=AIzaSyAofUaaxFh5DUuOdZHmoWETZNAzP1QEya0&sensor=false',
