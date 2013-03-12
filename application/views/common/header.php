@@ -3,8 +3,6 @@
 			echo "<style type='text/css'> #homeHeadWrap { height: 100px; } </style>";
 		}
 	?>
-	<div id="notification"></div>
-
 	<div id="homeHeadWrap">
 	
 		<?php if ( isset($loggedInBar) )
