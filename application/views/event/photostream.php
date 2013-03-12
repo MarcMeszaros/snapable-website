@@ -155,6 +155,10 @@
 </div>
 
 <div id="uploadArea" class="slidContent">
+	<div class="hint">
+		Photos must be in jpeg format and a maximum of 10 MB. If your photos are rather large, 
+		please be patient! It might take a few minutes :)
+	</div>
 	<form method="post" action="/upload" enctype="multipart/form-data">
 		<input type="hidden" name="event" value="<?php echo $eventDeets->resource_uri; ?>" />
 		<?php if(isset($guest_uri)) { ?>

@@ -591,7 +591,6 @@ ul#photo-action li a.photo-download:hover {
 
 #uploadArea {
 	display: none;
-	height: 75px;
 	border: 2px solid #c3d7ec;
 	background: #fff;
 	border-radius: 3px;

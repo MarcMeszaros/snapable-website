@@ -37,6 +37,7 @@ class Event extends CI_Controller {
 				'assets/css/event.css',
 				'assets/css/footer.css',
 				'assets/css/event/photostream-nav.css',
+				'assets/css/event/photostream-upload.css',
 			),
 			'ext_js' => array(
 				'//cdnjs.cloudflare.com/ajax/libs/jquery.form/3.20/jquery.form.js',
