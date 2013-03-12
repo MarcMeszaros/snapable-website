@@ -24,7 +24,7 @@
 			<div class="small-field">
 				<div class="small-field-inner">
 					<label for="event-start-date">Date</label>
-					<input class="longer" id="event-start-date" name="event[start_date]" type="text" value="<?= date("M j, Y", $eventDeets->start_epoch + ($eventDeets->tz_offset * 60)) ?>">
+					<input type="text" id="event-start-date" class="longer datepicker" name="event[start_date]" value="<?= date("M j, Y", $eventDeets->start_epoch + ($eventDeets->tz_offset * 60)) ?>">
 				</div>
 				<div class="small-field-inner">
 					<label for="event-start-time">Time</label>

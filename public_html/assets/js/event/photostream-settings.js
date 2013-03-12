@@ -162,7 +162,7 @@ $(document).ready(function(){
             }
         });
         // initialize the pickers
-        $("#event-start-date").datepicker({dateFormat: 'M d, yy'});
+        $("#event-start-date").datepicker({format: 'M d, yyyy', autoclose: true});
         $("#event-start-time").timePicker({
             startTime: "06.00", // Using string. Can take string or Date object.
             show24Hours: false,
