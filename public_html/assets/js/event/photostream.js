@@ -239,9 +239,50 @@ function loadPhotos(photos) {
 				buttonText: buttonText ,
 				owner: owner
 			};
-			$('#photoArea').mustache('event-list-photo', viewData);
+			// add photo to dom
+			var $domPhoto = $('#photoArea').mustache('event-list-photo', viewData);
 			delete photos.response.objects[key];
 			count++;
+
+			// setup the delete per photo
+			$domPhoto.find('div.photo a.photo-delete').filter(':last').click(function(){
+				var deleteButton = $(this); // save a reference to that button
+				
+				// anonymous function to handle the deletion/keep variable scope
+				(function(){
+					// setup the notification message and the deletion code
+				    var notice = $.pnotify({
+				    	type: 'info',
+				        title: 'Photo Delete',
+				        text: 'Photo will be deleted. <a class="undo" href="#" style="text-decoration:underline;">Undo</a>',
+				        after_close: function(pnotify){
+				        	$.ajax('/ajax/delete_photo/'+$(deleteButton).attr('data-photo_id'), {
+								success: function(data, textStatus, jqXHR) {
+									if (jqXHR.status == 200 || jqXHR.status == 204) {
+										// remove it from the ui
+										//$(this).parents('div.photo').remove();
+										$(deleteButton).closest('div.photo').remove();
+									}	
+								},
+								error: function(jqXHR, textStatus, errorThrown) {
+									$.pnotify({
+										type: 'error',
+										title: 'Photo Delete',
+										text: 'There was an error deleting the photo.'
+									});
+								}
+							});
+				        }
+				    });
+				    // setup the undo to cancel the delete
+				    notice.find('a.undo').click(function(e){
+				    	delete notice.opts.after_close;
+				        notice.pnotify_remove();
+				    });
+				})();
+
+				return false;
+			});
 		}
 	}
 	photos.response.objects.offset += count; // used to know where to resume looping
@@ -273,46 +314,6 @@ function loadPhotos(photos) {
 	  }
 	); 
 	$('a.photo-enlarge').facebox();
-
-	// setup the delete
-	$('#photo-action a.photo-delete').click(function(){
-		var deleteButton = $(this); // save a reference to that button
-		
-		// anonymous function to handle the deletion/keep variable scope
-		(function(){
-			// setup the notification message and the deletion code
-		    var notice = $.pnotify({
-		    	type: 'info',
-		        title: 'Photo Delete',
-		        text: 'Photo will be deleted. <a class="undo" href="#" style="text-decoration:underline;">Undo</a>',
-		        after_close: function(pnotify){
-		        	$.ajax('/ajax/delete_photo/'+$(deleteButton).attr('data-photo_id'), {
-						success: function(data, textStatus, jqXHR) {
-							if (jqXHR.status == 200 || jqXHR.status == 204) {
-								// remove it from the ui
-								//$(this).parents('div.photo').remove();
-								$(deleteButton).closest('div.photo').remove();
-							}	
-						},
-						error: function(jqXHR, textStatus, errorThrown) {
-							$.pnotify({
-								type: 'error',
-								title: 'Photo Delete',
-								text: 'There was an error deleting the photo.'
-							});
-						}
-					});
-		        }
-		    });
-		    // setup the undo to cancel the delete
-		    notice.find('a.undo').click(function(e){
-		    	delete notice.opts.after_close;
-		        notice.pnotify_remove();
-		    });
-		})();
-
-		return false;
-	});
 
 	// setup the tooltips
 	$(".photo-comment").tooltip();
