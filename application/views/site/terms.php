@@ -28,7 +28,8 @@
 
 <p>
     You can request a full refund for the amount on your receipt at any time up to 30 days 
-    after you signup for a Snapable package and we will delete all information (including photos) of the event.
+    after you signup for a Snapable package. We reserve the right to delete all information 
+    (including photos) of the event after a refund has been issued.
 </p>
 
 <h2>Copyrights & Trademarks</h2>

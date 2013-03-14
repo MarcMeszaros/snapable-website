@@ -10,6 +10,7 @@ $(document).ready(function(){
             var result = $.parseJSON(responseText);
             // show the facebox
             jQuery.facebox({ ajax: '/upload/crop/' + result.image + '/' });
+            $('#facebox_overlay').off('click'); // prevent focus loss from closing cropping window
 
             // reset the form
             $('#uploadArea form').resetForm();

@@ -24,7 +24,7 @@
 			<div class="small-field">
 				<div class="small-field-inner">
 					<label for="event-start-date">Date</label>
-					<input class="longer" id="event-start-date" name="event[start_date]" type="text" value="<?= date("M j, Y", $eventDeets->start_epoch + ($eventDeets->tz_offset * 60)) ?>">
+					<input type="text" id="event-start-date" class="longer datepicker" name="event[start_date]" value="<?= date("M j, Y", $eventDeets->start_epoch + ($eventDeets->tz_offset * 60)) ?>">
 				</div>
 				<div class="small-field-inner">
 					<label for="event-start-time">Time</label>
@@ -155,6 +155,10 @@
 </div>
 
 <div id="uploadArea" class="slidContent">
+	<div class="hint">
+		Photos must be in jpeg format and a maximum of 10 MB. If your photos are rather large, 
+		please be patient! It might take a few minutes :)
+	</div>
 	<form method="post" action="/upload" enctype="multipart/form-data">
 		<input type="hidden" name="event" value="<?php echo $eventDeets->resource_uri; ?>" />
 		<?php if(isset($guest_uri)) { ?>

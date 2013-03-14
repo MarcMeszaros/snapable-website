@@ -1,10 +1,3 @@
-	<?php if ( isset($stripe) ) { ?>
-    <script type="text/javascript" src="https://js.stripe.com/v1/"></script>
-    <script type="text/javascript">	Stripe.setPublishableKey("<?= $stripe_key ?>");</script>
-    <?php } ?>
-
-	<div id="notification"></div>
-
 	<div id="homeHeadWrap">
 		<?php if ( isset($loggedInBar) )
 		{

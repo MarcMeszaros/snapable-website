@@ -19,6 +19,8 @@
     <link type="text/css" rel="stylesheet" href="//fonts.googleapis.com/css?family=PT+Sans+Caption:400,700" />
     <link type="text/css" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/css/bootstrap.min.css" />
     <link type="text/css" rel="stylesheet" href="/assets/libs/pnotify/jquery.pnotify.default.css" />
+    <link type="text/css" rel="stylesheet" href="/assets/css/common/fonts.css" />
+    <link type="text/css" rel="stylesheet" href="/assets/css/common/default.css" />
     <?php 
     // external resources
     if ( isset($ext_css) ) {
@@ -32,7 +34,7 @@
     	// add assets
 		if(defined('MINIFY') && MINIFY == false) {
 			foreach ($css as $asset) {
-	    		echo '<link type="text/css" rel="stylesheet" href="/' . $asset . '" media="screen" />'.PHP_EOL;
+                echo '<link type="text/css" rel="stylesheet" href="/' . $asset . '?'. md5_file($asset) .'" media="screen" />'.PHP_EOL;
 			}
 		} else {
 			echo '<link type="text/css" rel="stylesheet" href="/min/c/' . base64_encode(implode(',', $css)) . '" media="screen" />';
@@ -44,6 +46,7 @@
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/assets/libs/pnotify/jquery.pnotify.min.js"></script>
+    <script type="text/javascript" src="/assets/js/common/default.js"></script>
     <?php
         // external resources
         if ( isset($ext_js) ) {
@@ -57,7 +60,7 @@
             // add assets
 			if(defined('MINIFY') && MINIFY == false) {
 				foreach ($js as $asset) {
-		    		echo '<script type="text/javascript" src="/' . $asset . '"></script>'.PHP_EOL;
+                    echo '<script type="text/javascript" src="/' . $asset . '?'. md5_file($asset) .'"></script>'.PHP_EOL;
 				}
 			} else {
 				echo '<script type="text/javascript" src="/min/j/' . base64_encode(implode(',', $js)) . '"></script>';
@@ -84,24 +87,6 @@
     <!--[if lt IE 9]>
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js"></script>
     <![endif]-->
-
-    <!-- Pnotify Defaults -->
-    <script type="text/javascript">
-        $.pnotify.defaults.history = false;
-        $.pnotify.defaults.icon = false;
-        $.pnotify.defaults.animation = "slide";
-        $.pnotify.defaults.width = "100%";
-        $.pnotify.defaults.addclass = "stack-content-center";
-        $.pnotify.defaults.stack = {"dir1": "down", "dir2": "right", "push": "bottom", "firstpos1": -1, "firstpos2": -1, "spacing1":0, "spacing2":0};
-    </script>
-
-    <!-- Custom Pnotify Style -->
-    <style type="text/css">
-        .stack-content-center .ui-pnotify-title,
-        .stack-content-center .ui-pnotify-text {
-            text-align: center;
-        }
-    </style>
 
     <script type="text/javascript">
 <?php if ( $_SERVER['HTTP_HOST'] == "snapable.com" || $_SERVER['HTTP_HOST'] == "www.snapable.com" ) { ?>  

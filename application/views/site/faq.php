@@ -40,6 +40,12 @@
 <h3>Can I give anyone access to the album?</h3>
 <p>Yes, as the album owner you can keep your album private of your can share it with friends and family.</p>
 
+<h3>What technical limitations are there for uploading photos on the website?</h3>
+<p>
+Currently, Snapable will only allow JPEG images smaller than 10MB in size to be uploaded via the website. If you have photos outside these limitations,
+we would love to hear from you to better understand how these limits affect your usage of Snapable.
+</p>
+
 <h2>Billing</h2>
 <h3>Why am I being charged an international transaction fee?</h3>
 <p>

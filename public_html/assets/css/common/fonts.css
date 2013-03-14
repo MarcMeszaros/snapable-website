@@ -1,0 +1,14 @@
+@font-face {
+    font-family: Vegur;
+    src: local("Vegur-Regular"), url("../../fonts/vegur/Vegur-Regular.otf");
+}
+@font-face {
+    font-family: Vegur;
+    src: local("Vegur-Light"), url("../../fonts/vegur/Vegur-Light.otf");
+    font-weight: lighter;
+}
+@font-face {
+    font-family: Vegur;
+    src: local("Vegur-Bold"), url("../../fonts/vegur/Vegur-Bold.otf");
+    font-weight: bold;
+}
