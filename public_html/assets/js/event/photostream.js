@@ -192,6 +192,9 @@ $(document).ready(function()
 Add photo to the DOM.
 */
 function loadPhoto(photoData, options) {
+	// make sure the first run is hidden
+	$("#eventFirstRun").css({"display":"none"});
+
 	// declare the options variable if it's not set
 	if (typeof options === 'undefined') {
 		options = {};

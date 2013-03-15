@@ -8,9 +8,9 @@ $(document).ready(function(){
         success: function(responseText, statusText, xhr, $form) {
             // parse the JSON text
             var result = $.parseJSON(responseText);
-            // show the facebox
-            jQuery.facebox({ ajax: '/upload/crop/' + result.image + '/' });
-            $('#facebox_overlay').off('click'); // prevent focus loss from closing cropping window
+            // show the modal crop box
+            $('#uploadedArea').modal({remote: '/upload/crop/' + result.image + '/'});
+            $('div.modal-backdrop').off('click');
 
             // reset the form
             $('#uploadArea form').resetForm();
