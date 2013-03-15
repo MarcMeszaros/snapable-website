@@ -71,14 +71,20 @@ $("#cropDone").click( function()
 			// PREPEND PHOTO TO PHOTOSTREAM (IF FIRST PHOTO ENSURE FIRST-RUN STUFF IS HIDDEN)
 			$("#eventFirstRun").css({"display":"none"});
 			var viewData = { 
-				url: resource_uri[3],
-				photo: '/p/get/' + resource_uri[3],
+				id: resource_uri[3],
+				url: '/p/'+resource_uri[3],
+				photo: '/p/get/' + resource_uri[3] + '/200x200',
 				caption: data.result.caption,
-				photographer: data.result.author_name
+				photographer: data.result.author_name,
+				photoClass: '',
+				buttonClass: '',
+				buttonText: '',
+				owner: owner
 			};
-			$.Mustache.load('/assets/js/templates.html').done(function() {
-				$('#photoArea').removeClass("noPhotos").mustache('event-list-photo', viewData, { method:"prepend" });
-			});
+
+			// load the photo into the DOM
+			loadPhoto(viewData, {method:'prepend'});
+
 		}, "json").fail(function(){
 			$.facebox.close();
 			$("#cropLoader").fadeOut();
