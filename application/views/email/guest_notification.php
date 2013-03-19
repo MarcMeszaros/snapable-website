@@ -257,7 +257,7 @@
                                                             <h2 style="color: #363636;display: block;font-family: Helvetica;font-size: 20px;font-weight: bold;line-height: 100%;margin-top: 20px;margin-right: 0;margin-bottom: 10px;margin-left: 0;text-align: left;">What is Snapable?</h2>
                                                             <p>
                                                                 By downloading the Snapable app, you can share the photos you take at 
-                                                                the wedding with the bride and groom. A modern version of the disposable camera,
+                                                                the event with the organizer. A modern version of the disposable camera,
                                                                 Snapable instantly uploads your photos into one online album. 
                                                             </p>
                                                             <p><strong><a href="http://snapable.com/">&rsaquo; Find out more at snapable.com</a></strong></p>

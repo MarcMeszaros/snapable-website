@@ -21,6 +21,7 @@ class Wedding extends CI_Controller {
     {
         require_http();
         $head = array(
+            'title' => 'The easiest way to instantly capture every photo at your wedding without missing a single moment.',
             'keywords' => array('wedding', 'photo', 'photography', 'disposable', 'camera', 'share', 'sharing', 'day', 'big'),
             'description' => 'The easiest way to capture every moment at your wedding.',
             'css' => array(

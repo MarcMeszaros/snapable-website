@@ -21,8 +21,8 @@ class Home extends CI_Controller {
 	{
 		require_http();
 		$head = array(
-			'keywords' => array('wedding', 'photo', 'photography', 'disposable', 'camera', 'share', 'sharing', 'day', 'big'),
-			'description' => 'The easiest way to capture every moment at your wedding.',
+			'keywords' => array('event', 'photo', 'photography', 'disposable', 'camera', 'share', 'sharing', 'day', 'big'),
+			'description' => 'The easiest way to capture every moment at your event.',
 			'css' => array(
 				'assets/home/jan2013.css', 
 				'assets/home/overlays.css', 
@@ -39,7 +39,7 @@ class Home extends CI_Controller {
 				'og:type' => 'Photo sharing',
 				'og:url' => 'http://snapable.com',
 				'og:image' => 'http://snapable.com/assets/img/snapable_logo.png',
-				'og:description' => 'The easiest way to capture every moment at your wedding.',
+				'og:description' => 'The easiest way to capture every moment at your event.',
 				'og:site_name' => 'Snapable',
 			),
 		);
