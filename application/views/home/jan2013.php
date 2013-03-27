@@ -48,16 +48,16 @@
 		        <div class="box box-1">
 			    	<div class="image"></div>
 			    	<div class="text">
-			        	<h3>A Complete Picture Of Your Event</h3>
-			        	<p>One photographer can't catch all the action. Snapable helps collect each photo taken by friends and family, giving you a full picture of the day.</p>
+			        	<h3>Your Event From Their Point Of View</h3>
+			        	<p>One photographer can't possibly catch all the action. Snapable helps collect each photo taken by attendees, giving you a complete picture of the day.</p>
 			        </div>
 		        </div>
 		
 		        <div class="box box-2">
 		        	<div class="image"></div>
 		        	<div class="text">
-		        		<h3>Instantly Capture And Preserve Your Memories</h3>
-		        		<p>Photos taken at your event end up everywhere. Avoid begging guests for photos and let Snapable instantly upload them into your online album.</p>
+		        		<h3>Instantly Collect And Preserve Your Photos</h3>
+		        		<p>Avoid begging for photos after the event and let Snapable instantly upload them into your online album. Its the easiest way to preserve your memories.</p>
 		        	</div>
 		        </div>
 		
@@ -73,7 +73,7 @@
 		        	<div class="image"></div>
 		        	<div class="text">
 		        		<h3>Instant Gratification</h3>
-		        		<p>Don’t wait weeks for your photos. With Snapable, there is no waiting or sifting through Facebook. You’ll have them all—even before the honeymoon!</p>
+		        		<p>With Snapable, there is no waiting or sifting through Facebook, Instagram and Twitter trying to find your photos. You’ll have everything - instantly.</p>
 		        	</div>
 		        </div>
 		
@@ -92,17 +92,17 @@
 		            <div class="browser1"></div>
 		          </div>
 		          <h3>Before Your Event</h3>
-		          <p>Create your event album in just a few easy steps. You’ll be able to:</p>
+		          <p>Create your album in just a few easy steps. You can:</p>
 		          
 		          <ul>
 			          <li>Upload photos from your computer.</li>
-			          <li>Add photos from the Snapable app. </li>
-			          <li>Share the album with friends and family. </li>
+			          <li>Add photos from the Snapable app.</li>
+			          <li>Share the album with guests and attendees.</li>
 		          </ul>
 
-		          <p>Once your album is set up, you’re ready to collect your  photos!</p>
+		          <p>Once your album is set up, you’re ready to collect your photos!</p>
 		          
-		          <p class="pLink"><a href="http://snapable.com/event/demo" target="_blank">See a sample</a></p>
+		          <p class="pLink"><a href="http://snapable.com/event/demo" target="_blank">Sample Album</a></p>
 		        </div>
 		
 		        <div class="box">
@@ -110,16 +110,16 @@
 		            <div class="phone"></div>
 		          </div>
 		          <h3>During Your Event</h3>
-		          <p>Remind guests to use Snapable with an elegant table card that includes:</p>
+		          <p>Remind guests to use Snapable with a table card that includes:</p>
 
 		          <ul>
 		          	<li>How to download and use Snapable.</li>
 		          	<li>A description of how it works.</li>
-		          	<li>Your event album link. </li>
+		          	<li>Your photo album link.</li>
 		          </ul>
 		          <p>A copy of each photo taken with the Snapable app will be instantly added to your album.</p>
 		          
-		          <p class="pLink"><a href="/home/app" class="overlay">See a sample</a></p>
+		          <p class="pLink"><a href="/home/app" class="overlay">See Sample</a></p>
 		        </div>
 		
 		        <div class="box">
@@ -127,17 +127,17 @@
 		            <div class="browser2"></div>
 		          </div>
 		          <h3>After Your Event</h3>
-		          <p>Once your big day has passed, you’ll be able to peruse your album. You can:</p>
+		          <p>OPeruse the album and see what guests have uploaded. You can:</p>
 
 		          <ul>
 		          	<li>Download your favorite photos.</li>
-		          	<li>Share photos or the entire album with friends. </li>
-		          	<li>Upload additional photos after the event. </li>
+		          	<li>Share photos or the entire album via social.</li>
+		          	<li>Upload additional photos after the event.</li>
 		          </ul>
 
-			       <p>It’s that easy! All of your photos in one spot, ensuring you don’t miss a single moment. </p>
+			       <p>It’s that easy! All of your photos in one spot, so you don’t miss a single moment.</p>
 		          
-		          <p class="pLink"><a href="/signup">Signup</a></p>
+		          <p class="pLink"><a href="/signup">Sign Up</a></p>
 		        </div>
 		
 		      </div>
@@ -179,7 +179,7 @@
 		        	
 		        	<div id="package-always">
 		        	
-			        	<h4>Not getting married but know someone that is?</h4>
+			        	<h4>Know someone else who is planning an event?</h4>
 
 			        	<h5>Let them know about Snapable!</h5>
 			        	
