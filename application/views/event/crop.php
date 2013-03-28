@@ -1,14 +1,15 @@
 <div id="cropBox">
-	<div id="cropInstructions">
-		Move and resize the box to how you'd like the final image to look then click "Done".
-	</div>
-	
 	<img id="target" src="/tmp-files/<?= $image ?>" width="<?= $width ?>" height="<?= $height ?>" />
-	
 	<a id="cropDone" href="#">Done</a>
 </div>
-
 <div id="cropLoader">Cropping photo...<div class="bar"><span></span></div></div>
+
+<style media="screen" type="text/css">
+.jcrop-holder {
+	margin: 0 auto;
+}
+
+</style>
 
 <script type="text/javascript">
 
@@ -61,27 +62,24 @@ $("#cropDone").click( function()
 		$.post("/upload/square", params, function(data, textStatus, jqXHR) {
 			// set photo id
 			var resource_uri = data.result.resource_uri.split("/");
-			
-			// HIDE FACEBOX
-			$.facebox.close();
-			// CLOSE ALL UPLOAD ITEMS
-			$("#uploadedArea").fadeOut("fast", function() {
-				$("#uploadArea").slideToggle("fast");
-			});
-			// PREPEND PHOTO TO PHOTOSTREAM (IF FIRST PHOTO ENSURE FIRST-RUN STUFF IS HIDDEN)
-			$("#eventFirstRun").css({"display":"none"});
+
+			// PREPEND PHOTO TO PHOTOSTREAM
 			var viewData = { 
-				url: resource_uri[3],
-				photo: '/p/get/' + resource_uri[3],
+				id: resource_uri[3],
+				url: '/p/'+resource_uri[3],
+				photo: '/p/get/' + resource_uri[3] + '/200x200',
 				caption: data.result.caption,
-				photographer: data.result.author_name
+				photographer: data.result.author_name,
+				owner: owner
 			};
-			$.Mustache.load('/assets/js/templates.html').done(function() {
-				$('#photoArea').removeClass("noPhotos").mustache('event-list-photo', viewData, { method:"prepend" });
-			});
+
+			// load the photo into the DOM
+			loadPhoto(viewData, {method:'prepend'});
+			$('#uploadedArea').modal('hide');
+
 		}, "json").fail(function(){
-			$.facebox.close();
 			$("#cropLoader").fadeOut();
+			$('#uploadedArea').modal('hide');
 			$.pnotify({
 				type: 'error',
 				title: 'Image Upload',
@@ -89,6 +87,11 @@ $("#cropDone").click( function()
 			});
 		});
 	})
+});
+
+// reset the upload modal screen
+$('#uploadedArea').on('hidden', function () {
+  $(this).data('modal', null);
 });
 
 </script>

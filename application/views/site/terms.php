@@ -21,7 +21,7 @@
 <p>
     <b>Snapable</b> provides an application that helps event organizers consolidate 
     photos taken by all attendees at a particular event. <b>Snapable</b> is not 
-    responsible for the content or information users transmit or share in your wedding 
+    responsible for the content or information users transmit or share in your event 
     album. We are not responsible for any offensive, inappropriate, obscene, unlawful 
     or otherwise objectionable content or information you may encounter on <b>Snapable</b>. 
 </p>

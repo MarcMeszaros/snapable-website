@@ -1,7 +1,7 @@
 	<div id="headWrap">
 		<div id="head">
 			
-			<div id="logo">Snapable. Every moment at your wedding in photos</div>
+			<div id="logo">Snapable. Every moment at your event in photos</div>
 			
 			<ul id="nav">
 				<li><a href="signup" onClick="_gaq.push(['_trackEvent', 'Signups', 'Clicked', 'Signup (Header)']);">Sign-up</a></li>
@@ -24,7 +24,7 @@
 			</a>
 			
 			<h1>Every Moment, Captured.</h1>
-			<h2>The fun and easy way for your guests to share photos from your wedding.</h2>
+			<h2>The fun and easy way for your guests to share photos from your event.</h2>
 			
 			<div id="hand">Snapable Screenshot</div>
 			
@@ -43,21 +43,21 @@
 		      <div class="inner">
 		        <h2>Why Use Snapable?</h2>
 		        
-		        <h3>Letting your guests take photos during your wedding is a fun and easy way to get them involved. Best of all, the photos will be instantly added to your Snapable album, so you’ll have everything on one place.</h3>
+		        <h3>Letting your guests take photos during your event is a fun and easy way to get them involved. Best of all, the photos will be instantly added to your Snapable album, so you’ll have everything on one place.</h3>
 		
 		        <div class="box box-1">
 			    	<div class="image"></div>
 			    	<div class="text">
-			        	<h3>A Complete Picture Of Your Wedding Day</h3>
-			        	<p>One photographer can't catch all the action. Snapable helps collect each photo taken by friends and family, giving you a full picture of the day.</p>
+			        	<h3>Your Event From Their Point Of View</h3>
+			        	<p>One photographer can't possibly catch all the action. Snapable helps collect each photo taken by attendees, giving you a complete picture of the day.</p>
 			        </div>
 		        </div>
 		
 		        <div class="box box-2">
 		        	<div class="image"></div>
 		        	<div class="text">
-		        		<h3>Instantly Capture And Preserve Your Memories</h3>
-		        		<p>Photos taken at your wedding end up everywhere. Avoid begging guests for photos and let Snapable instantly upload them into your online album.</p>
+		        		<h3>Instantly Collect And Preserve Your Photos</h3>
+		        		<p>Avoid begging for photos after the event and let Snapable instantly upload them into your online album. Its the easiest way to preserve your memories.</p>
 		        	</div>
 		        </div>
 		
@@ -73,7 +73,7 @@
 		        	<div class="image"></div>
 		        	<div class="text">
 		        		<h3>Instant Gratification</h3>
-		        		<p>Don’t wait weeks for your photos. With Snapable, there is no waiting or sifting through Facebook. You’ll have them all—even before the honeymoon!</p>
+		        		<p>With Snapable, there is no waiting or sifting through Facebook, Instagram and Twitter trying to find your photos. You’ll have everything - instantly.</p>
 		        	</div>
 		        </div>
 		
@@ -91,53 +91,53 @@
 		          <div class="overflow">
 		            <div class="browser1"></div>
 		          </div>
-		          <h3>Before Your Wedding</h3>
-		          <p>Create your wedding album in just a few easy steps. You’ll be able to:</p>
+		          <h3>Before Your Event</h3>
+		          <p>Create your album in just a few easy steps. You can:</p>
 		          
 		          <ul>
 			          <li>Upload photos from your computer.</li>
-			          <li>Add photos from the Snapable app. </li>
-			          <li>Share the album with friends and family. </li>
+			          <li>Add photos from the Snapable app.</li>
+			          <li>Share the album with guests and attendees.</li>
 		          </ul>
 
-		          <p>Once your album is set up, you’re ready to collect your  photos!</p>
+		          <p>Once your album is set up, you’re ready to collect your photos!</p>
 		          
-		          <p class="pLink"><a href="http://snapable.com/event/demo" target="_blank">See a sample</a></p>
+		          <p class="pLink"><a href="http://snapable.com/event/demo" target="_blank">Sample Album</a></p>
 		        </div>
 		
 		        <div class="box">
 		          <div class="overflow">
 		            <div class="phone"></div>
 		          </div>
-		          <h3>During Your Wedding</h3>
-		          <p>Remind guests to use Snapable with an elegant table card that includes:</p>
+		          <h3>During Your Event</h3>
+		          <p>Remind guests to use Snapable with a table card that includes:</p>
 
 		          <ul>
 		          	<li>How to download and use Snapable.</li>
 		          	<li>A description of how it works.</li>
-		          	<li>Your wedding album link. </li>
+		          	<li>Your photo album link.</li>
 		          </ul>
 		          <p>A copy of each photo taken with the Snapable app will be instantly added to your album.</p>
 		          
-		          <p class="pLink"><a href="/home/app" class="overlay">See a sample</a></p>
+		          <p class="pLink"><a href="/home/app" class="overlay">See Sample</a></p>
 		        </div>
 		
 		        <div class="box">
 		          <div class="overflow">
 		            <div class="browser2"></div>
 		          </div>
-		          <h3>After Your Wedding</h3>
-		          <p>Once your big day has passed, you’ll be able to peruse your album. You can:</p>
+		          <h3>After Your Event</h3>
+		          <p>OPeruse the album and see what guests have uploaded. You can:</p>
 
 		          <ul>
 		          	<li>Download your favorite photos.</li>
-		          	<li>Share photos or the entire album with friends. </li>
-		          	<li>Upload additional photos after the wedding. </li>
+		          	<li>Share photos or the entire album via social.</li>
+		          	<li>Upload additional photos after the event.</li>
 		          </ul>
 
-			       <p>It’s that easy! All of your photos in one spot, ensuring you don’t miss a single moment. </p>
+			       <p>It’s that easy! All of your photos in one spot, so you don’t miss a single moment.</p>
 		          
-		          <p class="pLink"><a href="/signup">Signup</a></p>
+		          <p class="pLink"><a href="/signup">Sign Up</a></p>
 		        </div>
 		
 		      </div>
@@ -179,14 +179,14 @@
 		        	
 		        	<div id="package-always">
 		        	
-			        	<h4>Not getting married but know someone that is?</h4>
+			        	<h4>Know someone else who is planning an event?</h4>
 
 			        	<h5>Let them know about Snapable!</h5>
 			        	
 			        	<div class="package-share-links">
 			        		<span class='st_facebook_large' displayText='Facebook'></span>
-			        		<span class='st_twitter_large' displayText='Tweet' st_via='getsnapable' st_url="http://snapable.com" st_title="Check out Snapable, they're making it dead simple to capture every moment on your wedding day!"></span>
-							<span class='st_email_large' displayText='Email' st_url="http://snapable.com" st_title="Check out Snapable, they're making it dead simple to capture every moment on your wedding day!"></span>
+			        		<span class='st_twitter_large' displayText='Tweet' st_via='getsnapable' st_url="http://snapable.com" st_title="Check out Snapable, they're making it dead simple to capture every moment at your event!"></span>
+							<span class='st_email_large' displayText='Email' st_url="http://snapable.com" st_title="Check out Snapable, they're making it dead simple to capture every moment at your event!"></span>
 			        	</div>
 			        	
 		        	</div>

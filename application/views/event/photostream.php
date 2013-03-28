@@ -172,7 +172,15 @@
 		<img id="photo-upload-spinner" class="hide" src="/assets/img/spinner_blue_sm.gif" />
 	</form>
 </div>
-<div id="uploadedArea"></div>
+<div id="uploadedArea" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    	<div id="cropInstructions">
+    		Move and resize the box to how you'd like the final image to look then click "Done".
+    	</div>
+  	</div>
+	<div class="modal-body"></div>
+</div>
 <div class="clearit">&nbsp;</div>
 
 <div id="contact" class="mustache-box slidContent"></div>

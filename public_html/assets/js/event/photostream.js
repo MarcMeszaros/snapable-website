@@ -189,6 +189,84 @@ $(document).ready(function()
 });
 
 /*
+Add photo to the DOM.
+*/
+function loadPhoto(photoData, options) {
+	// make sure the first run is hidden
+	$("#eventFirstRun").css({"display":"none"});
+
+	// declare the options variable if it's not set
+	if (typeof options === 'undefined') {
+		options = {};
+	}
+	// set the filter position
+	var filter_position = ':last';
+	if (options.method === 'prepend') {
+		filter_position = ':first';
+	}
+	var $domPhoto = $('#photoArea').mustache('event-list-photo', photoData, options);
+
+	// setup the delete per photo
+	$domPhoto.find('div.photo a.photo-delete').filter(filter_position).click(function(){
+		var deleteButton = $(this); // save a reference to that button
+
+		// anonymous function to handle the deletion/keep variable scope
+		(function(){
+			// setup the notification message and the deletion code
+		    var notice = $.pnotify({
+		    	type: 'info',
+		        title: 'Photo Delete',
+		        text: 'Photo will be deleted. <a class="undo" href="#" style="text-decoration:underline;">Undo</a>',
+		        after_close: function(pnotify){
+		        	$.ajax('/ajax/delete_photo/'+$(deleteButton).attr('data-photo_id'), {
+						success: function(data, textStatus, jqXHR) {
+							if (jqXHR.status == 200 || jqXHR.status == 204) {
+								// remove it from the ui
+								$(deleteButton).closest('div.photo').remove();
+							}	
+						},
+						error: function(jqXHR, textStatus, errorThrown) {
+							$.pnotify({
+								type: 'error',
+								title: 'Photo Delete',
+								text: 'There was an error deleting the photo.'
+							});
+						}
+					});
+		        }
+		    });
+		    // setup the undo to cancel the delete
+		    notice.find('a.undo').click(function(e){
+		    	delete notice.opts.after_close;
+		        notice.pnotify_remove();
+		    });
+		})();
+
+		return false;
+	});
+
+	// Trigger photo overlay code
+	$domPhoto.find('div.photo').filter(filter_position).hover(
+	  function () {
+	    $(".photo-overlay", this).fadeIn("fast");
+	  },
+	  function () {
+	    $(".photo-overlay", this).fadeOut("fast");
+	  }
+	);
+	$domPhoto.find('div.photo a.photo-enlarge').filter(filter_position).facebox();
+
+	// setup the tooltips
+	$domPhoto.find('div.photo .photo-comment').filter(filter_position).tooltip();
+
+	// setup the download
+	$domPhoto.find('a.photo-download').filter(filter_position).click(function(){
+		document.location = '/download/photo/'+$(this).attr('data-photo_id');
+		return false; // end execution of the javascript
+	});
+}
+
+/*
 Function used to load photos into the photo stream and hook up all the
 buttons and events to each photo.
 */
@@ -210,18 +288,12 @@ function loadPhotos(photos) {
 		if ( count < 12 )
 		{
 			var resource_uri = val.resource_uri.split("/");
-			var caption_icon = "comment.png";
-			if ( !val.caption )
-			{
-				caption_icon = "blank.png";
-			}
-			
+
 			var inPhotoArr = $.inArray(resource_uri[3], photoArr);
 			var photoClass = "";
 			var buttonClass = "addto-prints";
 			var buttonText = "Add to Prints";
-			if ( inPhotoArr >= 0 )
-			{
+			if ( inPhotoArr >= 0 ) {
 				photoClass = " photoInCart";
 				buttonClass = "removefrom-prints";
 				buttonText = "Remove from Prints";
@@ -232,57 +304,16 @@ function loadPhotos(photos) {
 				url: '/p/' + resource_uri[3],
 				photo: '/p/get/' + resource_uri[3] + '/200x200',
 				caption: val.caption,
-				caption_icon: caption_icon,
 				photographer: val.author_name,
 				photoClass: photoClass,
 				buttonClass: buttonClass,
-				buttonText: buttonText ,
+				buttonText: buttonText,
 				owner: owner
 			};
 			// add photo to dom
-			var $domPhoto = $('#photoArea').mustache('event-list-photo', viewData);
+			loadPhoto(viewData);
 			delete photos.response.objects[key];
 			count++;
-
-			// setup the delete per photo
-			$domPhoto.find('div.photo a.photo-delete').filter(':last').click(function(){
-				var deleteButton = $(this); // save a reference to that button
-				
-				// anonymous function to handle the deletion/keep variable scope
-				(function(){
-					// setup the notification message and the deletion code
-				    var notice = $.pnotify({
-				    	type: 'info',
-				        title: 'Photo Delete',
-				        text: 'Photo will be deleted. <a class="undo" href="#" style="text-decoration:underline;">Undo</a>',
-				        after_close: function(pnotify){
-				        	$.ajax('/ajax/delete_photo/'+$(deleteButton).attr('data-photo_id'), {
-								success: function(data, textStatus, jqXHR) {
-									if (jqXHR.status == 200 || jqXHR.status == 204) {
-										// remove it from the ui
-										//$(this).parents('div.photo').remove();
-										$(deleteButton).closest('div.photo').remove();
-									}	
-								},
-								error: function(jqXHR, textStatus, errorThrown) {
-									$.pnotify({
-										type: 'error',
-										title: 'Photo Delete',
-										text: 'There was an error deleting the photo.'
-									});
-								}
-							});
-				        }
-				    });
-				    // setup the undo to cancel the delete
-				    notice.find('a.undo').click(function(e){
-				    	delete notice.opts.after_close;
-				        notice.pnotify_remove();
-				    });
-				})();
-
-				return false;
-			});
 		}
 	}
 	photos.response.objects.offset += count; // used to know where to resume looping
@@ -304,23 +335,4 @@ function loadPhotos(photos) {
 		});
 	}
 
-	// Trigger photo overlay code
-	$(".photo").hover(
-	  function () {
-	    $(".photo-overlay", this).fadeIn("fast");
-	  },
-	  function () {
-	    $(".photo-overlay", this).fadeOut("fast");
-	  }
-	); 
-	$('a.photo-enlarge').facebox();
-
-	// setup the tooltips
-	$(".photo-comment").tooltip();
-
-	// setup the download
-	$('#photo-action a.photo-download').click(function(){
-		document.location = '/download/photo/'+$(this).attr('data-photo_id');
-		return false; // end execution of the javascript
-	});
 }

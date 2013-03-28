@@ -60,7 +60,7 @@ class Upload extends CI_Controller {
 		list($width, $height, $type, $attr) = getimagesize($_SERVER['DOCUMENT_ROOT'] . "/tmp-files/" . $image);
 		
 		// Calculate aspect ratio
-		$maxSize = 700;
+		$maxSize = 450;
 		$wRatio = $maxSize / $width;
         $hRatio = $maxSize / $height;
 
