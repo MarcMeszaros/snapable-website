@@ -42,9 +42,10 @@
     } 
     ?>
     
-    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/parsley.js/1.1.10/parsley.min.js"></script>
     <script type="text/javascript" src="/assets/libs/pnotify/jquery.pnotify.min.js"></script>
     <script type="text/javascript" src="/assets/js/common/default.js"></script>
     <?php
