@@ -15,7 +15,7 @@
 	?>
 	
 	<label for="name">Name</label>
-	<input class="text-center" type="text" name="name" />
+	<input class="text-center" type="text" name="name" placeholder="Anonymous" />
 
 	<label for="email">Email Address</label>
 	<input class="text-center" type="email" data-type="email" name="email" required="required" data-required="true" />

@@ -184,6 +184,7 @@ class Event extends CI_Controller {
 					$verb = 'POST';
 					$path = '/guest/';
 					$params = array(
+						"name" => $_POST['name'],
 						"email" => $_POST['email'],
 						"event" => $eventDeets->event->resource_uri,
 						"type" => "/".SnapApi::$api_version."/type/6/",
