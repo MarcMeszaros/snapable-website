@@ -1,6 +1,6 @@
 <div id="guestSigninTop"></div>
 
-<form id="signinWrap" name="signin" action="/event/guests/<?= $eventDeets->url ?>/validate" method="post">
+<form id="signinWrap" name="signin" action="/event/guests/<?= $eventDeets->url ?>/validate" method="post" data-validate="parsley" novalidate>
 	
 	<h1><?= $eventDeets->title ?> Guest Sign in</h1>
 	<h2><?= $eventDeets->display_timedate ?></h2>
@@ -14,24 +14,24 @@
 	} 
 	?>
 	
-	<label for="email">
-		Email Address
-		<div>This doesn't look like a proper email address</div>
-	</label>
-	<input type="email" name="email" />
+	<label for="name">Name</label>
+	<input class="text-center" type="text" name="name" placeholder="Anonymous" />
+
+	<label for="email">Email Address</label>
+	<input class="text-center" type="email" data-type="email" name="email" required="required" data-required="true" />
 	
 	<?php if(!$eventDeets->public) {?>
-		<label for="pin">
-			Event PIN
-			<div class="error">You need to provide a pin to sign in</div>
-		</label>
-		<input id="pinInput" type="text" name="pin" />
+		<label for="pin">Event PIN</label>
+		<input id="pinInput" class="text-center" type="text" name="pin" required="required" data-required="true" data-required-message="You need to provide a pin to sign in." />
 	<?php } ?>
 	<hr />
 	
 	<input type="submit" name="submit" value="Sign in" />
 	
-	<h2 id="guestH2">
-		<?php if(!$eventDeets->public) {?>Don't know the event PIN?<br /><?php } ?><a href="/event/message/organizer">Message the event organizer</a>.</h2>
+	<!-- <h2 id="guestH2"> -->
+	<?php if(!$eventDeets->public) { ?>
+	<!-- Don't know the event PIN?<br /> -->
+	<?php } ?>
+	<!-- <a href="/event/message/organizer">Message the event organizer</a>.</h2> -->
 	
 </form>

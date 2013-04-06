@@ -8,3 +8,7 @@
 .stack-content-center .ui-pnotify-text {
     text-align: center;
 }
+
+.parsley-error-list {
+    color: #cc3300;
+}

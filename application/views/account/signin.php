@@ -1,6 +1,6 @@
 	<img id="signLogo" src="/assets/img/logo-indented.png" alt="Snapable" />
 
-	<form id="signinWrap" name="signin" action="/account/validate" method="post">
+	<form id="signinWrap" name="signin" action="/account/validate" method="post" data-validate="parsley" novalidate>
 	
 		<h1>Sign in to your account</h1>
 		<h2>Don't have an account? <a href="/#packages">Sign-up here</a></h2>
@@ -16,18 +16,11 @@
 		} 
 		?>
 		
-		<label for="email">
-			Email Address
-			<div>This doesn't look like a proper email address</div>
-		</label>
-		<input type="email" name="email" />
+		<label for="email">Email Address</label>
+		<input class="text-center" type="email" data-type="email" name="email" required="required" data-required="true" />
 		
-		<label for="password">
-			Password
-			<div class="error1">You need to provide a password to sign in</div>
-			<div class="error2">Your password must be 6 or more characters</div>
-		</label>
-		<input type="password" name="password" />
+		<label for="password">Password</label>
+		<input class="text-center" type="password" name="password" required="required" data-required="true" data-minlength="6" data-minlength-message="Your password must be 6 or more characters." />
 		
 		<hr />
 		
