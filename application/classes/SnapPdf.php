@@ -41,7 +41,49 @@ class SnapPdf extends FPDI {
      * Setup the URL
      */
     public function url($url='') {
+        // === add the "no phone, no problem" text === \\
+        $this->SetFont('vegurb');
+        $this->SetFontSize(10.0);
+        $this->SetTextColor(0,0,0);
+        $noProblemText = 'No iPhone or Android phone? No problem!';
         
+        // top left quarter
+        $this->SetXY(4.5, 87);
+        $this->Write(0, $noProblemText);
+
+        // top right quarter
+        $this->SetXY(143.75, 87);
+        $this->Write(0, $noProblemText);
+
+        // bottom left quarter
+        $this->SetXY(4.5, 195);
+        $this->Write(0, $noProblemText);
+
+        // bottom right quarter
+        $this->SetXY(143.75, 195);
+        $this->Write(0, $noProblemText);
+
+        // === add the event url === \\
+        $this->SetFont('vegur');
+        $this->SetFontSize(10.0);
+        $this->SetTextColor(0,0,0);
+        $baseEventUrl = 'https://snapable.com/event/';
+
+        // top left quarter
+        $this->SetXY(4.5, 97);
+        $this->Write(0, $baseEventUrl . $url);
+
+        // top right quarter
+        $this->SetXY(143.75, 97);
+        $this->Write(0, $baseEventUrl . $url);
+
+        // bottom left quarter
+        $this->SetXY(4.5, 205);
+        $this->Write(0, $baseEventUrl . $url);
+
+        // bottom right quarter
+        $this->SetXY(143.75, 205);
+        $this->Write(0, $baseEventUrl . $url);
     }    
 
     /**
@@ -65,11 +107,9 @@ class SnapPdf extends FPDI {
         $this->SetXY(102, 200.5); 
         $this->Write(0, $pin);
 
-        
         // bottom right quarter
         $this->SetXY(241.5, 200.5); 
-        $this->Write(0, $pin);        
-
+        $this->Write(0, $pin);
     }
 
 }
