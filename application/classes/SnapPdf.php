@@ -7,6 +7,13 @@ class SnapPdf extends FPDI {
 
     function __construct() {
         parent::__construct('L', 'mm', 'USLETTER');
+
+        // add a page and set defaults 
+        $this->AddPage(); 
+        $this->SetAutoPageBreak(false);
+        //set some defaults
+        $this->SetAuthor('Snapable');
+        $this->SetFont('vegur');
     }
 
     /**
@@ -23,6 +30,45 @@ class SnapPdf extends FPDI {
     }
 
     function Footer() {
+
+    }
+
+    public function title($title='') {
+        $this->SetTitle($title);
+    }
+
+    /**
+     * Setup the URL
+     */
+    public function url($url='') {
+        
+    }    
+
+    /**
+     * Setup the PIN
+     */
+    public function pin($pin='') {
+        // set the font size and color
+        $this->SetFont('vegurb');
+        $this->SetFontSize(20.0);
+        $this->SetTextColor(255,255,255); 
+        
+        // top left quarter
+        $this->SetXY(102, 93); 
+        $this->Write(0, $pin);
+        
+        // top right quarter
+        $this->SetXY(241.5, 93); 
+        $this->Write(0, $pin);
+
+        // bottom left quarter
+        $this->SetXY(102, 200.5); 
+        $this->Write(0, $pin);
+
+        
+        // bottom right quarter
+        $this->SetXY(241.5, 200.5); 
+        $this->Write(0, $pin);        
 
     }
 
