@@ -68,7 +68,7 @@ $(document).ready(function(){
     	
         $.Mustache.load('/assets/js/event/templates-nav.html').done(function () {
             var eventUrl = $('#tablecards').data('url');
-            $('#tablecards').mustache('tablecards', {url: eventUrl}).slideToggle();
+            $('#tablecards').mustache('tablecards', {url: eventUrl}, {method: "html"}).slideToggle();
             $('#tablecards a.download').click(function(){
                 _gaq.push(['_trackEvent', 'Downloads', 'PDF']); // track the download as an analytics event
             });
