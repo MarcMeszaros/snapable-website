@@ -34,7 +34,29 @@ class SnapPdf extends FPDI {
     }
 
     public function title($title='') {
+        $title = trim($title);
         $this->SetTitle($title);
+        $this->SetFont('vegur');
+        $this->SetFontSize(10.0);
+        $this->SetTextColor(0,0,0);
+
+        // truncate the title if required
+        if(strlen($title) > 55) {
+            $title = substr($title, 0, 55) . '...';
+        }
+
+        $html = '
+        <ol>
+            <li>Search for <b>Snapable</b> in the app store and download the app to your phone.</li><br>
+            <li>Open Snapable, allow it access to your location (so it can find the event).</li><br>
+            <li>Select <b>"'.$title.'"</b> in the event list and enter the PIN below for access (if required).</li><br>
+            <li>Click on the camera icon and start snappin’</li>
+        </ol>';
+        // width, height, x, y, html
+        $this->writeHTMLCell(90, 48, -3, 34, $html); // top left quarter
+        $this->writeHTMLCell(90, 48, 136.5, 34, $html); // top right quarter
+        $this->writeHTMLCell(90, 48, -3, 142, $html); // bottom left quarter
+        $this->writeHTMLCell(90, 48, 136.5, 142, $html); // bottom right quarter
     }
 
     /**
