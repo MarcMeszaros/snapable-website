@@ -360,3 +360,10 @@ $config['proxy_ips'] = '';
 
 /* End of file config.php */
 /* Location: ./application/config/config.php */
+
+// Our custom class loader
+spl_autoload_register(function($class) {
+    if (strpos($class, 'CI_') !== 0 && file_exists(APPPATH . 'classes/' . $class . EXT)) {
+        include_once(APPPATH . 'classes/' . $class . EXT);
+    }
+});
