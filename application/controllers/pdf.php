@@ -7,6 +7,15 @@ class Pdf extends CI_Controller {
         show_404();
     }
 
+    public function demo()
+    {
+        $pdf = new SnapPdf();
+        $pdf->title('Snapable Demo Event');
+        $pdf->url('demo');
+        $pdf->pin('1234');
+        $pdf->Output('demo.pdf', 'D');
+    }
+
     public function download($url=null) 
     {
         $session_owner = SnapAuth::is_logged_in();
