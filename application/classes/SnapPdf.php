@@ -33,7 +33,11 @@ class SnapPdf extends FPDI {
 
     }
 
+    /**
+     * Setup the title
+     */
     public function title($title='') {
+        // setup the title
         $title = trim($title);
         $this->SetTitle($title);
         $this->SetFont('vegur');
@@ -92,20 +96,16 @@ class SnapPdf extends FPDI {
         $baseEventUrl = 'https://snapable.com/event/';
 
         // top left quarter
-        $this->SetXY(4.5, 97);
-        $this->Write(0, $baseEventUrl . $url);
+        $this->MultiCell(90, 0, $baseEventUrl . $url, 0, '', false, 1, 4.5, 96);
 
         // top right quarter
-        $this->SetXY(143.75, 97);
-        $this->Write(0, $baseEventUrl . $url);
+        $this->MultiCell(90, 0, $baseEventUrl . $url, 0, '', false, 1, 143.75, 96);
 
         // bottom left quarter
-        $this->SetXY(4.5, 205);
-        $this->Write(0, $baseEventUrl . $url);
+        $this->MultiCell(90, 0, $baseEventUrl . $url, 0, '', false, 1, 4.5, 204);
 
         // bottom right quarter
-        $this->SetXY(143.75, 205);
-        $this->Write(0, $baseEventUrl . $url);
+        $this->MultiCell(90, 0, $baseEventUrl . $url, 0, '', false, 1, 143.75, 204);
     }    
 
     /**
