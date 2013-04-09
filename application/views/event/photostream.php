@@ -185,7 +185,7 @@
 
 <div id="contact" class="mustache-box slidContent"></div>
 <div id="guest" class="mustache-box slidContent"></div>
-<div id="tablecards" class="mustache-box slidContent"></div>
+<div id="tablecards" class="mustache-box slidContent" data-url="<?php echo $url; ?>"></div>
 
 <div id="photoArea"></div>
 
