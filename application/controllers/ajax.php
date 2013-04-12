@@ -51,43 +51,78 @@ class Ajax extends CI_Controller {
         }
 
         // process date/time stuff
-        $duration = $post['duration_num'];
-        if ($post['duration_type'] == 'hours') {
-            $duration = $duration * 60 * 60;
-        } else {
-            $duration = $duration * 60 * 60 * 24;
+        if (isset($post['start_date']) && isset($post['start_time']) && isset($post['duration_num']) && isset($post['duration_type'])) {
+            $duration = $post['duration_num'];
+            if ($post['duration_type'] == 'hours') {
+                $duration = $duration * 60 * 60;
+            } else {
+                $duration = $duration * 60 * 60 * 24;
+            }
+
+            // get the unix times
+            // 'Jul 23, 2012 02:00 PM'
+            $date = $post['start_date'].' '.strtolower($post['start_time']);
+            $dateParts = explode(' ', $date);
+            $start = 0;
+            if ($dateParts[4] == 'am') {
+                $dt = DateTime::createFromFormat('M d, Y h:i a', $date);
+                $start = $dt->getTimestamp() + ($post['tz_offset'] * -60);
+            } else {
+                $dt = DateTime::createFromFormat('M d, Y h:i A', $date);
+                $start = $dt->getTimestamp() + ($post['tz_offset'] * -60);
+            }
+            $end = $start + $duration;
+
+            // format the values for the API call
+            $post['start'] = date('Y-m-d H:i:s', $start);
+            $post['end'] = date('Y-m-d H:i:s', $end);
+
+            // unset variables
+            unset($post['start_date']);
+            unset($post['start_time']);
+            unset($post['duration_num']);
+            unset($post['duration_type']);
         }
-
-        // get the unix times
-        // 'Jul 23, 2012 02:00 PM'
-        $date = $post['start_date'].' '.strtolower($post['start_time']);
-        $dateParts = explode(' ', $date);
-        $start = 0;
-        if ($dateParts[4] == 'am') {
-            $dt = DateTime::createFromFormat('M d, Y h:i a', $date);
-            $start = $dt->getTimestamp() + ($post['tz_offset'] * -60);
-        } else {
-            $dt = DateTime::createFromFormat('M d, Y h:i A', $date);
-            $start = $dt->getTimestamp() + ($post['tz_offset'] * -60);
-        }
-        $end = $start + $duration;
-
-        // format the values for the API call
-        $post['start'] = date('Y-m-d H:i:s', $start);
-        $post['end'] = date('Y-m-d H:i:s', $end);
-
-        // unset variables
-        unset($post['start_date']);
-        unset($post['start_time']);
-        unset($post['duration_num']);
-        unset($post['duration_type']);
 
         // update the event
-        $verb = 'PUT';
-        $path = ($this->uri->segment(3) !== false) ? 'event/'.$this->uri->segment(3) : 'event';
-        $resp = SnapApi::send($verb, $path, $post);
+        if ($this->uri->segment(3) !== false) {
+            $session_owner = SnapAuth::is_logged_in();
+            if ($session_owner) {
+                // get event session details
+                $verb = 'GET';
+                $path = 'event/'.$this->uri->segment(3);
+                $event_resp = SnapApi::send($verb, $path);
+                $event_result = json_decode($event_resp['response']);
 
-        echo $resp['response'];
+                // get accounts the user belongs to
+                $sessionIdParts = explode('/', $session_owner['user_uri']);
+                $verb = 'GET';
+                $path = 'user/'.$sessionIdParts[3];
+                $user_resp = SnapApi::send($verb, $path);
+                $user_result = json_decode($user_resp['response']);
+
+                // make sure the the user belongs to the event account, and then delete
+                if (in_array($event_result->account, $user_result->accounts) == true) {
+                    $verb = 'PUT';
+                    $path = 'event/'.$this->uri->segment(3);
+                    $resp = SnapApi::send($verb, $path, $post);
+
+                    $this->output->set_status_header($resp['code']);
+                    echo $resp['response'];
+                } else {
+                    $this->output->set_status_header('404');
+                }
+            } else {
+                $this->output->set_status_header('404');
+            }
+        } else {
+            $verb = 'PUT';
+            $path = ($this->uri->segment(3) !== false) ? 'event/'.$this->uri->segment(3) : 'event';
+            $resp = SnapApi::send($verb, $path, $post);
+
+            $this->output->set_status_header($resp['code']);
+            echo $resp['response'];
+        }
     }
 
     public function timezone() {
