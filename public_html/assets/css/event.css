@@ -480,12 +480,12 @@ a.photo-share-email {
 }
 a.button:link, a.button:visited {
 	display: block;
-	width: 100px;
+	width: 120px;
 	margin: 0 auto;
 	padding: 7px 5px 5px 5px;
 	text-align: center;
-	font-size: 16px;
-	line-height: 18px;
+	font-size: 12px;
+	line-height: 14px;
 	color: #fff;
 	text-decoration: none;
 	border-radius: 8px;
@@ -1345,6 +1345,20 @@ a#facebook {
 }
 a#email {
 	background: transparent url('/assets/img/icons/32px/email.png') no-repeat;
+}
+
+
+.photo-cover {
+	color: #666;
+	background-color: #ffcc99;
+}
+.add-cover {
+	background: #66ccff;
+	border: 2px solid #52b0df;
+}
+.remove-cover {
+	background: #ff3300;
+	border: 2px solid #cc3300;
 }
 
 /**** CHECKOUT / CART STUFF ****/

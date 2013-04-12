@@ -206,6 +206,28 @@ function loadPhoto(photoData, options) {
 	}
 	var $domPhoto = $('#photoArea').mustache('event-list-photo', photoData, options);
 
+	// set cover photo
+	var eid = eventID.split("/");
+	$domPhoto.find('div.photo-buttons a.add-cover').filter(filter_position).click(function(){
+		// make an ajax call
+		$.ajax('/ajax/put_event/'+eid[3], {
+			type: 'POST',
+			data: {
+				cover: $(this).data('photo_id')
+			},
+			success: function(){
+				// update the DOM
+				var imgSrc = $('img#event-cover-image').attr('src').split('?');
+				$('img#event-cover-image').attr('src', imgSrc[0]+'?'+new Date().getTime());
+				$.pnotify({
+			    	type: 'success',
+			        title: 'Event Cover Photo Updated',
+			        text: 'Your event cover photo has been successfully updated.'
+		    	});
+			}
+		});
+	});
+
 	// setup the delete per photo
 	$domPhoto.find('div.photo a.photo-delete').filter(filter_position).click(function(){
 		var deleteButton = $(this); // save a reference to that button
