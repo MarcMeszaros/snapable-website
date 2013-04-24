@@ -6,7 +6,7 @@
 class SnapApi {
 
     public static $api_host = API_HOST;
-    public static $api_version = 'private_v1';
+    public static $api_version = API_VERSION;
     private static $api_key = API_KEY;
     private static $api_secret = API_SECRET;
 
