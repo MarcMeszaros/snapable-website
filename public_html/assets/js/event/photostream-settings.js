@@ -75,24 +75,27 @@ $(document).ready(function(){
             }
         });
 
-        // call the blur event on "enter key"
-        $('#event-settings-address').keypress(function(e){
-            if(e.which == 13) {
-                $(this).blur();
+        // show the google map when the address setting is changed
+        $('#event-settings-address').on('keypress blur', null, null, function(event){
+            if (event.type == 'keypress') {
+                $.debounce(3000, false, function(){
+                    updateMap(this);
+                });
+            } else if (event.type == 'blur') {
+                updateMap(this);
             }
         });
 
-        // show the google map when the address setting is changed
-        $('#event-settings-address').blur(function(){
-
+        // update map
+        function updateMap(context) {
             $("#event-settings-address-status").removeClass("good").removeClass("bad").addClass("spinner-16px");
-            $.getJSON("http://where.yahooapis.com/geocode?location=" + encodeURIComponent($(this).val()) + "&flags=J&appid=qrVViDXV34GuS1yV7Mi2ya09wffvK6zlXaN1LFLQ3Q7fIXQI2MVhMtLMKQkDWMPP_g--", function(data)
+            $.getJSON("https://maps.googleapis.com/maps/api/geocode/json?address=" + encodeURIComponent($(context).val()) + "&sensor=false", function(data)
             {
                 // get the lat/lng of the address
-                if ( data['ResultSet']['Error'] == 0 )
+                if ( data['results'][0]['geometry']['location'] )
                 {
-                    var lat = data['ResultSet']['Results'][0]['latitude'];
-                    var lng = data['ResultSet']['Results'][0]['longitude'];
+                    var lat = data['results'][0]['geometry']['location']['lat'];
+                    var lng = data['results'][0]['geometry']['location']['lng'];
                     $("#event-settings-lat").val(lat);
                     $("#event-settings-lng").val(lng);
                     // set spinner to checkmark
@@ -135,7 +138,8 @@ $(document).ready(function(){
                 // display the map on initial load
                 $('#map_canvas-wrap').slideDown();
             });
-        });
+        }
+
         // event time settings
         $("#event-duration-type").change(function() {
             var option = $(this).val();

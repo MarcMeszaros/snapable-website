@@ -39,12 +39,12 @@ function geocoder(address)
 	// do geocode to get addresses lat/lng
 	// set #lat and #lng
 	//$("#event_location_status").removeClass("location_good").removeClass("location_bad").addClass("spinner-16px")
-	$.getJSON("http://where.yahooapis.com/geocode?location=" + encodeURIComponent(address) + "&flags=J&appid=qrVViDXV34GuS1yV7Mi2ya09wffvK6zlXaN1LFLQ3Q7fIXQI2MVhMtLMKQkDWMPP_g--", function(data)
+	$.getJSON("https://maps.googleapis.com/maps/api/geocode/json?address=" + encodeURIComponent(address) + "&sensor=false", function(data)
 	{
-		if ( data['ResultSet']['Error'] == 0 )
+		if ( data['results'][0]['geometry']['location'] )
 		{
-			var lat = data['ResultSet']['Results'][0]['latitude'];
-			var lng = data['ResultSet']['Results'][0]['longitude'];
+			var lat = data['results'][0]['geometry']['location']['lat'];
+			var lng = data['results'][0]['geometry']['location']['lng'];
 			$("#lat").val(lat);
 			$("#lng").val(lng);
 		}
