@@ -46,6 +46,22 @@ Currently, Snapable will only allow JPEG images smaller than 10MB in size to be 
 we would love to hear from you to better understand how these limits affect your usage of Snapable.
 </p>
 
+<h3>Why are you asking for the full event address?</h3>
+<p>
+    We use the full address for users of the mobile apps. To make it easier for guest to find your event,
+    we show "Nearby Events" when the mobile apps first start up. To do this, we use your events address to
+    determine the GPS coordinates of your event which we need for this feature to work. Guests can always 
+    find your event by using the search functionality inside the mobile app.
+</p>
+
+<h3>Why can't I find my event in the "Nearby Event" list or by search?</h3>
+<p>
+    For privacy reasons, your event will only show up in the "Nearby List" or mobile app search results
+    if your event is currently in progress. Don't worry about having an exact start and end time. Your event
+    will still show up a few hours before and after the specified start and end time for guests that arrive early
+    or that leave late.
+</p>
+
 <h2>Billing</h2>
 <h3>Why am I being charged an international transaction fee?</h3>
 <p>
