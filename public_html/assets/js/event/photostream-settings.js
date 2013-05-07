@@ -76,12 +76,15 @@ $(document).ready(function(){
         });
 
         // show the google map when the address setting is changed
+        $('#event-settings-address').on('keypress', null, null, $.debounce(2000, false, function(event){
+            if (event.type == 'keypress' && event.which != 13) {
+                updateMap(this);
+            }
+        }));
+
+        // handle the enter key
         $('#event-settings-address').on('keypress blur', null, null, function(event){
-            if (event.type == 'keypress') {
-                $.debounce(3000, false, function(){
-                    updateMap(this);
-                });
-            } else if (event.type == 'blur') {
+            if (event.type == 'keypress' && event.which == 13 || event.type == 'blur') {
                 updateMap(this);
             }
         });
