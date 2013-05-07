@@ -83,8 +83,8 @@ $(document).ready(function(){
         }));
 
         // handle the enter key
-        $('#event-settings-address').on('keypress blur', null, null, function(event){
-            if (event.type == 'keypress' && event.which == 13 || event.type == 'blur') {
+        $('#event-settings-address').on('keypress', null, null, function(event){
+            if (event.type == 'keypress' && event.which == 13) {
                 updateMap(this);
             }
         });
