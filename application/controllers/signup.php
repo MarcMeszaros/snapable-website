@@ -21,6 +21,7 @@ class Signup extends CI_Controller {
 		'snapable2013' => 7900, // added: 2013-02-04; valid_until: TBD
 		'snapdeal2013' => 7900, // added: 2013-03-26; valid_until: TBD
 		'snaptrial2013' => 7900, // added: 2013-03-14; valid_until: TBD
+		'snapsuprdiscount' => 7800, // added: 2013-06-03; valid_until: TBD
 		'turquoise' => 3000, // added: 2013-01-31; valid_until: TBD
 		'weddingful' => 2000, // added: 2013-01-14; valid_until: TBD
 		'weddingful5986' => 7900, // added: 2013-02-06; valid_until: TBD
@@ -171,18 +172,26 @@ class Signup extends CI_Controller {
 								$params['coupon'] = $coupon;
 							}
 							$resp = SnapApi::send($verb, $path, $params);
+
+							// get the orderID
+							if(isset($resp)) {
+								$response = json_decode($resp['response']);
+								$idParts = explode('/', $response->resource_uri);
+								$orderID = $idParts[3];
+								$this->session->set_flashdata('orderID', $orderID);
+							}
 						}
 
 						// disable the subscribe link sendgrid automatically adds
 						$email_headers = array(
-					        'filters' => array(
-					            'subscriptiontrack' => array(
-					                'settings' => array(
-					                    'enable' => 0,
-					                ),
-					            ),
-					        ),
-					    );
+							'filters' => array(
+								'subscriptiontrack' => array(
+									'settings' => array(
+										'enable' => 0,
+									),
+								),
+							),
+						);
 
 						// signup email
 						//GET TIMEZONE
@@ -303,7 +312,11 @@ class Signup extends CI_Controller {
 					$event_array = $this->account_model->eventDeets($session_data['account_uri']);
 					$this->session->set_userdata('event_deets', $event_array);
 					// redirect to the event
-					redirect('/event/'.$event_array['url']);
+					//redirect('/event/'.$event_array['url']);
+					// redirect to thank you page
+					$this->session->set_flashdata('event', $event_array['url']);
+					$this->session->set_flashdata('amount', $amount_in_cents);
+					redirect('/signup/complete');
 				} else {
 					$raven_client = new Raven_Client(SENTRY_DSN);
 					$raven_client->captureMessage('Unable to process payment. There was no StripeToken or no user session.');
@@ -323,29 +336,30 @@ class Signup extends CI_Controller {
 	
 	function complete()
 	{
-		// get the package from the session and remove the data from the session
-		$package = $this->session->userdata('signup_package');
-		$this->session->unset_userdata('signup_package');
+		// get the data from the flash session
+		$event_url = $this->session->flashdata('event');
+		$orderID = $this->session->flashdata('orderID');
+		$amount = $this->session->flashdata('amount');
 
-		// check for bots
-		foreach ($_POST['re-cap'] as $key => $value) {
-			if ($value != '') {
-				show_error('We think you are a spam bot...', 403);
-			}
+		// put the event_url in the data to pass to the view
+		$data = array();
+		$data['event_url'] = (isset($event_url)) ? $event_url : '';
+
+		// put the share a sale stuff
+		if (isset($orderID) && isset($amount)) {
+			$amount_sale = currency_cents_to_dollars($amount);
+			$url = 'https://shareasale.com/sale.cfm?amount='.$amount_sale.'&tracking='.$orderID.'&transtype=sale&merchantID=43776';
+			$data['url'] = $url;
 		}
 
-		$create_event = $this->signup_model->createEvent($this->input->post('event'), $this->input->post('user'));
+		$head = array(
+            'css' => array('assets/css/loader.css'),
+        );
 
-		if ( $create_event )
-		{
-			// set sessions var to log user in
-			SnapAuth::signin_nohash($_POST['user']['email']);
-	        
-	        // redirect to the package buying part
-	        redirect('/buy/'.$package); 
-		} else {
-			show_error('Unable to create event.', 500);
-		}
+		// load up the view
+		$this->load->view('common/html_header', $head);
+		$this->load->view('signup/complete', $data);
+		$this->load->view('common/html_footer');
 	}
 	
 	
