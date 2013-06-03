@@ -367,3 +367,5 @@ spl_autoload_register(function($class) {
         include_once(APPPATH . 'classes/' . $class . EXT);
     }
 });
+
+date_default_timezone_set('UTC');
