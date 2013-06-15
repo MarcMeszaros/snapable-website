@@ -27,14 +27,53 @@ $(document).ready(function(){
                                 $("#" + href + "Box").html("<ul></ul>");
                                 $.each(json.guests, function(key, val) 
                                 {
-                                    var viewData = { 
+                                    var viewData = {
+                                        id: val.id, 
                                         name: val.name,
-                                        email: val.email,
-                                        type: val.type 
+                                        email: val.email 
                                     };
                                     $("#" + href + "Box ul").mustache("guest-list", viewData);
                                 });
                                 $("#" + href + "Box").fadeIn("normal");
+
+                                // setup the delete per guest
+                                $('#guestlistBox').find('li a.guest-delete').click(function(){
+                                    var deleteButton = $(this); // save a reference to that button
+
+                                    // anonymous function to handle the deletion/keep variable scope
+                                    (function(){
+                                        // setup the notification message and the deletion code
+                                        var notice = $.pnotify({
+                                            type: 'info',
+                                            title: 'Guest Delete',
+                                            text: 'Guest will be deleted. Any photo they have taken<br> will change to \'Anonymous\'. <a class="undo" href="#" style="text-decoration:underline;">Undo</a>',
+                                            after_close: function(pnotify){
+                                                $.ajax('/ajax/delete_guest/'+$(deleteButton).attr('data-guest_id'), {
+                                                    success: function(data, textStatus, jqXHR) {
+                                                        if (jqXHR.status == 200 || jqXHR.status == 204) {
+                                                            // remove it from the ui
+                                                            $(deleteButton).closest('li').remove();
+                                                        }   
+                                                    },
+                                                    error: function(jqXHR, textStatus, errorThrown) {
+                                                        $.pnotify({
+                                                            type: 'error',
+                                                            title: 'Guest Delete',
+                                                            text: 'There was an error deleting the guest.'
+                                                        });
+                                                    }
+                                                });
+                                            }
+                                        });
+                                        // setup the undo to cancel the delete
+                                        notice.find('a.undo').click(function(e){
+                                            delete notice.opts.after_close;
+                                            notice.pnotify_remove();
+                                        });
+                                    })();
+
+                                    return false;
+                                });
                             });
                         });
                     } else {

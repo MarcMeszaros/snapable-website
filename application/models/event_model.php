@@ -18,33 +18,7 @@ Class Event_model extends CI_Model
 		$httpcode = $resp['code'];
 		
 		if ( $httpcode == 200 && $result->meta->total_count > 0 )
-		{
-			/*
-			{
-			    "meta": {
-			        "limit": 50,
-			        "next": null,
-			        "offset": 0,
-			        "previous": null,
-			        "total_count": 1
-			    },
-			    "objects": [
-			        {
-			            "creation_date": "2012-08-01T18:37:05+00:00",
-			            "enabled": true,
-			            "end": "2012-08-01T19:00:00+00:00",
-			            "package": "/private_v1/package/1/",
-			            "pin": "3388",
-			            "resource_uri": "/private_v1/event/4/",
-			            "start": "2012-08-01T15:00:00+00:00",
-			            "title": "Ribfest",
-			            "url": "ribfest",
-			            "user": "/private_v1/user/68/"
-			        }
-			    ]
-			}
-			*/
-			
+		{	
 			foreach ( $result->objects as $e )
 			{
 				// if start and end dates are the same day $display_timedate is in the format "Tue July 31, 7-9 PM"
@@ -540,53 +514,28 @@ Class Event_model extends CI_Model
 			if ( $result->meta->total_count > 0 )
 			{
 				$guestJSON = "";
+				$guests = array();
 				foreach ( $result->objects as $r )
-				{
-					// get type text
-					$verb = 'GET';
-					$path = '/type/';
-					$resp = SnapApi::send($verb, $path);
-
-					$response = $resp['response'];
-					$type_result = json_decode($response);
-					$httpcode = $resp['code'];
-					
-					if ( $httpcode == 200 )
-					{
-						if ( $type_result->meta->total_count > 0 )
-						{
-							foreach ( $type_result->objects as $t )
-							{
-								if ( $t->resource_uri == $r->type )
-								{
-									$type = $t->name;
-								}
-							}
-						} else {
-							$type = "Guest";
-						}
-					} else {
-						$type = "Guest";
-					}
-					
-					$guestJSON .= '{
-						"name": "' . $r->name . '",
-						"email": "' . $r->email . '",
-						"type": "' . $type . '"
-					},';
+				{	
+					$gid = explode('/', $r->resource_uri);
+					$guests[] = array(
+						'id' => $gid[3],
+						'name' => $r->name,
+						'email' => $r->email,
+					);
 				}
 				$guestJSON = substr($guestJSON, 0, -1);
-				$json = '{ 
-					"status": 200,
-					"guests": [ ' . $guestJSON . ']
-				}';
+				$json = array(
+					"status" => 200,
+					"guests" => $guests,
+				);
 			} else {
-				$json = '{ "status": 404 }';
+				$json = array("status"=>404);
 			}
 		} else {
-			$json = '{ "status": 404 }';
+			$json = array("status"=>404);
 		}
-		return $json;
+		return json_encode($json);
 	}
 	
 	

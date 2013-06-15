@@ -1185,9 +1185,13 @@ a#do-send-to-guests:hover {
 	width: 206px;
 	margin: 0 40px;	
 }
-.guest-type {
+.guest-delete {
+	display: inline-block;
+	background: transparent url('/assets/img/x_alt_16x16.png') no-repeat;
 	float: right;
-	width: 206px;
+	width: 16px;
+	height: 16px;
+	text-indent: 10000px;
 }
 
 #tablecards {

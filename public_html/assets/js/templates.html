@@ -232,7 +232,11 @@
 </script>
 
 <script id="guest-list" type="text/html">
-	<li><div class="guest-name">{{name}}</div><div class="guest-email"><a href="mailto:{{email}}">{{email}}</a></div></li>
+	<li>
+		<div class="guest-name">{{name}}</div>
+		<div class="guest-email"><a href="mailto:{{email}}">{{email}}</a></div>
+		<a class="guest-delete" href="#" data-guest_id="{{id}}">Delete</a>
+	</li>
 </script>
 
 <script id="checkout-photo" type="text/html">
