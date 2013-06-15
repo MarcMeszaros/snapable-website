@@ -230,4 +230,45 @@ class Ajax extends CI_Controller {
             $this->output->set_status_header('404');
         }
     }
+
+    public function delete_guest($guest_id)
+    {
+        $session_owner = SnapAuth::is_logged_in();
+        if ($session_owner) {
+            // get photo details
+            $verb = 'GET';
+            $path = 'guest/'.$guest_id;
+            $guest_resp = SnapApi::send($verb, $path);
+            $guest_result = json_decode($guest_resp['response']);
+            $guestEventParts = explode('/', $guest_result->event);
+
+            // get event session details
+            $verb = 'GET';
+            $path = 'event/'.$guestEventParts[3];
+            $event_resp = SnapApi::send($verb, $path);
+            $event_result = json_decode($event_resp['response']);
+
+            // get accounts the user belongs to
+            $sessionIdParts = explode('/', $session_owner['user_uri']);
+            $verb = 'GET';
+            $path = 'user/'.$sessionIdParts[3];
+            $user_resp = SnapApi::send($verb, $path);
+            $user_result = json_decode($user_resp['response']);
+
+            // make sure the the user belongs to the event account, and then delete
+            if (in_array($event_result->account, $user_result->accounts) == true) {
+                // delete user
+                $verb = 'DELETE';
+                $path = 'guest/'.$guest_id;
+                $resp = SnapApi::send($verb, $path);
+                $this->output->set_status_header($resp['code']);
+                
+                echo $resp['response'];
+            } else {
+                $this->output->set_status_header('404');
+            }
+        } else {
+            $this->output->set_status_header('404');
+        }
+    }
 }

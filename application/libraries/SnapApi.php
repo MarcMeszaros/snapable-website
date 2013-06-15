@@ -23,10 +23,10 @@ class SnapApi {
     }
 
     /**
-     * Generate a date timestamp to use for API key signing.
+     * Generate a timestamp to use for API key signing.
      */
-    public static function getDate() {
-        return gmdate("Ymd", time()) . 'T' . gmdate("His", time()) . 'Z';
+    public static function getTimestamp() {
+        return time();
     }
 
     /**
@@ -39,11 +39,11 @@ class SnapApi {
         $path = '/'.self::$api_version.'/'.$path.'/'; // build the path with the API version
 
         $x_snap_nonce = self::getNonce();
-        $x_snap_date = self::getDate();
-        $raw_signature = self::$api_key . $verb . $path . $x_snap_nonce . $x_snap_date;
+        $x_snap_timestamp = self::getTimestamp();
+        $raw_signature = self::$api_key . $verb . $path . $x_snap_nonce . $x_snap_timestamp;
         $signature = hash_hmac('sha1', $raw_signature, self::$api_secret);
         return array(
-            'x_snap_date' => $x_snap_date,
+            'x_snap_timestamp' => $x_snap_timestamp,
             'x_snap_nonce' => $x_snap_nonce,
             'signature' => $signature,
             'api_key' => self::$api_key,
@@ -63,14 +63,14 @@ class SnapApi {
         $path = '/'.self::$api_version.'/'.$path.'/'; // build the path with the API version
 
         $sign_array = array(
-            'snap_key="'.$sign['api_key'].'"',
-            'snap_signature="'.$sign['signature'].'"',
-            'snap_nonce="'.$sign['x_snap_nonce'].'"',
-            'snap_date="'.$sign['x_snap_date'].'"',
+            'key="'.$sign['api_key'].'"',
+            'signature="'.$sign['signature'].'"',
+            'nonce="'.$sign['x_snap_nonce'].'"',
+            'timestamp="'.$sign['x_snap_timestamp'].'"',
         );
         // define default headers
         $defaultHeaders = array(
-            'User-Agent' => 'SnapApi/1.0',
+            'User-Agent' => 'SnapApi/1.1',
             'Accept' => 'application/json',
             'Authorization' => 'SNAP '.implode(',',$sign_array),
         );
