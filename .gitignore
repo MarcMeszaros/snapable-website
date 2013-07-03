@@ -1,5 +1,40 @@
-# ignore OSX files
-.DS_Store
+# Logs and databases #
+######################
+*.log
+logs/*
+#*.sql
+#*.sqlite
 
-# /www/themes/weddingrepublic/images/
+# OS generated files #
+######################
+.DS_Store*
+ehthumbs.db
+Thumbs.db# ignore OS X files
+
+# IDE stuff #
+#############
+nbproject/*
+.project
+.buildpath
+.settings/*
+
+# Build Directory/File #
+########################
+build/*
+docs/build/*
+*\.pyc
+
+# Temp Files #
+##############
 public_html/tmp-files/*
+
+# Testing #
+###########
+.coverage
+trashcat_*_test*
+
+# Vagrant #
+###########
+*.pem
+.vagrant*
+vagrant
