@@ -1216,39 +1216,6 @@ a#do-send-to-guests:hover {
 	border-radius: 10px;
 }
 
-/**** OVERLAY CROPPING PHOTO ****/
-
-#cropInstructions {
-	margin: 20px 40px;
-	padding: 20px;
-	color: #333;
-	background: #f4f4f4;
-	border: 1px solid #e1e1e1;
-	border-radius: 5px;
-	font-size: 16px;
-	line-height: 22px;
-	font-weight: bold;
-	text-align: center;
-}
-
-a#cropDone:link, a#cropDone:visited {
-	display: block;
-	color: #fff;
-	background: #67ac1c;
-	margin: 20px auto;
-	padding: 20px 40px 18px 40px;
-	border-radius: 35px;
-	width: 50px;
-	text-align: center;
-	font-weight: bold;
-	text-decoration: none;
-}
-a#cropDone:hover {
-	background: #528a15;
-}
-
-#cropLoader { display: none; padding: 40px; text-align: center; font-weight: bold; }
-
 /*** PHOTO OVERLAY ****/
 
 .photoOverlay {

@@ -283,7 +283,7 @@ function loadPhoto(photoData, options) {
 
 	// setup the download
 	$domPhoto.find('a.photo-download').filter(filter_position).click(function(){
-		document.location = '/download/photo/'+$(this).attr('data-photo_id');
+		document.location = '/download/photo/'+$(this).attr('data-photo_id')+'/orig';
 		return false; // end execution of the javascript
 	});
 }
