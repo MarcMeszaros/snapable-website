@@ -318,7 +318,7 @@ $(document).ready(function()
 		
 		if ( id == "eventDeets" )
 		{
-			_gaq.push(['trackPageview', 'signup/event_details']);
+			_gaq.push(['_trackPageview', 'signup/event_details']);
 			
 			var title = $("#event_title").val(); // cannot be blank
 			var location = $("#event_location").val(); // cannot be blank
@@ -349,7 +349,7 @@ $(document).ready(function()
 		} 
 		else if ( id == "yourDeets" )
 		{
-			_gaq.push(['trackPageview', 'signup/your_details']);
+			_gaq.push(['_trackPageview', 'signup/your_details']);
 			
 			var fname = $("#user_first_name").val(); // cannot be blank
 			var lname = $("#user_last_name").val(); // cannot be blank
@@ -440,19 +440,19 @@ $(document).ready(function()
 			// prevent the form from submitting with the default action
 			return false;
 		} else {
-			_gaq.push(['trackPageview', 'signup/submit']);
+			_gaq.push(['_trackPageview', 'signup/submit']);
 		}
 
 	});
 	
 	function stripeResponseHandler(status, response) {
 	    if (response.error) {
-	    	_gaq.push(['trackPageview', 'signup/error']);
+	    	_gaq.push(['_trackPageview', 'signup/error']);
 	        // show the errors on the form
 	        //$(".payment-errors").text(response.error.message);
 	        $(".submit-button").removeAttr("disabled");
 	    } else {
-	        _gaq.push(['trackPageview', 'signup/submit']);
+	        _gaq.push(['_trackPageview', 'signup/submit']);
 	        
 	        var form = $("#payment-form");
 	        // token contains id, last4, and card type
