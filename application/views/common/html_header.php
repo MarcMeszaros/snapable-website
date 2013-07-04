@@ -13,8 +13,9 @@
         }
     } ?>
 
-    <link rel="icon" type="image/vnd.microsoft.icon" href="/favicon.ico" /> 
-	<link rel="SHORTCUT ICON" href="/favicon.ico"/> 
+    <link rel="icon" type="image/vnd.microsoft.icon" href="/favicon.ico" />
+    <link href="https://plus.google.com/117772662503157448966" rel="publisher" />
+    <link rel="SHORTCUT ICON" href="/favicon.ico"/>
     
     <link type="text/css" rel="stylesheet" href="//fonts.googleapis.com/css?family=PT+Sans+Caption:400,700" />
     <link type="text/css" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/css/bootstrap.min.css" />

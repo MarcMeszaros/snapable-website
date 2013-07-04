@@ -6,18 +6,18 @@ $(document).ready(function(){
             $('#photo-upload-spinner').removeClass('hide');
         },
         success: function(responseText, statusText, xhr, $form) {
-            // parse the JSON text
-            var result = $.parseJSON(responseText);
-            // show the modal crop box
-            $('#uploadedArea').modal({remote: '/upload/crop/' + result.image + '/'});
-            $('div.modal-backdrop').off('click');
-
             // reset the form
             $('#uploadArea form').resetForm();
 
             // show stuff
             $('#photo-upload-btn').show();
             $('#photo-upload-spinner').addClass('hide');
+
+            $.pnotify({
+                type: 'success',
+                title: 'Image Uploaded',
+                text: 'The image was successfully uploaded.'
+            });
         },
         error: function(){ 
             // show a notification
