@@ -21,3 +21,5 @@ cp -f /vagrant/script/000-snapable.conf /etc/apache2/sites-available/
 a2ensite 000-snapable.conf
 a2dissite default
 service apache2 reload
+cd /vagrant
+composer.phar install

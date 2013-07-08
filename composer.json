@@ -1,0 +1,6 @@
+{
+    "require": {
+        "raven/raven": ">=0.6.0",
+        "stripe/stripe-php": ">=v1.8.0"
+    }
+}
