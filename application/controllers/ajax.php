@@ -103,6 +103,11 @@ class Ajax extends CI_Controller {
 
                 // make sure the the user belongs to the event account, and then delete
                 if (in_array($event_result->account, $user_result->accounts) == true) {
+                    // tweak the data
+                    if (isset($post['cover'])) {
+                        $post['cover'] = '/'.API_VERSION.'/photo/'.$post['cover'].'/';
+                    }
+
                     $verb = 'PUT';
                     $path = 'event/'.$this->uri->segment(3);
                     $resp = SnapApi::send($verb, $path, $post);
