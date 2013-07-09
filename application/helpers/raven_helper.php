@@ -4,9 +4,11 @@
     Raven_Autoloader::register();
 
     // Instantiate a new client with a compatible DSN
-    $raven_client = new Raven_Client(SENTRY_DSN);
+    if (defined('SENTRY_DSN')) {
+        $raven_client = new Raven_Client(SENTRY_DSN);
 
-    // Install error handlers
-    $error_handler = new Raven_ErrorHandler($raven_client);
-    $error_handler->registerExceptionHandler();
-    $error_handler->registerErrorHandler();
+        // Install error handlers
+        $error_handler = new Raven_ErrorHandler($raven_client);
+        $error_handler->registerExceptionHandler();
+        $error_handler->registerErrorHandler();
+    }
