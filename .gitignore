@@ -27,6 +27,7 @@ docs/build/*
 # Temp Files #
 ##############
 public_html/tmp-files/*
+vendor/*
 
 # Testing #
 ###########

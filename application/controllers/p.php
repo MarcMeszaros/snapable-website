@@ -62,8 +62,16 @@ class P extends CI_Controller {
 		$resp = SnapApi::send($verb, $path, $params, $headers);
 
 		$response = $resp['response'];
-		$this->output->set_content_type('jpeg'); // You could also use ".jpeg" which will have the full stop removed before looking in config/mimes.php
-		$this->output->set_output($response);
+		// if the API response is successful return the data
+		if ($resp['code'] == 200) {
+			$this->output->set_content_type('jpeg'); // You could also use ".jpeg" which will have the full stop removed before looking in config/mimes.php
+			$this->output->set_output($response);
+		} 
+		// otherwise return a default blank image
+		else {
+			$this->output->set_content_type('png');
+			$this->output->set_output(file_get_contents(FCPATH.'assets/img/photo_blank.png'));
+		}
 	}
 
 	public function get_photo($photo, $size=null) {
@@ -79,8 +87,16 @@ class P extends CI_Controller {
 		$resp = SnapApi::send($verb, $path, $params, $headers);
 
 		$response = $resp['response'];
-		$this->output->set_content_type('jpeg'); // You could also use ".jpeg" which will have the full stop removed before looking in config/mimes.php
-		$this->output->set_output($response);
+		// if the API response is successful return the data
+		if ($resp['code'] == 200) {
+			$this->output->set_content_type('jpeg'); // You could also use ".jpeg" which will have the full stop removed before looking in config/mimes.php
+			$this->output->set_output($response);
+		} 
+		// otherwise return a default blank image
+		else {
+			$this->output->set_content_type('png');
+			$this->output->set_output(file_get_contents(FCPATH.'assets/img/photo_blank.png'));
+		}
 	}
 
 	public function delete_photo($photo) {
