@@ -87,6 +87,13 @@
                     <div class="value">N/A</div><span class="status hide">&nbsp;</span>
                 </div>
             </div>
+            <div id="metric-revenue" class="panel">
+                <div class="title">Revenue</div>
+                <div class="description">Gross | Net revenue from sales.</div>
+                <div class="value-container">
+                    <div class="value"></div><span class="status hide">&nbsp;</span>
+                </div>
+            </div>
         </div>
     </div>
 

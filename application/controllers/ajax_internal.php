@@ -145,6 +145,52 @@ class Ajax_internal extends CI_Controller {
         echo json_encode($response);
     }
 
+     public function revenue($start=0, $end=null)
+    {
+        $end = (isset($end)) ? $end : time();
+
+        // get events
+        $verb = 'GET';
+        $path = 'order';
+        $params = array(
+            'timestamp__gte' => gmdate('c', $start),
+            'timestamp__lte' => gmdate('c', $end),
+        );
+        $resp = SnapApi::send($verb, $path, $params);
+        $response = json_decode($resp['response'], true);
+        $response_loop = json_decode($resp['response']);
+
+        // get the inital count started
+        $total_count = $response['meta']['total_count'];
+        $gross_amount = 0;
+        $net_amount = 0;
+        foreach ($response['objects'] as $order) {
+            $gross_amount += $order['amount'];
+            $net_amount += ($order['amount'] - $order['amount_refunded']);
+        }
+
+        // start looping through the pages of results
+        while (isset($response_loop->meta->next)) {
+            $resp_loop = SnapAPI::next($response_loop->meta->next);
+            $response_loop = json_decode($resp_loop);
+
+            // add to the average
+            foreach ($response_loop->objects as $order) {
+                $gross_amount += $order['amount'];
+                $net_amount += ($order['amount'] - $order['amount_refunded']);
+            }
+        }
+
+        // the response
+        unset($response['objects']);
+        $response['metrics'] = array(
+            'gross_revenue' => $gross_amount,
+            'net_revenue' => $net_amount,
+        );
+
+        echo json_encode($response);
+    }
+
     public function delete_event()
     {
         $event_id = $this->input->get_post('event_id');
