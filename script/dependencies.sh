@@ -7,7 +7,7 @@ echo "| Install System Packages |"
 echo "+-------------------------+"
 echo ""
 apt-get update
-apt-get -y install ntp git curl apache2-mpm-prefork libapache2-mod-php5 php5-curl php5-gd
+apt-get -y install ntp git curl apache2-mpm-prefork libapache2-mod-php5 php5 php5-cli php5-curl php5-gd
 
 echo ""
 echo "+------------------+"
