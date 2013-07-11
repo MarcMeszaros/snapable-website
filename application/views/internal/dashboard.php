@@ -22,72 +22,49 @@
             </div>
         </div>
         <div id="metrics-panels" class="span12">
-            <div id="metric-signups" class="panel">
+            <div id="metric-signups" class="span3 panel">
                 <div class="title">Total Signups</div>
                 <div class="description">User signup count.</div>
                 <div class="value-container">
                     <div class="value"></div><span class="status hide">&nbsp;</span>
                 </div>
             </div>
-            <!--
-            <div id="metric-uniques" class="panel">
-                <div class="title">Uniques</div>
-                <div class="description">TBD</div>
-                <div class="value-container">
-                    <div class="value">N/A</div><span class="status hide">&nbsp;</span>
-                </div>
-            </div>
-            <div id="metric-signup-conversion" class="panel">
-                <div class="title">Signup Conversion</div>
-                <div class="description">TBD</div>
-                <div class="value-container">
-                    <div class="value">N/A</div><span class="status hide">&nbsp;</span>
-                </div>
-            </div>
-            -->
-            <div id="metric-past-events-count" class="panel">
+            <div id="metric-past-events-count" class="span3 panel">
                 <div class="title">Past Events</div>
                 <div class="description">Events ending in range.</div>
                 <div class="value-container">
                     <div class="value"></div><span class="status hide">&nbsp;</span>
                 </div>
             </div>
-            <div id="metric-past-events-photos" class="panel">
+            <div id="metric-past-events-photos" class="span3 panel">
                 <div class="title">Past Events with Photos</div>
                 <div class="description">Events with at least 1 photo.</div>
                 <div class="value-container">
                     <div class="value"></div><span class="status hide">&nbsp;</span>
                 </div>
             </div>
-            <div id="metric-upcoming-events" class="panel">
+            <div id="metric-upcoming-events" class="span3 panel">
                 <div class="title">Upcoming Events</div>
                 <div class="description">...and current events.</div>
                 <div class="value-container">
                     <div class="value"></div><span class="status hide">&nbsp;</span>
                 </div>
             </div>
-            <div id="metric-photos-count" class="panel">
+            <div id="metric-photos-count" class="span3 panel">
                 <div class="title">Photo Count</div>
                 <div class="description">Photos taken/uploaded.</div>
                 <div class="value-container">
                     <div class="value"></div><span class="status hide">&nbsp;</span>
                 </div>
             </div>
-            <div id="metric-avg-event-photos" class="panel">
+            <div id="metric-avg-event-photos" class="span3 panel">
                 <div class="title">Avg. photos/event</div>
                 <div class="description">Average photos per event.</div>
                 <div class="value-container">
                     <div class="value"></div><span class="status hide">&nbsp;</span>
                 </div>
             </div>
-            <div id="metric-avg-guest-photos" class="panel">
-                <div class="title">Avg. photos/guest</div>
-                <div class="description">Average photos per guest.</div>
-                <div class="value-container">
-                    <div class="value">N/A</div><span class="status hide">&nbsp;</span>
-                </div>
-            </div>
-            <div id="metric-revenue" class="panel">
+            <div id="metric-revenue" class="span3 panel">
                 <div class="title">Revenue</div>
                 <div class="description">Gross | Net revenue from sales.</div>
                 <div class="value-container">
