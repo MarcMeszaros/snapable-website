@@ -30,8 +30,8 @@ class Ajax_internal extends CI_Controller {
         $verb = 'GET';
         $path = 'user';
         $params = array(
-            'creation_date__gte' => gmdate('c', $start),
-            'creation_date__lte' => gmdate('c', $end),
+            'created__gte' => gmdate('c', $start),
+            'created__lte' => gmdate('c', $end),
         );
         $resp = SnapApi::send($verb, $path, $params);
 
