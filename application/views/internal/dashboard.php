@@ -115,7 +115,6 @@
                 <th>Start (UTC)</th>
                 <th>End (UTC)</th>
                 <th>Photos</th>
-                <th>Actions</d>
             </tr>
             <?php
                 foreach ($events as $event) {
@@ -131,12 +130,6 @@
                     echo "\t\t".'<td>'.str_replace('T', ' ', substr($event['start'], 0, -9)).'</td>'.PHP_EOL;
                     echo "\t\t".'<td>'.str_replace('T',' ', substr($event['end'], 0, -9)).'</td>'.PHP_EOL;
                     echo "\t\t".'<td>'.$event['photo_count'].'</td>'.PHP_EOL;
-                    echo "\t\t".'<td>'.PHP_EOL;
-                    echo "\t\t\t".'<form method="post" action="/ajax_internal/delete_event" style="margin: 0;">'.PHP_EOL;
-                    echo "\t\t\t\t".'<input type="hidden" name="event_id" value="'.$eventID[3].'" />'.PHP_EOL;
-                    echo "\t\t\t\t".'<input type="image" src="/assets/img/x_alt_16x16.png" onclick="return sendForm(this, deleteCallback);" />'.PHP_EOL;
-                    echo "\t\t\t".'</form>'.PHP_EOL;
-                    echo "\t\t".'</td>'.PHP_EOL;
                     echo "\t".'</tr>'.PHP_EOL;
                 }
             ?>
