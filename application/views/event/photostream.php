@@ -1,6 +1,9 @@
 <div id="event-top">
 
-	<div id="event-cover-wrap"><img id="event-cover-image" src="/assets/img/FPO/cover-image.jpg" /></div>
+	<?php
+		$eid = explode('/', $eventDeets->resource_uri);
+	?>
+	<div id="event-cover-wrap"><img id="event-cover-image" src="/p/get_event/<?php echo $eid[3]; ?>/150x150" /></div>
 	<div id="event-title-wrap">
 		<h2 id="event-title" class="<?php echo ($ownerLoggedin)? 'edit': '';?>"><?= $eventDeets->title ?></h2>
 		<h1 id="event-address"><?php echo (!$eventDeets->public) ? $eventDeets->addresses[0]->{'address'} : '&nbsp;'; ?></h1>

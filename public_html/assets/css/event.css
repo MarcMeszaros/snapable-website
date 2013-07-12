@@ -13,6 +13,7 @@ body {
 
 #event-top {
 	margin-bottom: 25px;
+	margin-left: 5px;
 }
 #event-top h1,
 #event-top h2,
@@ -66,23 +67,23 @@ body {
 #event-cover-wrap {
 	float: left;
 	display: inline-block;
-	width: 60px;
-	height: 60px;
-	padding: 5px 6px 6px 5px;
-	margin: 40px 10px 0 0;
-	background: transparent url('/assets/img/cover-image-wrap.png') no-repeat;
+	width: 80px;
+	height: 80px;
+	padding: 4px;
+	margin: 27px 10px 0 0;
+	background: #fff;
+	border: 1px solid #ccc;
+	border-radius: 4px;
 }
 #event-cover-image {
 	border: none;
-	width: 60px;
-	height: 60px;
 	overflow: hidden;
 }
 
 #event-title-wrap {
 	float: left;
 	display: inline;
-	width: 550px;
+	width: 750px;
 	padding-top: 25px;
 }
 #event-nav span {

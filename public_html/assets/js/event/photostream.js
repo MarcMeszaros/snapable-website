@@ -81,7 +81,7 @@ $(document).ready(function()
 
 	if ( photo_count > 0 )
 	{
-		$('#event-cover-image').attr('src', '/p/get_event/'+eid[3]+'/60x60'); // load the cover image
+		$('#event-cover-image').attr('src', '/p/get_event/'+eid[3]+'/150x150'); // load the cover image
 
 		// Display Loader
 		$("#photoArea").css({"text-align":"center","font-weight":"bold"}).html("<div id='photoRetriever'>Retrieving Photos...<div class='bar'><span></span></div></div>");
