@@ -232,37 +232,32 @@ function loadPhoto(photoData, options) {
 	$domPhoto.find('div.photo a.photo-delete').filter(filter_position).click(function(){
 		var deleteButton = $(this); // save a reference to that button
 
-		// anonymous function to handle the deletion/keep variable scope
-		(function(){
-			// setup the notification message and the deletion code
-		    var notice = $.pnotify({
-		    	type: 'info',
-		        title: 'Photo Delete',
-		        text: 'Photo will be deleted. <a class="undo" href="#" style="text-decoration:underline;">Undo</a>',
-		        after_close: function(pnotify){
-		        	$.ajax('/ajax/delete_photo/'+$(deleteButton).attr('data-photo_id'), {
-						success: function(data, textStatus, jqXHR) {
-							if (jqXHR.status == 200 || jqXHR.status == 204) {
-								// remove it from the ui
-								$(deleteButton).closest('div.photo').remove();
-							}	
-						},
-						error: function(jqXHR, textStatus, errorThrown) {
-							$.pnotify({
-								type: 'error',
-								title: 'Photo Delete',
-								text: 'There was an error deleting the photo.'
-							});
-						}
-					});
-		        }
-		    });
-		    // setup the undo to cancel the delete
-		    notice.find('a.undo').click(function(e){
-		    	delete notice.opts.after_close;
-		        notice.pnotify_remove();
-		    });
-		})();
+		$.ajax('/ajax/delete_photo/'+$(deleteButton).attr('data-photo_id'), {
+			success: function(data, textStatus, jqXHR) {
+				if (jqXHR.status == 200 || jqXHR.status == 204) {
+					// remove it from the ui
+					$(deleteButton).closest('div.photo').remove();
+					$.pnotify({
+			    		type: 'info',
+			        	title: 'Photo Deleted',
+			        	text: 'The photo was successfully deleted.',
+		        	});
+				} else {
+					$.pnotify({
+			    		type: 'error',
+			        	title: 'Photo Not Deleted',
+			        	text: 'Oops. Something went wrong and we could not delete the photo.',
+		        	});
+				}	
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				$.pnotify({
+					type: 'error',
+					title: 'Photo Delete',
+					text: 'There was an error deleting the photo.'
+				});
+			}
+		});
 
 		return false;
 	});
