@@ -165,27 +165,22 @@
 		Photos must be in jpeg format and a maximum of 10 MB. If your photos are rather large, 
 		please be patient! It might take a few minutes :)
 	</div>
-	<form method="post" action="/upload" enctype="multipart/form-data">
+	<form method="post" action="/upload" enctype="multipart/form-data" class="form-horizontal" style="width:500px;margin:0 auto;">
 		<input type="hidden" name="event" value="<?php echo $eventDeets->resource_uri; ?>" />
 		<?php if(isset($guest_uri)) { ?>
 		<input type="hidden" name="guest" value="<?php echo $guest_uri; ?>" />
 		<?php } ?>
-		<?php if(isset($type_uri)) { ?>
-		<input type="hidden" name="type" value="<?php echo $type_uri; ?>" />
-		<?php } ?>
-		<input type="file" name="file_element" required />
+		<div class="control-group">
+			<label class="control-label" for="upload-caption">Caption</label>
+			<input id="upload-caption" type="text" name="caption"  style="margin-left:-50px;"/>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="upload-file" style="padding-top:0;">File</label>
+			<input id="upload-file" type="file" name="file_element" style="line-height:16px;" required />
+		</div>
 		<input type="submit" id="photo-upload-btn" value="Upload">
 		<img id="photo-upload-spinner" class="hide" src="/assets/img/spinner_blue_sm.gif" />
 	</form>
-</div>
-<div id="uploadedArea" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
-	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    	<div id="cropInstructions">
-    		Move and resize the box to how you'd like the final image to look then click "Done".
-    	</div>
-  	</div>
-	<div class="modal-body"></div>
 </div>
 <div class="clearit">&nbsp;</div>
 

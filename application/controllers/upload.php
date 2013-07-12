@@ -37,9 +37,11 @@ class Upload extends CI_Controller {
 						// The Photo
 						'image' => "@" . $tmp_file,
 					);
-					$params['type'] = (!empty($_POST['type'])) ? $_POST['type'] : '/'.SnapApi::$api_version.'/type/6/';
 					if (!empty($_POST['guest'])) {
 						$params['guest'] = $_POST['guest'];
+					}
+					if (!empty($_POST['caption'])) {
+						$params['caption'] = $_POST['caption'];
 					}
 					$headers = array(
 						'Content-Type' => 'multipart/form-data',
