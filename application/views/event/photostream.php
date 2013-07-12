@@ -88,7 +88,7 @@
 		<ul id="event-nav">
 
 			<li><span>Photostream</span></li>
-			<li><a id="uploadBTN" href="#">Add Photos</a></li>
+			<li><a id="uploadBTN" href="#">Submit Photo</a></li>
 			<?php if ( $eventDeets->photos > 0 )
 			{
 				//echo '<li><a href="/event/' . $eventDeets->url . '/slideshow">Slideshow</a></li>';
