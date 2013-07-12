@@ -146,7 +146,7 @@ class Buy extends CI_Controller {
 				);
 
 				$this->email->initialize(array('mailtype'=>'html'));
-				$this->email->from('team@snapable.com', 'Snapable');
+				$this->email->from('robot@snapable.com', 'Snapable');
 				$this->email->to($session_data['email']);
 				$this->email->subject('Your Snapable order has been processed');
 				$this->email->message($this->load->view('email/receipt_html', $receipt, true));

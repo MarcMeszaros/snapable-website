@@ -178,8 +178,8 @@ class Ajax extends CI_Controller {
         $message = $this->input->post('message', TRUE);
 
         // set some defaults
-        if (!$to) { $to = 'team@snapable.com'; }
-        if (!$from) { $from = 'team@snapable.com'; }
+        if (!$to) { $to = 'support@snapable.com'; }
+        if (!$from) { $from = 'robot@snapable.com'; }
         if (!$subject) { $subject = 'Snapable Automated Email'; }
         if (!$message) { $message = ''; }
 

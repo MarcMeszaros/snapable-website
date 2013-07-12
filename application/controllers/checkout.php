@@ -52,7 +52,7 @@ class Checkout extends CI_Controller {
 			
 			if ( $session_guest['loggedin'] == true )
 			{
-				$email = "unknown@snapable.com";
+				$email = "robot@snapable.com";
 				$guestLoggedin = true;
 				$this->head["loggedInBar"] = "guest"; 
 			} else {
