@@ -6,26 +6,20 @@ class Signup extends CI_Controller {
 	// NOTE: coupon codes need to be lowercase!
 	// (ie. case insensitive input, but all lowercase behind the scenes)
 	public static $COUPON_CODES = array(
-		'201bride' => 3000, // added: 2013-03-26; valid_until: TBD
+		'201bride' => 1000, // added: 2013-03-26; valid_until: TBD
 		'adorii' => 7900, // added: 2013-01-24; valid_until: TBD
 		'adorii5986' => 7900, // added: 2013-02-06; valid_until: TBD
-		'bespoke' => 3000, // added: 2013-01-31; valid_until: TBD
-		'betheman' => 3000, // added: 2013-01-31; valid_until: TBD
-		'bridaldetective' => 3000, // added: 2013-01-31; valid_until: TBD
-		'brokeass' => 3000, // added: 2013-01-31; valid_until: TBD
-		'budgetsavvy' => 3000, // added: 2013-02-26; valid_until: TBD
-		'enfianced' => 3000, // added: 2013-01-31; valid_until: TBD
-		'gbg' => 3000, // added: 2013-01-31; valid_until: TBD
-		'poptastic' => 3000, // added: 2013-01-31; valid_until: TBD
-		'smartbride' => 3000, // added: 2013-01-31; valid_until: TBD
-		'snapable2013' => 7900, // added: 2013-02-04; valid_until: TBD
-		'snapdeal2013' => 7900, // added: 2013-03-26; valid_until: TBD
+		'bespoke' => 1000, // added: 2013-01-31; valid_until: TBD
+		'betheman' => 1000, // added: 2013-01-31; valid_until: TBD
+		'bridaldetective' => 1000, // added: 2013-01-31; valid_until: TBD
+		'budgetsavvy' => 1000, // added: 2013-02-26; valid_until: TBD
+		'enfianced' => 1000, // added: 2013-01-31; valid_until: TBD
+		'gbg' => 1000, // added: 2013-01-31; valid_until: TBD
+		'poptastic' => 1000, // added: 2013-01-31; valid_until: TBD
+		'smartbride' => 1000, // added: 2013-01-31; valid_until: TBD
 		'snaptrial2013' => 7900, // added: 2013-03-14; valid_until: TBD
-		'snapsuprdiscount' => 7800, // added: 2013-06-03; valid_until: TBD
-		'turquoise' => 3000, // added: 2013-01-31; valid_until: TBD
-		'weddingful' => 2000, // added: 2013-01-14; valid_until: TBD
 		'weddingful5986' => 7900, // added: 2013-02-06; valid_until: TBD
-		'wr2013' => 3000, // added: 2013-01-17; valid_until: TBD
+		'wr2013' => 1000, // added: 2013-01-17; valid_until: TBD
 	);
 
 	function __construct()
