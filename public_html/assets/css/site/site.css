@@ -1,35 +1,34 @@
 /*** SETUP ****/
 * { 
-        margin: 0; 
-        padding: 0; 
-        font-family: MyriadPro-Regular, 'Myriad Pro Regular', MyriadPro, 'Myriad Pro', 'PT Sans Caption', Helvetica, Arial, sans-serif;
-        }
+    font-family: Vegur, 'PT Sans Caption', Helvetica, Arial, sans-serif;
+}
 *:focus {
-        outline: none;
-        }
+    outline: none;
+}
+
 .clearit {
-        content: ".";
+    content: ".";
     display: block;
     height: 0;
     clear: both;
     visibility: hidden;
     margin: 0;
     padding: 0;
-        }
+}
         
 /**** STRUCTURE ****/
 body {
-        background: #fff;
-        color: #505050;
-        padding-bottom: 40px;
+    background: #fff;
+    color: #505050;
+    padding-bottom: 40px;
 }
 
 #wrap {
-        width: 600px;
-        margin: 85px auto 40px auto;
+    width: 800px;
+    margin: 55px auto 40px auto;
 }
 #wrap:after {
-        content: ".";
+    content: ".";
     display: block;
     height: 0;
     clear: both;
@@ -76,8 +75,8 @@ body {
 
 .left {
         position: fixed;
-        top: 90px;
-        width: 100px;
+        top: 60px;
+        width: 200px;
         font-size: 14px;
         line-height: 16px;
         font-weight: bold;
@@ -87,9 +86,9 @@ body {
         display: block;
         width: 82px;
         height: 82px;
-        margin: 0 0 50px 0;
+        margin: 0 0 30px 0;
         overflow: hidden;
-        background: transparent url('../home/img/logo-circle.png') no-repeat;
+        background: transparent url('../../home/img/logo-circle.png') no-repeat;
         text-indent: -8000px;
         text-decoration: none;
 }
@@ -97,18 +96,17 @@ body {
 
 .left ul {
         list-style: none;
+        margin-left: 0px;
 }
-.left li {
-        display: block;
-        margin-bottom: 1px;
-}
+
 .left ul a:link, .left ul a:visited {
-        display: block;
-        width: 80px;
-        padding: 8px 8px 6px 8px;
-        color: #6699cc;
-        text-decoration: none;
-        border-radius: 14px;
+    font-size: 1.15em;    
+    display: block;
+    width: 130px;
+    padding: 8px 10px;
+    color: #6699cc;
+    text-decoration: none;
+    border-radius: 14px;
 }
 .left ul a:hover {
         color: #336699;
@@ -136,18 +134,18 @@ body {
         color: #336699;
 }
 a#twitter {
-        background: transparent url('../img/icons/16px/twitter-2.png') no-repeat 8px 5px;
+        background: transparent url('../../img/icons/16px/twitter-2.png') no-repeat 8px 9px;
 }
 a#facebook {
-        background: transparent url('../img/icons/16px/facebook.png') no-repeat 8px 5px;
+        background: transparent url('../../img/icons/16px/facebook.png') no-repeat 8px 9px;
 }
 a#pinterest {
-        background: transparent url('../img/icons/16px/pinterest.png') no-repeat 8px 5px;
+        background: transparent url('../../img/icons/16px/pinterest.png') no-repeat 8px 9px;
 }
 .copyright {
         margin-top: 50px;
         color: #999;
-        font-size: 12px;
+        font-size: 14px;
         font-weight: normal;
 }
 
@@ -156,35 +154,21 @@ a#pinterest {
 .right {
         display: inline;
         float: right;
-        width: 450px;
+        width: 600px;
 }
 
 h1 {
-        font-weight: normal;
-        font-size: 28px;
-        line-height: 30px;
-        margin-bottom: 32px;
+        font-size: 2.5em;
 }
 h2 {
-        font-weight: normal;
-        font-size: 16px;
-        line-height: 22px;
-        margin: 32px 0 16px 0;
+        font-size: 1.75em;
+        margin-top: 2em;
+        margin-bottom: 1em;
 }
 
 h3 {
-        font-size: 16px;
-        line-height: 22px;
-        margin-top: 40px;
-}
-h3:first-child {
-        margin-top: 0;
-}
-
-h4 {
-        font-weight: normal;
-        font-size: 16px;
-        margin-top: 40px;
+        font-size: 1.15em;
+        line-height: 1.3em;
 }
 
 .right ol { padding-left: 20px; }
@@ -219,14 +203,16 @@ p, .right li {
 a#signup-link:link, a#signup-link:visited {
         display: block;
         color: #fff;
+        font-size: 1.15em;
         background: #67ac1c;
-        margin-top: 40px;
-        padding: 20px 40px 18px 40px;
+        margin-top: 20px;
+        padding: 15px 35px;
         border-radius: 35px;
-        width: 120px;
+        width: 80px;
         text-align: center;
         font-weight: bold;
         text-decoration: none;
+        box-shadow: 1px 1px 5px 1px #ccc;
 }
 a#signup-link:hover {
         background: #528a15;

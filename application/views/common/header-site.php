@@ -12,6 +12,8 @@
 				<li><a href="contact"<?php if($active == "contact") { echo ' class="active"'; } ?>>Contact</a></li>
 			</ul>
 			
+			<a id="signup-link" href="/signup" class="ajax" onClick="_gaq.push(['_trackEvent', 'Signups', 'Clicked', 'Help Sidebar']);">Sign up</a>
+
 			<dl>
 				<dt>Connect:</dt>
 				<dd><a href="http://twitter.com/getsnapable" target="_blank" id="twitter">Twitter</a></dd>

@@ -6,7 +6,7 @@ class Site extends CI_Controller {
 	{
     	parent::__construct();
     	$this->head['css'] = array(
-    		'assets/css/site.css',
+    		'assets/css/site/site.css',
     	);
     	$this->head['ext_js'] = array(
     		'//cdnjs.cloudflare.com/ajax/libs/jquery.form/3.20/jquery.form.js',
