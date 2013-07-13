@@ -15,13 +15,12 @@
 	Taken <strong><?= $date ?></strong><br />
 	at “<a href="/event/<?= $event_url ?>"><?= $event_name ?></a>”<br />
 	by <strong><?php echo (strlen($photographer) > 0) ? $photographer:'Anonymous'; ?></strong>
-	<!--
-	<h2>Share:</h2>
 	
-	<a id="twitter" href="#">Tweet</a>
-	<a id="facebook" href="#">Share</a>
-	<a id="email" href="#">Email</a>
-	-->
+	<h2>Share</h2>
+	
+	<a class="photo-share-twitter" target="_blank" onclick="_gaq.push(['_trackEvent', 'Share', 'Twitter', 'Event']);" href="http://twitter.com/share?text=<?= urlencode("Follow the photos on at with @getsnapable") ?>&url=https://snapable.com/p/<?= $this->encrypt->encode($photo_id) ?>">Tweet</a> 
+	<a class="photo-share-facebook" target="_blank" onclick="_gaq.push(['_trackEvent', 'Share', 'Facebook', 'Event']);" href="http://www.facebook.com/sharer.php?u=https://snapable.com/p/<?= $this->encrypt->encode($photo_id) ?>">Share</a>
+	<a class="photo-share-pinterest" target="_blank" onclick="_gaq.push(['_trackEvent', 'Share', 'Pinterest', 'Event']);" href="//pinterest.com/pin/create/button/?url=https%3A%2F%2Fsnapable.com%2Fp%2F<?= $this->encrypt->encode($photo_id) ?>&media=<?= urlencode('https://snapable.com/p/get_photo/'.$this->encrypt->encode($photo_id).'/orig') ?>">Pin it</a>
 	<!-- ONLY APPEARS IF IT"S EITHER THE OWNER OF THE GROUP OR TAKER OF THE PHOTO WHO"S VIEWING -->
 	<!--<h2><a id="photo-download" href="#">Download Photo</a></h2>-->
 	
