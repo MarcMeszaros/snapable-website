@@ -129,19 +129,11 @@
 			</li>
 			<?php endif; ?>
 			
-			<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ): ?>
 			<li>
-				<a id="event-nav-share" href="#">Share</a>
-				<div id="event-nav-menu-share" class="event-nav-menu">
-					<p>Share your album with friends and family.</p>
-					<div class="share">
-						<a class="photo-share-twitter" target="_blank" href="http://twitter.com/share?text=<?= urlencode("Follow the photos on " . date("D M j", $eventDeets->start_epoch) . " at " .  date("g:i a", $eventDeets->start_epoch) . " for " . $eventDeets->title . " with @getsnapable") ?>&url=http://snapable.com/event/<?= $eventDeets->url ?>">Tweet</a> 
-						<a class="photo-share-facebook" target="_blank" href="http://www.facebook.com/sharer.php?u=http://snapable.com/event/<?= $eventDeets->url ?>">Share</a> 
-						<!--<a class="photo-share-email" href="#">Email</a>-->
-					</div>
-				</div>
+				<a class="photo-share-twitter" target="_blank" href="http://twitter.com/share?text=<?= urlencode("Follow the photos on " . date("D M j", $eventDeets->start_epoch) . " at " .  date("g:i a", $eventDeets->start_epoch) . " for " . $eventDeets->title . " with @getsnapable") ?>&url=http://snapable.com/event/<?= $eventDeets->url ?>">Tweet</a> 
+				<a class="photo-share-facebook" target="_blank" href="http://www.facebook.com/sharer.php?u=http://snapable.com/event/<?= $eventDeets->url ?>">Share</a>
+				<a class="photo-share-pinterest" target="_blank" href="//pinterest.com/pin/create/button/?url=https%3A%2F%2Fsnapable.com%2Fp%2F<?= urlencode($eventDeets->url) ?>&media=<?= urlencode('https://snapable.com/p/get_event/'.$eid[3].'/orig') ?>">Pin it</a>
 			</li>
-			<?php endif; ?>
 		</ul>
 	</div>
 
