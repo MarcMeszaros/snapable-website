@@ -272,6 +272,7 @@ function loadPhoto(photoData, options) {
 	  }
 	);
 	$domPhoto.find('div.photo a.photo-enlarge').filter(filter_position).facebox();
+	$domPhoto.find('div.photo a.photo-share').filter(filter_position).facebox();
 
 	// setup the tooltips
 	$domPhoto.find('div.photo .photo-comment').filter(filter_position).tooltip();

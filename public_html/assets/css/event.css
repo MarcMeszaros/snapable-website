@@ -479,7 +479,7 @@ a.photo-share-email {
 
 .photo-buttons {
 	position: absolute;
-	top: 85px;
+	top: 65px;
 	width: 200px;
 	text-align: center;
 }
@@ -1328,9 +1328,12 @@ a#email {
 	color: #666;
 	background-color: #ffcc99;
 }
-.add-cover {
+.add-cover, .share {
 	background: #66ccff;
 	border: 2px solid #52b0df;
+}
+.photo-buttons .share {
+	width: 65px;
 }
 .remove-cover {
 	background: #ff3300;
