@@ -167,6 +167,7 @@ class Ajax extends CI_Controller {
         foreach ($_POST['re-cap'] as $key => $value) {
             if ($value != '') {
                 $this->output->set_status_header(403);
+                Log::i('SPAM BOT', $_POST);
                 return;
             }
         }
@@ -191,6 +192,7 @@ class Ajax extends CI_Controller {
         $this->email->set_alt_message($message);       
         if ($this->email->send()) 
         {
+            $this->output->set_status_header(200);
             echo "success";
         } else {
             $this->output->set_status_header(500);
