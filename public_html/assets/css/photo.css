@@ -67,21 +67,21 @@ a#back:hover {
 
 a.photo-share-twitter, a.photo-share-facebook, a.photo-share-pinterest, a.photo-share-email {
 	display: inline-block;
-	width: 32px;
-	height: 32px;
+	width: 24px;
+	height: 24px;
 	margin-right: 5px;
 	text-indent: -8000px;
 	overflow: hidden;
 }
 a.photo-share-twitter {
-	background: transparent url('/assets/img/icons/32px/twitter-2.png') no-repeat;
+	background: transparent url('/assets/img/icons/24px/twitter-2.png') no-repeat;
 }
 a.photo-share-facebook {
-	background: transparent url('/assets/img/icons/32px/facebook.png') no-repeat;
+	background: transparent url('/assets/img/icons/24px/facebook.png') no-repeat;
 }
 a.photo-share-pinterest {
-	background: transparent url('/assets/img/icons/32px/pinterest.png') no-repeat;
+	background: transparent url('/assets/img/icons/24px/pinterest.png') no-repeat;
 }
 a.photo-share-email {
-	background: transparent url('/assets/img/icons/32px/email.png') no-repeat;
+	background: transparent url('/assets/img/icons/16px/email.png') no-repeat;
 }

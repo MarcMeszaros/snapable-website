@@ -1,6 +1,3 @@
-<script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
-<script type="text/javascript">stLight.options({publisher: "e0bd9da5-9c45-4ad2-b1a3-81ca7d809ede", doNotHash: true, doNotCopy: true, hashAddressBar: false}); </script>
-
 <div id="photo"><img src="/p/get/<?= $photo_id ?>/480x480" width="480" height="480" alt="Photo" /></div>
 
 <div id="details">
@@ -21,11 +18,14 @@
 	
 	<h2>Share</h2>
 	
-	<a class="photo-share-twitter" target="_blank" onclick="_gaq.push(['_trackEvent', 'Share', 'Twitter', 'Photo']);" href="http://twitter.com/share?text=<?= urlencode("Follow the photos on at with @getsnapable") ?>&url=https://snapable.com/p/<?= $this->encrypt->encode($photo_id) ?>">Tweet</a> 
-	<a class="photo-share-facebook" target="_blank" onclick="_gaq.push(['_trackEvent', 'Share', 'Facebook', 'Photo']);" href="http://www.facebook.com/sharer.php?u=https://snapable.com/p/<?= $this->encrypt->encode($photo_id) ?>">Share</a>
-	<a class="photo-share-pinterest" target="_blank" onclick="_gaq.push(['_trackEvent', 'Share', 'Pinterest', 'Photo']);" href="//pinterest.com/pin/create/button/?url=https%3A%2F%2Fsnapable.com%2Fp%2F<?= $this->encrypt->encode($photo_id) ?>&media=<?= urlencode('https://snapable.com/p/get_photo/'.$this->encrypt->encode($photo_id).'/orig') ?>">Pin it</a>
+	<?php if ($caption != '') { ?>
+	<a class="photo-share-twitter" target="_blank" onclick="_gaq.push(['_trackEvent', 'Share', 'Twitter', 'Photo']);" href="//twitter.com/share?text=<?= urlencode($caption . ' via @GetSnapable') ?>&url=https://snapable.com/p/<?= $this->encrypt->encode($photo_id) ?>">Tweet</a> 
+	<?php } else { ?>
+	<a class="photo-share-twitter" target="_blank" onclick="_gaq.push(['_trackEvent', 'Share', 'Twitter', 'Photo']);" href="//twitter.com/share?text=<?= urlencode("Check out this great photo via @GetSnapable") ?>&url=https://snapable.com/p/<?= $this->encrypt->encode($photo_id) ?>">Tweet</a> 
+	<?php } ?>
+	<a class="photo-share-facebook" target="_blank" onclick="_gaq.push(['_trackEvent', 'Share', 'Facebook', 'Photo']);" href="//www.facebook.com/sharer.php?u=https://snapable.com/p/<?= $this->encrypt->encode($photo_id) ?>">Share</a>
+	<a class="photo-share-pinterest" target="_blank" onclick="_gaq.push(['_trackEvent', 'Share', 'Pinterest', 'Photo']);" href="//pinterest.com/pin/create/button/?url=<?= urlencode('https://snapable.com/p/') . $this->encrypt->encode($photo_id) ?>&media=<?= urlencode('https://snapable.com/p/get_photo/'.$this->encrypt->encode($photo_id).'/crop') ?>">Pin it</a>
 
-	
 </div>
 
 <div class="clearit">&nbsp;</div>

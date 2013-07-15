@@ -466,6 +466,30 @@ a.photo-share-pinterest {
 a.photo-share-email {
 	background: transparent url('/assets/img/icons/16px/email.png') no-repeat;
 }
+#details a.photo-share-twitter, 
+#details a.photo-share-facebook, 
+#details a.photo-share-pinterest, 
+#details a.photo-share-email {
+	display: inline-block;
+	width: 24px;
+	height: 24px;
+	margin-right: 5px;
+	text-indent: -8000px;
+	overflow: hidden;
+}
+#details a.photo-share-twitter {
+	background: transparent url('/assets/img/icons/24px/twitter-2.png') no-repeat;
+}
+#details a.photo-share-facebook {
+	background: transparent url('/assets/img/icons/24px/facebook.png') no-repeat;
+}
+#details a.photo-share-pinterest {
+	background: transparent url('/assets/img/icons/24px/pinterest.png') no-repeat;
+}
+#details a.photo-share-email {
+	background: transparent url('/assets/img/icons/24px/email.png') no-repeat;
+}
+
 .photo-overlay h3 {
 	position: absolute;
 	top: 60px;
