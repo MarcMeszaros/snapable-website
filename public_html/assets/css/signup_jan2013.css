@@ -1,22 +1,3 @@
-/*** SETUP ****/
-* { 
-        margin: 0; 
-        padding: 0; 
-        font-family: MyriadPro-Regular, 'Myriad Pro Regular', MyriadPro, 'Myriad Pro', 'PT Sans Caption', Helvetica, Arial, sans-serif;
-        }
-*:focus {
-        outline: none;
-        }
-.clearit {
-        content: ".";
-    display: block;
-    height: 0;
-    clear: both;
-    visibility: hidden;
-    margin: 0;
-    padding: 0;
-        }
-        
 /**** STRUCTURE ****/
 body {
         background: #fff;
@@ -262,7 +243,7 @@ p {
 }
 
 div.ui-datepicker{
- font-size:11px;
+ font-size:14px;
 }
 
 .form-field.field-separated, .small-field.field-separated {
@@ -285,7 +266,7 @@ div.ui-datepicker{
 #user_email { float: left; width: 325px; }
 #event_url { width: 150px; }
 
-#event_url-start { font-size: 12px; padding-top: 4px; padding-right: 5px;}
+#event_url-start { font-size: 14px; padding-top: 4px; padding-right: 5px;}
 
 #event_location_status, #event_url_status, #email_status { float: right; width: 16px; margin-left: 5px; }
 
@@ -304,20 +285,20 @@ div.ui-datepicker{
 }
 
 .form-field label em, .password-field label em {
-  font-size:11px;
+  font-size:14px;
   color:#425357;
 }
 
 .form-field span.info {
   padding:10px 5px 6px 0px;
-  font-size:12px;
+  font-size:14px;
   font-weight:bold;
   color:#425357;
 }
 span.left { float: left; }
 
 .form-field_hint {
-  font-size:11px;
+  font-size:12px;
   line-height:13px;
   color: #526b6d;
   margin: 2px 0;
@@ -398,14 +379,14 @@ hr {
 	text-align: center;
 	padding: 10px 0;
 	border-bottom: 1px dotted #ccc;
-	font-size: 12px;
+	font-size: 14px;
 	line-height: 16px;
 }
 .package li:last-child {
 	border-bottom: none;
 }
 .package li div {
-	font-size: 10px;
+	font-size: 12px;
 }
 .package li strong {
 	color: #ff9900;
@@ -417,23 +398,22 @@ hr {
 	height: 60px;
 	background:  transparent url('/assets/img/package_sm_bx.png') no-repeat left bottom;
 	overflow: hidden;
-	
 	font-size: 64px;
-	line-height: 68px;
+	line-height: 46px;
 	color: #357a9e;
 	font-weight: bold;
 }
 
 .package-promo {
-	font-size: 12px;
+	font-size: 14px;
 	text-align: center;
 	font-weight: normal;
 	margin: 15px 0;
 }
 
 .package-promo input {
-	width: 75px;
-	font-size:12px;
+	width: 100px;
+	font-size:14px;
 	padding:3px;
 	margin-top: 5px;
 	margin-bottom: 10px;
@@ -499,7 +479,7 @@ a.button:hover, #completSignup:hover {
 .field-error {
 	display: none;
 	color: #cc3300;
-	font-size: 12px;
+	font-size: 14px;
 	line-height: 14px;
 }
 .input-error {
