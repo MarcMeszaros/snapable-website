@@ -15,15 +15,15 @@ $(document).ready(function(){
 
             $.pnotify({
                 type: 'success',
-                title: 'Image Uploaded',
-                text: 'The image was successfully uploaded.'
+                title: 'Photo Uploaded',
+                text: 'The photo was successfully uploaded.\nRefresh the page to see your photo in the stream.'
             });
         },
         error: function(){ 
             // show a notification
             $.pnotify({
                 type: 'error',
-                title: 'Image Not Uploaded',
+                title: 'Photo Not Uploaded',
                 text: 'An error occurred while trying to upload your photo. Make sure the selected image is smaller than 10MB and is a JPEG.'
             });
 

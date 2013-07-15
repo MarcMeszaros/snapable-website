@@ -69,27 +69,27 @@ In some cases, you may see an extra charge on your card called 'international tr
 Some banks and payment cards will add the extra fee on top of the amount we charge, so the total you see is slightly higher than what your receipt will say.
 </p>
 
-<h4>Why is this fee being charged?</h4>
+<h3>Why is this fee being charged?</h3>
 <p>
 Snapable is based in Canada, and even though we are charging in USD, 
 some banks and card providers will add an additional charge because our bank is not US based.
 It typically appears to be 1-3% of the receipt total that is added on to the total or charged separately to your card.
 </p>
 
-<h4>Who is getting that money?</h4>
+<h3>Who is getting that money?</h3>
 <p>
 The extra fee is going to the bank itself (who may pass it on to the card provider like VISA, for example), 
 and not to Snapable. We are only getting the exact amount we show in your receipt, and we are not able to tell 
 if the additional fee is being taken (otherwise we could note that in the receipt).
 </p>
 
-<h4>Do you also refund the extra charge?</h4>
+<h3>Do you also refund the extra charge?</h3>
 <p>
     Unfortunately we cannot refund the extra charge at this time. We can only refund the amount we charge your card
     and cannot refund extra charges banks or card providers add to the transaction.
 </p>
 
-<h4>How can I avoid paying it?</h4>
+<h3>How can I avoid paying it?</h3>
 <p>
 Only a relatively small number of banks seem to add this extra charge, although it does appear to be 
 more common than in previous years. If you have cards with a different bank, or from a different provider, 

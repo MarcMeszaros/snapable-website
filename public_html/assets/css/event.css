@@ -13,6 +13,7 @@ body {
 
 #event-top {
 	margin-bottom: 25px;
+	margin-left: 8px;
 }
 #event-top h1,
 #event-top h2,
@@ -66,23 +67,24 @@ body {
 #event-cover-wrap {
 	float: left;
 	display: inline-block;
-	width: 60px;
-	height: 60px;
-	padding: 5px 6px 6px 5px;
-	margin: 40px 10px 0 0;
-	background: transparent url('/assets/img/cover-image-wrap.png') no-repeat;
+	width: 80px;
+	height: 80px;
+	padding: 4px;
+	margin: 27px 10px 0 0;
+	background: #fff;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-shadow: 1px 1px 2px 1px #ccc;
 }
 #event-cover-image {
 	border: none;
-	width: 60px;
-	height: 60px;
 	overflow: hidden;
 }
 
 #event-title-wrap {
 	float: left;
 	display: inline;
-	width: 550px;
+	width: 750px;
 	padding-top: 25px;
 }
 #event-nav span {
@@ -444,7 +446,30 @@ ul.photo-share li {
 #event-nav-menu-share .share {
 	margin: 5px auto;
 }
-a.photo-share-twitter, a.photo-share-facebook, a.photo-share-email {
+a.photo-share-twitter, a.photo-share-facebook, a.photo-share-pinterest, a.photo-share-email {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	margin-right: 5px;
+	text-indent: -8000px;
+	overflow: hidden;
+}
+a.photo-share-twitter {
+	background: transparent url('/assets/img/icons/16px/twitter-2.png') no-repeat;
+}
+a.photo-share-facebook {
+	background: transparent url('/assets/img/icons/16px/facebook.png') no-repeat;
+}
+a.photo-share-pinterest {
+	background: transparent url('/assets/img/icons/16px/pinterest.png') no-repeat;
+}
+a.photo-share-email {
+	background: transparent url('/assets/img/icons/16px/email.png') no-repeat;
+}
+#details a.photo-share-twitter, 
+#details a.photo-share-facebook, 
+#details a.photo-share-pinterest, 
+#details a.photo-share-email {
 	display: inline-block;
 	width: 24px;
 	height: 24px;
@@ -452,15 +477,19 @@ a.photo-share-twitter, a.photo-share-facebook, a.photo-share-email {
 	text-indent: -8000px;
 	overflow: hidden;
 }
-a.photo-share-twitter {
+#details a.photo-share-twitter {
 	background: transparent url('/assets/img/icons/24px/twitter-2.png') no-repeat;
 }
-a.photo-share-facebook {
+#details a.photo-share-facebook {
 	background: transparent url('/assets/img/icons/24px/facebook.png') no-repeat;
 }
-a.photo-share-email {
+#details a.photo-share-pinterest {
+	background: transparent url('/assets/img/icons/24px/pinterest.png') no-repeat;
+}
+#details a.photo-share-email {
 	background: transparent url('/assets/img/icons/24px/email.png') no-repeat;
 }
+
 .photo-overlay h3 {
 	position: absolute;
 	top: 60px;
@@ -474,7 +503,7 @@ a.photo-share-email {
 
 .photo-buttons {
 	position: absolute;
-	top: 85px;
+	top: 65px;
 	width: 200px;
 	text-align: center;
 }
@@ -1323,9 +1352,12 @@ a#email {
 	color: #666;
 	background-color: #ffcc99;
 }
-.add-cover {
+.add-cover, .share {
 	background: #66ccff;
 	border: 2px solid #52b0df;
+}
+.photo-buttons .share {
+	width: 65px;
 }
 .remove-cover {
 	background: #ff3300;

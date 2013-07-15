@@ -2,7 +2,7 @@
 
 <form id="signinWrap" name="signin" action="/event/guests/<?= $eventDeets->url ?>/validate" method="post" data-validate="parsley" novalidate>
 	
-	<h1><?= $eventDeets->title ?> Guest Sign in</h1>
+	<h1><?= $eventDeets->title ?> Sign in</h1>
 	<h2><?= $eventDeets->display_timedate ?></h2>
 	<h2>Are you the organizer? <a href="/account/signin?redirect=<?php echo '/'.$this->uri->uri_string(); ?>">Login here</a>.</h2>
 	
@@ -15,7 +15,7 @@
 	?>
 	
 	<label for="name">Name</label>
-	<input class="text-center" type="text" name="name" placeholder="Anonymous" />
+	<input class="text-center" type="text" name="name" />
 
 	<label for="email">Email Address</label>
 	<input class="text-center" type="email" data-type="email" name="email" required="required" data-required="true" />

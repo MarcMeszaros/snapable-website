@@ -6,11 +6,13 @@
 				<a class="button {{buttonClass}}" href="#{{id}}">{{buttonText}}</a>
 			</div>
 			-->
-			{{#owner}}
 			<div class="photo-buttons">
+				{{#owner}}
 				<a class="button add-cover" href="#" data-photo_id="{{id}}">Set as Cover Photo</a>
+				{{/owner}}
+				<br />
+				<a class="button share photo-share" href="{{url}}" title="Share">Share</a>
 			</div>
-			{{/owner}}
 			<div id="photo-action-container" style="width:{{#owner}}109px{{/owner}}{{^owner}}44px{{/owner}};">
 			<ul id="photo-action">
 				{{#owner}}

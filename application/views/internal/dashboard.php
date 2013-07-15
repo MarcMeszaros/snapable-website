@@ -22,69 +22,53 @@
             </div>
         </div>
         <div id="metrics-panels" class="span12">
-            <div id="metric-signups" class="panel">
+            <div id="metric-signups" class="span3 panel">
                 <div class="title">Total Signups</div>
                 <div class="description">User signup count.</div>
                 <div class="value-container">
-                    <div class="value"></div><span class="status hide">&nbsp;</span>
+                    <div class="value"></div><span class="status hide"></span>
                 </div>
             </div>
-            <!--
-            <div id="metric-uniques" class="panel">
-                <div class="title">Uniques</div>
-                <div class="description">TBD</div>
-                <div class="value-container">
-                    <div class="value">N/A</div><span class="status hide">&nbsp;</span>
-                </div>
-            </div>
-            <div id="metric-signup-conversion" class="panel">
-                <div class="title">Signup Conversion</div>
-                <div class="description">TBD</div>
-                <div class="value-container">
-                    <div class="value">N/A</div><span class="status hide">&nbsp;</span>
-                </div>
-            </div>
-            -->
-            <div id="metric-past-events-count" class="panel">
+            <div id="metric-past-events-count" class="span3 panel">
                 <div class="title">Past Events</div>
                 <div class="description">Events ending in range.</div>
                 <div class="value-container">
-                    <div class="value"></div><span class="status hide">&nbsp;</span>
+                    <div class="value"></div><span class="status hide"></span>
                 </div>
             </div>
-            <div id="metric-past-events-photos" class="panel">
+            <div id="metric-past-events-photos" class="span3 panel">
                 <div class="title">Past Events with Photos</div>
                 <div class="description">Events with at least 1 photo.</div>
                 <div class="value-container">
-                    <div class="value"></div><span class="status hide">&nbsp;</span>
+                    <div class="value"></div><span class="status hide"></span>
                 </div>
             </div>
-            <div id="metric-upcoming-events" class="panel">
+            <div id="metric-upcoming-events" class="span3 panel">
                 <div class="title">Upcoming Events</div>
                 <div class="description">...and current events.</div>
                 <div class="value-container">
-                    <div class="value"></div><span class="status hide">&nbsp;</span>
+                    <div class="value"></div><span class="status hide"></span>
                 </div>
             </div>
-            <div id="metric-photos-count" class="panel">
+            <div id="metric-photos-count" class="span3 panel">
                 <div class="title">Photo Count</div>
                 <div class="description">Photos taken/uploaded.</div>
                 <div class="value-container">
-                    <div class="value"></div><span class="status hide">&nbsp;</span>
+                    <div class="value"></div><span class="status hide"></span>
                 </div>
             </div>
-            <div id="metric-avg-event-photos" class="panel">
+            <div id="metric-avg-event-photos" class="span3 panel">
                 <div class="title">Avg. photos/event</div>
                 <div class="description">Average photos per event.</div>
                 <div class="value-container">
-                    <div class="value"></div><span class="status hide">&nbsp;</span>
+                    <div class="value"></div><span class="status hide"></span>
                 </div>
             </div>
-            <div id="metric-avg-guest-photos" class="panel">
-                <div class="title">Avg. photos/guest</div>
-                <div class="description">Average photos per guest.</div>
+            <div id="metric-revenue" class="span3 panel">
+                <div class="title">Revenue</div>
+                <div class="description">Gross | Net revenue from sales.</div>
                 <div class="value-container">
-                    <div class="value">N/A</div><span class="status hide">&nbsp;</span>
+                    <div class="value"></div><span class="status hide"></span>
                 </div>
             </div>
         </div>
@@ -131,7 +115,6 @@
                 <th>Start (UTC)</th>
                 <th>End (UTC)</th>
                 <th>Photos</th>
-                <th>Actions</d>
             </tr>
             <?php
                 foreach ($events as $event) {
@@ -147,12 +130,6 @@
                     echo "\t\t".'<td>'.str_replace('T', ' ', substr($event['start'], 0, -9)).'</td>'.PHP_EOL;
                     echo "\t\t".'<td>'.str_replace('T',' ', substr($event['end'], 0, -9)).'</td>'.PHP_EOL;
                     echo "\t\t".'<td>'.$event['photo_count'].'</td>'.PHP_EOL;
-                    echo "\t\t".'<td>'.PHP_EOL;
-                    echo "\t\t\t".'<form method="post" action="/ajax_internal/delete_event" style="margin: 0;">'.PHP_EOL;
-                    echo "\t\t\t\t".'<input type="hidden" name="event_id" value="'.$eventID[3].'" />'.PHP_EOL;
-                    echo "\t\t\t\t".'<input type="image" src="/assets/img/x_alt_16x16.png" onclick="return sendForm(this, deleteCallback);" />'.PHP_EOL;
-                    echo "\t\t\t".'</form>'.PHP_EOL;
-                    echo "\t\t".'</td>'.PHP_EOL;
                     echo "\t".'</tr>'.PHP_EOL;
                 }
             ?>

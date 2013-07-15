@@ -23,11 +23,10 @@
 #metrics-panels .panel {
     border: solid 1px #000;
     border-radius: 5px;
-    height: 62px;
+    min-height: 65px;
     display: block;
-    float: left;
-    margin: 5px;
-    padding: 5px;
+    margin: 2px;
+    padding: 4px;
 }
 #metrics-panels .panel .title {
     font-weight: bold;
@@ -39,14 +38,12 @@
     line-height: 0.9em;
 }
 #metrics-panels .panel .value-container {
-    width: 182px;
     margin: 5px auto;
     text-align: center;
     font-weight: bold;
     font-size: 1.4em;
 }
 #metrics-panels .panel .value {
-    width: 150px;
     margin: 0 auto 0 16px;
     display: inline-block;
     text-align: center;

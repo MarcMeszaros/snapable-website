@@ -15,16 +15,17 @@
 	Taken <strong><?= $date ?></strong><br />
 	at “<a href="/event/<?= $event_url ?>"><?= $event_name ?></a>”<br />
 	by <strong><?php echo (strlen($photographer) > 0) ? $photographer:'Anonymous'; ?></strong>
-	<!--
-	<h2>Share:</h2>
 	
-	<a id="twitter" href="#">Tweet</a>
-	<a id="facebook" href="#">Share</a>
-	<a id="email" href="#">Email</a>
-	-->
-	<!-- ONLY APPEARS IF IT"S EITHER THE OWNER OF THE GROUP OR TAKER OF THE PHOTO WHO"S VIEWING -->
-	<!--<h2><a id="photo-download" href="#">Download Photo</a></h2>-->
+	<h2>Share</h2>
 	
+	<?php if ($caption != '') { ?>
+	<a class="photo-share-twitter" target="_blank" onclick="_gaq.push(['_trackEvent', 'Share', 'Twitter', 'Photo']);" href="//twitter.com/share?text=<?= urlencode($caption . ' via @GetSnapable') ?>&url=https://snapable.com/p/<?= $this->encrypt->encode($photo_id) ?>">Tweet</a> 
+	<?php } else { ?>
+	<a class="photo-share-twitter" target="_blank" onclick="_gaq.push(['_trackEvent', 'Share', 'Twitter', 'Photo']);" href="//twitter.com/share?text=<?= urlencode("Check out this great photo via @GetSnapable") ?>&url=https://snapable.com/p/<?= $this->encrypt->encode($photo_id) ?>">Tweet</a> 
+	<?php } ?>
+	<a class="photo-share-facebook" target="_blank" onclick="_gaq.push(['_trackEvent', 'Share', 'Facebook', 'Photo']);" href="//www.facebook.com/sharer.php?u=https://snapable.com/p/<?= $this->encrypt->encode($photo_id) ?>">Share</a>
+	<a class="photo-share-pinterest" target="_blank" onclick="_gaq.push(['_trackEvent', 'Share', 'Pinterest', 'Photo']);" href="//pinterest.com/pin/create/button/?url=<?= urlencode('https://snapable.com/p/') . $this->encrypt->encode($photo_id) ?>&media=<?= urlencode('https://snapable.com/p/get_photo/'.$this->encrypt->encode($photo_id).'/crop') ?>">Pin it</a>
+
 </div>
 
 <div class="clearit">&nbsp;</div>

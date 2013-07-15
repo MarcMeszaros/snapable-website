@@ -5,7 +5,8 @@ class P extends CI_Controller {
 	function __construct()
 	{
     	parent::__construct();    	
-    	//$this->load->model('photo_model','',TRUE);		    	
+    	//$this->load->model('photo_model','',TRUE);
+    	$this->load->library('encrypt');		    	
 	}
 	 
 	public function index()
@@ -25,15 +26,18 @@ class P extends CI_Controller {
 		);
 		
 		$this->load->model('photo_model','',TRUE);
+		if (!is_numeric($photo)) {
+			$photo = $this->encrypt->decode($photo);
+		}
+
 		$photo_deets = json_decode($this->photo_model->deets($photo));
-		
 		$data = array(
 			'photo_id' => $photo,
 			'caption' => $photo_deets->caption,
 			'photographer' => $photo_deets->photographer,
 			'date' => $photo_deets->date,
 			'event_url' => $photo_deets->event_url,
-			'event_name' => $photo_deets->event_name
+			'event_name' => $photo_deets->event_name,
 		);
 		
 		if ( IS_AJAX )
@@ -75,6 +79,10 @@ class P extends CI_Controller {
 	}
 
 	public function get_photo($photo, $size=null) {
+		if (!is_numeric($photo)) {
+			$photo = $this->encrypt->decode($photo);
+		}
+
 		$verb = 'GET';
 		$path = '/photo/' . $photo . '/';
 		$params = array();

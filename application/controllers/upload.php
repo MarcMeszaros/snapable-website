@@ -18,7 +18,6 @@ class Upload extends CI_Controller {
 		{
 			$image = $_FILES['file_element'];
 			$event = $_POST['event'];
-			$type = (!empty($_POST['type'])) ? $_POST['type'] : '/'.SnapApi::$api_version.'/type/6/';
 
 			$img_type = explode('/', $image['type']);
 			$filename = $image['name']; // Get the name of the file (including file extension).
@@ -37,9 +36,11 @@ class Upload extends CI_Controller {
 						// The Photo
 						'image' => "@" . $tmp_file,
 					);
-					$params['type'] = (!empty($_POST['type'])) ? $_POST['type'] : '/'.SnapApi::$api_version.'/type/6/';
 					if (!empty($_POST['guest'])) {
 						$params['guest'] = $_POST['guest'];
+					}
+					if (!empty($_POST['caption'])) {
+						$params['caption'] = $_POST['caption'];
 					}
 					$headers = array(
 						'Content-Type' => 'multipart/form-data',

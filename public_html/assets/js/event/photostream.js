@@ -81,7 +81,7 @@ $(document).ready(function()
 
 	if ( photo_count > 0 )
 	{
-		$('#event-cover-image').attr('src', '/p/get_event/'+eid[3]+'/60x60'); // load the cover image
+		$('#event-cover-image').attr('src', '/p/get_event/'+eid[3]+'/150x150'); // load the cover image
 
 		// Display Loader
 		$("#photoArea").css({"text-align":"center","font-weight":"bold"}).html("<div id='photoRetriever'>Retrieving Photos...<div class='bar'><span></span></div></div>");
@@ -232,37 +232,32 @@ function loadPhoto(photoData, options) {
 	$domPhoto.find('div.photo a.photo-delete').filter(filter_position).click(function(){
 		var deleteButton = $(this); // save a reference to that button
 
-		// anonymous function to handle the deletion/keep variable scope
-		(function(){
-			// setup the notification message and the deletion code
-		    var notice = $.pnotify({
-		    	type: 'info',
-		        title: 'Photo Delete',
-		        text: 'Photo will be deleted. <a class="undo" href="#" style="text-decoration:underline;">Undo</a>',
-		        after_close: function(pnotify){
-		        	$.ajax('/ajax/delete_photo/'+$(deleteButton).attr('data-photo_id'), {
-						success: function(data, textStatus, jqXHR) {
-							if (jqXHR.status == 200 || jqXHR.status == 204) {
-								// remove it from the ui
-								$(deleteButton).closest('div.photo').remove();
-							}	
-						},
-						error: function(jqXHR, textStatus, errorThrown) {
-							$.pnotify({
-								type: 'error',
-								title: 'Photo Delete',
-								text: 'There was an error deleting the photo.'
-							});
-						}
-					});
-		        }
-		    });
-		    // setup the undo to cancel the delete
-		    notice.find('a.undo').click(function(e){
-		    	delete notice.opts.after_close;
-		        notice.pnotify_remove();
-		    });
-		})();
+		$.ajax('/ajax/delete_photo/'+$(deleteButton).attr('data-photo_id'), {
+			success: function(data, textStatus, jqXHR) {
+				if (jqXHR.status == 200 || jqXHR.status == 204) {
+					// remove it from the ui
+					$(deleteButton).closest('div.photo').remove();
+					$.pnotify({
+			    		type: 'info',
+			        	title: 'Photo Deleted',
+			        	text: 'The photo was successfully deleted.',
+		        	});
+				} else {
+					$.pnotify({
+			    		type: 'error',
+			        	title: 'Photo Not Deleted',
+			        	text: 'Oops. Something went wrong and we could not delete the photo.',
+		        	});
+				}	
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				$.pnotify({
+					type: 'error',
+					title: 'Photo Delete',
+					text: 'There was an error deleting the photo.'
+				});
+			}
+		});
 
 		return false;
 	});
@@ -277,6 +272,7 @@ function loadPhoto(photoData, options) {
 	  }
 	);
 	$domPhoto.find('div.photo a.photo-enlarge').filter(filter_position).facebox();
+	$domPhoto.find('div.photo a.photo-share').filter(filter_position).facebox();
 
 	// setup the tooltips
 	$domPhoto.find('div.photo .photo-comment').filter(filter_position).tooltip();

@@ -1,6 +1,9 @@
 <div id="event-top">
 
-	<div id="event-cover-wrap"><img id="event-cover-image" src="/assets/img/FPO/cover-image.jpg" /></div>
+	<?php
+		$eid = explode('/', $eventDeets->resource_uri);
+	?>
+	<div id="event-cover-wrap"><img id="event-cover-image" src="/p/get_event/<?php echo $eid[3]; ?>/150x150" /></div>
 	<div id="event-title-wrap">
 		<h2 id="event-title" class="<?php echo ($ownerLoggedin)? 'edit': '';?>"><?= $eventDeets->title ?></h2>
 		<h1 id="event-address"><?php echo (!$eventDeets->public) ? $eventDeets->addresses[0]->{'address'} : '&nbsp;'; ?></h1>
@@ -88,7 +91,7 @@
 		<ul id="event-nav">
 
 			<li><span>Photostream</span></li>
-			<li><a id="uploadBTN" href="#">Add Photos</a></li>
+			<li><a id="uploadBTN" href="#">Submit Photo</a></li>
 			<?php if ( $eventDeets->photos > 0 )
 			{
 				//echo '<li><a href="/event/' . $eventDeets->url . '/slideshow">Slideshow</a></li>';
@@ -126,19 +129,11 @@
 			</li>
 			<?php endif; ?>
 			
-			<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ): ?>
 			<li>
-				<a id="event-nav-share" href="#">Share</a>
-				<div id="event-nav-menu-share" class="event-nav-menu">
-					<p>Share your album with friends and family.</p>
-					<div class="share">
-						<a class="photo-share-twitter" target="_blank" href="http://twitter.com/share?text=<?= urlencode("Follow the photos on " . date("D M j", $eventDeets->start_epoch) . " at " .  date("g:i a", $eventDeets->start_epoch) . " for " . $eventDeets->title . " with @getsnapable") ?>&url=http://snapable.com/event/<?= $eventDeets->url ?>">Tweet</a> 
-						<a class="photo-share-facebook" target="_blank" href="http://www.facebook.com/sharer.php?u=http://snapable.com/event/<?= $eventDeets->url ?>">Share</a> 
-						<!--<a class="photo-share-email" href="#">Email</a>-->
-					</div>
-				</div>
+				<a class="photo-share-twitter" target="_blank" onclick="_gaq.push(['_trackEvent', 'Share', 'Twitter', 'Event']);" href="//twitter.com/share?text=<?= urlencode("Follow the photos on " . date("D M j", $eventDeets->start_epoch) . " at " .  date("g:i a", $eventDeets->start_epoch) . " for " . $eventDeets->title . " with @GetSnapable") ?>&url=https://snapable.com/event/<?= $eventDeets->url ?>">Tweet</a> 
+				<a class="photo-share-facebook" target="_blank" onclick="_gaq.push(['_trackEvent', 'Share', 'Facebook', 'Event']);" href="//www.facebook.com/sharer.php?u=https://snapable.com/event/<?= $eventDeets->url ?>">Share</a>
+				<a class="photo-share-pinterest" target="_blank" onclick="_gaq.push(['_trackEvent', 'Share', 'Pinterest', 'Event']);" href="//pinterest.com/pin/create/button/?url=https%3A%2F%2Fsnapable.com%2Fp%2F<?= urlencode($eventDeets->url) ?>&media=<?= urlencode('https://snapable.com/p/get_event/'.$eid[3].'/crop') ?>">Pin it</a>
 			</li>
-			<?php endif; ?>
 		</ul>
 	</div>
 
@@ -162,27 +157,22 @@
 		Photos must be in jpeg format and a maximum of 10 MB. If your photos are rather large, 
 		please be patient! It might take a few minutes :)
 	</div>
-	<form method="post" action="/upload" enctype="multipart/form-data">
+	<form method="post" action="/upload" enctype="multipart/form-data" class="form-horizontal" style="width:500px;margin:0 auto;">
 		<input type="hidden" name="event" value="<?php echo $eventDeets->resource_uri; ?>" />
 		<?php if(isset($guest_uri)) { ?>
 		<input type="hidden" name="guest" value="<?php echo $guest_uri; ?>" />
 		<?php } ?>
-		<?php if(isset($type_uri)) { ?>
-		<input type="hidden" name="type" value="<?php echo $type_uri; ?>" />
-		<?php } ?>
-		<input type="file" name="file_element" required />
+		<div class="control-group">
+			<label class="control-label" for="upload-caption">Caption</label>
+			<input id="upload-caption" type="text" name="caption"  style="margin-left:-50px;"/>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="upload-file" style="padding-top:0;">File</label>
+			<input id="upload-file" type="file" name="file_element" style="line-height:16px;" required />
+		</div>
 		<input type="submit" id="photo-upload-btn" value="Upload">
 		<img id="photo-upload-spinner" class="hide" src="/assets/img/spinner_blue_sm.gif" />
 	</form>
-</div>
-<div id="uploadedArea" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
-	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    	<div id="cropInstructions">
-    		Move and resize the box to how you'd like the final image to look then click "Done".
-    	</div>
-  	</div>
-	<div class="modal-body"></div>
 </div>
 <div class="clearit">&nbsp;</div>
 
