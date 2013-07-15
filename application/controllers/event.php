@@ -55,7 +55,6 @@ class Event extends CI_Controller {
 				'assets/js/event/photostream-settings.js',
 				'assets/js/event/photostream-guests.js',
 				'assets/js/event/photostream-addons.js',
-				'assets/js/event/photostream-share.js',
 				'assets/js/event/photostream-upload.js',
 				'assets/js/event/photostream-contact.js',
 			),

@@ -24,7 +24,7 @@ $(document).ready(function(){
             $.pnotify({
                 type: 'error',
                 title: 'Message Not Sent',
-                text: 'An error occurred while trying to send your message. Please email us directly at <a href="mailto:team@snapable.com">team@snapable.com</a>'
+                text: 'An error occurred while trying to send your message. Please email us directly at <a href="mailto:support@snapable.com">support@snapable.com</a>'
             });
         }
     });
