@@ -170,13 +170,19 @@ class Event extends CI_Controller {
 			$eventDeets = json_decode($this->event_model->getEventDetailsFromURL($this->uri->segment(3)));
 			$eventID = explode('/', $eventDeets->event->resource_uri);
 			
+			$redirect_path = '/event/' . $eventDeets->event->url;
+			if (isset($_POST['upload_photo'])) {
+				$redirect_path .= '#upload-photo';
+			}
+
 			// if the pins match
 			if ($eventDeets->event->public || (isset($_POST['pin']) && $_POST['pin'] == $eventDeets->event->pin))
 			{
+				
 				// if the guest already exists
 				if (SnapAuth::guest_signin($_POST['email'], $eventDeets->event->resource_uri))
 				{
-					redirect('/event/' . $eventDeets->event->url);
+					redirect($redirect_path);
 				} else {
 					// if email address is not already a guest add
 					$verb = 'POST';
@@ -185,7 +191,6 @@ class Event extends CI_Controller {
 						"name" => $_POST['name'],
 						"email" => $_POST['email'],
 						"event" => $eventDeets->event->resource_uri,
-						"type" => "/".SnapApi::$api_version."/type/6/",
 					);
 					$resp = SnapApi::send($verb, $path, $params);
 					$response = $resp['response'];
@@ -193,15 +198,15 @@ class Event extends CI_Controller {
 					// the guest was properly created, set the session
 					if ($resp['code'] == 201) {
 						SnapAuth::guest_signin_nonetwork($response);
-						redirect("/event/" . $eventDeets->event->url);
+						redirect($redirect_path);
 					} else {
 						// there was an error creating the guest
-						redirect("/event/" . $eventDeets->event->url . "?error");
+						redirect($redirect_path . "?error");
 					}
 				}
 			} else {
 				// invalid pin
-				redirect("/event/" . $eventDeets->event->url . "?error");
+				redirect($redirect_path . "?error");
 			}
 		} else {
 			show_404();
@@ -272,10 +277,12 @@ class Event extends CI_Controller {
 				'title' => $event_details->event->title . ", via Snapable"
 			);
 
+			$upload_photo = ($this->input->get('upload-photo')) ? true : false;
 			$error = ( isset($_GET['error']) ) ? true:false;
 			$data = array(
 				'url' => $event_details->event->url,
-				'eventDeets' => $event_details->event
+				'eventDeets' => $event_details->event,
+				'upload_photo' => $upload_photo,
 			);
 
 			$this->load->view('common/html_header', $head);

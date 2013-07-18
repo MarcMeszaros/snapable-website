@@ -1,6 +1,11 @@
 <div id="guestSigninTop"></div>
 
 <form id="signinWrap" name="signin" action="/event/guests/<?= $eventDeets->url ?>/validate" method="post" data-validate="parsley" novalidate>
+	<?php 
+	if ( isset($upload_photo)) {
+		echo '<input type="hidden" name="upload_photo" value="1" />';	
+	} 
+	?>
 	
 	<h1><?= $eventDeets->title ?> Sign in</h1>
 	<h2><?= $eventDeets->display_timedate ?></h2>
