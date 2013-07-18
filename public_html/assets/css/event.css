@@ -67,8 +67,8 @@ body {
 #event-cover-wrap {
 	float: left;
 	display: inline-block;
-	width: 80px;
-	height: 80px;
+	width: 110px;
+	height: 110px;
 	padding: 4px;
 	margin: 27px 10px 0 0;
 	background: #fff;
@@ -84,13 +84,30 @@ body {
 #event-title-wrap {
 	float: left;
 	display: inline;
-	width: 670px;
+	width: 640px;
 	padding-top: 25px;
 }
+
+/** Event Social **/
+#event-title-wrap ul#event-social,
+ul#event-social  {
+	margin: 10px 0;
+	list-style: none;
+	line-height: 14px;
+	color: #999;
+}
+#event-social li {
+	display: inline;
+	position: relative;
+	padding: 0;
+}
+
+/** Event Navigation **/
 #event-nav span {
 	padding-bottom: 5px;
 	background: transparent url('/assets/img/down-arrow.png') no-repeat center bottom;
 }
+
 ul#event-nav  {
 	list-style: none;
 	line-height: 14px;
