@@ -94,7 +94,7 @@ class Signup extends CI_Controller {
 		$package = json_decode($resp['response']);
 
 		// set price in cents
-		$amount_in_cents = $package->price;
+		$amount_in_cents = $package->amount;
 
 		// if there is a promo code to process
 		if (isset($_POST) && $_POST['promo-code-applied'] == 1 && isset($_POST['promo-code']))
@@ -133,33 +133,23 @@ class Signup extends CI_Controller {
 					$accountParts = explode('/', $session_data['account_uri']);
 					
 					try {
-						if ($amount_in_cents > 0) {
+						if ($amount_in_cents >= 50) {
 							// get the credit card details submitted by the form
 							$token = $_POST['stripeToken'];
-
-							// create the charge on Stripe's servers - this will charge the user's card
-							$charge = Stripe_Charge::create(array(
-							  'amount' => $amount_in_cents, // amount in cents, again
-							  'currency' => 'usd',
-							  'card' => $token,
-							  'description' => "$" . ($amount_in_cents / 100) . " charge for Snapable event to " . $session_data['email'],
-							));
-							$chargeData = json_decode($charge);
 							
 							// create a Snapable order using the API
 							$verb = 'POST';
 							$path = 'order';
 							$params = array(
-								'total_price' => $amount_in_cents,
+								'amount' => $amount_in_cents,
 								'account' => $session_data['account_uri'],
 								'user' => $session_data['resource_uri'],
-								'paid' => $chargeData->paid,
 								'items' => array(
 									'package' => 2, // the package id
 									'account_addons' => array(), // required field, but empty
 									'event_addons' => array(), // required field, but empty
 								),
-								'payment_gateway_invoice_id' => $chargeData->id,
+								'stripeToken' => $token,
 							);
 							// add the coupon if there was one
 							if (isset($coupon)) {
@@ -175,17 +165,6 @@ class Signup extends CI_Controller {
 								$this->session->set_flashdata('orderID', $orderID);
 							}
 						}
-
-						// disable the subscribe link sendgrid automatically adds
-						$email_headers = array(
-							'filters' => array(
-								'subscriptiontrack' => array(
-									'settings' => array(
-										'enable' => 0,
-									),
-								),
-							),
-						);
 
 						// signup email
 						//GET TIMEZONE
@@ -221,7 +200,6 @@ class Signup extends CI_Controller {
 						$subject = 'Say Cheese, a Snapable Sign-up!';
 
 						$this->email->initialize(array('mailtype'=>'html'));
-						$this->email->set_header('X-SMTPAPI', json_encode($email_headers));
 						$this->email->from('robot@snapable.com', 'Snapable');
 						$this->email->to('team@snapable.com');
 						$this->email->subject($subject);
@@ -246,7 +224,6 @@ class Signup extends CI_Controller {
 
 					    // send the receipt email
 						$this->email->initialize(array('mailtype'=>'html'));
-						$this->email->set_header('X-SMTPAPI', json_encode($email_headers));
 						$this->email->from('support@snapable.com', 'Snapable');
 						$this->email->to($session_data['email']);
 						$this->email->subject('Your Snapable order has been processed');
