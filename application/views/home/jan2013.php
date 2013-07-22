@@ -148,7 +148,7 @@
 	    
 		    <section id="pricing">
 		      <div class="inner">
-		        <h2>Set up your event for just $79 and get started today.</h2>
+		        <h2>Set up your event for just $49 and get started today.</h2>
 		        
 		        <div class="package-big-box-wrap">
 		        	
@@ -168,7 +168,7 @@
 		        	</div>
 		        	
 		        	<div class="package-big-bottom">
-		        		<span class="price">$79</span>
+		        		<span class="price">$49</span>
 		        		<a href="/signup"><img src="/assets/home/img/jan2013/setup_event-sm.png" width="300" height="62" border="0" alt="Setup Your Event" /></a>
 		        		
 		        	</div>
