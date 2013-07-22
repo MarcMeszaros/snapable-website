@@ -239,7 +239,7 @@
         	
 	        	<div class="package-big-bottom">
 	        	
-	        		$<span id="package-amount">79</span>
+	        		$<span id="package-amount"><?= $amount_in_cents/100 ?></span>
 	        		
 	        	</div>
 	        	

@@ -56,6 +56,15 @@ class Signup extends CI_Controller {
 			// TODO: figure out a more elegant way than hardcoding the package name here as fallback
 			$this->session->set_userdata('signup_package', 'standard');
 		}
+
+		// get package details
+		$verb = 'GET';
+		$path = 'package/3'; // standard package
+		$resp = SnapApi::send($verb, $path);
+		$package = json_decode($resp['response']);
+
+		// set price in cents
+		$amount_in_cents = $package->amount;
 		
 		$head = array(
 			'stripe' => true,
@@ -76,7 +85,8 @@ class Signup extends CI_Controller {
 				'assets/js/libs/jquery.timePicker.min.js',
 				'assets/js/signup.js'
 			),
-			'url' => 'blank'	
+			'url' => 'blank',
+			'amount_in_cents' => $amount_in_cents,	
 		);
 		$this->load->view('common/html_header', $head);
 		$this->load->view('signup/signup-jan2013', $head);
@@ -89,7 +99,7 @@ class Signup extends CI_Controller {
 	{
 		// get package details
 		$verb = 'GET';
-		$path = 'package/2'; // standard package
+		$path = 'package/3'; // standard package
 		$resp = SnapApi::send($verb, $path);
 		$package = json_decode($resp['response']);
 
@@ -361,14 +371,12 @@ class Signup extends CI_Controller {
 			if ( array_key_exists($code, self::$COUPON_CODES) )
 			{
 			    // success
-			    echo '{
-			    	"status": 200,
-			    	"value": ' . self::$COUPON_CODES[$code]/100 . '
-			    }';
+			    echo json_encode(array(
+			    	'status' => 200,
+			    	'value' => (self::$COUPON_CODES[$code]/100),
+			    ));
 			} else {
-			    echo '{
-			    	"status": 404
-			    }';
+			    echo json_encode(array('status' => 404));
 			}
 		} else {
 			return 0;

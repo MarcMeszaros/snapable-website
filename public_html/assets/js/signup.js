@@ -281,6 +281,10 @@ $(document).ready(function()
 				{
 					var amount = parseFloat($("#package-amount").html());
 					var discount = parseFloat(json.value);
+					if (discount > amount) {
+						discount = amount;
+					}
+
 					$("#package-amount").html(amount - discount);
 					$("input[name=promo-code-applied]").val(1);
 					$("input[name=promo-code-amount]").val(amount - discount);
