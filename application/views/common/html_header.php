@@ -76,7 +76,7 @@
         </script>
     <?php } ?>
 
-    <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+    <script type="text/javascript" src="/assets/libs/sharethis/buttons.js"></script>
     <script type="text/javascript">stLight.options({publisher: "e0bd9da5-9c45-4ad2-b1a3-81ca7d809ede", doNotHash: true, doNotCopy: true, hashAddressBar: false});</script>
 
     <?php if (isset($js_vars)) { ?>
