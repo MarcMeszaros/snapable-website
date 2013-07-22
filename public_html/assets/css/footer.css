@@ -6,7 +6,6 @@ section#footer {
 	padding: 25px 10px 0 10px;
 	color: #b1b1b1;
 	font-weight: normal;
-	font-size: 14px;
 }
 section#footer:after {
 	content: ".";

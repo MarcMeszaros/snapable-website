@@ -1,6 +1,17 @@
 /* setup default font */
 *, body {
     font-family: Vegur, 'PT Sans Caption', Helvetica, Arial, sans-serif;
+    font-size: 100%;
+}
+
+.clearit {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+    margin: 0;
+    padding: 0;
 }
 
 /* pnotify default */

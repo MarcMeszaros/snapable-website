@@ -6,13 +6,13 @@
 	<div id="event-cover-wrap"><img id="event-cover-image" src="/p/get_event/<?php echo $eid[3]; ?>/150x150" /></div>
 	<div id="event-title-wrap">
 		<h2 id="event-title" class="<?php echo ($ownerLoggedin)? 'edit': '';?>"><?= $eventDeets->title ?></h2>
-		<h1 id="event-address"><?php echo (!$eventDeets->public) ? $eventDeets->addresses[0]->{'address'} : '&nbsp;'; ?></h1>
+		<h1 id="event-address"><?= (!$eventDeets->public && isset($eventDeets->addresses[0]->{'address'})) ? $eventDeets->addresses[0]->{'address'} : '&nbsp;' ?></h1>
 		<h1 id="event-timestamp-start"><?= $eventDeets->human_start ?></span> to <span id="event-timestamp-end"><?= $eventDeets->human_end ?></h1>
 		<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ) { ?>
 		<form id="event-settings">
 			<h3>Edit Your Event Details</h3>
-			<input id="event-settings-lat" name="lat" type="hidden" value="<?php echo $eventDeets->addresses[0]->{'lat'}; ?>"/>
-			<input id="event-settings-lng" name="lng" type="hidden" value="<?php echo $eventDeets->addresses[0]->{'lng'}; ?>"/>
+			<input id="event-settings-lat" name="lat" type="hidden" value="<?= (isset($eventDeets->addresses[0])) ? $eventDeets->addresses[0]->{'lat'} : '0' ?>"/>
+			<input id="event-settings-lng" name="lng" type="hidden" value="<?= (isset($eventDeets->addresses[0])) ? $eventDeets->addresses[0]->{'lng'} : '0' ?>"/>
 			<input id="event-settings-timezone" name="tz_offset" type="hidden" value="<?php echo $eventDeets->tz_offset; ?>"/>
 			<input id="event-settings-start" name="start" type="hidden" value="<?php echo $eventDeets->start_epoch; ?>"/>
 
@@ -74,7 +74,7 @@
 			</div>
 			<div class="small-field">
 				<label for="event-settings-address">Event Location</label>
-				<input id="event-settings-address" name="address" type="text" data-resource-uri="<?php echo $eventDeets->addresses[0]->{'resource_uri'}; ?>" value="<?php echo $eventDeets->addresses[0]->{'address'}; ?>"/><span class="help tooltip"></span><span id="event-settings-address-status" class="status">&nbsp;</span>
+				<input id="event-settings-address" name="address" type="text" data-resource-uri="<?= (isset($eventDeets->addresses[0]->{'resource_uri'})) ? $eventDeets->addresses[0]->{'resource_uri'} : '' ?>" value="<?= (isset($eventDeets->addresses[0]->{'address'})) ? $eventDeets->addresses[0]->{'address'} : '' ?>"/><span class="help tooltip"></span><span id="event-settings-address-status" class="status">&nbsp;</span>
 				<div id="map_canvas-wrap" style="display:none;">
 					<div class="form-field_hint">Tip: Drag the pin to your event address.</div>
 					<div id="map_canvas" style="width:370px; height:280px;"></div>
@@ -88,6 +88,13 @@
 			</div>
 		</form>
 		<?php } ?>
+		<ul id="event-social">
+			<li><span class='st_twitter_hcount' displayText='Tweet' onclick="_gaq.push(['_trackEvent', 'Share', 'Twitter', 'Event']);" st_via='GetSnapable' st_url="https://snapable.com/event/<?= $eventDeets->url ?>" st_title="<?= "Follow the photos on " . date("D M j", $eventDeets->start_epoch) . " at " .  date("g:i a", $eventDeets->start_epoch) . " for " . $eventDeets->title ?>"></span></li>
+			<li><span class='st_facebook_hcount' displayText='Facebook' onclick="_gaq.push(['_trackEvent', 'Share', 'Facebook', 'Event']);" st_url="https://snapable.com/event/<?= $eventDeets->url ?>" st_title="<?= "Follow the photos on " . date("D M j", $eventDeets->start_epoch) . " at " .  date("g:i a", $eventDeets->start_epoch) . " for " . $eventDeets->title ?>"></span></li>
+			<li><span class='st_pinterest_hcount' displayText='Pinterest' onclick="_gaq.push(['_trackEvent', 'Share', 'Pinterest', 'Event']);" st_url="https://snapable.com/event/<?= $eventDeets->url ?>" st_image="<?= 'https://snapable.com/p/get_event/'.$eid[3].'/crop' ?>"></span></li>
+			<li><span class='st_googleplus_hcount' displayText='Google+' onclick="_gaq.push(['_trackEvent', 'Share', 'Google+', 'Event']);" st_url="https://snapable.com/event/<?= $eventDeets->url ?>" st_title="<?= "Follow the photos on " . date("D M j", $eventDeets->start_epoch) . " at " .  date("g:i a", $eventDeets->start_epoch) . " for " . $eventDeets->title ?>"></span></li>
+			<li><span class='st_email_hcount' displayText='Email' onclick="_gaq.push(['_trackEvent', 'Share', 'Email', 'Event']);" st_url="https://snapable.com/event/<?= $eventDeets->url ?>" st_title="<?= "Follow the photos on " . date("D M j", $eventDeets->start_epoch) . " at " .  date("g:i a", $eventDeets->start_epoch) . " for " . $eventDeets->title ?>"></span></li>
+		</ul>
 		<ul id="event-nav">
 
 			<li><span>Photostream</span></li>
@@ -128,13 +135,8 @@
 				</div>
 			</li>
 			<?php endif; ?>
-			
-			<li>
-				<a class="photo-share-twitter" target="_blank" onclick="_gaq.push(['_trackEvent', 'Share', 'Twitter', 'Event']);" href="//twitter.com/share?text=<?= urlencode("Follow the photos on " . date("D M j", $eventDeets->start_epoch) . " at " .  date("g:i a", $eventDeets->start_epoch) . " for " . $eventDeets->title . " with @GetSnapable") ?>&url=https://snapable.com/event/<?= $eventDeets->url ?>">Tweet</a> 
-				<a class="photo-share-facebook" target="_blank" onclick="_gaq.push(['_trackEvent', 'Share', 'Facebook', 'Event']);" href="//www.facebook.com/sharer.php?u=https://snapable.com/event/<?= $eventDeets->url ?>">Share</a>
-				<a class="photo-share-pinterest" target="_blank" onclick="_gaq.push(['_trackEvent', 'Share', 'Pinterest', 'Event']);" href="//pinterest.com/pin/create/button/?url=https%3A%2F%2Fsnapable.com%2Fp%2F<?= urlencode($eventDeets->url) ?>&media=<?= urlencode('https://snapable.com/p/get_event/'.$eid[3].'/crop') ?>">Pin it</a>
-			</li>
 		</ul>
+
 	</div>
 
 	<div id="event-pin" <?php echo ($eventDeets->public) ? 'style="display:none;"':''; ?>>

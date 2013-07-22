@@ -1,11 +1,4 @@
 /*** SETUP ****/
-* { 
-    font-family: Vegur, 'PT Sans Caption', Helvetica, Arial, sans-serif;
-}
-*:focus {
-    outline: none;
-}
-
 .clearit {
     content: ".";
     display: block;

@@ -67,8 +67,8 @@ body {
 #event-cover-wrap {
 	float: left;
 	display: inline-block;
-	width: 80px;
-	height: 80px;
+	width: 110px;
+	height: 110px;
 	padding: 4px;
 	margin: 27px 10px 0 0;
 	background: #fff;
@@ -84,16 +84,32 @@ body {
 #event-title-wrap {
 	float: left;
 	display: inline;
-	width: 750px;
+	width: 640px;
 	padding-top: 25px;
 }
+
+/** Event Social **/
+#event-title-wrap ul#event-social,
+ul#event-social  {
+	margin: 10px 0;
+	list-style: none;
+	line-height: 14px;
+	color: #999;
+}
+#event-social li {
+	display: inline;
+	position: relative;
+	padding: 0;
+}
+
+/** Event Navigation **/
 #event-nav span {
 	padding-bottom: 5px;
 	background: transparent url('/assets/img/down-arrow.png') no-repeat center bottom;
 }
+
 ul#event-nav  {
 	list-style: none;
-	font-size: 12px;
 	line-height: 14px;
 	color: #999;
 }
@@ -148,7 +164,7 @@ ul#event-nav  {
 	display: block;
 	padding: 0;
 	margin-bottom: 5px;
-	font-size: 12px;
+	font-size: 14px;
 	line-height: 16px;
 	border-right: none;
 }
@@ -223,7 +239,7 @@ ul#event-nav  {
 }
 
 #event-settings label {
-	font-size: 12px;
+	font-size: 14px;
 	line-height: 14px;
 	color: #333;
 }
@@ -395,7 +411,7 @@ a.loadMore:hover {
 	-webkit-box-shadow:1px 1px 2px 1px #ccc;
 	box-shadow:1px 1px 2px 1px #ccc;
 	text-align: center;
-	font-size: 12px;
+	font-size: 14px;
 	line-height: 14px;
 	color: #999;
 }
@@ -513,7 +529,7 @@ a.button:link, a.button:visited {
 	margin: 0 auto;
 	padding: 7px 5px 5px 5px;
 	text-align: center;
-	font-size: 12px;
+	font-size: 14px;
 	line-height: 14px;
 	color: #fff;
 	text-decoration: none;
@@ -643,7 +659,7 @@ ul#photo-action li a.photo-download:hover {
 	}
 .filesSmText {
 	margin: 5px 0;
-	font-size: 12px;
+	font-size: 14px;
 	color: #999;
 	font-style: italic;
 }
@@ -813,7 +829,7 @@ Animate the stripes
 /*** TEXT ****/
 
 h1 {
-	font-size: 12px;
+	font-size: 14px;
 	line-height: 14px;
 	color: #666;
 	font-weight: normal;
@@ -890,6 +906,7 @@ h3 {
 /**** GUEST & SLIDESHOW UPLOAD AREA ****/
 #notifyBox, #guestlistBox, #tablecardBox {
 	display: none;
+	overflow-x: hidden;
 }
 
 ul.tabs {
@@ -939,7 +956,7 @@ ul.tabs li.active a { color: #fff; }
 	margin-top: 3px;
 	padding: 20px 0;
 	border-top: 1px solid #3399cc;
-	font-size: 13px;
+	font-size: 14px;
 	line-height: 18px;
 }
 .tab-content a:link, .tab-content a:visited {
@@ -966,7 +983,7 @@ a#guest-link-upload:link, a#guest-link-manual:link, a#guest-link-upload:visited,
 	color: #666;
 	border-radius: 5px;
 	padding:60px 10px 10px 10px;
-	font-size: 12px;
+	font-size: 14px;
 	font-weight: bold;
 	text-align: center;
 	margin: 10px 0;
@@ -1050,7 +1067,7 @@ a#guest-link-upload:hover, a#guest-link-manual:hover {
 	margin: 20px 0;
 	padding-top: 10px;
 	border-top: 1px solid #E3C27C;
-	font-size: 12px;
+	font-size: 14px;
 	line-height: 14px;
 	color: #333;
 }
@@ -1108,14 +1125,15 @@ a#guest-link-upload:hover, a#guest-link-manual:hover {
 	margin-bottom: 10px;
 }
 #notify-message {
-	float: right;
+	float: left;
 	display: inline;
-	width: 560px;
+	width: 640px;
 	padding: 20px;
 	border-radius: 10px;
 	border: 1px solid #ccc;
 	background: #eeeeee;
-	}
+	margin-top: 12px;
+}
 
 #notify-message textarea {
 	display: block;
@@ -1151,7 +1169,7 @@ a.buttonBox:hover {
 #do-notify-wrap {
 	margin: 5px 0;
 	color: #999;
-	font-size: 12px;
+	font-size: 14px;
 	line-height: 16px;
 }
 
@@ -1249,6 +1267,7 @@ a#do-send-to-guests:hover {
 
 .photoOverlay {
 	width: 820px;
+	height: 525px;
 	margin: 10px;
 	padding: 15px;
 	background: #f5fafc;	
@@ -1318,7 +1337,6 @@ a#back:hover {
 	color: #333;
 	margin: 40px 0 20px 0;
 	font-weight: normal;
-	font-family: georgia, times, times new roman, serif;
 	font-style: italic;
 }
 .photoOverlay h2 {

@@ -1,4 +1,9 @@
 $(document).ready(function(){
+    // expand based on anchor
+    if (location.hash == "#upload-photo") {
+        $("#uploadArea").slideToggle("fast");
+    }
+
     // UPLOAD MENU
     $("#uploadBTN").click( function()
     {
@@ -11,9 +16,9 @@ $(document).ready(function(){
                     // of no guest is logged in
                     if (json_guest == false) {
                         if (window.location.pathname.charAt(window.location.pathname.length-1) == '/') {
-                            window.location.pathname = window.location.pathname + 'guest_signin'
+                            window.location.assign(window.location.pathname + 'guest_signin?upload-photo=1')
                         } else {
-                            window.location.pathname = window.location.pathname + '/guest_signin'
+                            window.location.assign(window.location.pathname + '/guest_signin?upload-photo=1')
                         }
                         return false;
                     } else {
