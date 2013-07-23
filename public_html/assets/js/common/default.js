@@ -12,7 +12,7 @@ $.pnotify.defaults.stack = {"dir1": "down", "dir2": "right", "push": "bottom", "
 $(document).ready(function(){
     // defaults
     var spinner_defaults = {
-      lines: 13, // The number of lines to draw
+      lines: 11, // The number of lines to draw
       length: 3, // The length of each line
       width: 2, // The line thickness
       radius: 3, // The radius of the inner circle
@@ -40,5 +40,8 @@ $(document).ready(function(){
         $(this).css('height', box_size+'px');
         // init the spinner
         new Spinner(settings).spin($(this).get(0));
+        // place the spinner in the center of the wrap box
+        $(this).children('.spinner').css('top', (box_size/2)+'px');
+        $(this).children('.spinner').css('left', (box_size/2)+'px');
     });
 });
