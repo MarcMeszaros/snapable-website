@@ -116,12 +116,16 @@ class Signup extends CI_Controller {
 			if (array_key_exists($code, self::$COUPON_CODES)) {
 				$discount = self::$COUPON_CODES[$code];
 				$amount_in_cents = $amount_in_cents - $discount;
+				// fix negative numbers
+				if ($amount_in_cents < 0) {
+					$amount_in_cents = 0;
+				}
 				$coupon = $code;
 			}
 		}
 
 		// USED BY /signup as of Jan 4, 2013
-		if ( isset($_POST) && ($amount_in_cents == 0 || ($amount_in_cents > 0 && isset($_POST['stripeToken']))) )
+		if ( isset($_POST) && ($amount_in_cents == 0 || ($amount_in_cents >= 50 )) )
 		{
 			// Step 1: Setup account/user and log them in	
 			$create_event = $this->signup_model->createEvent($_POST['event'], $_POST['user']);
@@ -143,7 +147,7 @@ class Signup extends CI_Controller {
 					$accountParts = explode('/', $session_data['account_uri']);
 					
 					try {
-						if ($amount_in_cents >= 50) {
+						if ($amount_in_cents >= 50 && isset($_POST['stripeToken'])) {
 							// get the credit card details submitted by the form
 							$token = $_POST['stripeToken'];
 							
@@ -155,7 +159,7 @@ class Signup extends CI_Controller {
 								'account' => $session_data['account_uri'],
 								'user' => $session_data['resource_uri'],
 								'items' => array(
-									'package' => 2, // the package id
+									'package' => 3, // the package id
 									'account_addons' => array(), // required field, but empty
 									'event_addons' => array(), // required field, but empty
 								),
@@ -208,7 +212,6 @@ class Signup extends CI_Controller {
 
 						// SEND SIGN-UP NOTIFICATION EMAIL
 						$subject = 'Say Cheese, a Snapable Sign-up!';
-
 						$this->email->initialize(array('mailtype'=>'html'));
 						$this->email->from('robot@snapable.com', 'Snapable');
 						$this->email->to('team@snapable.com');
@@ -310,7 +313,9 @@ class Signup extends CI_Controller {
 				show_error('Unable to create the event.<br>We\'ve been notified and are looking into the problem.', 500);
 			}
 		} else {
-			show_404();
+			$raven_client = new Raven_Client(SENTRY_DSN);
+			$raven_client->captureMessage('Unable to create event. Invalid price: '.$amount_in_cents);
+			show_error('Unable to create the event. Seems like we couldn\'t calculate the price properly.', 500);
 		}
 	}
 	
