@@ -218,8 +218,10 @@
 					
 					
 					<div class="secureInfo">Your information is secure</div>
-					<input id="completSignup" type="submit" name="submit-button" value="Setup Event ›" />
-					
+					<div>
+						<input id="completSignup" type="submit" name="submit-button" value="Setup Event ›" />
+						<span id="signup-spinner" class="spinner-wrap hide" data-length="8" data-radius="5" data-width="4"></span>
+					</div>
 				</div>
 			
 			</div>

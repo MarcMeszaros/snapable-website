@@ -421,6 +421,8 @@ $(document).ready(function()
 	});
 	
 	$("#payment-form").submit(function(event) {
+		$('#completSignup').hide();
+		$('#signup-spinner').show();
 		// disable the submit button to prevent repeated clicks
 		$('input[name=submit-button]').attr("disabled", "disabled");
 		

@@ -29,3 +29,6 @@ span.spinner-wrap {
     display: inline-block;
     margin: 0;
 }
+span.spinner-wrap.hide {
+    display: none;
+}
