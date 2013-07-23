@@ -23,3 +23,9 @@
 .parsley-error-list {
     color: #cc3300;
 }
+
+/* spinner */
+span.spinner-wrap {
+    display: inline-block;
+    margin: 0;
+}
