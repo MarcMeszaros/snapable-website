@@ -44,7 +44,7 @@
     font-size: 1.4em;
 }
 #metrics-panels .panel .value {
-    margin: 0 auto 0 16px;
+    margin: 0 auto;
     display: inline-block;
     text-align: center;
     font-weight: bold;
