@@ -9,11 +9,14 @@ echo ""
 apt-get update
 apt-get -y install ntp git curl apache2-mpm-prefork libapache2-mod-php5 php5 php5-cli php5-curl php5-gd
 
-echo ""
-echo "+------------------+"
-echo "| Install Composer |"
-echo "+------------------+"
-echo ""
-cd /usr/local/bin
-curl -sS https://getcomposer.org/installer | php
-chmod a+x composer.phar
+# install composer if required
+if [ ! -f /usr/local/bin/composer.phar ]; then
+    echo ""
+    echo "+------------------+"
+    echo "| Install Composer |"
+    echo "+------------------+"
+    echo ""
+    cd /usr/local/bin
+    curl -sS https://getcomposer.org/installer | php
+    chmod a+x composer.phar
+fi
