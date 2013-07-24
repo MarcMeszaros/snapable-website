@@ -8,40 +8,16 @@ $.pnotify.defaults.sticker = false;
 $.pnotify.defaults.closer = false;
 $.pnotify.defaults.stack = {"dir1": "down", "dir2": "right", "push": "bottom", "firstpos1": -1, "firstpos2": -1, "spacing1":0, "spacing2":0};
 
-// init spinner
+// spinner
+$.fn.spin.presets = {
+    tiny: { lines: 9, length: 3, width: 1, radius: 1 }, // 12px = (3*2) + (1*2) + 4
+    small: { lines: 12, length: 3, width: 2, radius: 3 }, // 16px = (3*2) + (3*2) + 4
+    medium: { lines: 12, length: 5, width: 3, radius: 5 }, // 24px = (5*2) + (5*2) + 4
+    large: { lines: 12, length: 7, width: 4, radius: 7 }  // 32px = (7*2) + (7*2) + 4
+}
 $(document).ready(function(){
-    // defaults
-    var spinner_defaults = {
-      lines: 11, // The number of lines to draw
-      length: 3, // The length of each line
-      width: 2, // The line thickness
-      radius: 3, // The radius of the inner circle
-      corners: 1, // Corner roundness (0..1)
-      rotate: 0, // The rotation offset
-      direction: 1, // 1: clockwise, -1: counterclockwise
-      color: '#000', // #rgb or #rrggbb
-      speed: 1, // Rounds per second
-      trail: 60, // Afterglow percentage
-      shadow: false, // Whether to render a shadow
-      hwaccel: false, // Whether to use hardware acceleration
-      className: 'spinner', // The CSS class to assign to the spinner
-      zIndex: 2e9, // The z-index (defaults to 2000000000)
-      top: 'auto', // Top position relative to parent in px
-      left: 'auto' // Left position relative to parent in px
-    };
-
     // add the spinner
     $('span.spinner-wrap').each(function(){
-        var options = $(this).data(); // get data params
-        var settings = $.extend({}, spinner_defaults, options); // override defaults
-        // calculate the wrap dimensions
-        var box_size = (settings.length*2) + (settings.radius*2) + 4; // add a 4px padding
-        $(this).css('width', box_size+'px');
-        $(this).css('height', box_size+'px');
-        // init the spinner
-        new Spinner(settings).spin($(this).get(0));
-        // place the spinner in the center of the wrap box
-        $(this).children('.spinner').css('top', (box_size/2)+'px');
-        $(this).children('.spinner').css('left', (box_size/2)+'px');
+        $(this).spin('small');
     });
 });
