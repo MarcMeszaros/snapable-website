@@ -51,9 +51,6 @@
     font-size: 1.4em;
 }
 
-#metrics-panels .panel span.status.hide {
-    display: none;
-}
 /* Events */
 #events table th,
 #events table td {
