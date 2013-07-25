@@ -1,4 +1,4 @@
-<form action="/signup/setup" method="post" name="signupForm" id="payment-form">
+<form id="payment-form" name="signupForm" action="/signup/setup" method="post" data-validate="parsley" novalidate>
 	<script src="/assets/js/libs/jquery.validate.min.js" type="text/javascript"></script>
 						
 	<div id="wrap">
@@ -36,8 +36,7 @@
 					
 					<div class="form-field field-separated">
 						<label for="event_title">Title</label>
-						<input id="event_title" name="event[title]" size="40" type="text"> 
-						<div class="field-error" id="event_title_error">You must provide a title for your event.</div>
+						<input id="event_title" name="event[title]" size="40" type="text" data-required="true" data-notblank="true" data-error-message="You must provide a title for your event." /> 
 					</div>
 							
 					<div class="small-field">
@@ -71,9 +70,8 @@
 					
 					<div class="form-field">
 						<label for="event_location">Location</label>
-						<span id="event_location_status">&nbsp;</span>
-						<input id="event_location" name="event[location]" size="40" type="text"> 
-						<div class="field-error" id="event_location_error">You must provide a location for your event.</div>
+						<span id="event_location_status"></span>
+						<input id="event_location" name="event[location]" size="40" type="text" data-required="true" data-notblank="true" data-error-message="You must provide a location for your event." /> 
 						<div class="form-field_hint">Example: 255 Bremner Blvd, Toronto, Canada, M5V 3M9</div>
 					</div>
 					
@@ -84,13 +82,13 @@
 					
 					<div class="form-field">
 						<label for="event_url">Pick a custom URL</label>
-						<span id="event_url-start">snapable.com/event/</span><input id="event_url" name="event[url]" type="text" />
-						<span id="event_url_status">&nbsp;</span>
-						<div class="clearit">&nbsp;</div>
+						<span id="event_url-start">snapable.com/event/</span><input id="event_url" name="event[url]" type="text" data-required="true" data-notblank="true" data-error-message="You must provide a unique event url." />
+						<span id="event_url_status"></span>
+						<div class="clearit"></div>
 						<div class="field-error" id="event_url_error">This URL is already in use.</div>
-						<div class="form-field_hint">Example: http://snapable.com/event/<b>my-big-fat-greek-wedding</div>
+						<div class="form-field_hint">Example: https://snapable.com/event/<b>my-big-fat-greek-wedding</div>
 					</div>
-					<div class="clearit">&nbsp;</div>
+					<div class="clearit"></div>
 					
 					<hr />
 					
@@ -105,38 +103,33 @@
 					
 					<div class="form-field field-separated">
 						<label for="user_first_name">First name</label>
-						<input id="user_first_name" name="user[first_name]" size="30" type="text">
-						<div class="field-error" id="user_first_name_error">You must provide a first name.</div>
+						<input id="user_first_name" name="user[first_name]" size="30" type="text" data-required="true" data-notblank="true" data-error-message="You must provide a first name." />
 					</div>
 		    
 					<div class="form-field">
 						<label for="user_last_name">Last name</label>
-						<input id="user_last_name" name="user[last_name]" size="30" type="text">
-						<div class="field-error" id="user_last_name_error">You must provide a last name.</div>
+						<input id="user_last_name" name="user[last_name]" size="30" type="text" data-required="true" data-notblank="true" data-error-message="You must provide a last name." />
 					</div>
 		  
 					<div class="form-field field-separated">
 						<label for="user_email">Email address <em>(you'll use this to sign in)</em></label>
-						<span id="email_status">&nbsp;</span>
-						<input id="user_email" name="user[email]" size="40" type="text">
-						<div class="field-error" id="user_email_error">You must provide a properly formatted email address.</div>
+						<span id="email_status"></span>
+						<input id="user_email" name="user[email]" size="40" type="email" data-required="true" data-notblank="true" data-error-message="You must provide a properly formatted email address." />
 					</div>
 		  
 					<hr />
 		  
 					<div class="password-field field-separated">
 						<label for="user_password">Password<br /><em>(6 characters or longer)</em></label>
-						<input id="user_password" name="user[password]" size="30" type="password">
-						<div class="field-error" id="user_password_error">Error.</div>
+						<input id="user_password" name="user[password]" size="30" type="password" data-required="true" data-notblank="true" data-minlength="6" />
 					</div>
 		      
 					<div class="password-field">
 						<label for="user_password_confirmation">Enter password again<br /><em>(for confirmation)</em></label>
-						<input id="user_password_confirmation" name="user[password_confirmation]" size="30" type="password">
-						<div class="field-error" id="user_password_confirmation_error">Error.</div>
+						<input id="user_password_confirmation" name="user[password_confirmation]" size="30" type="password" data-required="true" data-notblank="true" data-minlength="6" data-equalto="#user_password" />
 					</div>
 		    
-					<div class="clearit">&nbsp;</div>
+					<div class="clearit"></div>
 					
 					<hr />
 					
@@ -161,13 +154,12 @@
 					
 					<div class="form-field field-separated">
 						<label for="name">Name on Card</label>
-						<input type="text" name="name" id="creditcard_name" class="card-name required" />		
-						<div class="field-error" id="creditcard_name_error">You must provide the name on your credit card.</div>	
+						<input type="text" name="name" id="creditcard_name" class="card-name" data-required="true" data-notblank="true" data-error-message="You must provide the name on your credit card." />		
 					</div>
 					
 					<div class="form-field field-separated">
 						<label for="card-number">Card Number</label>
-						<input type="text" name="card-number" id="creditcard_number" class="card-number stripe-sensitive required" />
+						<input type="text" name="card-number" id="creditcard_number" class="card-number stripe-sensitive" data-required="true" data-notblank="true" data-error-message="You must provide a valid credit card number." />
 						<div class="field-error" id="creditcard_number_error">The number you have entered is invalid.</div>
 					</div>
 					
@@ -213,7 +205,7 @@
 					
 					<div class="payment-errors"></div>
 					
-					<div class="clearit">&nbsp;</div>
+					<div class="clearit"></div>
 					<hr />
 					
 					
@@ -260,4 +252,4 @@
 
 </form>
 	
-<div class="clearit">&nbsp;</div>
+<div class="clearit"></div>

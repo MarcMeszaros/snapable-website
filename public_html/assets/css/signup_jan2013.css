@@ -347,10 +347,12 @@ span.left { float: left; }
 	background: transparent url('/assets/img/spinner-sm.gif') no-repeat;
 }
 
-.field-error {
-	display: none;
+.parsley-error-list {
+  display: inline-block;
+  margin-left: 0;
+  list-style: none;
 	color: #cc3300;
-	font-size: 12px;
+	font-size: 14px;
 	line-height: 14px;
 }
 .input-error {
@@ -441,19 +443,18 @@ hr {
 a.button:link, a.button:visited, #completSignup {
 	display: block;
 	width: 210px;
-    padding: 20px;
-    background: #99cc33;
-    border-radius: 30px;
-    border: none;
-    
-    color: #fff;
-    font-size: 20px;
-    line-height: 22px;
-    font-weight: normal;
-    text-decoration: none;
+  padding: 20px;
+  background: #99cc33;
+  border-radius: 30px;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  line-height: 22px;
+  font-weight: normal;
+  text-decoration: none;
 	text-align: center;
-	
 	cursor: pointer;
+  box-shadow: 1px 1px 2px 1px #ccc;
 }
 a.button:hover, #completSignup:hover {
 	background: #669900;

@@ -130,7 +130,7 @@ class Signup extends CI_Controller {
 			// Step 1: Setup account/user and log them in	
 			$create_event = $this->signup_model->createEvent($_POST['event'], $_POST['user']);
 			
-			if ( $create_event )
+			if ( isset($create_event) )
 			{
 				// set sessions var to log user in
 				//SnapAuth::signin_nohash($_POST['user']['email']);
@@ -171,12 +171,18 @@ class Signup extends CI_Controller {
 							}
 							$resp = SnapApi::send($verb, $path, $params);
 
-							// get the orderID
-							if(isset($resp)) {
+							// get the orderID if it's successful
+							if(isset($resp) && $resp['code'] == 201) {
 								$response = json_decode($resp['response']);
 								$idParts = explode('/', $response->resource_uri);
 								$orderID = $idParts[3];
 								$this->session->set_flashdata('orderID', $orderID);
+							} 
+							// can't create order
+							else {
+								$response = json_decode($resp['response']);
+								$raven_client = new Raven_Client(SENTRY_DSN);
+								$raven_client->captureMessage('Unable to process payment. There was a problem with the Credit Card.');
 							}
 						}
 
@@ -271,7 +277,7 @@ class Signup extends CI_Controller {
 						}
 
 						// update the account's package
-						$verb = 'PUT';
+						$verb = 'PATCH';
 						$path = 'account/'.$accountParts[3];
 						$params = array(
 							'package' => $package->resource_uri,
