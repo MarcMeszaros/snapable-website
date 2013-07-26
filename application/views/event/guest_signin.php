@@ -7,7 +7,7 @@
 	} 
 	?>
 	
-	<h1><?= $eventDeets->title ?> Sign in</h1>
+	<h1>Sign in to submit your photo!</h1>
 	<h2><?= $eventDeets->display_timedate ?></h2>
 	<h2>Are you the organizer? <a href="/account/signin?redirect=<?php echo '/'.$this->uri->uri_string(); ?>">Login here</a>.</h2>
 	
