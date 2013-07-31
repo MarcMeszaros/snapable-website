@@ -3,6 +3,13 @@
 # setup apache (first run only)
 if [ ! -f ~/vagrant_bootstrap ]; then
     echo ""
+    echo "+-------------------+"
+    echo "| Update the System |"
+    echo "+-------------------+"
+    echo ""
+    DEBIAN_FRONTEND=noninteractive apt-get -y upgrade
+
+    echo ""
     echo "+---------------+"
     echo "| Setup Apache2 |"
     echo "+---------------+"
