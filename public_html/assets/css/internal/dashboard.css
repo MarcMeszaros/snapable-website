@@ -44,22 +44,13 @@
     font-size: 1.4em;
 }
 #metrics-panels .panel .value {
-    margin: 0 auto 0 16px;
+    margin: 0 auto;
     display: inline-block;
     text-align: center;
     font-weight: bold;
     font-size: 1.4em;
 }
-#metrics-panels .panel span.status {
-    width: 16px;
-    height: 16px;
-    margin: 0;
-    display: inline-block;
-    background: url('/assets/img/spinner_blue_sm.gif') no-repeat right top;
-}
-#metrics-panels .panel span.status.hide {
-    background: none;
-}
+
 /* Events */
 #events table th,
 #events table td {

@@ -51,7 +51,8 @@ class Upload extends CI_Controller {
 					$this->output->set_status_header($resp['code']);
 					echo $resp['response'];
 				} catch (Exception $e) {
-					// TODO handle error
+					$this->output->set_status_header('500');
+					echo json_encode(array("error" => "Something went horribly wrong with the website."));
 				}
 			} else {
 				$this->output->set_status_header('400');
