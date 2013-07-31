@@ -5,6 +5,7 @@ class Event extends CI_Controller {
 	function __construct()
 	{
     	parent::__construct();
+    	$this->load->library('email');
     	$this->load->model('event_model','',TRUE);
 	} 
 	 
