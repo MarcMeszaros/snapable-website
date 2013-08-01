@@ -236,7 +236,11 @@
 	                                                        	} 
 	                                                        	else if ( $display == "email" )
 	                                                        	{
-		                                                        	echo $name . '<b>' . $fromname . ' has sent you this message:</b><br /><br />' . $message;
+                                                                    if (isset($toname) && strlen($toname) > 0) {
+		                                                        	    echo $toname . ', <br /><br /><b>' . $fromname . ' has sent you this message:</b><br /><br />' . $message;
+                                                                    } else {
+                                                                        echo '<b>' . $fromname . ' has sent you this message:</b><br /><br />' . $message;
+                                                                    }
 	                                                        	}
                                                         	}
                                                         	?>

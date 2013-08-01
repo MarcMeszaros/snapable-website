@@ -5,6 +5,7 @@ class Event extends CI_Controller {
 	function __construct()
 	{
     	parent::__construct();
+    	$this->load->library('email');
     	$this->load->model('event_model','',TRUE);
 	} 
 	 
@@ -159,7 +160,7 @@ class Event extends CI_Controller {
 			$data = array(
 				'display' => "inline"
 			);
-			$this->load->view('email/guest_notification', $data);
+			$this->load->view('email/guest_notification_html', $data);
 		} 
 		else if ( $task == "count" && IS_AJAX )
 		{
@@ -238,7 +239,7 @@ class Event extends CI_Controller {
 		} 
 		else if ( $task == "invites" && IS_AJAX )
 		{
-			echo $this->event_model->sendInvite($_POST);
+			$this->event_model->sendInvite($_POST);
 		}
 		else if ( $task == "guest_signin" )
 		{

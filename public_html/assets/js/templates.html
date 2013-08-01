@@ -127,9 +127,8 @@
 </script>
 
 <script id="guest-notifybox" type="text/html">
-	<p>
-		Let your guests know to download Snapable in advance. 
-	</p>
+	<p>Let your guests know to download Snapable in advance.</p>
+	<p><em>Invites will only be sent to guests who have not yet received one already.</em></p>
 	
 	<div id="notify-wrap">	
 		<div id="notify-group">
@@ -237,6 +236,7 @@
 	<li>
 		<div class="guest-name">{{name}}</div>
 		<div class="guest-email"><a href="mailto:{{email}}">{{email}}</a></div>
+		<div class="guest-invited">Invite Sent: {{invited}}</div>
 		<a class="guest-delete" href="#" data-guest_id="{{id}}">Delete</a>
 	</li>
 </script>
