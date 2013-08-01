@@ -25,9 +25,7 @@ $(document).ready(function(){
                             {
                                 // format results and then fadeIn
                                 $("#" + href + "Box").html("<ul></ul>");
-                                $.each(json.guests, function(key, val) 
-                                {
-                                    console.log(val);
+                                $.each(json.guests, function(key, val) {
                                     var viewData = {
                                         id: val.id, 
                                         name: val.name,
