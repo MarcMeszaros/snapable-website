@@ -1229,8 +1229,13 @@ a#do-send-to-guests:hover {
 }
 .guest-email {
 	float: left;
-	width: 206px;
-	margin: 0 40px;	
+	width: 246px;
+	margin: 0 10px;	
+}
+.guest-invited {
+	float: left;
+	width: 90px;
+	margin: 0 20px;	
 }
 .guest-delete {
 	display: inline-block;

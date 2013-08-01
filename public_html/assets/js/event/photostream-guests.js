@@ -27,10 +27,12 @@ $(document).ready(function(){
                                 $("#" + href + "Box").html("<ul></ul>");
                                 $.each(json.guests, function(key, val) 
                                 {
+                                    console.log(val);
                                     var viewData = {
                                         id: val.id, 
                                         name: val.name,
-                                        email: val.email 
+                                        email: val.email,
+                                        invited: (val.invited) ? 'yes': 'no'
                                     };
                                     $("#" + href + "Box ul").mustache("guest-list", viewData);
                                 });

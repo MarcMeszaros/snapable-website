@@ -469,19 +469,36 @@ Class Event_model extends CI_Model
 
 		if ( $httpcode == 200 )
 		{
-			if ( $result->meta->total_count > 0 )
-			{
+			if ( $result->meta->total_count > 0 ) {
 				$guestJSON = "";
 				$guests = array();
-				foreach ( $result->objects as $r )
-				{	
+				foreach ( $result->objects as $r ) {	
 					$gid = explode('/', $r->resource_uri);
 					$guests[] = array(
 						'id' => $gid[3],
 						'name' => $r->name,
 						'email' => $r->email,
+						'invited' => $r->invited,
 					);
 				}
+
+				// start looping through the pages of results
+		        while (isset($response_loop->meta->next)) {
+		            $resp_loop = SnapAPI::next($response_loop->meta->next);
+		            $response_loop = json_decode($resp_loop['response']);
+
+		            // the next non invited person
+		            foreach ($response_loop->objects as $r) {
+		                $gid = explode('/', $r->resource_uri);
+						$guests[] = array(
+							'id' => $gid[3],
+							'name' => $r->name,
+							'email' => $r->email,
+							'invited' => $r->invited,
+						);
+		            }
+		        }
+
 				$guestJSON = substr($guestJSON, 0, -1);
 				$json = array(
 					"status" => 200,
