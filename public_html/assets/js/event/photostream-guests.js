@@ -271,23 +271,27 @@ $(document).ready(function(){
             alert("You haven't supplied a message for your guests.")
         }
         else {
-            $.post("/event/send/invites", { resource_uri:eventID, message:message }, function(data)
-            {
-                if ( data == "sent" )
-                {
+            $.ajax('/event/send/invites', {
+                type: 'POST',
+                data: { resource_uri:eventID, message:message },
+                dataType: 'json',
+                success: function(data, textStatus, jqXHR) {
                     $.pnotify({
                         type: 'success',
                         title: 'Invitations',
                         text: 'Your invitations were successfully sent.'
                     });
-                } else {
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
                     $.pnotify({
                         type: 'error',
                         title: 'Invitations',
                         text: "We weren't able to email your guests the invitations, contact us and we'll be happy to help."
                     });
+                },
+                complete: function(jqXHR, textStatus) {
+                    $("#notify-group").html('<a href="#" id="do-send-to-guests">Send Email(s)</a>');
                 }
-                $("#notify-group").html('<a href="#" id="do-send-to-guests">Send Email(s)</a>');
             });
         }
     });
