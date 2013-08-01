@@ -462,53 +462,43 @@ Class Event_model extends CI_Model
 			'event' => $eventID,
 		);
 		$resp = SnapApi::send($verb, $path, $params);
+		$result = json_decode($resp['response']);
 
-		$response = $resp['response'];
-		$result = json_decode($response);
-		$httpcode = $resp['code'];
+		if ( $resp['code'] == 200 && $result->meta->total_count > 0 ) {
+			$guests = array();
+			foreach ( $result->objects as $r ) {	
+				$gid = explode('/', $r->resource_uri);
+				$guests[] = array(
+					'id' => $gid[3],
+					'name' => $r->name,
+					'email' => $r->email,
+					'invited' => $r->invited,
+				);
+			}
 
-		if ( $httpcode == 200 )
-		{
-			if ( $result->meta->total_count > 0 ) {
-				$guestJSON = "";
-				$guests = array();
-				foreach ( $result->objects as $r ) {	
-					$gid = explode('/', $r->resource_uri);
+			// start looping through the pages of results
+	        while (isset($result->meta->next)) {
+	            $resp = SnapAPI::next($result->meta->next);
+	            $result = json_decode($resp['response']);
+
+	            // the next non invited person
+	            foreach ($result->objects as $r) {
+	                $gid = explode('/', $r->resource_uri);
 					$guests[] = array(
 						'id' => $gid[3],
 						'name' => $r->name,
 						'email' => $r->email,
 						'invited' => $r->invited,
 					);
-				}
+	            }
+	        }
 
-				// start looping through the pages of results
-		        while (isset($response_loop->meta->next)) {
-		            $resp_loop = SnapAPI::next($response_loop->meta->next);
-		            $response_loop = json_decode($resp_loop['response']);
-
-		            // the next non invited person
-		            foreach ($response_loop->objects as $r) {
-		                $gid = explode('/', $r->resource_uri);
-						$guests[] = array(
-							'id' => $gid[3],
-							'name' => $r->name,
-							'email' => $r->email,
-							'invited' => $r->invited,
-						);
-		            }
-		        }
-
-				$guestJSON = substr($guestJSON, 0, -1);
-				$json = array(
-					"status" => 200,
-					"guests" => $guests,
-				);
-			} else {
-				$json = array("status"=>404);
-			}
+			$json = array(
+				"status" => 200,
+				"guests" => $guests,
+			);
 		} else {
-			$json = array("status"=>404);
+			$json = array("status" => 404);
 		}
 		return json_encode($json);
 	}
