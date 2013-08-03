@@ -3,7 +3,7 @@
 	<?php
 		$eid = explode('/', $eventDeets->resource_uri);
 	?>
-	<div id="event-cover-wrap"><img id="event-cover-image" src="/p/get_event/<?php echo $eid[3]; ?>/150x150" /></div>
+	<img id="event-cover-image" src="/p/get_event/<?php echo $eid[3]; ?>/150x150" />
 	<div id="event-title-wrap">
 		<h2 id="event-title" class="<?php echo ($ownerLoggedin)? 'edit': '';?>"><?= $eventDeets->title ?></h2>
 		<h1 id="event-address"><?= (!$eventDeets->public && isset($eventDeets->addresses[0]->{'address'})) ? $eventDeets->addresses[0]->{'address'} : '&nbsp;' ?></h1>
@@ -77,7 +77,7 @@
 				<input id="event-settings-address" name="address" type="text" data-resource-uri="<?= (isset($eventDeets->addresses[0]->{'resource_uri'})) ? $eventDeets->addresses[0]->{'resource_uri'} : '' ?>" value="<?= (isset($eventDeets->addresses[0]->{'address'})) ? $eventDeets->addresses[0]->{'address'} : '' ?>"/><span class="help tooltip"></span><span id="event-settings-address-status" class="status">&nbsp;</span>
 				<div id="map_canvas-wrap" style="display:none;">
 					<div class="form-field_hint">Tip: Drag the pin to your event address.</div>
-					<div id="map_canvas" style="width:370px; height:280px;"></div>
+					<div id="map_canvas" style="width:330px; height:280px;"></div>
 				</div>
 			</div>
 			<div class="small-field">
@@ -121,13 +121,9 @@
 			<li>
 				<a id="event-nav-privacy" href="#">Privacy</a>
 				<div id="event-nav-menu-privacy" class="event-nav-menu">
-					
 					<p>Choose private if you prefer photos are only viewed by guests. Public events will be visible to anyone who visits your album.</p>
-					
 					<ul>
 						<li><input type="radio" name="privacy-setting" value="0" <?php echo (!$eventDeets->public) ? 'checked="checked"':''; ?>/> Private</li>
-					</ul>
-					<ul>
 						<li><input type="radio" name="privacy-setting" value="1" <?php echo ($eventDeets->public) ? 'checked="checked"':''; ?>/> Public</li>
 					</ul>
 					<div class="clearit">&nbsp;</div>

@@ -376,6 +376,7 @@ hr {
 
 .package ul {
 	list-style: none;
+  padding-left: 0;
 }
 .package li {
 	text-align: center;
@@ -396,7 +397,7 @@ hr {
 
 .package-big-bottom {
 	text-align: center;
-	padding: 20px 0 7px 0;
+	padding: 7px 0 7px 0;
 	height: 60px;
 	background:  transparent url('/assets/img/package_sm_bx.png') no-repeat left bottom;
 	overflow: hidden;
@@ -426,7 +427,7 @@ hr {
 }
 #apply-promo-code {
 	display: inline-block;
-	width: 40px;
+	width: 56px;
 	background: #99cc33;
 	color: #fff;
 	margin-left: 5px;

@@ -65,6 +65,9 @@ body {
 
 /** Event Cover **/
 #event-cover-wrap {
+
+}
+#event-cover-image {
 	float: left;
 	display: inline-block;
 	width: 110px;
@@ -75,10 +78,6 @@ body {
 	border: 1px solid #ccc;
 	border-radius: 4px;
 	box-shadow: 1px 1px 2px 1px #ccc;
-}
-#event-cover-image {
-	border: none;
-	overflow: hidden;
 }
 
 #event-title-wrap {
@@ -154,18 +153,15 @@ ul#event-nav  {
 	width: 135px;
 }
 #event-nav-menu-privacy ul {
-	float:left;
-	width: 110px;
-	margin-top: 10px;
+	padding: 8px 16px;
+	width: 200px;
+	height: 38px;
 	list-style: none;
 }
 #event-nav-menu-privacy li {
-	float: none;
-	display: block;
-	padding: 0;
+	float: left;
+	width: 80px;
 	margin-bottom: 5px;
-	font-size: 14px;
-	line-height: 16px;
 	border-right: none;
 }
 
@@ -403,8 +399,8 @@ a.loadMore:hover {
 	float: left;
 	display: inline;
 	padding: 5px;
-	margin: 0 7px 15px 8px;
-	width: 200px;
+	margin: 0 6px 15px 6px;
+	width: 210px;
 	min-height: 200px;
 	background: #fff;
 	-moz-box-shadow: 1px 1px 2px 1px #ccc;
@@ -563,7 +559,7 @@ ul#photo-action li {
 
 ul#photo-action li a {
 	display: block;
-	width: 25px;
+	width: 40px;
 	padding: 7px 5px 2px 5px;
 	overflow: hidden;
 	border-top-left-radius: 8px;
@@ -576,10 +572,10 @@ ul#photo-action li a {
 }
 
 ul#photo-action li a.photo-delete:link, ul#photo-action li a.photo-delete:visited {
-	width: 12px;
-	height: 12px;
+	width: 26px;
+	height: 24px;
 	position: relative;
-	bottom: -8px;
+	bottom: -7px;
 	border-top: 2px solid #880000;
 	border-right: 2px solid #880000;
 	border-left: 2px solid #880000;
@@ -614,10 +610,10 @@ a.photo-enlarge:hover {
 }
 
 ul#photo-action li a.photo-download:link, ul#photo-action li a.photo-download:visited {
-	width: 12px;
-	height: 12px;
+	width: 26px;
+	height: 24px;
 	position: relative;
-	bottom: -8px;
+	bottom: -7px;
 	border-top: 2px solid #999;
 	border-right: 2px solid #999;
 	border-left: 2px solid #999;
@@ -663,159 +659,12 @@ ul#photo-action li a.photo-download:hover {
 	color: #999;
 	font-style: italic;
 }
-.progress { 
-	width: 0%; 
-	background-color:#67ac1c; 
-	background: -webkit-gradient(linear, left top, left bottom, from(#67ac1c), to(#80c337)); /* for webkit browsers */
-	height:10px; 
-	margin-top:5px; 
-	border-radius: 5px;
-	}
-.mf_upload_ins {
-	border-radius: 3px;
+#photoRetriever { 
+	width: 200px; 
+	margin: 0 auto;
 }
+
 .uploadText { padding-top: 30px; }
-
-/*** CSS LOAD BAR ****/
-
-.bar {
-	height:20px;
-	width:200px;
-	padding:10px;
-	margin: 10px auto 0 auto;
-	background-color:rgba(0,0,0,.1);
-	-webkit-border-radius:25px;
-	-moz-border-radius:25px;
-	-ms-border-radius:25px;
-	border-radius:20px;
-	-webkit-box-shadow:0 1px 0 rgba(255,255,255,.03),inset 0 1px 0 rgba(0,0,0,.1);
-	-moz-box-shadow:0 1px 0 rgba(255,255,255,.03),inset 0 1px 0 rgba(0,0,0,.1);
-	-ms-box-shadow:0 1px 0 rgba(255,255,255,.03),inset 0 1px 0 rgba(0,0,0,.1);
-	box-shadow:0 1px 0 rgba(255,255,255,.03),inset 0 1px 0 rgba(0,0,0,.1);
-}
-
-/* 
-This is the actual bar
-*/	
-.bar span {
-	display:inline-block;
-	height:100%;
-	width:100%;
-	border:1px solid #336699;
-	/*border-bottom-color:#ff6201;*/
-	background-color:#f6f6f6;
-	-webkit-border-radius:20px;
-	-moz-border-radius:20px;
-	-ms-border-radius:20px;
-	border-radius:20px;
-	-webkit-box-sizing:border-box;
-	-moz-box-sizing:border-box;
-	-ms-box-sizing:border-box;
-	box-sizing:border-box;
-	background-image:
-		-webkit-linear-gradient(
-		-45deg,
-		rgba(51, 102, 153, 1) 25%,
-		transparent 25%,
-		transparent 50%,
-		rgba(51, 102, 153, 1) 50%,
-		rgba(51, 102, 153, 1) 75%,
-		transparent 75%,
-		transparent
-	);
-	background-image:
-		-moz-linear-gradient(
-		-45deg,
-		rgba(51, 102, 153, 1) 25%,
-		transparent 25%,
-		transparent 50%,
-		rgba(51, 102, 153, 1) 50%,
-		rgba(51, 102, 153, 1) 75%,
-		transparent 75%,
-		transparent
-	);
-	background-image:
-		-ms-linear-gradient(
-		-45deg,
-		rgba(51, 102, 153, 1) 25%,
-		transparent 25%,
-		transparent 50%,
-		rgba(51, 102, 153, 1) 50%,
-		rgba(51, 102, 153, 1) 75%,
-		transparent 75%,
-		transparent
-	);
-	background-image:
-		linear-gradient(
-		-45deg,
-		rgba(51, 102, 153, 1) 25%,
-		transparent 25%,
-		transparent 50%,
-		rgba(51, 102, 153, 1) 50%,
-		rgba(51, 102, 153, 1) 75%,
-		transparent 75%,
-		transparent
-	);
-	-webkit-background-size:50px 50px;
-	-moz-background-size:50px 50px;
-	-ms-background-size:50px 50px;
-	background-size:50px 50px;
-	-webkit-animation:move 2s linear infinite;
-	-moz-animation:move 2s linear infinite;
-	-ms-animation:move 2s linear infinite;
-	animation:move 2s linear infinite;
-	-webkit-border-radius:20px;
-	-moz-border-radius:20px;
-	-ms-border-radius:20px;
-	border-radius:20px;
-	overflow: hidden;
-	-webkit-box-shadow:inset 0 10px 0 rgba(255,255,255,.2);
-	-moz-box-shadow:inset 0 10px 0 rgba(255,255,255,.2);
-	-ms-box-shadow:inset 0 10px 0 rgba(255,255,255,.2);
-	box-shadow:inset 0 10px 0 rgba(255,255,255,.2);
-}
-		
-.bar > span:after {
-	display: none;
-}
-
-/*
-Animate the stripes
-*/	
-@-webkit-keyframes move{
-  0% {
-  	background-position: 0 0;
-  }
-  100% {
-  	background-position: 50px 50px;
-  }
-}	
-@-moz-keyframes move{
-  0% {
-  	background-position: 0 0;
-  }
-  100% {
-  	background-position: 50px 50px;
-  }
-}	
-@-ms-keyframes move{
-  0% {
-  	background-position: 0 0;
-  }
-  100% {
-  	background-position: 50px 50px;
-  }
-}	
-@keyframes move{
-  0% {
-  	background-position: 0 0;
-  }
-  100% {
-  	background-position: 50px 50px;
-  }
-}
-
-/**** END CSS LOAD BAR ****/
 
 /********/
 
@@ -1127,7 +976,7 @@ a#guest-link-upload:hover, a#guest-link-manual:hover {
 #notify-message {
 	float: left;
 	display: inline;
-	width: 640px;
+	width: 680px;
 	padding: 20px;
 	border-radius: 10px;
 	border: 1px solid #ccc;
@@ -1284,8 +1133,8 @@ a#do-send-to-guests:hover {
 	float: right;
 	display: inline;
 	padding: 14px;
-	width: 494px;
-	height: 501px;
+	width: 510px;
+	height: 510px;
 	background: transparent url('/assets/img/bg-photo.png') no-repeat;
 }
 #details {
