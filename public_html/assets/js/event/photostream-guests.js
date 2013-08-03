@@ -12,7 +12,7 @@ $(document).ready(function(){
             if ( href == "guestlist" )
             {
                 $(".tab-content").hide();
-                $("#" + href + "Box").html("<div class='bar'><span></span></div>").show();
+                $("#" + href + "Box").html('<div class="progress progress-striped active" style="width: 200px; margin: 0 auto;"><div class="progress-bar" style="width: 100%"></div></div>').show();
                 
                 // get guest list
                 var eid = eventID.split("/");

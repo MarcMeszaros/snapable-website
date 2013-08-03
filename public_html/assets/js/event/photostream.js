@@ -84,7 +84,7 @@ $(document).ready(function()
 		$('#event-cover-image').attr('src', '/p/get_event/'+eid[3]+'/150x150'); // load the cover image
 
 		// Display Loader
-		$("#photoArea").css({"text-align":"center","font-weight":"bold"}).html("<div id='photoRetriever'>Retrieving Photos...<div class='bar'><span></span></div></div>");
+		$("#photoArea").css({"text-align":"center","font-weight":"bold"}).html('<div id="photoRetriever">Retrieving Photos...<div class="progress progress-striped active"><div class="progress-bar" style="width: 100%"></div></div></div>');
 		// Get photos for event
 		$.getJSON('/event/get/photos/' + eid[3], function(json) {
 			if ( json.status == 200 )

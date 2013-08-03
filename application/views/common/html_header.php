@@ -14,11 +14,10 @@
     } ?>
 
     <link rel="icon" type="image/vnd.microsoft.icon" href="/favicon.ico" />
-    <link href="https://plus.google.com/117772662503157448966" rel="publisher" />
     <link rel="SHORTCUT ICON" href="/favicon.ico"/>
     
     <link type="text/css" rel="stylesheet" href="//fonts.googleapis.com/css?family=PT+Sans+Caption:400,700" />
-    <link type="text/css" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0-rc1/css/bootstrap.min.css" />
     <link type="text/css" rel="stylesheet" href="/assets/libs/pnotify/jquery.pnotify.default.css" />
     <link type="text/css" rel="stylesheet" href="/assets/css/common/fonts.css" />
     <link type="text/css" rel="stylesheet" href="/assets/css/common/default.css" />
@@ -45,7 +44,7 @@
     
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0-rc1/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/parsley.js/1.1.16/parsley.min.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/spin.js/1.2.7/spin.min.js"></script>

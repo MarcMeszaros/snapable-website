@@ -51,7 +51,7 @@
         "image":"<?= 'https://snapable.com/p/get_photo/'.$this->encrypt->encode($photo_id).'/crop' ?>"
     });
 </script>
-<div id="photo"><img src="/p/get/<?= $photo_id ?>/480x480" width="480" height="480" alt="Photo" /></div>
+<img id="photo" src="/p/get/<?= $photo_id ?>/480x480" width="480" height="480" alt="Photo" />
 <div id="details">
 	
 	<a id="back" href="/event/<?= $event_url ?>">‹ Back</a>
