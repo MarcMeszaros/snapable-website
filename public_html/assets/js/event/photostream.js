@@ -23,33 +23,6 @@ function firstRunSlideshow()
     })
 }
 
-
-function bringBackAddonButton(id)
-{
-	$("#upgrade-" + id).html("<a class='addUpgrade' href='#' rel='" + id + "'>Add</a>");
-}
-
-
-function createCookie(name,value,days) {
-	if (days) {
-		var date = new Date();
-		date.setTime(date.getTime()+(days*24*60*60*1000));
-		var expires = "; expires="+date.toGMTString();
-	}
-	else var expires = "";
-	document.cookie = name+"="+value+expires+"; path=/";
-}
-function readCookie(name) {
-	var nameEQ = name + "=";
-	var ca = document.cookie.split(';');
-	for(var i=0;i < ca.length;i++) {
-		var c = ca[i];
-		while (c.charAt(0)==' ') c = c.substring(1,c.length);
-		if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-	}
-	return null;
-}
-
 function sanitizeUrl(url)
 {
 	// replace spaces with dashes change uppercase to lowercase
@@ -77,7 +50,6 @@ $(document).ready(function()
 {  
 	var eid = eventID.split("/");
 	var csvFilename = "";
-	//createCookie('phCart', '','90');
 
 	if ( photo_count > 0 )
 	{
@@ -93,13 +65,7 @@ $(document).ready(function()
 				$.Mustache.load('/assets/js/templates.html').done(function () 
 				{
 					// check if any photos are in the cart
-					var photoCart = readCookie('phCart');
 					var photoArr = new Array();
-					if ( photoCart != null )
-					{
-						photoArr = photoCart.split(",");
-						$("#in-cart-number").html(photoArr.length);
-					}
 					
 					// add initial photos
 					photoAPI = json;
@@ -115,36 +81,7 @@ $(document).ready(function()
 						});
 						return false;
 					});
-				
-					// LOAD UPGRADE MENU
-					var upgradesJSON = '{"upgrades": [{ "id": 1, "titleDrk": "Single", "titleLgt": "Prints", "desc": "Pay-as-you-go", "type": "Prints", "qty": 1, "addBTN": 0, "price": 1, "shipping": 3},{ "id": 2, "titleDrk": "12", "titleLgt": "Prints", "desc": "", "type": "Prints", "qty": 12, "addBTN": 1, "price": 11, "shipping": 0},{ "id": 3, "titleDrk": "24", "titleLgt": "Prints", "desc": "", "type": "Prints", "qty": 24, "addBTN": 1, "price": 19, "shipping": 0},{ "id": 4, "titleDrk": "36", "titleLgt": "Prints", "desc": "", "type": "Prints", "qty": 36, "addBTN": 1, "price": 27, "shipping": 0}]}';
-					var upgradeObj = jQuery.parseJSON(upgradesJSON);
-					
-					$.each(upgradeObj.upgrades, function(key, val) {
-						
-						if ( val.shipping == 0 )
-						{
-							uShipping = '<span>Free Shipping</span>';
-						} else {
-							uShipping = "$" + val.shipping + " Shipping";
-						}
-						
-						var addBTNhtml = val.desc;
-						if ( val.addBTN > 0 )
-						{
-							addBTNhtml = "<div class='addUpgradeWrap' id='upgrade-" + val.id + "'><a class='addUpgrade' href='#' rel='" + val.id + "'>Add</a></div>";
-						}
-					
-						var viewData = {
-							id: val.id, 
-							titleDrk: val.titleDrk,
-							titleLgt: val.titleLgt,
-							desc: addBTNhtml,
-							price: val.price,
-							shipping: uShipping
-						};
-						$('#upgradeChoicesMenu .menuContents').mustache('upgrade-list', viewData);
-					});
+
 				});
 			} else {
 				// hide loader and display error
@@ -179,13 +116,6 @@ $(document).ready(function()
 	        });
 		});
 	}
-
-	/**** OTHER ****/	
-	$(document).on("click", ".addto-album", function()
-	{ 
-		alert("Show album menu")
-	});
-	
 });
 
 /*
@@ -306,16 +236,7 @@ function loadPhotos(photos) {
 		if ( count < 12 )
 		{
 			var resource_uri = val.resource_uri.split("/");
-
 			var inPhotoArr = $.inArray(resource_uri[3], photoArr);
-			var photoClass = "";
-			var buttonClass = "addto-prints";
-			var buttonText = "Add to Prints";
-			if ( inPhotoArr >= 0 ) {
-				photoClass = " photoInCart";
-				buttonClass = "removefrom-prints";
-				buttonText = "Remove from Prints";
-			}
 			
 			var viewData = {
 				id: resource_uri[3], 
@@ -323,9 +244,6 @@ function loadPhotos(photos) {
 				photo: '/p/get/' + resource_uri[3] + '/200x200',
 				caption: val.caption,
 				photographer: val.author_name,
-				photoClass: photoClass,
-				buttonClass: buttonClass,
-				buttonText: buttonText,
 				owner: owner
 			};
 			// add photo to dom
