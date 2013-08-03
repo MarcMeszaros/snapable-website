@@ -1,9 +1,4 @@
 /**** STRUCTURE ****/
-body {
-	position: relative;
-	background: #f5fafc;
-	color: #666;
-}
 #restOfPageWrap {
 	margin: 96px auto 0 auto;
 	width: 900px;
@@ -206,9 +201,9 @@ ul#event-nav  {
 /** Event Settings **/
 #event-settings {
 	display: none;
-	width: 375px;
+	width: 475px;
 	position: absolute;
-	top: 25px;
+	top: 124px;
 	padding: 20px;
 	color: #999;
 	background: #fff;
@@ -241,7 +236,7 @@ ul#event-nav  {
 }
 
 #event-settings input[type=text] {
-	width: 330px;
+	width: 95%;
 	padding: 7px 10px;
 	border: 1px solid #f4f4f4;
 	border-radius: 3px;
@@ -264,7 +259,6 @@ ul#event-nav  {
 }
 
 #event-settings .small-field {
-	width: 375px;
 	padding: 5px 0;
 }
 #event-settings .small-field:after {
@@ -285,7 +279,7 @@ ul#event-nav  {
 	margin-right: 5px;
 }
 #event-settings .small-field-inner input[type=text] {
-	width: 85px;
+	width: 110px;
 	display: block;
 }
 
@@ -458,49 +452,7 @@ ul.photo-share li {
 #event-nav-menu-share .share {
 	margin: 5px auto;
 }
-a.photo-share-twitter, a.photo-share-facebook, a.photo-share-pinterest, a.photo-share-email {
-	display: inline-block;
-	width: 16px;
-	height: 16px;
-	margin-right: 5px;
-	text-indent: -8000px;
-	overflow: hidden;
-}
-a.photo-share-twitter {
-	background: transparent url('/assets/img/icons/16px/twitter-2.png') no-repeat;
-}
-a.photo-share-facebook {
-	background: transparent url('/assets/img/icons/16px/facebook.png') no-repeat;
-}
-a.photo-share-pinterest {
-	background: transparent url('/assets/img/icons/16px/pinterest.png') no-repeat;
-}
-a.photo-share-email {
-	background: transparent url('/assets/img/icons/16px/email.png') no-repeat;
-}
-#details a.photo-share-twitter, 
-#details a.photo-share-facebook, 
-#details a.photo-share-pinterest, 
-#details a.photo-share-email {
-	display: inline-block;
-	width: 24px;
-	height: 24px;
-	margin-right: 5px;
-	text-indent: -8000px;
-	overflow: hidden;
-}
-#details a.photo-share-twitter {
-	background: transparent url('/assets/img/icons/24px/twitter-2.png') no-repeat;
-}
-#details a.photo-share-facebook {
-	background: transparent url('/assets/img/icons/24px/facebook.png') no-repeat;
-}
-#details a.photo-share-pinterest {
-	background: transparent url('/assets/img/icons/24px/pinterest.png') no-repeat;
-}
-#details a.photo-share-email {
-	background: transparent url('/assets/img/icons/24px/email.png') no-repeat;
-}
+
 
 .photo-overlay h3 {
 	position: absolute;
@@ -1200,26 +1152,6 @@ a#back:hover {
 	margin: 40px 0 10px 0;
 	font-weight: normal;
 }
-
-a#twitter, a#facebook, a#email {
-	display: inline-block;
-	width: 32px;
-	height: 32px;
-	margin-right: 5px;
-	text-indent: -8000px;
-	overflow: hidden;
-}
-a#twitter {
-	background: transparent url('/assets/img/icons/32px/twitter-2.png') no-repeat;
-}
-a#facebook {
-	background: transparent url('/assets/img/icons/32px/facebook.png') no-repeat;
-}
-a#email {
-	background: transparent url('/assets/img/icons/32px/email.png') no-repeat;
-}
-
-
 .photo-cover {
 	color: #666;
 	background-color: #ffcc99;
