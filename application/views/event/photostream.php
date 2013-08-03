@@ -139,15 +139,6 @@
 		Event PIN:
 		<div><?= $eventDeets->pin ?></div>
 	</div>
-	<!--
-	<div id="checkout-buttons">
-		<div id="in-cart">
-			<div id="in-cart-number">0</div>
-			Photos in cart
-		</div>
-		<a id="checkout" href="#">Checkout</a>
-	</div>
-	-->
 </div>
 
 <div id="uploadArea" class="slidContent">
@@ -160,16 +151,18 @@
 		<?php if(isset($guest_uri)) { ?>
 		<input type="hidden" name="guest" value="<?php echo $guest_uri; ?>" />
 		<?php } ?>
-		<div class="control-group">
-			<label class="control-label" for="upload-caption">Caption</label>
-			<input id="upload-caption" type="text" name="caption"  style="margin-left:-50px;"/>
-		</div>
-		<div class="control-group">
-			<label class="control-label" for="upload-file" style="padding-top:0;">File</label>
-			<input id="upload-file" type="file" name="file_element" style="line-height:16px;" required />
-		</div>
-		<input type="submit" id="photo-upload-btn" value="Upload">
-		<img id="photo-upload-spinner" class="hide" src="/assets/img/spinner_blue_sm.gif" />
+		<fieldset>
+			<div class="form-group">
+				<label class="control-label" for="upload-caption">Caption</label>
+				<input id="upload-caption" class="form-control" type="text" name="caption" />
+			</div>
+			<div class="form-group">
+				<label class="control-label" for="upload-file" style="padding-top:0;">File</label>
+				<input id="upload-file" class="form-control" type="file" name="file_element" required />
+			</div>
+			<input type="submit" id="photo-upload-btn" value="Upload" />
+			<span id="photo-upload-spinner" class="spinner-wrap hide" data-color="#366993"></span>
+		</fieldset>
 	</form>
 </div>
 <div class="clearit">&nbsp;</div>
