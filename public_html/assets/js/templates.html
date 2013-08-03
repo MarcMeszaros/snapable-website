@@ -1,11 +1,6 @@
 <script id="event-list-photo" type="text/html">
 	<div class="photo{{photoClass}}">
 		<div class="photo-overlay">
-			<!--
-			<div class="photo-buttons">
-				<a class="button {{buttonClass}}" href="#{{id}}">{{buttonText}}</a>
-			</div>
-			-->
 			<div class="photo-buttons">
 				{{#owner}}
 				<a class="button add-cover" href="#" data-photo_id="{{id}}">Set as Cover Photo</a>
@@ -30,59 +25,22 @@
 	</div>
 </script>
 
-<script id="event-list-photo-with-sharing" type="text/html">
-	<div class="photo">
-		<div class="photo-overlay">
-			<ul class="photo-share">
-				<li><a class="photo-share-twitter" href="#">Tweet</a></li>
-				<li><a class="photo-share-facebook" href="#">Share</a></li>
-				<li><a class="photo-share-email" href="#">Email</a></li>
-			</ul>
-			<div class="photo-buttons">
-				<a class="button addto-prints" href="#">Add to Prints</a>
-			</div>
-			<a class="photo-enlarge" href="{{url}}" title="Enlarge">Enlarge</a>
-			<!--<a class="photo-download" href="#" title="Download">Download</a>-->
-		</div>
-		<img src="{{photo}}" />
-		<img class="photo-comment" title="{{caption}}" src="/assets/img/icons/{{caption_icon}}" /> {{photographer}}	
-	</div>
-</script>
-
-
 <script id="event-first-run" type="text/html">
 	<div id="eventFirstRun">
 		<ul id="eventFirstRunText">
 			<li id="uploadText" class="displayMe">
 				<h1>Add a few photos to get started!</h1>
 			</li>
-			<!--<li id="slideshowText">
-				<h1>Create a slideshow</h1>
-				<h2>Set up a screen in the corner</h2>
-				<h3>(Let your guests see the photos that are taken as they're taken)</h3>
-			</li>-->
 			<li id="guestsText">
 				<h1>Let people know to use Snapable</h1>
 				<h2>Add your guest list</h2>
 				<h3>(To ensure only the people you want can take and see the photos)</h3>
 			</li>
-			<!--<li id="shareText">
-				<h1>Tell your Facebook or Twitter friends</h1>
-				<h2>Share your event link with them</h2>
-				<h3>(They can follow along in real-time or see what they've missed)</h3>
-			</li>
-			<li id="privacyText">
-				<h1>Set the privacy of uploaded photos</h1>
-				<h2>Just in case Aunt Ida sees Uncle Tom dancing with the bridesmaids.</h2>
-				<h3>(You can change this any time, even on a per photo basis)</h3>
-			</li>-->
 		</ul>
 		<div id="eventFirstRunDots">
 			<a id="uploadDot" class="blue" href="#upload">Add Photos</a>
 			<!--<a id="slideshowDot" href="#slideshow">Slideshow</a>-->
 			<a id="guestsDot" href="#guests">Invite Guests</a>
-			<!--<a id="shareDot" href="#share">Share</a>
-			<a id="privacyDot" href="#privacy">Privacy</a>-->
 		</div>
 	</div>
 </script>
@@ -144,15 +102,7 @@
 	<a id="guest-link-upload" href="#">Upload from File</a>
 
 	<a id="guest-link-manual" href="#">
-
-		<!--
-		<textarea>Name, Email, Type</textarea>
-		<input type="button" value="Add Guests" />
-		* One guest per line
-		-->
-		
-		Copy/Paste or Manual Entry
-		
+		Copy/Paste or Manual Entry		
 	</a>
 	
 	<div class="clearit">&nbsp;</div>
@@ -233,57 +183,10 @@
 </script>
 
 <script id="guest-list" type="text/html">
-	<li>
-		<div class="guest-name">{{name}}</div>
-		<div class="guest-email"><a href="mailto:{{email}}">{{email}}</a></div>
-		<div class="guest-invited">Invite Sent: {{invited}}</div>
-		<a class="guest-delete" href="#" data-guest_id="{{id}}">Delete</a>
-	</li>
-</script>
-
-<script id="checkout-photo" type="text/html">
-	<div class="photo">
-		<div class="photo-overlay">
-			<div class="photo-buttons">
-				<a class="button removefrom-prints" href="#{{id}}">Remove from Prints</a>
-			</div>
-		</div>
-		<img src="{{photo}}" />
-	</div>
-</script>
-
-<script id="upgrade-list" type="text/html">
-	<li>
-		<div class="upgradeLeft">
-			<div class="upgradeTitle"><span>{{titleDrk}}</span> {{titleLgt}}</div>
-			{{{desc}}}
-		</div>
-		<div class="upgradeRight">
-			<div class="smBoxTop">
-    			<div class="smBoxPrice">
-    				${{price}}
-    				<div>{{{shipping}}}</div>
-    			</div>
-    		</div>
-		</div>
-	</li>
-</script>
-
-<script id="checkout-review-singles" type="text/html">
-	<li>
-		<div class='checkoutReviewLeft'>
-			<div class='checkoutReviewItem'><span>{{num}} x </span>Single Prints @ $1 ea. <a class='checkoutRemove' href='#' title='Remove' rel='{{type}}'>X</a></div>
-		</div>
-		<div class='checkoutReviewRight'>${{num}}</div>
-	</li>
-</script>
-
-<script id="checkout-review-upgrade" type="text/html">
-	<li id="addon-{{id}}">
-		<div class="checkoutReviewLeft">
-			<div class="checkoutReviewItem"><span>{{num}} x </span>{{print_count}} Print Upgrade <a class="checkoutRemove" rel="{{id}}|{{price}}" href="#" title="Remove">X</a></div>
-			{{{instructions}}}
-		</div>
-		<div class="checkoutReviewRight">${{price}}</div>
-	</li>
+	<tr>
+		<td style="width:30%;">{{name}}</td>
+		<td style="width:40%;"><a href="mailto:{{email}}">{{email}}</a></td>
+		<td style="width:25%;">Invite Sent: {{invited}}</td>
+		<td style="width:5%;"><a class="guest-delete" href="#" data-guest_id="{{id}}">Delete</a></td>
+	</tr>
 </script>

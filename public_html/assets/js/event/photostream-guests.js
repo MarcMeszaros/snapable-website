@@ -24,7 +24,7 @@ $(document).ready(function(){
                             $("#" + href + "Box").fadeOut("fast", function()
                             {
                                 // format results and then fadeIn
-                                $("#" + href + "Box").html("<ul></ul>");
+                                $("#" + href + "Box").html('<table class="table"></table>');
                                 $.each(json.guests, function(key, val) {
                                     var viewData = {
                                         id: val.id, 
@@ -32,12 +32,12 @@ $(document).ready(function(){
                                         email: val.email,
                                         invited: (val.invited) ? 'yes': 'no'
                                     };
-                                    $("#" + href + "Box ul").mustache("guest-list", viewData);
+                                    $("#" + href + "Box table").mustache("guest-list", viewData);
                                 });
                                 $("#" + href + "Box").fadeIn("normal");
 
                                 // setup the delete per guest
-                                $('#guestlistBox').find('li a.guest-delete').click(function(){
+                                $('#guestlistBox').find('tr a.guest-delete').click(function(){
                                     var deleteButton = $(this); // save a reference to that button
 
                                     // anonymous function to handle the deletion/keep variable scope

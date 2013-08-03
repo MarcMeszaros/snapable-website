@@ -991,26 +991,9 @@ a#do-send-to-guests:hover {
 }
 
 /**** GUEST LIST ****/
-
-#guestlistBox ul {
-	padding: 50px;
-	list-style: none;
-	font-size: 14px;
-	line-height: 16px;
-}
-#guestlistBox li {
-	margin-bottom: 10px;
-	padding-bottom: 10px;
-	border-bottom: 1px dotted #ccc;
-}
-#guestlistBox li:after {
-	content: ".";
-    display: block;
-    height: 0;
-    clear: both;
-    visibility: hidden;
-    margin: 0;
-    padding: 0;
+#guestlistBox .table tbody>tr>td {
+	border-top: none;
+	border-bottom: 1px dotted #ddd;
 }
 
 #guestlistBox a:link, #guestlistBox a:visited {
@@ -1021,22 +1004,6 @@ a#do-send-to-guests:hover {
 #guestlistBox a:hover {
 	color: #cc3300;
 	text-decoration: underline;
-}
-
-.guest-name {
-	float: left;
-	width: 206px;
-	color: #222222;
-}
-.guest-email {
-	float: left;
-	width: 246px;
-	margin: 0 10px;	
-}
-.guest-invited {
-	float: left;
-	width: 90px;
-	margin: 0 20px;	
 }
 .guest-delete {
 	display: inline-block;
