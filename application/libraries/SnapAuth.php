@@ -5,9 +5,12 @@
  */
 class SnapAuth {
 
+    public static function getInstance() {
+        return get_instance();
+    }
+
     // signin
-    public function signin($email, $hash=null)
-    {
+    public static function signin($email, $hash=null) {
         $user = self::validate($email, $hash);
         if ($user) {
             $sess_array = array(
@@ -23,15 +26,14 @@ class SnapAuth {
                 'resource_uri' => $user->resource_uri,
                 'loggedin' => true,
             );
-            $this->session->set_userdata('logged_in', $sess_array);
+            self::getInstance()->session->set_userdata('logged_in', $sess_array);
             return $sess_array;
         } else {
             return false;
         }
     }
 
-    public function signin_nohash($email)
-    {
+    public static function signin_nohash($email) {
         $verb = 'GET';
         $path = '/user/auth/';
         $params = array(
@@ -54,7 +56,7 @@ class SnapAuth {
                 'resource_uri' => $users->objects[0]->resource_uri,
                 'loggedin' => true,
             );
-            $this->session->set_userdata('logged_in', $sess_array);
+            self::getInstance()->session->set_userdata('logged_in', $sess_array);
             return $sess_array;
         } else {
             return false;
@@ -62,8 +64,7 @@ class SnapAuth {
     }
 
     // signin (no network/API call: use a user API response object)
-    public function signin_nonetwork($user)
-    {
+    public static function signin_nonetwork($user) {
         if (isset($user)) {
             $sess_array = array(
                 'email' => $user->email,
@@ -78,7 +79,7 @@ class SnapAuth {
                 'resource_uri' => $user->resource_uri,
                 'loggedin' => true,
             );
-            $this->session->set_userdata('logged_in', $sess_array);
+            self::getInstance()->session->set_userdata('logged_in', $sess_array);
             return $sess_array;
         } else {
             return false;
@@ -86,15 +87,13 @@ class SnapAuth {
     }
 
     // signout
-    public function signout()
-    {
-        $this->session->unset_userdata('logged_in');
+    public static function signout() {
+        self::getInstance()->session->unset_userdata('logged_in');
     }
 
     // check if logged in
-    public function is_logged_in()
-    {
-        $logged_in = $this->session->userdata('logged_in');
+    public static function is_logged_in() {
+        $logged_in = self::getInstance()->session->userdata('logged_in');
         if ($logged_in && $logged_in['loggedin']) {
             return $logged_in;
         } else {
@@ -103,8 +102,7 @@ class SnapAuth {
     }
 
     // validate
-    public function validate($email, $hash)
-    {
+    public static function validate($email, $hash) {
         $verb = 'GET';
         $path = '/user/auth/';
         $params = array();
@@ -117,8 +115,7 @@ class SnapAuth {
     }
 
     // calculate the password hash
-    public function snap_hash($email, $password)
-    {
+    public static function snap_hash($email, $password) {
         // get the user by email
         $verb = 'GET';
         $path = '/user/';
@@ -138,8 +135,7 @@ class SnapAuth {
 
     //***** GUEST *****\\
     // guest signin
-    public function guest_signin($email, $event)
-    {
+    public static function guest_signin($email, $event) {
         $guests = self::guest_validate($email, $event);
         if ($guests) {
             $guestParts = explode('/', $guests->objects[0]->resource_uri);
@@ -151,7 +147,7 @@ class SnapAuth {
                 'type' => $typeParts[3],
                 'loggedin' => true
             );
-            $this->session->set_userdata('guest_login', $sess_array);
+            self::getInstance()->session->set_userdata('guest_login', $sess_array);
             return $sess_array;
         } else {
             return false;
@@ -159,8 +155,7 @@ class SnapAuth {
     }
 
     // guest singin (no network/API call: use a guest API response object)
-    public function guest_signin_nonetwork($guest)
-    {
+    public static function guest_signin_nonetwork($guest) {
         if (isset($guest)) {
             $guestParts = explode('/', $guest->resource_uri);
             $typeParts = explode('/', $guest->type);
@@ -171,7 +166,7 @@ class SnapAuth {
                 'type' => $typeParts[3],
                 'loggedin' => true
             );
-            $this->session->set_userdata('guest_login', $sess_array);
+            self::getInstance()->session->set_userdata('guest_login', $sess_array);
             return $sess_array;
         } else {
             return false;
@@ -179,15 +174,13 @@ class SnapAuth {
     }
 
     // guest signout
-    public function guest_signout()
-    {
-        $this->session->unset_userdata('guest_login');
+    public static function guest_signout() {
+        self::getInstance()->session->unset_userdata('guest_login');
     }
 
     // check if guest is logged in
-    public function is_guest_logged_in()
-    {
-        $logged_in = $this->session->userdata('guest_login');
+    public static function is_guest_logged_in() {
+        $logged_in = self::getInstance()->session->userdata('guest_login');
         if ($logged_in && $logged_in['loggedin']) {
             return $logged_in;
         } else {
@@ -196,8 +189,7 @@ class SnapAuth {
     }
 
     // guest validate
-    public function guest_validate($email, $event)
-    {
+    public static function guest_validate($email, $event) {
         $eventParts = explode('/', $event);
         $verb = 'GET';
         $path = '/guest/';
@@ -213,8 +205,7 @@ class SnapAuth {
 
     //***** INTERNAL *****\\
     // calculate the pbkdf2 password hash
-    private function snap_pbkdf2($algorithm, $password, $salt, $count)
-    {
+    private static function snap_pbkdf2($algorithm, $password, $salt, $count) {
         if (isset($algorithm) && $algorithm == 'pbkdf2_sha256') {
             $algorithm = 'sha256';
         }
@@ -223,8 +214,7 @@ class SnapAuth {
     }
 
     // internal class helper stuff
-    private function pbkdf2($algorithm, $password, $salt, $count, $key_length, $raw_output = false)
-    {
+    private static function pbkdf2($algorithm, $password, $salt, $count, $key_length, $raw_output = false) {
         $algorithm = strtolower($algorithm);
         if(!in_array($algorithm, hash_algos(), true))
             die('PBKDF2 ERROR: Invalid hash algorithm.');
