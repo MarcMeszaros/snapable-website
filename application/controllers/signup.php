@@ -22,6 +22,8 @@ class Signup extends CI_Controller {
 		'wr2013' => 1000, // added: 2013-01-17; valid_until: TBD
 	);
 
+	public static $PACKAGE_ID = 3;
+
 	function __construct()
 	{
     	parent::__construct(); 
@@ -59,7 +61,7 @@ class Signup extends CI_Controller {
 
 		// get package details
 		$verb = 'GET';
-		$path = 'package/3'; // standard package
+		$path = 'package/'.self::$PACKAGE_ID; // standard package
 		$resp = SnapApi::send($verb, $path);
 		$package = json_decode($resp['response']);
 
@@ -97,14 +99,22 @@ class Signup extends CI_Controller {
 	
 	function setup()
 	{
+		// make sure form data is here
+		if(!isset($_POST)) {
+			$raven_client = new Raven_Client(SENTRY_DSN);
+			$raven_client->captureMessage('Unable to create event. No form POST.');
+			show_error('Unable to create the event.', 500);
+		}
+
 		// get package details
 		$verb = 'GET';
-		$path = 'package/3'; // standard package
+		$path = 'package/'.self::$PACKAGE_ID; // standard package
 		$resp = SnapApi::send($verb, $path);
 		$package = json_decode($resp['response']);
 
 		// set price in cents
 		$amount_in_cents = $package->amount;
+		$discount = 0;
 
 		// if there is a promo code to process
 		if (isset($_POST) && $_POST['promo-code-applied'] == 1 && isset($_POST['promo-code']))
@@ -115,214 +125,178 @@ class Signup extends CI_Controller {
 			// only apply discount if coupon is valid
 			if (array_key_exists($code, self::$COUPON_CODES)) {
 				$discount = self::$COUPON_CODES[$code];
-				$amount_in_cents = $amount_in_cents - $discount;
-				// fix negative numbers
-				if ($amount_in_cents < 0) {
-					$amount_in_cents = 0;
-				}
-				$coupon = $code;
 			}
 		}
 
 		// USED BY /signup as of Jan 4, 2013
-		if ( isset($_POST) && ($amount_in_cents == 0 || ($amount_in_cents >= 50 )) )
-		{
-			// Step 1: Setup account/user and log them in	
-			$create_event = $this->signup_model->createEvent($_POST['event'], $_POST['user']);
-			
-			if ( isset($create_event) )
-			{
-				// set sessions var to log user in
-				//SnapAuth::signin_nohash($_POST['user']['email']);
-				$hash = SnapAuth::snap_hash($_POST['user']['email'], $_POST['user']['password']);
-				SnapAuth::signin($_POST['user']['email'], $hash);
-		        
-		        // Step 2: Bill'em Dano
-		    	$session_data = SnapAuth::is_logged_in();
-								
-				if ( $session_data )
-				{	
-					// get user/account details from session data set during signup
-					$userParts = explode('/', $session_data['resource_uri']);
-					$accountParts = explode('/', $session_data['account_uri']);
-					
-					try {
-						if ($amount_in_cents >= 50 && isset($_POST['stripeToken'])) {
-							// get the credit card details submitted by the form
-							$token = $_POST['stripeToken'];
-							
-							// create a Snapable order using the API
-							$verb = 'POST';
-							$path = 'order';
-							$params = array(
-								'amount' => $amount_in_cents,
-								'account' => $session_data['account_uri'],
-								'user' => $session_data['resource_uri'],
-								'items' => array(
-									'package' => 3, // the package id
-									'account_addons' => array(), // required field, but empty
-									'event_addons' => array(), // required field, but empty
-								),
-								'stripeToken' => $token,
-							);
-							// add the coupon if there was one
-							if (isset($coupon)) {
-								$params['coupon'] = $coupon;
-							}
-							$resp = SnapApi::send($verb, $path, $params);
-
-							// get the orderID if it's successful
-							if(isset($resp) && $resp['code'] == 201) {
-								$response = json_decode($resp['response']);
-								$idParts = explode('/', $response->resource_uri);
-								$orderID = $idParts[3];
-								$this->session->set_flashdata('orderID', $orderID);
-							} 
-							// can't create order
-							else {
-								$response = json_decode($resp['response']);
-								$raven_client = new Raven_Client(SENTRY_DSN);
-								$raven_client->captureMessage('Unable to process payment. There was a problem with the Credit Card.');
-							}
-						}
-
-						// signup email
-						//GET TIMEZONE
-						$timezone_offset_seconds = $_POST['event']['tz_offset'] * 60;
-						// SET TO UTC
-						$start_timestamp = strtotime($_POST['event']['start_date'] . " " . $_POST['event']['start_time']) + ($timezone_offset_seconds);
-
-						// CREATE END DATE
-						if ( $_POST['event']['duration_type'] == "days" )
-						{
-							$duration_in_seconds = $_POST['event']['duration_num'] * 86400;
-						} else {
-							$duration_in_seconds = $_POST['event']['duration_num'] * 3600;
-						}
-						$end_timestamp = $start_timestamp + $duration_in_seconds;
-
-						$signup_details = array(
-							'start_timestamp' => $start_timestamp,
-							'end_timestamp' => $end_timestamp,
-							'email_address' => $_POST['user']['email'],
-							'affiliate' => '',
-							'total' => $amount_in_cents,
-						);
-						$signup_details['coupon'] = (isset($coupon)) ? $coupon : '';
-						if ($this->input->cookie('affiliate')) {
-							$signup_details['affiliate'] = $this->input->cookie('affiliate');
-
-							// delete the cookie
-							delete_cookie('affiliate');
-						}
-
-						// SEND SIGN-UP NOTIFICATION EMAIL
-						$subject = 'Say Cheese, a Snapable Sign-up!';
-						$this->email->initialize(array('mailtype'=>'html'));
-						$this->email->from('robot@snapable.com', 'Snapable');
-						$this->email->to('team@snapable.com');
-						$this->email->subject($subject);
-						$this->email->message($this->load->view('email/user_signup_html', $signup_details, true));
-						$this->email->set_alt_message($this->load->view('email/user_signup_txt', $signup_details, true));		
-						if (DEBUG == false) {
-							$this->email->send();
-						}
-
-						// send email to user regardless of what happens after
-						// ie. they should know we managed to charge their credit card,
-						// even if stuff breaks after here
-						$items = array(
-							'Snapable Event' => array(
-								'price' => $amount_in_cents,
-							),
-						);
-						$receipt = array(
-							'total' => $amount_in_cents,
-							'items' => $items,
-						);
-
-					    // send the receipt email
-						$this->email->initialize(array('mailtype'=>'html'));
-						$this->email->from('support@snapable.com', 'Snapable');
-						$this->email->to($session_data['email']);
-						$this->email->subject('Your Snapable order has been processed');
-						$this->email->message($this->load->view('email/receipt_html', $receipt, true));
-						$this->email->set_alt_message($this->load->view('email/receipt_text', $receipt, true));
-						$this->email->send();
+		// Step 1: Setup account/user and log them in	
+		$create_event = $this->signup_model->createEvent($_POST['event'], $_POST['user']);
 		
-						// if it makes the account invalid
-						$validUntil = null;
-						if (isset($package->interval) && isset($package->interval_count) && isset($package->trial_period_days))
-						{
-							// get the current datetime
-							$dt = new DateTime('now', new DateTimeZone('UTC'));
-							// make the trial time interval
-							$intervalTrial = new DateInterval('P'.$package->trial_period_days.'D');
+		if ( isset($create_event) ) {
+			// set sessions var to log user in
+			//SnapAuth::signin_nohash($_POST['user']['email']);
+			$hash = SnapAuth::snap_hash($_POST['user']['email'], $_POST['user']['password']);
+			SnapAuth::signin($_POST['user']['email'], $hash);
+	        
+	        // Step 2: Bill'em Dano
+	    	$session_data = SnapAuth::is_logged_in();
 							
-							// create the package interval based on package info
-							$intervalStr = 'P'.$package->interval_count;
-							if ($package->interval == 'day') {
-								$intervalStr .= 'D';
-							} else if ($package->interval == 'month') {
-								$intervalStr .= 'M';
-							} else if ($package->interval == 'year') {
-								$intervalStr .= 'Y';
-							}
-							$intervalPackage = new DateInterval($intervalStr);
-
-							// figure out when this all ends in the future by adding the two intervals
-							$dt->add($intervalTrial);
-							$dt->add($intervalPackage);
-							$validUntil = $dt->format('c');
-						}
-
-						// update the account's package
-						$verb = 'PATCH';
-						$path = 'account/'.$accountParts[3];
-						$params = array(
-							'package' => $package->resource_uri,
-							'valid_until' => $validUntil,
-						);
-						$resp = SnapApi::send($verb, $path, $params);
-					} catch (Stripe_CardError $e) {
-						// keep the flash data if the user goes back
-						//$this->session->keep_flashdata('package_id');
-						//$this->session->keep_flashdata('package_price');
-						show_error('Unable to process payment.<br>'.$e->getMessage(), 500);
-					} catch (Exception $e) {
-						// keep the flash data if the user goes back
-						//$this->session->keep_flashdata('package_id');
-						//$this->session->keep_flashdata('package_price');
-						// send the exception to sentry
-						$raven_client = new Raven_Client(SENTRY_DSN);
-						$raven_client->captureException($e);
-						show_error('Unable to process payment.<br>We\'ve been notified and are looking into the problem.', 500);
+			if ( $session_data ) {	
+				// get user/account details from session data set during signup
+				$userParts = explode('/', $session_data['resource_uri']);
+				$accountParts = explode('/', $session_data['account_uri']);
+				
+				try {
+					// create a Snapable order using the API
+					$verb = 'POST';
+					$path = 'order';
+					$params = array(
+						'account' => $session_data['account_uri'],
+						'user' => $session_data['resource_uri'],
+						'items' => array(
+							'package' => self::$PACKAGE_ID, // the package id
+							'account_addons' => array(), // required field, but empty
+							'event_addons' => array(), // required field, but empty
+						),
+					);
+					// add stripe token
+					if (isset($_POST['stripeToken'])) {
+						$params['stripeToken'] = $_POST['stripeToken'];
 					}
-					
-					$event_array = $this->account_model->eventDeets($session_data['account_uri']);
-					$this->session->set_userdata('event_deets', $event_array);
-					// redirect to the event
-					//redirect('/event/'.$event_array['url']);
-					// redirect to thank you page
-					$this->session->set_flashdata('event', $event_array['url']);
-					$this->session->set_flashdata('amount', $amount_in_cents);
-					redirect('/signup/complete');
-				} else {
+					// add the coupon if there was one
+					if (isset($coupon)) {
+						$params['coupon'] = $coupon;
+					}
+					if ($discount > 0) {
+						$params['discount'] = $discount;
+					}
+					$resp = SnapApi::send($verb, $path, $params);
+					$response = json_decode($resp['response']);
+
+					// get the orderID if it's successful
+					if(isset($resp) && $resp['code'] == 201) {
+						$idParts = explode('/', $response->resource_uri);
+						$orderID = $idParts[3];
+						$this->session->set_flashdata('orderID', $orderID);
+					} 
+					// can't create order
+					else {
+						$raven_client = new Raven_Client(SENTRY_DSN);
+						$raven_client->captureMessage('Unable to process payment. There was a problem with the Credit Card.');
+						throw new Exception('Unable to process payment.');
+					}
+
+					// signup email
+					//GET TIMEZONE
+					$timezone_offset_seconds = $_POST['event']['tz_offset'] * 60;
+					// SET TO UTC
+					$start_timestamp = strtotime($_POST['event']['start_date'] . " " . $_POST['event']['start_time']) + ($timezone_offset_seconds);
+
+					// CREATE END DATE
+					if ( $_POST['event']['duration_type'] == "days" )
+					{
+						$duration_in_seconds = $_POST['event']['duration_num'] * 86400;
+					} else {
+						$duration_in_seconds = $_POST['event']['duration_num'] * 3600;
+					}
+					$end_timestamp = $start_timestamp + $duration_in_seconds;
+
+					$signup_details = array(
+						'start_timestamp' => $start_timestamp,
+						'end_timestamp' => $end_timestamp,
+						'email_address' => $_POST['user']['email'],
+						'affiliate' => '',
+						'total' => $response->amount,
+					);
+					$signup_details['coupon'] = (isset($coupon)) ? $coupon : '';
+					if ($this->input->cookie('affiliate')) {
+						$signup_details['affiliate'] = $this->input->cookie('affiliate');
+
+						// delete the cookie
+						delete_cookie('affiliate');
+					}
+
+					// SEND SIGN-UP NOTIFICATION EMAIL
+					$subject = 'Say Cheese, a Snapable Sign-up!';
+					$this->email->initialize(array('mailtype'=>'html'));
+					$this->email->from('robot@snapable.com', 'Snapable');
+					$this->email->to('team@snapable.com');
+					$this->email->subject($subject);
+					$this->email->message($this->load->view('email/user_signup_html', $signup_details, true));
+					$this->email->set_alt_message($this->load->view('email/user_signup_txt', $signup_details, true));		
+					if (DEBUG == false) {
+						$this->email->send();
+					}
+
+					// if it makes the account invalid
+					$validUntil = null;
+					if (isset($package->interval) && isset($package->interval_count) && isset($package->trial_period_days))
+					{
+						// get the current datetime
+						$dt = new DateTime('now', new DateTimeZone('UTC'));
+						// make the trial time interval
+						$intervalTrial = new DateInterval('P'.$package->trial_period_days.'D');
+						
+						// create the package interval based on package info
+						$intervalStr = 'P'.$package->interval_count;
+						if ($package->interval == 'day') {
+							$intervalStr .= 'D';
+						} else if ($package->interval == 'month') {
+							$intervalStr .= 'M';
+						} else if ($package->interval == 'year') {
+							$intervalStr .= 'Y';
+						}
+						$intervalPackage = new DateInterval($intervalStr);
+
+						// figure out when this all ends in the future by adding the two intervals
+						$dt->add($intervalTrial);
+						$dt->add($intervalPackage);
+						$validUntil = $dt->format('c');
+					}
+
+					// update the account's package
+					$verb = 'PATCH';
+					$path = 'account/'.$accountParts[3];
+					$params = array(
+						'package' => $package->resource_uri,
+						'valid_until' => $validUntil,
+					);
+					$resp = SnapApi::send($verb, $path, $params);
+				} catch (Stripe_CardError $e) {
+					// keep the flash data if the user goes back
+					//$this->session->keep_flashdata('package_id');
+					//$this->session->keep_flashdata('package_price');
+					show_error('Unable to process payment.<br>'.$e->getMessage(), 500);
+				} catch (Exception $e) {
+					// keep the flash data if the user goes back
+					//$this->session->keep_flashdata('package_id');
+					//$this->session->keep_flashdata('package_price');
+					// send the exception to sentry
 					$raven_client = new Raven_Client(SENTRY_DSN);
-					$raven_client->captureMessage('Unable to process payment. There was no StripeToken or no user session.');
+					$raven_client->captureException($e);
 					show_error('Unable to process payment.<br>We\'ve been notified and are looking into the problem.', 500);
-					// redirect to form and display error
 				}
+				
+				$event_array = $this->account_model->eventDeets($session_data['account_uri']);
+				$this->session->set_userdata('event_deets', $event_array);
+				// redirect to the event
+				//redirect('/event/'.$event_array['url']);
+				// redirect to thank you page
+				$this->session->set_flashdata('event', $event_array['url']);
+				$this->session->set_flashdata('amount', $amount_in_cents);
+				redirect('/signup/complete');
 			} else {
 				$raven_client = new Raven_Client(SENTRY_DSN);
-				$raven_client->captureMessage('Unable to create event. There was no valid response after creating the event..');
-				show_error('Unable to create the event.<br>We\'ve been notified and are looking into the problem.', 500);
+				$raven_client->captureMessage('Unable to process payment. There was no StripeToken or no user session.');
+				show_error('Unable to process payment.<br>We\'ve been notified and are looking into the problem.', 500);
+				// redirect to form and display error
 			}
 		} else {
 			$raven_client = new Raven_Client(SENTRY_DSN);
-			$raven_client->captureMessage('Unable to create event. Invalid price: '.$amount_in_cents);
-			show_error('Unable to create the event. Seems like we couldn\'t calculate the price properly.', 500);
+			$raven_client->captureMessage('Unable to create event. There was no valid response after creating the event..');
+			show_error('Unable to create the event.<br>We\'ve been notified and are looking into the problem.', 500);
 		}
+ 
 	}
 	
 	
