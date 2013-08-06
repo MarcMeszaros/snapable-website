@@ -210,32 +210,27 @@ $(document).ready(function() {
 		$('input[name=submit-button]').attr("disabled", "disabled");
 		
 		// check form fields if the total > 0
-		var amount = parseFloat($("#package-amount").html());
-		if (amount >= 50) {
-			$("#creditcard_name").blur();
-			$("#creditcard_number").blur();
-			$("#creditcard_cvc").blur();
-			//$("#creditcard_year").change(); // checking one of the two exp date fields checks both
+		$("#creditcard_name").blur();
+		$("#creditcard_number").blur();
+		$("#creditcard_cvc").blur();
+		//$("#creditcard_year").change(); // checking one of the two exp date fields checks both
 
-			Stripe.createToken({
-				name: $('#creditcard_name').val(),
-			    number: $('#creditcard_number').val(),
-			    cvc: $('#creditcard_cvc').val(),
-			    exp_month: $('#creditcard_month').val(),
-			    exp_year: $('#creditcard_year').val(),
-			    //address_zip: $('#address_zip').val()
-			}, stripeResponseHandler);
+		Stripe.createToken({
+			name: $('#creditcard_name').val(),
+		    number: $('#creditcard_number').val(),
+		    cvc: $('#creditcard_cvc').val(),
+		    exp_month: $('#creditcard_month').val(),
+		    exp_year: $('#creditcard_year').val(),
+		    //address_zip: $('#address_zip').val()
+		}, stripeResponseHandler);
 
-			// prevent the form from submitting with the default action
-			return false;
-		} else {
-			_gaq.push(['_trackPageview', 'signup/submit']);
-		}
-
+		// prevent the form from submitting with the default action
+		return false;
 	});
 	
 	function stripeResponseHandler(status, response) {
 	    if (response.error) {
+	    	console.log('Stripe Error: ' + response);
 	    	_gaq.push(['_trackPageview', 'signup/error']);
 	        // show the errors on the form
 	        //$(".payment-errors").text(response.error.message);

@@ -20,7 +20,7 @@
 <ol>
     <li>Invite guests to view your album online and download the app from your Snapable dashboard.</li>
     <li>Print your downloadable table cards for the event to remind guests about using Snapable so you can collect every photo.</li>
-    <li>Have the MC make an announcement at the reception letting guests know they can use the app to take photos of your special day.</li>
+    <li>Have the MC make an announcement letting guests know they can use the app to take photos.</li>
 </ol>
 
 <h3>What kind of phones does this work on?</h3>

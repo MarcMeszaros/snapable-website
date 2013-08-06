@@ -1,10 +1,10 @@
 <div class="container">
-    <div id="metrics" class="span12">
+    <div id="metrics" class="col-12">
         <div class="row">
-            <div class="span9">
+            <div class="col-9">
                 <h2>Metrics</h2>
             </div>
-            <div id="metrics-range" class="span3">
+            <div id="metrics-range" class="col-3">
 
                 <form>
                     <span id="metrics-refresh">[Refresh]</span> |
@@ -21,50 +21,50 @@
                 </form>
             </div>
         </div>
-        <div id="metrics-panels" class="span12">
-            <div id="metric-signups" class="span3 panel">
+        <div id="metrics-panels" class="col-12">
+            <div id="metric-signups" class="col-2 panel">
                 <div class="title">Total Signups</div>
                 <div class="description">User signup count.</div>
                 <div class="value-container">
                     <div class="value"></div><span class="spinner-wrap status hide"></span>
                 </div>
             </div>
-            <div id="metric-past-events-count" class="span3 panel">
+            <div id="metric-past-events-count" class="col-2 panel">
                 <div class="title">Past Events</div>
                 <div class="description">Events ending in range.</div>
                 <div class="value-container">
                     <div class="value"></div><span class="spinner-wrap status hide"></span>
                 </div>
             </div>
-            <div id="metric-past-events-photos" class="span3 panel">
+            <div id="metric-past-events-photos" class="col-2 panel">
                 <div class="title">Past Events with Photos</div>
                 <div class="description">Events with at least 1 photo.</div>
                 <div class="value-container">
                     <div class="value"></div><span class="spinner-wrap status hide"></span>
                 </div>
             </div>
-            <div id="metric-upcoming-events" class="span3 panel">
+            <div id="metric-upcoming-events" class="col-2 panel">
                 <div class="title">Upcoming Events</div>
                 <div class="description">...and current events.</div>
                 <div class="value-container">
                     <div class="value"></div><span class="spinner-wrap status hide"></span>
                 </div>
             </div>
-            <div id="metric-photos-count" class="span3 panel">
+            <div id="metric-photos-count" class="col-2 panel">
                 <div class="title">Photo Count</div>
                 <div class="description">Photos taken/uploaded.</div>
                 <div class="value-container">
                     <div class="value"></div><span class="spinner-wrap status hide"></span>
                 </div>
             </div>
-            <div id="metric-avg-event-photos" class="span3 panel">
+            <div id="metric-avg-event-photos" class="col-2 panel">
                 <div class="title">Avg. photos/event</div>
                 <div class="description">Average photos per event.</div>
                 <div class="value-container">
                     <div class="value"></div><span class="spinner-wrap status hide"></span>
                 </div>
             </div>
-            <div id="metric-revenue" class="span3 panel">
+            <div id="metric-revenue" class="col-2 panel">
                 <div class="title">Revenue</div>
                 <div class="description">Gross | Net revenue from sales.</div>
                 <div class="value-container">
@@ -74,25 +74,25 @@
         </div>
     </div>
 
-    <div id="edit" class="span12">
+    <div id="edit" class="col-12">
         <h3>Manage</h3>
         <p>When refunding an account (do that in Stripe), delete the event first, then the user.</p>
         <div class="row">
-            <div class="span4">
+            <div class="col-4">
                 <form id="delete-event-form" method="post" action="/ajax_internal/delete_event">
                     <label for="delete-event">Delete event:</label>
                     <input type="number" id="delete-event" name="event_id" placeholder="Event ID" />
                     <input type="submit" value="Delete" onclick="return sendForm(this, deleteCallback);" />
                 </form>
             </div>
-            <div class="span4">
+            <div class="col-4">
                 <form id="delete-user-form" method="post" action="/ajax_internal/delete_user">
                     <label for="delete-user">Delete user:</label>
                     <input type="number" id="delete-user" name="user_id" placeholder="User ID" />
                     <input type="submit" value="Delete" onclick="return sendForm(this, deleteCallback);" />
                 </form>
             </div>
-            <div class="span4">
+            <div class="col-4">
                 <form id="delete-photo-form" method="post" action="/ajax_internal/delete_photo">
                     <label for="delete-photo">Delete photo:</label>
                     <input type="number" id="delete-photo" name="photo_id" placeholder="Photo ID" />
@@ -102,7 +102,7 @@
         </div>
     </div>
     
-    <div id="events" class="span12">
+    <div id="events" class="col-12">
         <h2>Events</h2>
         <p>Next 50 events:</p>
         <table class="table table-hover">

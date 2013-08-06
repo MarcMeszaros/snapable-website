@@ -18,7 +18,7 @@ body {
 #signinWrap {
 	display: block;
 	position: relative;
-	width: 350px;
+	width: 400px;
 	padding: 20px;
 	margin: 25px auto;
 	background: #fff;
@@ -95,10 +95,8 @@ h2#guestH2 { margin-top: 15px; }
 #signinWrap input {
 	border-radius: 10px;
 	background: #f4f4f4;
-	padding: 10px 10px 8px 10px;
-	font-size: 16px;
-	line-height: 18px;
-	width: 330px;
+	padding: 4px;
+	width: 100%;
 }
 input#pinInput {
 	display: block;
@@ -117,12 +115,12 @@ input#pinInput {
 	display: block;
 	color: #fff;
 	background: #67ac1c;
-	margin: 15px auto 0 auto;
-	padding: 20px 40px 18px 40px;
+	margin: 15px auto;
+	padding: 10px 40px;
 	border: none;
 	border-radius: 35px;
 	width: 170px;
-	font-size: 20px;
+	font-size: 18px;
 	text-align: center;
 	font-weight: bold;
 	text-decoration: none;

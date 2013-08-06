@@ -1,7 +1,6 @@
 /* setup default font */
 *, body {
     font-family: Vegur, 'PT Sans Caption', Helvetica, Arial, sans-serif;
-    font-size: 100%;
 }
 
 .clearit {
@@ -30,5 +29,24 @@ span.spinner-wrap {
     margin: 0;
 }
 span.spinner-wrap.hide {
+    display: none;
+}
+
+body .stButton .stButton_gradient {
+    height: 22px;
+}
+
+body .stButton .stBubble_count {
+    height: 41px;
+}
+
+body .stButton .stFb,
+body .stButton .stTwbutton,
+body .stButton .stMainServices {
+    height: auto;
+}
+
+body .stButton .stArrow,
+body .stButton .stBubble {
     display: none;
 }

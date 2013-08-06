@@ -3,7 +3,7 @@
 	<?php
 		$eid = explode('/', $eventDeets->resource_uri);
 	?>
-	<div id="event-cover-wrap"><img id="event-cover-image" src="/p/get_event/<?php echo $eid[3]; ?>/150x150" /></div>
+	<img id="event-cover-image" src="/p/get_event/<?php echo $eid[3]; ?>/150x150" />
 	<div id="event-title-wrap">
 		<h2 id="event-title" class="<?php echo ($ownerLoggedin)? 'edit': '';?>"><?= $eventDeets->title ?></h2>
 		<h1 id="event-address"><?= (!$eventDeets->public && isset($eventDeets->addresses[0]->{'address'})) ? $eventDeets->addresses[0]->{'address'} : '&nbsp;' ?></h1>
@@ -77,7 +77,7 @@
 				<input id="event-settings-address" name="address" type="text" data-resource-uri="<?= (isset($eventDeets->addresses[0]->{'resource_uri'})) ? $eventDeets->addresses[0]->{'resource_uri'} : '' ?>" value="<?= (isset($eventDeets->addresses[0]->{'address'})) ? $eventDeets->addresses[0]->{'address'} : '' ?>"/><span class="help tooltip"></span><span id="event-settings-address-status" class="status">&nbsp;</span>
 				<div id="map_canvas-wrap" style="display:none;">
 					<div class="form-field_hint">Tip: Drag the pin to your event address.</div>
-					<div id="map_canvas" style="width:370px; height:280px;"></div>
+					<div id="map_canvas" style="width:412px; height:280px;"></div>
 				</div>
 			</div>
 			<div class="small-field">
@@ -121,13 +121,9 @@
 			<li>
 				<a id="event-nav-privacy" href="#">Privacy</a>
 				<div id="event-nav-menu-privacy" class="event-nav-menu">
-					
 					<p>Choose private if you prefer photos are only viewed by guests. Public events will be visible to anyone who visits your album.</p>
-					
 					<ul>
 						<li><input type="radio" name="privacy-setting" value="0" <?php echo (!$eventDeets->public) ? 'checked="checked"':''; ?>/> Private</li>
-					</ul>
-					<ul>
 						<li><input type="radio" name="privacy-setting" value="1" <?php echo ($eventDeets->public) ? 'checked="checked"':''; ?>/> Public</li>
 					</ul>
 					<div class="clearit">&nbsp;</div>
@@ -143,15 +139,6 @@
 		Event PIN:
 		<div><?= $eventDeets->pin ?></div>
 	</div>
-	<!--
-	<div id="checkout-buttons">
-		<div id="in-cart">
-			<div id="in-cart-number">0</div>
-			Photos in cart
-		</div>
-		<a id="checkout" href="#">Checkout</a>
-	</div>
-	-->
 </div>
 
 <div id="uploadArea" class="slidContent">
@@ -164,16 +151,18 @@
 		<?php if(isset($guest_uri)) { ?>
 		<input type="hidden" name="guest" value="<?php echo $guest_uri; ?>" />
 		<?php } ?>
-		<div class="control-group">
-			<label class="control-label" for="upload-caption">Caption</label>
-			<input id="upload-caption" type="text" name="caption"  style="margin-left:-50px;"/>
-		</div>
-		<div class="control-group">
-			<label class="control-label" for="upload-file" style="padding-top:0;">File</label>
-			<input id="upload-file" type="file" name="file_element" style="line-height:16px;" required />
-		</div>
-		<input type="submit" id="photo-upload-btn" value="Upload">
-		<img id="photo-upload-spinner" class="hide" src="/assets/img/spinner_blue_sm.gif" />
+		<fieldset>
+			<div class="form-group">
+				<label class="control-label" for="upload-caption">Caption</label>
+				<input id="upload-caption" class="form-control" type="text" name="caption" />
+			</div>
+			<div class="form-group">
+				<label class="control-label" for="upload-file" style="padding-top:0;">File</label>
+				<input id="upload-file" class="form-control" type="file" name="file_element" required />
+			</div>
+			<input type="submit" id="photo-upload-btn" value="Upload" />
+			<span id="photo-upload-spinner" class="spinner-wrap hide" data-color="#366993"></span>
+		</fieldset>
 	</form>
 </div>
 <div class="clearit">&nbsp;</div>
