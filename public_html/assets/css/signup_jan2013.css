@@ -491,3 +491,9 @@ a.button:hover, #completSignup:hover {
 #billing select {
   width: 130px;
 }
+
+/* Signup Spinner */
+#signup-spinner {
+  display: block;
+  margin-left: 90px;
+}
