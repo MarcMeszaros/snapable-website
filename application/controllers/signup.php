@@ -7,8 +7,8 @@ class Signup extends CI_Controller {
 	// (ie. case insensitive input, but all lowercase behind the scenes)
 	public static $COUPON_CODES = array(
 		'201bride' => 1000, // added: 2013-03-26; valid_until: TBD
-		'adorii' => 7900, // added: 2013-01-24; valid_until: TBD
-		'adorii5986' => 7900, // added: 2013-02-06; valid_until: TBD
+		'adorii' => 4900, // added: 2013-01-24; valid_until: TBD
+		'adorii5986' => 4900, // added: 2013-02-06; valid_until: TBD
 		'bespoke' => 1000, // added: 2013-01-31; valid_until: TBD
 		'betheman' => 1000, // added: 2013-01-31; valid_until: TBD
 		'bridaldetective' => 1000, // added: 2013-01-31; valid_until: TBD
@@ -17,8 +17,9 @@ class Signup extends CI_Controller {
 		'gbg' => 1000, // added: 2013-01-31; valid_until: TBD
 		'poptastic' => 1000, // added: 2013-01-31; valid_until: TBD
 		'smartbride' => 1000, // added: 2013-01-31; valid_until: TBD
-		'snaptrial2013' => 7900, // added: 2013-03-14; valid_until: TBD
-		'weddingful5986' => 7900, // added: 2013-02-06; valid_until: TBD
+		'snapdeal2013' => 4900, // added: 2013-03-26; valid_until: TBD
+		'snaptrial2013' => 4900, // added: 2013-03-14; valid_until: TBD
+		'weddingful5986' => 4900, // added: 2013-02-06; valid_until: TBD
 		'wr2013' => 1000, // added: 2013-01-17; valid_until: TBD
 	);
 
