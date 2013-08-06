@@ -99,6 +99,7 @@ $(document).ready(function(){
 
     $(document).on("click", "#guest-link-manual", function(){ 
         $("#guest-choices").hide().mustache("guest-manual", "", {method: "html"}).addClass("guests-options-wrap").fadeIn("normal");
+        $('#guest-choices .spinner-wrap').spin('small');
         return false;
     });
     
@@ -310,35 +311,38 @@ $(document).ready(function(){
     
     $(document).on("click", "#guests-manual-done", function()
     {
+        $(this).hide();
+        $(this).siblings('.spinner-wrap').removeClass('hide');
         // check if there's anything in the textbox
-        if ( $("#guests-manual-textarea").val() == "" )
-        {
-            alert("It doesn't look like you've invited anyone to your event.");
+        if ( $("#guests-manual-textarea").val() == "" ) {
+            $.pnotify({
+                type: 'error',
+                title: 'Invitations',
+                text: "It doesn't look like you've invited anyone to your event."
+            });
             $("#guests-manual-textarea").focus();
         } else {
-            $.post("/parse/text", { eventURI:eventID, message:$("#guests-manual-textarea").val() }, function(data)
-            {
-                var json = jQuery.parseJSON(data);
-                if ( json.status == 200 )
-                {
+            $.ajax("/parse/text", {
+                type: 'POST',
+                data: { eventURI:eventID, message:$("#guests-manual-textarea").val() }, 
+                success: function(data, textStatus, jqXHR){
                     // switch tab to notify and show content
                     $("#addTab").removeClass("active");
                     $("#notifyTab").addClass("active");
-                    $("#addBox").fadeOut("fast", function()
-                    {
-                        $.get('/event/guests/count', { resource_uri:eventID }, function(count)
-                        {
-                            if ( count == 0 )
-                            {
-                                $("#do-notify-wrap").html("No guests have been invited yet.");
-                            } else {
-                                $("#do-notify-wrap").html('<a href="#" id="do-notify-guests">Send Email(s)</a>');
-                            }
-                        });
+                    $("#addBox").fadeOut("fast", function() {
                         $("#notifyBox").fadeIn("fast");
                     });
-                } else {
-                    alert("We weren't able to complete the upload of your guest list at this time.");
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    $.pnotify({
+                        type: 'error',
+                        title: 'Invitations',
+                        text: "We weren't able to complete the upload of your guest list at this time."
+                    });
+                },
+                complete: function(jqXHR, textStatus) {
+                    $(this).show();
+                    $(this).siblings('.spinner-wrap').addClass('hide');
                 }
             });
         }

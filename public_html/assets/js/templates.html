@@ -98,7 +98,7 @@
 	</div>
 </script>
 
-<script id="guest-options">
+<script id="guest-options" type="text/html">
 	<a id="guest-link-upload" href="#">Upload from File</a>
 
 	<a id="guest-link-manual" href="#">
@@ -140,7 +140,10 @@
 			
 			<textarea id="guests-manual-textarea"></textarea>
 			
-			<a class="buttonBox" id="guests-manual-done" href="#">Done</a>
+			<div class="guestDoneWrap">
+				<a class="buttonBox" id="guests-manual-done" href="#">Done</a>
+				<span class="spinner-wrap hide"></span>
+			</div>
 </script>
 
 <script id="guest-csv-parse" type="text/html">
@@ -184,9 +187,8 @@
 
 <script id="guest-list" type="text/html">
 	<tr>
-		<td style="width:30%;">{{name}}</td>
-		<td style="width:40%;"><a href="mailto:{{email}}">{{email}}</a></td>
-		<td style="width:25%;">Invite Sent: {{invited}}</td>
+		<td style="width:40%;">{{name}}</td>
+		<td style="width:55%;"><a href="mailto:{{email}}">{{email}}</a></td>
 		<td style="width:5%;"><a class="guest-delete" href="#" data-guest_id="{{id}}">Delete</a></td>
 	</tr>
 </script>

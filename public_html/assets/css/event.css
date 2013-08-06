@@ -951,6 +951,11 @@ a#guest-link-upload:hover, a#guest-link-manual:hover {
 	color: #999;
 }
 
+.guestDoneWrap {
+	width: 100px;
+	margin: 0 auto;
+}
+
 a.buttonBox:link, a.buttonBox:visited {
 	display: block;
 	color: #fff;
