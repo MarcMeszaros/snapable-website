@@ -1,318 +1,130 @@
 /**** STRUCTURE ****/
-body {
-        background: #fff;
-        color: #505050;
-}
-
 #wrap {
-        width: 960px;
-        margin: 85px auto 40px auto;
-}
-#wrap:after {
-        content: ".";
-    display: block;
-    height: 0;
-    clear: both;
-    visibility: hidden;
-    margin: 0;
-    padding: 0;
+    margin: 85px auto 40px auto;
 }
 
 /**** LEFT ****/
-
-.left {
-        position: fixed;
-        top: 90px;
-        width: 120px;
-        font-size: 14px;
-        line-height: 16px;
-        font-weight: bold;
+#left {
+    position: fixed;
+    font-size: 14px;
+    line-height: 16px;
+    font-weight: bold;
 }
 
 #logo {
-        display: block;
-        width: 82px;
-        height: 82px;
-        margin: 0 0 50px 0;
-        overflow: hidden;
-        background: transparent url('../home/img/logo-circle.png') no-repeat;
-        text-indent: -8000px;
-        text-decoration: none;
+    display: block;
+    width: 82px;
+    height: 82px;
+    margin: 0 0 50px 0;
+    overflow: hidden;
+    background: transparent url('../home/img/logo-circle.png') no-repeat;
+    text-indent: -8000px;
+    text-decoration: none;
 }
 
+#left ul {
+    list-style: none;
+}
+#left li {
+    display: block;
+    margin-bottom: 1px;
+}
+#left ul a:link, .left ul a:visited {
+    display: block;
+    width: 100px;
+    padding: 8px 8px 6px 8px;
+    color: #6699cc;
+    text-decoration: none;
+    border-radius: 14px;
+}
+#left ul a:hover {
+    color: #336699;
+}
+#left ul a.active {
+    color: #fff;
+    background: #292929;
+}
 
-.left ul {
-        list-style: none;
+#left dl {
+    margin-top: 35px;
+    font-weight: bold;
 }
-.left li {
-        display: block;
-        margin-bottom: 1px;
+#left dt {
+    padding: 8px 8px 6px 8px;
+    color: #999;
 }
-.left ul a:link, .left ul a:visited {
-        display: block;
-        width: 100px;
-        padding: 8px 8px 6px 8px;
-        color: #6699cc;
-        text-decoration: none;
-        border-radius: 14px;
+#left dd a:link, #left dd a:visited {
+    display: block;
+    padding: 8px 8px 6px 30px;
+    color: #6699cc;
+    text-decoration: none;
 }
-.left ul a:hover {
-        color: #336699;
-}
-.left ul a.active {
-        color: #fff;
-        background: #292929;
-}
-
-.left dl {
-        margin-top: 35px;
-        font-weight: bold;
-}
-.left dt {
-        padding: 8px 8px 6px 8px;
-        color: #999;
-}
-.left dd a:link, .left dd a:visited {
-        display: block;
-        padding: 8px 8px 6px 30px;
-        color: #6699cc;
-        text-decoration: none;
-        }
-.left dd a:hover {
-        color: #336699;
+#left dd a:hover {
+    color: #336699;
 }
 
 
 /**** RIGHT ****/
-
-.right {
-        display: inline;
-        float: right;
-        width: 740px;
-        min-height: 250px;
-}
-
-
 #your, #billing { display: none; }
 
 h1 {
-        font-weight: normal;
-        font-size: 28px;
-        line-height: 30px;
-        margin: 20px 0 0 0;
+    font-weight: normal;
+    font-size: 28px;
+    line-height: 30px;
+    margin: 20px 0 0 0;
 }
 h2 {
-        font-weight: normal;
-        font-size: 16px;
-        line-height: 22px;
-        color: #979797;
-        margin: 0 0 60px 0;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 22px;
+    color: #979797;
+    margin: 0 0 60px 0;
 }
 
 h3 {
-        font-size: 16px;
-        line-height: 22px;
-        margin-top: 40px;
-        margin-bottom: 20px;
+    font-size: 16px;
+    line-height: 22px;
+    margin-top: 40px;
+    margin-bottom: 20px;
 }
 h3:first-child {
-        margin-top: 0;
+    margin-top: 0;
 }
-.package h4 { margin-bottom: 10px; text-align: center; }
+#package h4 { margin-bottom: 10px; text-align: center; }
 
 h4 {
-        font-size: 16px;
-        line-height: 22px;
-        color: #999;
+    font-size: 16px;
+    line-height: 22px;
+    color: #999;
 }
 
 p {
-        font-weight: normal;
-        font-size: 16px;
-        line-height: 22px;
-        margin-top: 16px;
-        color: #979797;
+    font-weight: normal;
+    line-height: 22px;
+    margin-top: 16px;
+    color: #979797;
 }
 
-
-.form {
-	float: left;
-	display: inline;
-	width: 375px;
-}
-.package {
-	float: right;
-	display: inline;
-	width: 275px;
+#package {
 	padding: 0 0 0 40px;
 	border-left: 1px solid #ccc;
 }       
 
-
 /**** FORM ****/
-
-.form-fields {
-	padding: 0 50px;
-	width: 400px;
-	/*background: transparent url('/assets/img/form-box-bg.gif') no-repeat;*/
-}
-
-.form-column-right {
-	float: right;
-	display: inline;
-	width: 290px;
-	color: #fff;
-}
-.form-column-right a:link, .form-column-right a:visited {
-	color: #66ccff;
-}
-.form-column-right a:hover {
-	color: #ffcc00;
-}
-
-.form-box {
-	margin: 15px 0 0 0;
-	padding: 0 0 0 0;
-}
-
-.form-column-right hr {
-  margin: 35px 0px 23px 0px;
-  height: 1px;
-  background-color: #ccc;
-  border: 0px;
-}
-
-.form-field input[type="text"] {
-  width:350px;  
-}
-.password-field input[type="password"] {
-  width:165px;  
-}
-
-.form-field {
-  padding:0;
-  margin:0 0 10px 0;
-  float:left;
-}
-.password-field {
-  padding:0;
-  margin:0 0 10px 0;
-  float:left;
-  width: 175px;
-}
-.password-field.field-separated { margin-right: 10px; }
-
-.small-field input[type="text"] {
-  width:70px;  
-}
-.small-field input[type="text"].longer {
-  width:85px;  
-}
-
-.small-field, .small-field-inner, .small-field-inner-wide {
-  padding:0;
-  margin:0 0 5px 0;
-  float:left;
-}
-.small-field:after {
-	content: ".";
-    display: block;
-    height: 0;
-    clear: both;
-    visibility: hidden;
-    margin: 0;
-    padding: 0;
-}
-.small-field-inner {
-	width: 110px;
-}
-.small-field-inner-wide {
-	width: 150px;
-}
-.small-field-inner-wide select {
-  width: 72px;
-}
-
-.expires-field {
-	float: left;
-	width: 150px;
-}
-.cvv-field {
-	float: left;
-	width: 200px;
-}
-
 div.ui-datepicker{
  font-size:14px;
 }
 
-.form-field.field-separated, .small-field.field-separated {
-  clear:both;
-  float:left;
-  margin-right:15px;
-}
+#event_location { width: 93% }
+#event_url-start { width: 28%; font-size: 14px; padding-top: 4px; padding-right: 5px;}
+#event_url { width: 66%; }
+#user_email { width: 93% }
+#creditcard_cvc { width: 15%; }
 
-.form-field input, .small-field input, .password-field input, .cvv-field input {
-  font-size:14px;
-  padding:5px;
-  margin-bottom: 10px;
-  border-radius: 3px;
-  border: 1px solid #ccc;
-  
-  background-color: #f4f9fc;
-}
+#event_location_status, #event_url_status, #email_status { display: inline-block; width: 16px; margin-left: 5px; }
 
-#event_location { float: left; width: 325px; }
-#user_email { float: left; width: 325px; }
-#event_url { width: 150px; }
-
-#event_url-start { font-size: 14px; padding-top: 4px; padding-right: 5px;}
-
-#event_location_status, #event_url_status, #email_status { float: right; width: 16px; margin-left: 5px; }
-
-#zip_field input { margin-bottom: 0; }
-
-.form-field input:focus, .password-field input:focus {
-  background-color:#fff9c5;
-}
-
-.form-field label, .password-field label, .small-field label, .expires-field label, .cvv-field label {
-  display:block;
-  color:#425357;
-  font-size:14px;
-  padding:0 0 5px 1px;
-  font-weight: normal;
-}
-
-.form-field label em, .password-field label em {
-  font-size:14px;
-  color:#425357;
-}
-
-.form-field span.info {
-  padding:10px 5px 6px 0px;
-  font-size:14px;
-  font-weight:bold;
-  color:#425357;
-}
-span.left { float: left; }
-
-.form-field_hint {
-  font-size:12px;
-  line-height:13px;
-  color: #526b6d;
-  margin: 2px 0;
-}
-
-.form-field img, .cvv-field img {
-	margin-left: 5px;
-	vertical-align: middle;
-}
-
-.terms-box {
-	background: #ffe990;
-	margin: 11px 11px 0 11px;
-	padding: 25px 25px 14px 25px;
+.help-block {
+    font-size:12px;
 }
 
 .url_bad, .url_good {
@@ -328,7 +140,6 @@ span.left { float: left; }
 .url_good {
 	background: transparent url('/assets/img/check_alt_16x16.png') no-repeat;
 }
-
 
 .location_good, .spinner-16px, .email_good, .email_bad {
 	float: right;
@@ -348,9 +159,10 @@ span.left { float: left; }
 }
 
 .parsley-error-list {
-  display: inline-block;
-  margin-left: 0;
-  list-style: none;
+    display: inline-block;
+    margin-left: 0;
+    padding-left: 0;
+    list-style: none;
 	color: #cc3300;
 	font-size: 14px;
 	line-height: 14px;
@@ -361,37 +173,30 @@ span.left { float: left; }
 
 hr {
 	clear: both;
-  margin: 15px 0px;
-  height: 1px;
-  background-color: #ccc;
-  border: 0px;
-}
-.form-fields hr.thick, .form-fields hr.thicker {
-	height: 3px;
-}
-.form-fields hr.thicker, .form-fields hr.longer {
-	width: 400px;
+    margin: 15px 0px;
+    height: 1px;
+    background-color: #ccc;
+    border: 0px;
 }
 
-
-.package ul {
+#package ul {
 	list-style: none;
   padding-left: 0;
 }
-.package li {
+#package li {
 	text-align: center;
 	padding: 10px 0;
 	border-bottom: 1px dotted #ccc;
 	font-size: 14px;
 	line-height: 16px;
 }
-.package li:last-child {
+#package li:last-child {
 	border-bottom: none;
 }
-.package li div {
+#package li div {
 	font-size: 12px;
 }
-.package li strong {
+#package li strong {
 	color: #ff9900;
 }
 
@@ -415,14 +220,13 @@ hr {
 }
 
 .package-promo input {
-	width: 100px;
+	width: 125px;
 	font-size:14px;
 	padding:3px;
 	margin-top: 5px;
 	margin-bottom: 10px;
 	border-radius: 3px;
 	border: 1px solid #ccc;
-	
 	background-color: #f4f9fc;
 }
 #apply-promo-code {
@@ -435,6 +239,7 @@ hr {
 	text-align: center;
 	border-radius: 10px;
 	text-decoration: none;
+    box-shadow: 1px 1px 2px 1px #ccc;
 }
 #apply-promo-code:hover {
 	background: #669900;
@@ -442,20 +247,20 @@ hr {
 
 
 a.button:link, a.button:visited, #completSignup {
-	display: block;
-	width: 210px;
-  padding: 20px;
-  background: #99cc33;
-  border-radius: 30px;
-  border: none;
-  color: #fff;
-  font-size: 20px;
-  line-height: 22px;
-  font-weight: normal;
-  text-decoration: none;
-	text-align: center;
-	cursor: pointer;
-  box-shadow: 1px 1px 2px 1px #ccc;
+    display: block;
+    width: 210px;
+    padding: 20px;
+    background: #99cc33;
+    border-radius: 30px;
+    border: none;
+    color: #fff;
+    font-size: 20px;
+    line-height: 22px;
+    font-weight: normal;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 1px 1px 2px 1px #ccc;
 }
 a.button:hover, #completSignup:hover {
 	background: #669900;
@@ -465,16 +270,14 @@ a.button:hover, #completSignup:hover {
 	background: #ccc;
 }
 
-
 .secureInfo {
 	float: right;
-	margin-top: 10px;
-	padding: 10px 5px 5px 35px;
-	width: 100px;
+	margin-top: 14px;
+	padding: 14px 5px 14px 35px;
+	width: 190px;
 	border-radius: 5px;
 	background: #66ccff url('/assets/img/icons/lock_fill_12x16.png') no-repeat 10px 12px;
 	color: #fff;
-	font-size: 12px;
 	line-height: 14px;
 }
 
@@ -489,11 +292,11 @@ a.button:hover, #completSignup:hover {
 }
 
 #billing select {
-  width: 130px;
+    width: 130px;
 }
 
 /* Signup Spinner */
 #signup-spinner {
-  display: block;
-  margin-left: 90px;
+    display: block;
+    margin-left: 90px;
 }

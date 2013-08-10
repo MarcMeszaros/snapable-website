@@ -17,7 +17,6 @@ class Signup extends CI_Controller {
 		'gbg' => 1000, // added: 2013-01-31; valid_until: TBD
 		'poptastic' => 1000, // added: 2013-01-31; valid_until: TBD
 		'smartbride' => 1000, // added: 2013-01-31; valid_until: TBD
-		'snapdeal2013' => 4900, // added: 2013-03-26; valid_until: TBD
 		'snaptrial2013' => 4900, // added: 2013-03-14; valid_until: TBD
 		'weddingful5986' => 4900, // added: 2013-02-06; valid_until: TBD
 		'wr2013' => 1000, // added: 2013-01-17; valid_until: TBD
@@ -65,6 +64,13 @@ class Signup extends CI_Controller {
 		$path = 'package/'.self::$PACKAGE_ID; // standard package
 		$resp = SnapApi::send($verb, $path);
 		$package = json_decode($resp['response']);
+
+		// failed to get package
+		if ($resp['code'] != 200) {
+			$raven_client = new Raven_Client(SENTRY_DSN);
+			$raven_client->captureMessage('Unable to initialize signup process.');
+			show_error('Unable to initialize signup process.<br>We\'ve been automatically notified and are looking into the problem.', 500);
+		}
 
 		// set price in cents
 		$amount_in_cents = $package->amount;
@@ -116,16 +122,18 @@ class Signup extends CI_Controller {
 		// set price in cents
 		$amount_in_cents = $package->amount;
 		$discount = 0;
+		$coupon = '';
 
 		// if there is a promo code to process
-		if (isset($_POST) && $_POST['promo-code-applied'] == 1 && isset($_POST['promo-code']))
+		if (isset($_POST['promo-code-applied']))
 		{
 			// sanitize the data (ie. remove invalid characters and lowercase)
-			$code = strtolower(preg_replace('/[^a-zA-Z0-9-_]/', '', $_POST['promo-code']));
+			$code = strtolower(preg_replace('/[^a-zA-Z0-9-_]/', '', $_POST['promo-code-applied']));
 
 			// only apply discount if coupon is valid
 			if (array_key_exists($code, self::$COUPON_CODES)) {
 				$discount = self::$COUPON_CODES[$code];
+				$coupon = $code;
 			}
 		}
 
@@ -150,7 +158,7 @@ class Signup extends CI_Controller {
 				$params['stripeToken'] = $_POST['stripeToken'];
 			}
 			// add the coupon if there was one
-			if (isset($coupon)) {
+			if (strlen($coupon) > 0) {
 				$params['coupon'] = $coupon;
 			}
 			if ($discount > 0) {
@@ -344,7 +352,7 @@ class Signup extends CI_Controller {
 			    // success
 			    echo json_encode(array(
 			    	'status' => 200,
-			    	'value' => (self::$COUPON_CODES[$code]/100),
+			    	'value' => (self::$COUPON_CODES[$code]),
 			    ));
 			} else {
 			    echo json_encode(array('status' => 404));

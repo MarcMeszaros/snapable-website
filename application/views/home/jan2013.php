@@ -4,7 +4,7 @@
 			<div id="logo">Snapable. Every moment at your event in photos</div>
 			
 			<ul id="nav">
-				<li><a href="signup" onClick="_gaq.push(['_trackEvent', 'Signups', 'Clicked', 'Signup (Header)']);">Sign-up</a></li>
+				<li><a class="signup" href="signup" onClick="_gaq.push(['_trackEvent', 'Signups', 'Clicked', 'Signup (Header)']);">Sign-up</a></li>
 				<li><a class="signin" href="/account/signin">Sign-in</a></li>
 				<li><a href="http://blog.snapable.com/">Blog</a></li>
 				<li><a href="#pricing" class="anchorLink">Pricing</a></li>
@@ -168,7 +168,10 @@
 		        	</div>
 		        	
 		        	<div class="package-big-bottom">
-		        		<span class="price">$49</span>
+		        		<div>
+		        			<span class="old-price grey hide"><span class="strike"></span>$79</span>
+		        			<span class="price">$49</span>
+		        		</div>
 		        		<a href="/signup"><img src="/assets/home/img/jan2013/setup_event-sm.png" width="300" height="62" border="0" alt="Setup Your Event" /></a>
 		        		
 		        	</div>
