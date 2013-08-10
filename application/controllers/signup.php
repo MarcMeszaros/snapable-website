@@ -122,12 +122,13 @@ class Signup extends CI_Controller {
 		// set price in cents
 		$amount_in_cents = $package->amount;
 		$discount = 0;
+		$coupon = '';
 
 		// if there is a promo code to process
-		if (isset($_POST) && $_POST['promo-code-applied'] == 1 && isset($_POST['promo-code']))
+		if (isset($_POST['promo-code-applied']))
 		{
 			// sanitize the data (ie. remove invalid characters and lowercase)
-			$code = strtolower(preg_replace('/[^a-zA-Z0-9-_]/', '', $_POST['promo-code']));
+			$code = strtolower(preg_replace('/[^a-zA-Z0-9-_]/', '', $_POST['promo-code-applied']));
 
 			// only apply discount if coupon is valid
 			if (array_key_exists($code, self::$COUPON_CODES)) {
@@ -157,7 +158,7 @@ class Signup extends CI_Controller {
 				$params['stripeToken'] = $_POST['stripeToken'];
 			}
 			// add the coupon if there was one
-			if (isset($coupon)) {
+			if (strlen($coupon) > 0) {
 				$params['coupon'] = $coupon;
 			}
 			if ($discount > 0) {
@@ -351,7 +352,7 @@ class Signup extends CI_Controller {
 			    // success
 			    echo json_encode(array(
 			    	'status' => 200,
-			    	'value' => (self::$COUPON_CODES[$code]/100),
+			    	'value' => (self::$COUPON_CODES[$code]),
 			    ));
 			} else {
 			    echo json_encode(array('status' => 404));

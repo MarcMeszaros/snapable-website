@@ -130,36 +130,26 @@ $(document).ready(function() {
 	
 	
 	$("#apply-promo-code").click( function() {
-		if ( $("input[name=promo-code]").val() == "" ) {
-			$.pnotify({
-				type: 'info',
-				text: "You haven't provided a promo code."
-			});
-		} else {
-			$.getJSON("/signup/promo", { "code": $("input[name=promo-code]").val() }, function(json) {	
-				var promoApplied = $("input[name=promo-code-applied]").val();
+		if ($('#promo-code').val().length > 0) {
+			$.getJSON("/signup/promo", { "code": $("#promo-code").val() }, function(json) {	
+				var promoCode = $("#promo-code").val();
 				
-				if ( json.status == 200 && promoApplied == 0 ) {
-					var amount = parseFloat($("#package-amount").html());
+				if ( json.status == 200 ) {
+					var amount = parseFloat($("#package-amount").data('amount'));
 					var discount = parseFloat(json.value);
+					$('#promo-code-applied').val(promoCode);
+					$('#promo-code').data('amount', discount);
 					if (discount > amount) {
 						discount = amount;
 					}
-
-					$("#package-amount").html(amount - discount);
-					$("input[name=promo-code-applied]").val(1);
-					$("input[name=promo-code-amount]").val(amount - discount);
+					$("#package-amount").html((amount - discount)/100);
 
 					// if the amount is 0, disable credit card fields
 					if ((amount - discount) == 0) {
 						$('#billing input,#billing select').not('#completSignup').attr("disabled", "disabled");
+					} else {
+						$('#billing input,#billing select').not('#completSignup').removeAttr("disabled");
 					}
-				} 
-				else if ( promoApplied == 1 ) {
-					$.pnotify({
-						type: 'info',
-						text: "Sorry, you've already applied a promo code."
-					});
 				} else {
 					$.pnotify({
 						type: 'info',
