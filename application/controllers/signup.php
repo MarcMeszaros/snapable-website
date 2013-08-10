@@ -17,7 +17,6 @@ class Signup extends CI_Controller {
 		'gbg' => 1000, // added: 2013-01-31; valid_until: TBD
 		'poptastic' => 1000, // added: 2013-01-31; valid_until: TBD
 		'smartbride' => 1000, // added: 2013-01-31; valid_until: TBD
-		'snapdeal2013' => 4900, // added: 2013-03-26; valid_until: TBD
 		'snaptrial2013' => 4900, // added: 2013-03-14; valid_until: TBD
 		'weddingful5986' => 4900, // added: 2013-02-06; valid_until: TBD
 		'wr2013' => 1000, // added: 2013-01-17; valid_until: TBD
@@ -65,6 +64,13 @@ class Signup extends CI_Controller {
 		$path = 'package/'.self::$PACKAGE_ID; // standard package
 		$resp = SnapApi::send($verb, $path);
 		$package = json_decode($resp['response']);
+
+		// failed to get package
+		if ($resp['code'] != 200) {
+			$raven_client = new Raven_Client(SENTRY_DSN);
+			$raven_client->captureMessage('Unable to initialize signup process.');
+			show_error('Unable to initialize signup process.<br>We\'ve been automatically notified and are looking into the problem.', 500);
+		}
 
 		// set price in cents
 		$amount_in_cents = $package->amount;
