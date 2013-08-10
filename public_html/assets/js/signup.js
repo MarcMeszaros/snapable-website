@@ -255,11 +255,14 @@ $(document).ready(function() {
 	
 	function stripeResponseHandler(status, response) {
 	    if (response.error) {
-	    	console.log('Stripe Error: ' + response);
 	    	_gaq.push(['_trackPageview', 'signup/error']);
+	    	$.pnotify({
+				type: 'error',
+				text: response.error.message
+			});
 	        // show the errors on the form
-	        //$(".payment-errors").text(response.error.message);
-	        $(".submit-button").removeAttr("disabled");
+	        $('#signup-spinner').addClass('hide');
+	        $('#completSignup').removeAttr("disabled").show();
 	    } else {
 	        _gaq.push(['_trackPageview', 'signup/submit']);
 	        
