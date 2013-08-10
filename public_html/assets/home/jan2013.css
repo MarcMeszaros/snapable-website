@@ -425,13 +425,16 @@ p.pLink {
 	position: relative;
 	top: 20px;
 }
+.package-big-bottom .old-price {
+	font-size: 64px;
+}
 .package-big-bottom .old-price .strike {
 	display: inline-block;
 	position: absolute;
-	width: 160px;
-	height: 12px;
-	top: 48px;
-	background: #f00;
+	width: 94px;
+	height: 6px;
+	top: 36px;
+	background: #c22a2a;
 	z-index: 10;
 }
 .package-price {
@@ -443,7 +446,7 @@ p.pLink {
 	/*text-shadow: #266485 1px -1px -2px;*/
 }
 .package-price span { font-size: 18px; color: #999; }
-.package-price span.grey { font-weight: normal; color: #999; }
+.package-big-bottom span.grey { font-weight: normal; color: #999; }
 .package-small-print { text-align: center; width: 350px; margin: 0 auto; font-size: 12px; line-height: 14px; color: #999; }
 
 #package-sign-up {
