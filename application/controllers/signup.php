@@ -132,6 +132,7 @@ class Signup extends CI_Controller {
 			// only apply discount if coupon is valid
 			if (array_key_exists($code, self::$COUPON_CODES)) {
 				$discount = self::$COUPON_CODES[$code];
+				$coupon = $code;
 			}
 		}
 

@@ -70,7 +70,7 @@
 								<input id="event_location" class="form-control" name="event[location]" type="text" data-required="true" data-notblank="true" data-error-message="You must provide a location for your event." /> 
 								<span id="event_location_status"></span>
 							</div>
-							<span class="form-field_hint">Example: 255 Bremner Blvd, Toronto, Canada, M5V 3M9</span>
+							<span class="help-block">Example: 255 Bremner Blvd, Toronto, Canada, M5V 3M9</span>
 						</div>
 
 						<div id="map_canvas_container" class="form-group" style="display:none;">
@@ -84,7 +84,7 @@
 								<span id="event_url-start">snapable.com/event/</span><input id="event_url" class="form-control" name="event[url]" type="text" data-required="true" data-notblank="true" />
 								<span id="event_url_status"></span>
 							</div>
-							<div class="form-field_hint">Example: https://snapable.com/event/<b>my-big-fat-greek-wedding</div>
+							<span class="help-block">Example: https://snapable.com/event/<b>my-big-fat-greek-wedding</b></span>
 						</div>
 
 						<hr />

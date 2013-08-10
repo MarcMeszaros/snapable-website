@@ -60,7 +60,7 @@ function sanitizeUrl() {
 	checkUrl($("#event_url").val());
 }
 
-$(document).ready(function() {  
+$(document).ready(function() {
 	// validate all fields on blur
 	$('form input').blur(function() {
 		$(this).parsley('validate');
@@ -195,6 +195,31 @@ $(document).ready(function() {
 				$("#navBilling").addClass("active");
 				$("#billing").fadeIn("fast");
 			})
+		}
+		return false;
+	});
+
+	// form step toggle
+	$('#navEvent,#navYour,#navBilling').click(function(){
+		var id = $(this).attr("id");
+		if (id == 'navEvent') {
+			$("#navYour,#navBilling").removeClass("active");
+			$("#navEvent").addClass("active");
+			$("#your,#billing").fadeOut(400, function(){
+				$("#event").fadeIn("fast");
+			});
+		} else if (id == 'navYour') {
+			$("#navEvent,#navBilling").removeClass("active");
+			$("#navYour").addClass("active");
+			$("#event,#billing").fadeOut(400, function(){
+				$("#your").fadeIn("fast");
+			});
+		} else if (id == 'navBilling') {
+			$("#navEvent,#navYour").removeClass("active");
+			$("#navBilling").addClass("active");
+			$("#event,#your").fadeOut(400, function(){
+				$("#billing").fadeIn("fast");
+			});
 		}
 		return false;
 	});

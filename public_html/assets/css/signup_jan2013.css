@@ -123,9 +123,8 @@ div.ui-datepicker{
 
 #event_location_status, #event_url_status, #email_status { display: inline-block; width: 16px; margin-left: 5px; }
 
-.form-field_hint {
+.help-block {
   font-size:12px;
-  color: #526b6d;
 }
 
 .url_bad, .url_good {
