@@ -206,7 +206,7 @@ p {
   width:70px;  
 }
 .small-field input[type="text"].longer {
-  width:85px;  
+  width:90px;  
 }
 
 .small-field, .small-field-inner, .small-field-inner-wide {
@@ -264,7 +264,7 @@ div.ui-datepicker{
 
 #event_location { float: left; width: 325px; }
 #user_email { float: left; width: 325px; }
-#event_url { width: 150px; }
+#event_url { width: 175px; }
 
 #event_url-start { font-size: 14px; padding-top: 4px; padding-right: 5px;}
 
@@ -350,6 +350,7 @@ span.left { float: left; }
 .parsley-error-list {
   display: inline-block;
   margin-left: 0;
+  padding-left: 0;
   list-style: none;
 	color: #cc3300;
 	font-size: 14px;
@@ -415,7 +416,7 @@ hr {
 }
 
 .package-promo input {
-	width: 100px;
+	width: 115px;
 	font-size:14px;
 	padding:3px;
 	margin-top: 5px;
@@ -435,6 +436,7 @@ hr {
 	text-align: center;
 	border-radius: 10px;
 	text-decoration: none;
+  box-shadow: 1px 1px 2px 1px #ccc;
 }
 #apply-promo-code:hover {
 	background: #669900;
