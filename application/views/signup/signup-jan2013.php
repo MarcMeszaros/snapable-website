@@ -28,7 +28,7 @@
 
 					<div class="form-group">
 						<label for="event_title">Title</label>
-						<input id="event_title" class="form-control" name="event[title]" size="40" type="text" data-required="true" data-notblank="true" data-error-message="You must provide a title for your event." /> 
+						<input id="event_title" class="form-control" name="event[title]" type="text" data-required="true" data-notblank="true" data-error-message="You must provide a title for your event." /> 
 					</div>
 
 					<div class="form-group row">
@@ -136,29 +136,62 @@
 			<div id="billing">
 				<h3>Billing Info</h3>
 				<fieldset>
-					<div id="card_type" class="form-group">
-						<label for="billing_type">We Accept:</label>
-						<img src="/assets/img/icons/cards/visa.png" width="50" height="34" border="0" alt="Visa" />
-						<img src="/assets/img/icons/cards/mastercard.png" width="50" height="34" border="0" alt="Mastercard" />
-						<img src="/assets/img/icons/cards/amex.png" width="50" height="34" border="0" alt="Amex" />
-						<img src="/assets/img/icons/cards/discover.png" width="50" height="34" border="0" alt="Discover" />
+					<div class="form-group">
+						<label for="cc_address_line1">Billing Address</label>
+						<input type="text" id="cc_address_line1" class="form-control" data-stripe="address_line1" data-required="true" data-notblank="true" />		
 					</div>
 
 					<div class="form-group">
-						<label for="name">Name on Card</label>
-						<input type="text" name="name" id="creditcard_name" class="form-control card-name" data-required="true" data-notblank="true" data-error-message="You must provide the name on your credit card." />		
+						<label for="cc_country">Country</label> 
+						<select id="cc_country" class="form-control" data-stripe="address_country" data-required="true"> 
+							<?php
+								// loop through the countries
+								foreach ($countries as $key => $value) {
+									echo '<option value="'.$value.'">'.$value.'</option>'.PHP_EOL;
+								}
+							?> 
+						</select>
 					</div>
 
 					<div class="form-group">
-						<label for="card-number">Card Number</label>
-						<input type="text" name="card-number" id="creditcard_number" class="form-control card-number" data-required="true" data-notblank="true" data-error-message="You must provide a valid credit card number." />
+						<label for="cc_city">City</label>
+						<input type="text" id="cc_city" class="form-control" data-stripe="address_city" />		
+					</div>
+
+					<div class="form-group row">
+						<div class="form-group col-sm-6">
+							<label for="cc_state">State</label>
+							<input type="text" id="cc_state" class="form-control" data-stripe="address_state" />
+						</div>
+
+						<div class="form-group col-sm-6">
+							<label for="cc_zip">Postal Code</label>
+							<input type="text" id="cc_zip" class="form-control" data-stripe="address_zip" />
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="cc_name">Name on Credit Card</label>
+						<input type="text" id="cc_name" class="form-control" data-stripe="name" data-required="true" data-notblank="true" data-error-message="You must provide the name on your credit card." />		
+					</div>
+
+					<div class="form-group">
+						<label for="cc_number">Credit Card Number</label>
+						<input type="text" id="cc_number" class="form-control" data-stripe="number" data-required="true" data-notblank="true" data-error-message="You must provide a valid credit card number." />
 						<div class="field-error" id="creditcard_number_error">The number you have entered is invalid.</div>
 					</div>
 
+					<div id="cc_type" class="form-group">
+						<img src="/assets/img/icons/cards/visa.png" width="50" height="34" alt="Visa" />
+						<img src="/assets/img/icons/cards/mastercard.png" width="50" height="34" alt="MasterCard" />
+						<img src="/assets/img/icons/cards/amex.png" width="50" height="34" alt="American Express" />
+						<img src="/assets/img/icons/cards/discover.png" width="50" height="34" alt="Discover" />
+					</div>
+
 					<div class="form-group">
-						<label for="card-expiry-month">Expiration Date:</label> 
+						<label for="cc_exp_month">Expiration Date</label> 
 						<div class="form-inline">
-							<select name="card-expiry-month" id="creditcard_month" class="form-control card-expiry-month required"> 
+							<select id="cc_exp_month" class="form-control short" data-stripe="exp_month" data-required="true"> 
 								<option value="01">1 - January</option> 
 								<option value="02">2 - February</option> 
 								<option value="03">3 - March</option> 
@@ -172,27 +205,27 @@
 								<option value="11">11 - November</option> 
 								<option value="12">12 - December</option> 
 							</select>
-							<select name="card-expiry-year" id="creditcard_year" class="form-control card-expiry-year required"> 
+							<select id="cc_exp_year" class="form-control short" data-stripe="exp_year" data-required="true"> 
 								<?php
 									// get the current year
 									$year = date('Y');
 									// print this year as the default selected one
 									echo '<option value="'.$year.'" selected="selected">'.$year.'</option>'.PHP_EOL;
-									// loop through and add the years for the next 10
+									// loop through and add the years for the next 5
 									for ($i = 0; $i < 5; $i++) {
 										$year++;
 										echo '<option value="'.$year.'">'.$year.'</option>'.PHP_EOL;
 									}
 								?> 
 							</select>
-							<div class="field-error" id="creditcard_exp_error">Expiration date is invalid.</div>
+							<div class="field-error" id="cc_exp_error">Expiration date is invalid.</div>
 						</div>
 					</div>
 
 					<div class="form-group">
-						<label for="card-cvc">CVC</label>
-						<input type="text" name="card-cvc" id="creditcard_cvc" class="form-control card-cvc required" />
-						<div class="field-error" id="creditcard_cvc_error">You must provide the security code from the back of your credit card.</div>
+						<label for="cc_cvc">Security Code (CVC)</label>
+						<input type="text" id="cc_cvc" class="form-control" data-stripe="cvc" data-required="true" data-notblank="true" data-minlength="3" />
+						<div class="field-error" id="cc_cvc_error">You must provide the security code from the back of your credit card.</div>
 					</div>
 
 					<hr />

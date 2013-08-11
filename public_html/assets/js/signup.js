@@ -66,7 +66,7 @@ $(document).ready(function() {
 		$(this).parsley('validate');
 	});
 
-    $( "#event-start-date, #event-end-date" ).datepicker({dateFormat: 'M d, yy'});//( "option", "dateFormat", "d M, y" );
+    $("#event-start-date,#event-end-date").datepicker({dateFormat: 'M d, yy'});//( "option", "dateFormat", "d M, y" );
 	$("#event-start-time").timePicker({
 		startTime: "06.00", // Using string. Can take string or Date object.
 		show24Hours: false,
@@ -223,21 +223,9 @@ $(document).ready(function() {
 		$('#signup-spinner').removeClass('hide');
 		// disable the submit button to prevent repeated clicks
 		$('input[name=submit-button]').attr("disabled", "disabled");
-		
-		// check form fields if the total > 0
-		$("#creditcard_name").blur();
-		$("#creditcard_number").blur();
-		$("#creditcard_cvc").blur();
-		//$("#creditcard_year").change(); // checking one of the two exp date fields checks both
 
-		Stripe.createToken({
-			name: $('#creditcard_name').val(),
-		    number: $('#creditcard_number').val(),
-		    cvc: $('#creditcard_cvc').val(),
-		    exp_month: $('#creditcard_month').val(),
-		    exp_year: $('#creditcard_year').val(),
-		    //address_zip: $('#address_zip').val()
-		}, stripeResponseHandler);
+		// create the token
+		Stripe.createToken($("#payment-form").get(0), stripeResponseHandler);
 
 		// prevent the form from submitting with the default action
 		return false;
@@ -260,43 +248,54 @@ $(document).ready(function() {
 	        // token contains id, last4, and card type
 	        var token = response['id'];
 	        // insert the token into the form so it gets submitted to the server
-	        form.append("<input type='hidden' name='stripeToken' value='" + token + "'/>");
+	        form.append('<input type="hidden" name="stripeToken" value="' + token + '"/>');
 	        // and submit
 	        form.get(0).submit();
-	        $('#processing-order-msg').fadeIn();
 	    }
 	}
 
-	$("#creditcard_number").blur( function() {
+	$("#cc_number").blur( function() {
 		if (!Stripe.validateCardNumber($(this).val())) {
-			$("#creditcard_number").addClass("input-error");
-			$("#creditcard_number_error").fadeIn();
+			$("#cc_number").addClass("input-error");
+			$("#cc_number_error").fadeIn();
 		} else {
-			$("#creditcard_number").removeClass("input-error");
-			$("#creditcard_number_error").fadeOut();
+			$("#cc_number").removeClass("input-error");
+			$("#cc_number_error").fadeOut();
 		}
 		
 		return false;
 	});
-	$("#creditcard_month, #creditcard_year").change( function() {
-		if ( !Stripe.validateExpiry($('#creditcard_month').val(), $('#creditcard_year').val()) ) {
-			$("#creditcard_exp_error").fadeIn();
+	$("#cc_exp_month, #cc_exp_year").change( function() {
+		if ( !Stripe.validateExpiry($('#cc_exp_month').val(), $('#cc_exp_year').val()) ) {
+			$("#cc_exp_error").fadeIn();
 		} else {
-			$("#creditcard_exp_error").fadeOut();
+			$("#cc_exp_error").fadeOut();
 		}
 		
 		return false;
 	}); 
-	$("#creditcard_cvc").blur( function() {
+	$("#cc_cvc").blur( function() {
 		if ( !Stripe.validateCVC($(this).val()) ) {
-			$("#creditcard_cvc").addClass("input-error");
-			$("#creditcard_cvc_error").fadeIn();
+			$("#cc_cvc").addClass("input-error");
+			$("#cc_cvc_error").fadeIn();
 		} else {
-			$("#creditcard_cvc").removeClass("input-error");
-			$("#creditcard_cvc_error").fadeOut();
+			$("#cc_cvc").removeClass("input-error");
+			$("#cc_cvc_error").fadeOut();
 		}
 		
 		return false;
 	});
+
+	$("#cc_number").keyup($.debounce(500, function() {
+		// grey out cards that don't match if possible
+		var type = Stripe.card.cardType($(this).val());
+		var valid_types = ['Visa', 'MasterCard', 'American Express', 'Discover'];
+		if ($.inArray(type, valid_types) >= 0) {
+			$('#cc_type img').addClass('disabled');
+			$("#cc_type img[alt='"+type+"']").removeClass('disabled');
+		} else {
+			$('#cc_type img').removeClass('disabled');
+		}
+	}));
 	
 });
