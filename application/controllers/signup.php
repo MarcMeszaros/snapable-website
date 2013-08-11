@@ -337,7 +337,6 @@ class Signup extends CI_Controller {
 			),
 			'css' => array(
 				'assets/css/timePicker.css',
-				'assets/css/setup.css',
 				'assets/css/signup_jan2013.css', 
 				'assets/css/home_footer.css'
 			),

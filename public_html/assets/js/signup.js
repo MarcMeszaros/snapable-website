@@ -254,47 +254,47 @@ $(document).ready(function() {
 	    }
 	}
 
-	$("#creditcard_number").blur( function() {
+	$("#cc_number").blur( function() {
 		if (!Stripe.validateCardNumber($(this).val())) {
-			$("#creditcard_number").addClass("input-error");
-			$("#creditcard_number_error").fadeIn();
+			$("#cc_number").addClass("input-error");
+			$("#cc_number_error").fadeIn();
 		} else {
-			$("#creditcard_number").removeClass("input-error");
-			$("#creditcard_number_error").fadeOut();
+			$("#cc_number").removeClass("input-error");
+			$("#cc_number_error").fadeOut();
 		}
 		
 		return false;
 	});
-	$("#creditcard_month, #creditcard_year").change( function() {
-		if ( !Stripe.validateExpiry($('#creditcard_month').val(), $('#creditcard_year').val()) ) {
-			$("#creditcard_exp_error").fadeIn();
+	$("#cc_exp_month, #cc_exp_year").change( function() {
+		if ( !Stripe.validateExpiry($('#cc_exp_month').val(), $('#cc_exp_year').val()) ) {
+			$("#cc_exp_error").fadeIn();
 		} else {
-			$("#creditcard_exp_error").fadeOut();
+			$("#cc_exp_error").fadeOut();
 		}
 		
 		return false;
 	}); 
-	$("#creditcard_cvc").blur( function() {
+	$("#cc_cvc").blur( function() {
 		if ( !Stripe.validateCVC($(this).val()) ) {
-			$("#creditcard_cvc").addClass("input-error");
-			$("#creditcard_cvc_error").fadeIn();
+			$("#cc_cvc").addClass("input-error");
+			$("#cc_cvc_error").fadeIn();
 		} else {
-			$("#creditcard_cvc").removeClass("input-error");
-			$("#creditcard_cvc_error").fadeOut();
+			$("#cc_cvc").removeClass("input-error");
+			$("#cc_cvc_error").fadeOut();
 		}
 		
 		return false;
 	});
 
-	$("#creditcard_number").keyup($.debounce(500, function() {
-		//#card_type
+	$("#cc_number").keyup($.debounce(500, function() {
+		// grey out cards that don't match if possible
 		var type = Stripe.card.cardType($(this).val());
 		var valid_types = ['Visa', 'MasterCard', 'American Express', 'Discover'];
 		if ($.inArray(type, valid_types) >= 0) {
-			$('#card_type img').addClass('disabled');
-			$("#card_type img[alt='"+type+"']").removeClass('disabled');
+			$('#cc_type img').addClass('disabled');
+			$("#cc_type img[alt='"+type+"']").removeClass('disabled');
 		} else {
-			$('#card_type img').removeClass('disabled');
+			$('#cc_type img').removeClass('disabled');
 		}
 	}));
 	
