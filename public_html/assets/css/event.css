@@ -312,7 +312,7 @@ div.time-picker {
 #eventFirstRunText li.displayMe {
 	display: block;
 	width: 720px;
-	height: 200px;
+	height: 240px;
 	padding: 125px 90px 40px 90px;
 	text-align: center;
 }
@@ -336,7 +336,7 @@ div.time-picker {
 }
 #eventFirstRunDots {
 	list-style: none;
-	width: /*150px;*/ 60px;
+	width: 60px;
 	margin: 0 auto;
 }
 #eventFirstRunDots a {
