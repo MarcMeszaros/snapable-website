@@ -127,8 +127,7 @@ $(document).ready(function() {
 			$("#event-duration-num").val(12);
 		}
 	});
-	
-	
+
 	$("#apply-promo-code").click( function() {
 		if ($('#promo-code').val().length > 0) {
 			$.getJSON("/signup/promo", { "code": $("#promo-code").val() }, function(json) {	
@@ -143,13 +142,6 @@ $(document).ready(function() {
 						discount = amount;
 					}
 					$("#package-amount").html((amount - discount)/100);
-
-					// if the amount is 0, disable credit card fields
-					if ((amount - discount) == 0) {
-						$('#billing input,#billing select').not('#completSignup').attr("disabled", "disabled");
-					} else {
-						$('#billing input,#billing select').not('#completSignup').removeAttr("disabled");
-					}
 				} else {
 					$.pnotify({
 						type: 'info',
