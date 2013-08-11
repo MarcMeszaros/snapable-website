@@ -291,8 +291,13 @@ a.button:hover, #completSignup:hover {
 	border:2px solid #cc3300;
 }
 
-#billing select {
+#billing select.short {
     width: 130px;
+}
+
+img.disabled {
+    opacity: 0.4;
+    filter: alpha(opacity=40); /* msie */
 }
 
 /* Signup Spinner */

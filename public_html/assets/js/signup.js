@@ -66,7 +66,7 @@ $(document).ready(function() {
 		$(this).parsley('validate');
 	});
 
-    $( "#event-start-date, #event-end-date" ).datepicker({dateFormat: 'M d, yy'});//( "option", "dateFormat", "d M, y" );
+    $("#event-start-date,#event-end-date").datepicker({dateFormat: 'M d, yy'});//( "option", "dateFormat", "d M, y" );
 	$("#event-start-time").timePicker({
 		startTime: "06.00", // Using string. Can take string or Date object.
 		show24Hours: false,
@@ -223,21 +223,9 @@ $(document).ready(function() {
 		$('#signup-spinner').removeClass('hide');
 		// disable the submit button to prevent repeated clicks
 		$('input[name=submit-button]').attr("disabled", "disabled");
-		
-		// check form fields if the total > 0
-		$("#creditcard_name").blur();
-		$("#creditcard_number").blur();
-		$("#creditcard_cvc").blur();
-		//$("#creditcard_year").change(); // checking one of the two exp date fields checks both
 
-		Stripe.createToken({
-			name: $('#creditcard_name').val(),
-		    number: $('#creditcard_number').val(),
-		    cvc: $('#creditcard_cvc').val(),
-		    exp_month: $('#creditcard_month').val(),
-		    exp_year: $('#creditcard_year').val(),
-		    //address_zip: $('#address_zip').val()
-		}, stripeResponseHandler);
+		// create the token
+		Stripe.createToken($("#payment-form").get(0), stripeResponseHandler);
 
 		// prevent the form from submitting with the default action
 		return false;
@@ -263,7 +251,6 @@ $(document).ready(function() {
 	        form.append("<input type='hidden' name='stripeToken' value='" + token + "'/>");
 	        // and submit
 	        form.get(0).submit();
-	        $('#processing-order-msg').fadeIn();
 	    }
 	}
 
@@ -298,5 +285,17 @@ $(document).ready(function() {
 		
 		return false;
 	});
+
+	$("#creditcard_number").keyup($.debounce(500, function() {
+		//#card_type
+		var type = Stripe.card.cardType($(this).val());
+		var valid_types = ['Visa', 'MasterCard', 'American Express', 'Discover'];
+		if ($.inArray(type, valid_types) >= 0) {
+			$('#card_type img').addClass('disabled');
+			$("#card_type img[alt='"+type+"']").removeClass('disabled');
+		} else {
+			$('#card_type img').removeClass('disabled');
+		}
+	}));
 	
 });

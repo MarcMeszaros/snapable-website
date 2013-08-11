@@ -136,29 +136,62 @@
 			<div id="billing">
 				<h3>Billing Info</h3>
 				<fieldset>
-					<div id="card_type" class="form-group">
-						<label for="billing_type">We Accept:</label>
-						<img src="/assets/img/icons/cards/visa.png" width="50" height="34" border="0" alt="Visa" />
-						<img src="/assets/img/icons/cards/mastercard.png" width="50" height="34" border="0" alt="Mastercard" />
-						<img src="/assets/img/icons/cards/amex.png" width="50" height="34" border="0" alt="Amex" />
-						<img src="/assets/img/icons/cards/discover.png" width="50" height="34" border="0" alt="Discover" />
+					<div class="form-group">
+						<label for="address_line1">Billing Address</label>
+						<input type="text" name="address_line1" id="creditcard_address_line1" class="form-control" data-stripe="address_line1" data-required="true" data-notblank="true" />		
 					</div>
 
 					<div class="form-group">
-						<label for="name">Name on Card</label>
-						<input type="text" name="name" id="creditcard_name" class="form-control card-name" data-required="true" data-notblank="true" data-error-message="You must provide the name on your credit card." />		
+						<label for="card-expiry-country">Country</label> 
+						<select name="card-expiry-country" class="form-control" data-stripe="address_country" data-required="true"> 
+							<?php
+								// loop through the countries
+								foreach ($countries as $key => $value) {
+									echo '<option value="'.$value.'">'.$value.'</option>'.PHP_EOL;
+								}
+							?> 
+						</select>
 					</div>
 
 					<div class="form-group">
-						<label for="card-number">Card Number</label>
-						<input type="text" name="card-number" id="creditcard_number" class="form-control card-number" data-required="true" data-notblank="true" data-error-message="You must provide a valid credit card number." />
+						<label for="city">City</label>
+						<input type="text" name="city" class="form-control" data-stripe="address_city" data-required="true" data-notblank="true" />		
+					</div>
+
+					<div class="form-group row">
+						<div class="form-group col-sm-6">
+							<label for="state">State</label>
+							<input class="form-control" name="user[password]" data-stripe="address_state" />
+						</div>
+
+						<div class="form-group col-sm-6">
+							<label for="user_password_confirmation">Postal Code</label>
+							<input id="user_password_confirmation" class="form-control" data-stripe="address_zip" />
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="name">Name on Credit Card</label>
+						<input type="text" name="name" id="creditcard_name" class="form-control" data-stripe="name" data-required="true" data-notblank="true" data-error-message="You must provide the name on your credit card." />		
+					</div>
+
+					<div class="form-group">
+						<label for="card-number">Credit Card Number</label>
+						<input type="text" name="card-number" id="creditcard_number" class="form-control" data-stripe="number" data-required="true" data-notblank="true" data-error-message="You must provide a valid credit card number." />
 						<div class="field-error" id="creditcard_number_error">The number you have entered is invalid.</div>
 					</div>
 
+					<div id="card_type" class="form-group">
+						<img src="/assets/img/icons/cards/visa.png" width="50" height="34" alt="Visa" />
+						<img src="/assets/img/icons/cards/mastercard.png" width="50" height="34" alt="MasterCard" />
+						<img src="/assets/img/icons/cards/amex.png" width="50" height="34" alt="American Express" />
+						<img src="/assets/img/icons/cards/discover.png" width="50" height="34" alt="Discover" />
+					</div>
+
 					<div class="form-group">
-						<label for="card-expiry-month">Expiration Date:</label> 
+						<label for="card-expiry-month">Expiration Date</label> 
 						<div class="form-inline">
-							<select name="card-expiry-month" id="creditcard_month" class="form-control card-expiry-month required"> 
+							<select name="card-expiry-month" id="creditcard_month" class="form-control short" data-stripe="exp_month" data-required="true"> 
 								<option value="01">1 - January</option> 
 								<option value="02">2 - February</option> 
 								<option value="03">3 - March</option> 
@@ -172,13 +205,13 @@
 								<option value="11">11 - November</option> 
 								<option value="12">12 - December</option> 
 							</select>
-							<select name="card-expiry-year" id="creditcard_year" class="form-control card-expiry-year required"> 
+							<select name="card-expiry-year" id="creditcard_year" class="form-control short" data-stripe="exp_year" data-required="true"> 
 								<?php
 									// get the current year
 									$year = date('Y');
 									// print this year as the default selected one
 									echo '<option value="'.$year.'" selected="selected">'.$year.'</option>'.PHP_EOL;
-									// loop through and add the years for the next 10
+									// loop through and add the years for the next 5
 									for ($i = 0; $i < 5; $i++) {
 										$year++;
 										echo '<option value="'.$year.'">'.$year.'</option>'.PHP_EOL;
@@ -190,8 +223,8 @@
 					</div>
 
 					<div class="form-group">
-						<label for="card-cvc">CVC</label>
-						<input type="text" name="card-cvc" id="creditcard_cvc" class="form-control card-cvc required" />
+						<label for="card-cvc">Security Code (CVC)</label>
+						<input type="text" name="card-cvc" id="creditcard_cvc" class="form-control card-cvc required" data-stripe="cvc" />
 						<div class="field-error" id="creditcard_cvc_error">You must provide the security code from the back of your credit card.</div>
 					</div>
 
