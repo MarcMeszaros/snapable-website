@@ -127,8 +127,7 @@ $(document).ready(function() {
 			$("#event-duration-num").val(12);
 		}
 	});
-	
-	
+
 	$("#apply-promo-code").click( function() {
 		if ($('#promo-code').val().length > 0) {
 			$.getJSON("/signup/promo", { "code": $("#promo-code").val() }, function(json) {	
@@ -143,13 +142,6 @@ $(document).ready(function() {
 						discount = amount;
 					}
 					$("#package-amount").html((amount - discount)/100);
-
-					// if the amount is 0, disable credit card fields
-					if ((amount - discount) == 0) {
-						$('#billing input,#billing select').not('#completSignup').attr("disabled", "disabled");
-					} else {
-						$('#billing input,#billing select').not('#completSignup').removeAttr("disabled");
-					}
 				} else {
 					$.pnotify({
 						type: 'info',
@@ -213,18 +205,25 @@ $(document).ready(function() {
 		}
 		return false;
 	});
-	
-	$("#btn-sign-up").click( function() {
-		document.forms["signupForm"].submit();
-	});
-	
+
 	$("#payment-form").submit(function(event) {
 		$('#completSignup').hide();
 		$('#signup-spinner').removeClass('hide');
 		// disable the submit button to prevent repeated clicks
 		$('input[name=submit-button]').attr("disabled", "disabled");
 
-		// create the token
+		if (!userExists($('#user_email').val())) {
+			$.pnotify({
+				type: 'error',
+				text: 'A user has already registered with this email.'
+			});
+			// show the errors on the form
+	        $('#signup-spinner').addClass('hide');
+	        $('#completSignup').removeAttr("disabled").show();
+	        return false;
+		}
+
+		// create the token/submit the form
 		Stripe.createToken($("#payment-form").get(0), stripeResponseHandler);
 
 		// prevent the form from submitting with the default action

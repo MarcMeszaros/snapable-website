@@ -43,7 +43,7 @@
 		      <div class="inner">
 		        <h2>Why Use Snapable?</h2>
 		        
-		        <h3>Letting your guests take photos during your event is a fun and easy way to get them involved. Best of all, the photos will be instantly added to your Snapable album, so you’ll have everything on one place.</h3>
+		        <h3>Letting your guests take photos during your event is a fun and easy way to get them involved. Best of all, the photos will be instantly added to your Snapable album, so you’ll have everything in one place.</h3>
 		
 		        <div class="box box-1">
 			    	<div class="image"></div>
@@ -127,7 +127,7 @@
 		            <div class="browser2"></div>
 		          </div>
 		          <h3>After Your Event</h3>
-		          <p>OPeruse the album and see what guests have uploaded. You can:</p>
+		          <p>Peruse the album and see what guests have uploaded. You can:</p>
 
 		          <ul>
 		          	<li>Download your favorite photos.</li>

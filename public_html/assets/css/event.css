@@ -1041,6 +1041,24 @@ a#do-send-to-guests:hover {
 	border-radius: 10px;
 }
 
+#tablecards .download {
+    display: block;
+    color: #fff;
+    font-size: 1.15em;
+    background: #67ac1c;
+    margin-top: 20px;
+    padding: 15px 35px;
+    border-radius: 35px;
+    width: 270px;
+    text-align: center;
+    font-weight: bold;
+    text-decoration: none;
+    box-shadow: 1px 1px 5px 1px #ccc;
+}
+#tablecards .download:hover {
+    background: #528a15;
+}
+
 /*** PHOTO OVERLAY ****/
 
 .photoOverlay {
@@ -1139,6 +1157,7 @@ a#back:hover {
 	background: #ff3300;
 	border: 2px solid #cc3300;
 }
+
 
 /**** CHECKOUT / CART STUFF ****/
 
