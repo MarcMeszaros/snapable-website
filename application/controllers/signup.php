@@ -566,12 +566,8 @@ class Signup extends CI_Controller {
 			$data['url'] = $url;
 		}
 
-		$head = array(
-            'css' => array('assets/css/loader.css'),
-        );
-
 		// load up the view
-		$this->load->view('common/html_header', $head);
+		$this->load->view('common/html_header');
 		$this->load->view('signup/complete', $data);
 		$this->load->view('common/html_footer');
 	}
@@ -579,12 +575,10 @@ class Signup extends CI_Controller {
 	
 	function check()
 	{
-		if ( isset($_GET['email']) )
-		{
+		if ( isset($_GET['email']) ) {
 			$is_registered = $this->signup_model->checkEmail($_GET['email']);
 		}
-		else if ( isset($_GET['url']) )
-		{
+		else if ( isset($_GET['url']) ) {
 			$is_registered = $this->signup_model->checkUrl($_GET['url']);
 		} else {
 			$is_registered = '{ "status": 404 }';

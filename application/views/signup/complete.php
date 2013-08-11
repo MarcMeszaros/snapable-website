@@ -1,5 +1,4 @@
 <script language="javascript">
-
 var time_left = 5;
 var cinterval;
 
@@ -13,7 +12,6 @@ function time_dec(){
 }
 
 cinterval = setInterval('time_dec()', 1000);
-
 </script>
 
 <div class="logo"></div>
@@ -35,9 +33,3 @@ cinterval = setInterval('time_dec()', 1000);
 <?php if(isset($url) && strlen($url) > 0) { ?>
 <img src="<?php echo $url; ?>" width="1" height="1"> 
 <?php } ?>
-
-<!-- Start of loading bar -->
-<!-- <div class="bar">
-	<span></span>
-</div> -->
-<!-- End of loading bar -->
