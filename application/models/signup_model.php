@@ -44,40 +44,7 @@ Class Signup_model extends CI_Model
 			}';
 		}
 	}
-	
-	function checkEmail($email)
-	{
-		$verb = 'GET';
-		$path = '/user/';
-		$params = array(
-			'email' => $email,
-		);
-		$resp = SnapApi::send($verb, $path, $params);
 
-		$response = $resp['response'];
-		$httpcode = $resp['code'];
-
-		if ( $httpcode == 200 )
-		{
-			$result = json_decode($response);
-			$return = $result->meta->total_count;
-			
-			//$status = '{ "status": 200 }';
-			
-			if ( $return > 0 )
-			{
-				$status = '{ "status": 200 }';
-			} else {
-				$status = '{ "status": 404 }';
-			}
-			//echo $return;
-			return $status;
-		} else {
-			$status = '{ "status": 404 }';
-		}
-		return $status;
-	}
-	
 	function checkUrl($url)
 	{
 		$verb = 'GET';

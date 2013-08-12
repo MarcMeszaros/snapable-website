@@ -132,27 +132,4 @@ $(document).ready(function(){
         }
     });
 
-    // CONTACT MENU
-    $('#event-nav-contact').click(function()
-    {
-    	$(".slidContent").fadeOut("fast");
-    	
-        $.Mustache.load('/assets/js/event/templates-nav.html').done(function () {
-            var viewData = {
-                email: user_email
-            };
-            $('#contact').mustache('nav-contact', viewData, {method: "html"});
-            // modernise some stuff
-            if (Modernizr.input.placeholder) {
-                $('#contact textarea').each(function(){
-                    $(this).attr('placeholder', $(this).html());
-                    $(this).html('');
-                });
-            }
-            // setup the form
-            $("#contact form").ajaxForm();
-            $('#contact').slideToggle();
-        });
-        return false;
-    });
 });

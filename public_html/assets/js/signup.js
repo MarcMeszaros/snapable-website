@@ -29,7 +29,9 @@ function geocoder(address) {
 		var timestamp = Math.round((new Date()).getTime() / 1000);
 		var tzRequest = '/ajax/timezone?lat='+lat+'&lng='+lng+'&timestamp='+timestamp;
 		$.getJSON(tzRequest, function(data){
-			$('#timezone').val((data.rawOffset/60));
+			if (data.status == 'OK') {
+				$('#timezone').val((data.rawOffset/60));
+			}
 		});
 	});
 
@@ -38,14 +40,18 @@ function geocoder(address) {
 
 function userExists(email) {
 	$("#email_status").removeClass("email_good").removeClass("email_bad").addClass("spinner-16px");	
-	$.getJSON("/signup/check", { "email": email }, function(data) {
-		if ( data['status'] == 404 ) {
-			$("#email_status").removeClass("spinner-16px").addClass("email_good");
-			return true;
+	$.ajax('/signup/check', {
+		type: 'GET',
+		data: { 'email': email }
+	}).done(function(data){
+		var resp = $.parseJSON(data);
+		if (resp.meta.total_count > 0) {
+			$("#email_status").addClass("email_bad");
 		} else {
-			$("#email_status").removeClass("spinner-16px").addClass("email_bad");
-			return false;
+			$("#email_status").addClass("email_good");
 		}
+	}).always(function(data){
+		$("#email_status").removeClass("spinner-16px");
 	});
 }
 
@@ -212,19 +218,32 @@ $(document).ready(function() {
 		// disable the submit button to prevent repeated clicks
 		$('input[name=submit-button]').attr("disabled", "disabled");
 
-		if (!userExists($('#user_email').val())) {
+		// check the email for more than one user
+		var email = $('#user_email').val();
+		$.ajax('/signup/check', {
+			type: 'GET',
+			data: { 'email': email },
+		}).done(function(data){
+			var resp = $.parseJSON(data);
+			if (resp.meta.total_count > 0) {
+				$.pnotify({
+					type: 'error',
+					text: 'A user has already registered with this email.'
+				});
+				$('#signup-spinner').addClass('hide');
+	        	$('#completSignup').removeAttr("disabled").show();
+			} else {
+				// create the token/submit the form
+				Stripe.createToken($("#payment-form").get(0), stripeResponseHandler);
+			}
+		}).fail(function(){
 			$.pnotify({
 				type: 'error',
-				text: 'A user has already registered with this email.'
+				text: 'There was a problem checking if your email already has a Snapable account.'
 			});
-			// show the errors on the form
-	        $('#signup-spinner').addClass('hide');
-	        $('#completSignup').removeAttr("disabled").show();
-	        return false;
-		}
-
-		// create the token/submit the form
-		Stripe.createToken($("#payment-form").get(0), stripeResponseHandler);
+			$('#signup-spinner').addClass('hide');
+        	$('#completSignup').removeAttr("disabled").show();
+		});
 
 		// prevent the form from submitting with the default action
 		return false;
