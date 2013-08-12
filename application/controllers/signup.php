@@ -573,17 +573,24 @@ class Signup extends CI_Controller {
 	}
 	
 	
-	function check()
-	{
+	function check() {
 		if ( isset($_GET['email']) ) {
-			$is_registered = $this->signup_model->checkEmail($_GET['email']);
+			$verb = 'GET';
+			$path = '/user/';
+			$params = array(
+				'email' => $this->input->get('email', true),
+			);
+			$resp = SnapApi::send($verb, $path, $params);
+			$this->output->set_status_header($resp['code']);
+			echo $resp['response'];
 		}
 		else if ( isset($_GET['url']) ) {
 			$is_registered = $this->signup_model->checkUrl($_GET['url']);
+			echo $is_registered;
 		} else {
 			$is_registered = '{ "status": 404 }';
+			echo $is_registered;
 		}
-		echo $is_registered;
 	}
 	
 	function promo()
