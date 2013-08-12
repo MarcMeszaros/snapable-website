@@ -212,6 +212,7 @@ $(document).ready(function() {
 		// disable the submit button to prevent repeated clicks
 		$('input[name=submit-button]').attr("disabled", "disabled");
 
+		/*
 		if (!userExists($('#user_email').val())) {
 			$.pnotify({
 				type: 'error',
@@ -222,6 +223,7 @@ $(document).ready(function() {
 	        $('#completSignup').removeAttr("disabled").show();
 	        return false;
 		}
+		*/
 
 		// create the token/submit the form
 		Stripe.createToken($("#payment-form").get(0), stripeResponseHandler);
