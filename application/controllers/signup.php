@@ -483,16 +483,6 @@ class Signup extends CI_Controller {
 			);
 			$resp = SnapApi::send($verb, $path, $params);
 
-			// add the user as the first guest
-			$verb = 'POST';
-			$path = '/guest/';
-			$params = array(
-				'event' => $event_response->resource_uri,
-				'email' => $_POST['user']['email'],
-			    'name' => $_POST['user']['first_name'] . ' ' . $_POST['user']['last_name'],
-			);
-			$guest_resp = SnapApi::send($verb, $path, $params);
-
 			// Snapable TEAM notification
 			$signup_details = array(
 				'start_timestamp' => $start_timestamp,
@@ -566,8 +556,12 @@ class Signup extends CI_Controller {
 			$data['url'] = $url;
 		}
 
+		$head = array(
+            'css' => array('assets/css/loader.css'),
+        );
+
 		// load up the view
-		$this->load->view('common/html_header');
+		$this->load->view('common/html_header', $head);
 		$this->load->view('signup/complete', $data);
 		$this->load->view('common/html_footer');
 	}
