@@ -29,7 +29,9 @@ function geocoder(address) {
 		var timestamp = Math.round((new Date()).getTime() / 1000);
 		var tzRequest = '/ajax/timezone?lat='+lat+'&lng='+lng+'&timestamp='+timestamp;
 		$.getJSON(tzRequest, function(data){
-			$('#timezone').val((data.rawOffset/60));
+			if (data.status == 'OK') {
+				$('#timezone').val((data.rawOffset/60));
+			}
 		});
 	});
 
