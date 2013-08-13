@@ -278,11 +278,80 @@ class Signup extends CI_Controller {
 	    'ZW' => 'Zimbabwe'
 	);
 
+	public static $US_STATES = array(
+	    'AL' => 'Alabama',
+	    'AK' => 'Alaska',
+	    'AZ' => 'Arizona',
+	    'AR' => 'Arkansas',
+	    'CA' => 'California',
+	    'CO' => 'Colorado',
+	    'CT' => 'Connecticut',
+	    'DE' => 'Delaware',
+	    'DC' => 'District of Columbia',
+	    'FL' => 'Florida',
+	    'GA' => 'Georgia',
+	    'HI' => 'Hawaii',
+	    'ID' => 'Idaho',
+	    'IL' => 'Illinois',
+	    'IN' => 'Indiana',
+	    'IA' => 'Iowa',
+	    'KS' => 'Kansas',
+	    'KY' => 'Kentucky',
+	    'LA' => 'Louisiana',
+	    'ME' => 'Maine',
+	    'MD' => 'Maryland',
+	    'MA' => 'Massachusetts',
+	    'MI' => 'Michigan',
+	    'MN' => 'Minnesota',
+	    'MS' => 'Mississippi',
+	    'MO' => 'Missouri',
+	    'MT' => 'Montana',
+	    'NE' => 'Nebraska',
+	    'NV' => 'Nevada',
+	    'NH' => 'New Hampshire',
+	    'NJ' => 'New Jersey',
+	    'NM' => 'New Mexico',
+	    'NY' => 'New York',
+	    'NC' => 'North Carolina',
+	    'ND' => 'North Dakota',
+	    'OH' => 'Ohio',
+	    'OK' => 'Oklahoma',
+	    'OR' => 'Oregon',
+	    'PA' => 'Pennsylvania',
+	    'RI' => 'Rhode Island',
+	    'SC' => 'South Carolina',
+	    'SD' => 'South Dakota',
+	    'TN' => 'Tennessee',
+	    'TX' => 'Texas',
+	    'UT' => 'Utah',
+	    'VT' => 'Vermont',
+	    'VA' => 'Virginia',
+	    'WA' => 'Washington',
+	    'WV' => 'West Virginia',
+	    'WI' => 'Wisconsin',
+	    'WY' => 'Wyoming',
+	);
+
+	public static $CA_STATES = array(
+	    'AB' => 'Alberta',
+	    'BC' => 'British Columbia',
+	    'MB' => 'Manitoba',
+	    'NB' => 'New Brunswick',
+	    'NL' => 'Newfoundland and Labrador',
+	    'NT' => 'Northwest Territories',
+	    'NS' => 'Nova Scotia',
+	    'NU' => 'Nunavut',
+	    'ON' => 'Ontario',
+	    'PE' => 'Prince Edward Island',
+	    'QC' => 'Quebec',
+	    'SK' => 'Saskatchewan',
+	    'YT' => 'Yukon Territory',
+	);
+
 	function __construct()
 	{
     	parent::__construct(); 
     	$this->load->library('email');
-    	$this->load->model('signup_model','',TRUE);		
     	$this->load->model('account_model','',TRUE);
 		
     	$this->load->library('email');
@@ -577,27 +646,29 @@ class Signup extends CI_Controller {
 			$resp = SnapApi::send($verb, $path, $params);
 			$this->output->set_status_header($resp['code']);
 			echo $resp['response'];
-		}
+		} 
 		else if ( isset($_GET['url']) ) {
-			$is_registered = $this->signup_model->checkUrl($_GET['url']);
-			echo $is_registered;
+			$verb = 'GET';
+			$path = '/event/';
+			$params = array(
+				'url' => $this->input->get('url', true),
+			);
+			$resp = SnapApi::send($verb, $path, $params);
+			$this->output->set_status_header($resp['code']);
+			echo $resp['response'];
 		} else {
-			$is_registered = '{ "status": 404 }';
-			echo $is_registered;
+			echo '{ "status": 404 }';
 		}
 	}
 	
-	function promo()
-	{
+	function promo() {
 		$numargs = func_num_args();
 
-		if ( IS_AJAX && isset($_GET['code']) && ($numargs == 0 || $numargs == 1) )
-		{
+		if ( IS_AJAX && isset($_GET['code']) && ($numargs == 0 || $numargs == 1) ) {
 			// sanitize the data (ie. remove invalid characters and lowercase)
 			$code = strtolower(preg_replace('/[^a-zA-Z0-9-_]/', '', $_GET['code']));
 			
-			if ( array_key_exists($code, self::$COUPON_CODES) )
-			{
+			if ( array_key_exists($code, self::$COUPON_CODES) ) {
 			    // success
 			    echo json_encode(array(
 			    	'status' => 200,
@@ -609,6 +680,15 @@ class Signup extends CI_Controller {
 		} else {
 			return 0;
 		}		
+	}
+
+	function states($country) {
+		// if us
+		if ($country == 'US') {
+			echo json_encode(self::$US_STATES);
+		} else if ($country == 'CA') {
+			echo json_encode(self::$CA_STATES);
+		}
 	}
 	
 }

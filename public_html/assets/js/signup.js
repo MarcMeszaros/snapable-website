@@ -1,17 +1,17 @@
 function checkUrl(url) {
-	$("#event_url_status").removeClass("url_good").removeClass("url_bad").addClass("spinner-16px")
-	$.getJSON("/signup/check", { "url": url }, function(data) {
-		if ( data['status'] == 404 && url.length > 0) {
-			$("#event_url_status").removeClass("url_bad").removeClass("spinner-16px").addClass("url_good");	
-			$("#event_url").removeClass("input-error");
-			$("#event_url_error").fadeOut();	
-			return true;	
+	$("#event_url_status").removeClass("url_good").removeClass("url_bad").addClass("spinner-16px");
+	$.ajax('/signup/check', {
+		type: 'GET',
+		data: { 'url': url }
+	}).done(function(data){
+		var resp = $.parseJSON(data);
+		if (resp.meta.total_count > 0) {
+			$("#event_url_status").addClass("url_bad");
 		} else {
-			$("#event_url_status").removeClass("url_good").removeClass("spinner-16px").addClass("url_bad");	
-			$("#event_url").addClass("input-error");
-			$("#event_url_error").fadeIn();
-			return false;
+			$("#event_url_status").addClass("url_good");
 		}
+	}).always(function(data){
+		$("#event_url_status").removeClass("spinner-16px");
 	});
 }
 
