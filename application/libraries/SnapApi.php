@@ -55,6 +55,7 @@ class SnapApi {
      */
     public static function send($verb, $path, $params=array(), $headers=array()) {
         // create the curl object and signature
+        $curl_timeout = 30;
         $ch = curl_init();
         $sign = self::sign($verb, $path);
 
@@ -70,7 +71,7 @@ class SnapApi {
         );
         // define default headers
         $defaultHeaders = array(
-            'User-Agent' => 'SnapApi/1.1',
+            'User-Agent' => 'SnapApi/1.2',
             'Accept' => 'application/json',
             'Authorization' => 'SNAP '.implode(',',$sign_array),
         );
@@ -100,6 +101,14 @@ class SnapApi {
             curl_setopt($ch, CURLOPT_URL, self::$api_host . $path);
         } 
 
+        // set the timeout a little longer
+        if ($verb = 'POST') {
+            $curl_timeout = 60;
+        }
+        if(in_array('X-SNAP-Timeout', $headers)) {
+            $curl_timeout = $headers['X-SNAP-Timeout'];
+        }
+
         // merge and replace default headers with passed in parameter
         $headers = array_replace($defaultHeaders, $headers);
         // format the headers before appending
@@ -109,7 +118,7 @@ class SnapApi {
         }
 
         // set various curl parameters
-        curl_setopt($ch, CURLOPT_TIMEOUT, '30');
+        curl_setopt($ch, CURLOPT_TIMEOUT, $curl_timeout);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headersArray);
 
@@ -148,5 +157,13 @@ class SnapApi {
         }
         
         return self::send($verb, $path, $params);
+    }
+
+    /**
+     * A helper function to create a resource uri using a base resource name
+     * and a resource primary key.
+     */
+    public static function resource_uri($resource_name, $resource_pk) {
+        return '/'.self::$api_version.'/'.$resource_name.'/'.$resource_pk.'/';
     }
 }
