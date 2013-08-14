@@ -18,9 +18,8 @@ body {
 #signinWrap {
 	display: block;
 	position: relative;
-	width: 400px;
+	margin-top: 40px;
 	padding: 20px;
-	margin: 25px auto;
 	background: #fff;
 	border: 1px solid #ccc;
 	border-radius: 5px;
@@ -82,25 +81,18 @@ h2#guestH2 { margin-top: 15px; }
 #signinWrap label {
 	display: block;
 	margin: 10px 0 5px 0;
-	font-size: 14px;
-	color: #999;
+	color: #aaa;
 	text-align: center;
-}
-#signinWrap label div {
-	display: none;
-	font-weight: bold;
-	color: #cc3300;
 }
 
 #signinWrap input {
 	border-radius: 10px;
 	background: #f4f4f4;
 	padding: 4px;
-	width: 100%;
 }
 input#pinInput {
 	display: block;
-	width: 80px;
+	width: 100px;
 	margin: 0 auto;
 }
 #signinWrap input:focus {
@@ -133,7 +125,6 @@ input#pinInput {
 a#forgotPassword:link, a#forgotPassword:visited {
 	display: block;
 	margin-top: 40px;
-	font-size: 12px;
 	color: #006699;
 	text-align: center;
 }

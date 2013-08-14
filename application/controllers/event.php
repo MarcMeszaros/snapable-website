@@ -249,22 +249,16 @@ class Event extends CI_Controller {
 			
 			$head = array(
 				'noTagline' => true,
-				'ext_css' => array(
-					'//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/themes/cupertino/jquery-ui.css',
-				),
 				'css' => array(
 					'assets/css/signin.css',
-					'assets/css/setup.css',
 					'assets/css/header.css',
 					'assets/css/event.css',
 					'assets/css/footer.css',
 				),
 				'ext_js' => array(
-					'//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js',
 					'//cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.0/mustache.min.js'
 				),
 				'js' => array(
-					'assets/js/libs/jquery-Mustache.js',
 					'assets/js/event/photostream.js',
 					'assets/js/event/photostream-login.js',
 				),
