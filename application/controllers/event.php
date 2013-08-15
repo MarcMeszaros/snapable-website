@@ -33,7 +33,7 @@ class Event extends CI_Controller {
 				'assets/css/facebox.css',
 				'assets/css/setup.css',
 				'assets/css/header.css',
-				'assets/css/event.css',
+				'assets/css/event/event.css',
 				'assets/css/footer.css',
 				'assets/css/event/photostream-nav.css',
 			),
@@ -252,7 +252,7 @@ class Event extends CI_Controller {
 				'css' => array(
 					'assets/css/signin.css',
 					'assets/css/header.css',
-					'assets/css/event.css',
+					'assets/css/event/event.css',
 					'assets/css/footer.css',
 				),
 				'ext_js' => array(
