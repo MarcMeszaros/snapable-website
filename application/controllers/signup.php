@@ -374,14 +374,6 @@ class Signup extends CI_Controller {
 	{
 		require_https();
 
-		// use the "userdata" session because the flashdata is having problems...
-		if (isset($package)) {
-			$this->session->set_userdata('signup_package', $package);
-		} else {
-			// TODO: figure out a more elegant way than hardcoding the package name here as fallback
-			$this->session->set_userdata('signup_package', 'standard');
-		}
-
 		// get package details
 		$verb = 'GET';
 		$path = 'package/'.self::$PACKAGE_ID; // standard package
@@ -462,6 +454,22 @@ class Signup extends CI_Controller {
 
 		// try and create the account/charge the user
 		try {
+					// we got this far, try and create the event
+			//GET TIMEZONE
+			$timezone_offset_seconds = $_POST['event']['tz_offset'] * 60;
+			// SET TO UTC
+			$start_timestamp = strtotime($_POST['event']['start_date'] . " " . $_POST['event']['start_time']) + ($timezone_offset_seconds);
+			$start = gmdate( "c", $start_timestamp ); //date( "Y-m-d", $start_timestamp ) . "T" . date( "H:i:s", $start_timestamp ); // formatted: 2010-11-10T03:07:43 
+			
+			// CREATE END DATE
+			if ( $_POST['event']['duration_type'] == "days" ) {
+				$duration_in_seconds = $_POST['event']['duration_num'] * 86400;
+			} else {
+				$duration_in_seconds = $_POST['event']['duration_num'] * 3600;
+			}
+			$end_timestamp = $start_timestamp + $duration_in_seconds;
+			$end = gmdate( "c", $end_timestamp );
+
 			// create a Snapable order using the API
 			$verb = 'POST';
 			$path = '/order/account/';
@@ -475,6 +483,15 @@ class Signup extends CI_Controller {
 					'account_addons' => array(), // required field, but empty
 					'event_addons' => array(), // required field, but empty
 				),
+				// event
+				'title' => $_POST['event']['title'],
+				'url' => $_POST['event']['url'],
+				'start' => $start,
+				'end' => $end,
+				'tz_offset' => $_POST['event']['tz_offset'],
+				'address' => $_POST['event']['location'],
+				'lat' => $_POST['event']['lat'],
+				'lng' => $_POST['event']['lng'],
 			);
 			// add stripe token
 			if (isset($_POST['stripeToken'])) {
@@ -502,55 +519,6 @@ class Signup extends CI_Controller {
 				$raven_client->captureMessage('Unable to process payment. There was a problem with the Credit Card.');
 				throw new Exception('Unable to process payment.');
 			}
-
-			// we got this far, try and create the event
-			//GET TIMEZONE
-			$timezone_offset_seconds = $_POST['event']['tz_offset'] * 60;
-			// SET TO UTC
-			$start_timestamp = strtotime($_POST['event']['start_date'] . " " . $_POST['event']['start_time']) + ($timezone_offset_seconds);
-			$start = gmdate( "c", $start_timestamp ); //date( "Y-m-d", $start_timestamp ) . "T" . date( "H:i:s", $start_timestamp ); // formatted: 2010-11-10T03:07:43 
-			
-			// CREATE END DATE
-			if ( $_POST['event']['duration_type'] == "days" ) {
-				$duration_in_seconds = $_POST['event']['duration_num'] * 86400;
-			} else {
-				$duration_in_seconds = $_POST['event']['duration_num'] * 3600;
-			}
-			$end_timestamp = $start_timestamp + $duration_in_seconds;
-			$end = gmdate( "c", $end_timestamp );
-
-			// create the actual event
-			$verb = 'POST';
-			$path = '/event/';
-			$params = array(
-				"account" => $order_response->account,
-				"title" => $_POST['event']['title'],
-			    "url" => $_POST['event']['url'],
-			    "start" => $start,
-			    "end" => $end,
-			    "enabled" => true,
-			    "tz_offset" => $_POST['event']['tz_offset'],
-			);
-			$event_resp = SnapApi::send($verb, $path, $params);
-			$event_response = json_decode($event_resp['response']);
-
-			// create the address
-			if ( $event_resp['code'] != 201 ) {
-				$raven_client = new Raven_Client(SENTRY_DSN);
-				$raven_client->captureMessage('Unable to create event. There was no valid response after creating the event..');
-				show_error('Unable to create the event.<br>We\'ve been notified and are looking into the problem.', 500);
-			}
-			
-			// ADDRESS
-			$verb = 'POST';
-			$path = '/address/';
-			$params = array(
-				"event" => $event_response->resource_uri,
-				"address" => $_POST['event']['location'],
-				"lat" => $_POST['event']['lat'],
-			    "lng" => $_POST['event']['lng'],
-			);
-			$resp = SnapApi::send($verb, $path, $params);
 
 			// Snapable TEAM notification
 			$signup_details = array(
