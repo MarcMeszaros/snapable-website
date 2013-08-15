@@ -278,11 +278,80 @@ class Signup extends CI_Controller {
 	    'ZW' => 'Zimbabwe'
 	);
 
+	public static $US_STATES = array(
+	    'AL' => 'Alabama',
+	    'AK' => 'Alaska',
+	    'AZ' => 'Arizona',
+	    'AR' => 'Arkansas',
+	    'CA' => 'California',
+	    'CO' => 'Colorado',
+	    'CT' => 'Connecticut',
+	    'DE' => 'Delaware',
+	    'DC' => 'District of Columbia',
+	    'FL' => 'Florida',
+	    'GA' => 'Georgia',
+	    'HI' => 'Hawaii',
+	    'ID' => 'Idaho',
+	    'IL' => 'Illinois',
+	    'IN' => 'Indiana',
+	    'IA' => 'Iowa',
+	    'KS' => 'Kansas',
+	    'KY' => 'Kentucky',
+	    'LA' => 'Louisiana',
+	    'ME' => 'Maine',
+	    'MD' => 'Maryland',
+	    'MA' => 'Massachusetts',
+	    'MI' => 'Michigan',
+	    'MN' => 'Minnesota',
+	    'MS' => 'Mississippi',
+	    'MO' => 'Missouri',
+	    'MT' => 'Montana',
+	    'NE' => 'Nebraska',
+	    'NV' => 'Nevada',
+	    'NH' => 'New Hampshire',
+	    'NJ' => 'New Jersey',
+	    'NM' => 'New Mexico',
+	    'NY' => 'New York',
+	    'NC' => 'North Carolina',
+	    'ND' => 'North Dakota',
+	    'OH' => 'Ohio',
+	    'OK' => 'Oklahoma',
+	    'OR' => 'Oregon',
+	    'PA' => 'Pennsylvania',
+	    'RI' => 'Rhode Island',
+	    'SC' => 'South Carolina',
+	    'SD' => 'South Dakota',
+	    'TN' => 'Tennessee',
+	    'TX' => 'Texas',
+	    'UT' => 'Utah',
+	    'VT' => 'Vermont',
+	    'VA' => 'Virginia',
+	    'WA' => 'Washington',
+	    'WV' => 'West Virginia',
+	    'WI' => 'Wisconsin',
+	    'WY' => 'Wyoming',
+	);
+
+	public static $CA_STATES = array(
+	    'AB' => 'Alberta',
+	    'BC' => 'British Columbia',
+	    'MB' => 'Manitoba',
+	    'NB' => 'New Brunswick',
+	    'NL' => 'Newfoundland and Labrador',
+	    'NT' => 'Northwest Territories',
+	    'NS' => 'Nova Scotia',
+	    'NU' => 'Nunavut',
+	    'ON' => 'Ontario',
+	    'PE' => 'Prince Edward Island',
+	    'QC' => 'Quebec',
+	    'SK' => 'Saskatchewan',
+	    'YT' => 'Yukon Territory',
+	);
+
 	function __construct()
 	{
     	parent::__construct(); 
     	$this->load->library('email');
-    	$this->load->model('signup_model','',TRUE);		
     	$this->load->model('account_model','',TRUE);
 		
     	$this->load->library('email');
@@ -304,14 +373,6 @@ class Signup extends CI_Controller {
 	public function index($package=null)
 	{
 		require_https();
-
-		// use the "userdata" session because the flashdata is having problems...
-		if (isset($package)) {
-			$this->session->set_userdata('signup_package', $package);
-		} else {
-			// TODO: figure out a more elegant way than hardcoding the package name here as fallback
-			$this->session->set_userdata('signup_package', 'standard');
-		}
 
 		// get package details
 		$verb = 'GET';
@@ -393,6 +454,22 @@ class Signup extends CI_Controller {
 
 		// try and create the account/charge the user
 		try {
+					// we got this far, try and create the event
+			//GET TIMEZONE
+			$timezone_offset_seconds = $_POST['event']['tz_offset'] * 60;
+			// SET TO UTC
+			$start_timestamp = strtotime($_POST['event']['start_date'] . " " . $_POST['event']['start_time']) + ($timezone_offset_seconds);
+			$start = gmdate( "c", $start_timestamp ); //date( "Y-m-d", $start_timestamp ) . "T" . date( "H:i:s", $start_timestamp ); // formatted: 2010-11-10T03:07:43 
+			
+			// CREATE END DATE
+			if ( $_POST['event']['duration_type'] == "days" ) {
+				$duration_in_seconds = $_POST['event']['duration_num'] * 86400;
+			} else {
+				$duration_in_seconds = $_POST['event']['duration_num'] * 3600;
+			}
+			$end_timestamp = $start_timestamp + $duration_in_seconds;
+			$end = gmdate( "c", $end_timestamp );
+
 			// create a Snapable order using the API
 			$verb = 'POST';
 			$path = '/order/account/';
@@ -406,6 +483,15 @@ class Signup extends CI_Controller {
 					'account_addons' => array(), // required field, but empty
 					'event_addons' => array(), // required field, but empty
 				),
+				// event
+				'title' => $_POST['event']['title'],
+				'url' => $_POST['event']['url'],
+				'start' => $start,
+				'end' => $end,
+				'tz_offset' => $_POST['event']['tz_offset'],
+				'address' => $_POST['event']['location'],
+				'lat' => $_POST['event']['lat'],
+				'lng' => $_POST['event']['lng'],
 			);
 			// add stripe token
 			if (isset($_POST['stripeToken'])) {
@@ -433,55 +519,6 @@ class Signup extends CI_Controller {
 				$raven_client->captureMessage('Unable to process payment. There was a problem with the Credit Card.');
 				throw new Exception('Unable to process payment.');
 			}
-
-			// we got this far, try and create the event
-			//GET TIMEZONE
-			$timezone_offset_seconds = $_POST['event']['tz_offset'] * 60;
-			// SET TO UTC
-			$start_timestamp = strtotime($_POST['event']['start_date'] . " " . $_POST['event']['start_time']) + ($timezone_offset_seconds);
-			$start = gmdate( "c", $start_timestamp ); //date( "Y-m-d", $start_timestamp ) . "T" . date( "H:i:s", $start_timestamp ); // formatted: 2010-11-10T03:07:43 
-			
-			// CREATE END DATE
-			if ( $_POST['event']['duration_type'] == "days" ) {
-				$duration_in_seconds = $_POST['event']['duration_num'] * 86400;
-			} else {
-				$duration_in_seconds = $_POST['event']['duration_num'] * 3600;
-			}
-			$end_timestamp = $start_timestamp + $duration_in_seconds;
-			$end = gmdate( "c", $end_timestamp );
-
-			// create the actual event
-			$verb = 'POST';
-			$path = '/event/';
-			$params = array(
-				"account" => $order_response->account,
-				"title" => $_POST['event']['title'],
-			    "url" => $_POST['event']['url'],
-			    "start" => $start,
-			    "end" => $end,
-			    "enabled" => true,
-			    "tz_offset" => $_POST['event']['tz_offset'],
-			);
-			$event_resp = SnapApi::send($verb, $path, $params);
-			$event_response = json_decode($event_resp['response']);
-
-			// create the address
-			if ( $event_resp['code'] != 201 ) {
-				$raven_client = new Raven_Client(SENTRY_DSN);
-				$raven_client->captureMessage('Unable to create event. There was no valid response after creating the event..');
-				show_error('Unable to create the event.<br>We\'ve been notified and are looking into the problem.', 500);
-			}
-			
-			// ADDRESS
-			$verb = 'POST';
-			$path = '/address/';
-			$params = array(
-				"event" => $event_response->resource_uri,
-				"address" => $_POST['event']['location'],
-				"lat" => $_POST['event']['lat'],
-			    "lng" => $_POST['event']['lng'],
-			);
-			$resp = SnapApi::send($verb, $path, $params);
 
 			// Snapable TEAM notification
 			$signup_details = array(
@@ -577,27 +614,29 @@ class Signup extends CI_Controller {
 			$resp = SnapApi::send($verb, $path, $params);
 			$this->output->set_status_header($resp['code']);
 			echo $resp['response'];
-		}
+		} 
 		else if ( isset($_GET['url']) ) {
-			$is_registered = $this->signup_model->checkUrl($_GET['url']);
-			echo $is_registered;
+			$verb = 'GET';
+			$path = '/event/';
+			$params = array(
+				'url' => $this->input->get('url', true),
+			);
+			$resp = SnapApi::send($verb, $path, $params);
+			$this->output->set_status_header($resp['code']);
+			echo $resp['response'];
 		} else {
-			$is_registered = '{ "status": 404 }';
-			echo $is_registered;
+			echo '{ "status": 404 }';
 		}
 	}
 	
-	function promo()
-	{
+	function promo() {
 		$numargs = func_num_args();
 
-		if ( IS_AJAX && isset($_GET['code']) && ($numargs == 0 || $numargs == 1) )
-		{
+		if ( IS_AJAX && isset($_GET['code']) && ($numargs == 0 || $numargs == 1) ) {
 			// sanitize the data (ie. remove invalid characters and lowercase)
 			$code = strtolower(preg_replace('/[^a-zA-Z0-9-_]/', '', $_GET['code']));
 			
-			if ( array_key_exists($code, self::$COUPON_CODES) )
-			{
+			if ( array_key_exists($code, self::$COUPON_CODES) ) {
 			    // success
 			    echo json_encode(array(
 			    	'status' => 200,
@@ -609,6 +648,15 @@ class Signup extends CI_Controller {
 		} else {
 			return 0;
 		}		
+	}
+
+	function states($country) {
+		// if us
+		if ($country == 'US') {
+			echo json_encode(self::$US_STATES);
+		} else if ($country == 'CA') {
+			echo json_encode(self::$CA_STATES);
+		}
 	}
 	
 }

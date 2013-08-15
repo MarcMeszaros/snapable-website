@@ -1,0 +1,13 @@
+
+.good {
+    background-origin: padding-box;
+    background: transparent url('/assets/img/check_alt_16x16.png') no-repeat right;
+}
+.bad {
+    background-origin: padding-box;
+    background: transparent url('/assets/img/x_alt_16x16.png') no-repeat right;
+}
+.spinner-16px {
+    background-origin: padding-box;
+    background: transparent url('/assets/img/spinner-sm.gif') no-repeat right;
+}

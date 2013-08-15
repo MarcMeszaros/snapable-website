@@ -9,7 +9,7 @@
 		<h1 id="event-address"><?= (!$eventDeets->public && isset($eventDeets->addresses[0]->{'address'})) ? $eventDeets->addresses[0]->{'address'} : '&nbsp;' ?></h1>
 		<h1 id="event-timestamp-start"><?= $eventDeets->human_start ?></span> to <span id="event-timestamp-end"><?= $eventDeets->human_end ?></h1>
 		<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ) { ?>
-		<form id="event-settings">
+		<form id="event-settings" class="form">
 			<h3>Edit Your Event Details</h3>
 			<input id="event-settings-lat" name="lat" type="hidden" value="<?= (isset($eventDeets->addresses[0])) ? $eventDeets->addresses[0]->{'lat'} : '0' ?>"/>
 			<input id="event-settings-lng" name="lng" type="hidden" value="<?= (isset($eventDeets->addresses[0])) ? $eventDeets->addresses[0]->{'lng'} : '0' ?>"/>
@@ -82,8 +82,8 @@
 			</div>
 			<div class="small-field">
 				<div id="event-settings-save-wrap">
-					<input type="button" class="cancel" value="Cancel" />
-					<input type="button" class="save" value="Save" />
+					<input type="button" class="btn btn-default cancel" value="Cancel" />
+					<input type="button" class="btn btn-primary save" value="Save" />
 				</div>
 			</div>
 		</form>
@@ -127,7 +127,7 @@
 						<li><input type="radio" name="privacy-setting" value="1" <?php echo ($eventDeets->public) ? 'checked="checked"':''; ?>/> Public</li>
 					</ul>
 					<div class="clearit">&nbsp;</div>
-					<div id='privacySaveWrap'><input type="button" value="Save" /></div>
+					<div id='privacySaveWrap'><input type="button" class="btn btn-primary" value="Save" /></div>
 				</div>
 			</li>
 			<?php endif; ?>

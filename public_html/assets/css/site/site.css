@@ -1,79 +1,9 @@
-/*** SETUP ****/
-.clearit {
-    content: ".";
-    display: block;
-    height: 0;
-    clear: both;
-    visibility: hidden;
-    margin: 0;
-    padding: 0;
-}
-        
 /**** STRUCTURE ****/
-body {
-    background: #fff;
-    color: #505050;
-    padding-bottom: 40px;
-}
-
 #wrap {
-    width: 800px;
-    margin: 55px auto 40px auto;
-}
-#wrap:after {
-    content: ".";
-    display: block;
-    height: 0;
-    clear: both;
-    visibility: hidden;
-    margin: 0;
-    padding: 0;
-}
-
-#signedInBar {
-        width: 100%;
-        padding: 7px 5px 5px 5px;
-        margin: 0;
-        font-size: 12px;
-        line-height: 16px;
-        color: #999;
-        background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#f4f4f4)); /* for webkit browsers */
-        border-bottom: 1px solid #e1e1e1;
-}
-#signedInText {
-        width: 870px;
-        margin: 0 auto;
-        text-align: center;
-}
-#signedInText a:link, #signedInText a:visited {
-        color: #336699;
-        text-decoration: none;
-}
-#signedInText a:hover {
-        color: #cc3300;
-        text-decoration: underline;
-}
-
-#eventCountdown {
-        padding: 10px;
-        text-align: center;
-        color: #fff;
-        background: #006699;
-        font-size: 22px;
-        line-height: 24px;
-        font-weight: bold;
+    margin-top: 55px;
 }
 
 /**** LEFT ****/
-
-.left {
-        position: fixed;
-        top: 60px;
-        width: 200px;
-        font-size: 14px;
-        line-height: 16px;
-        font-weight: bold;
-}
 
 #logo {
         display: block;
@@ -86,13 +16,17 @@ body {
         text-decoration: none;
 }
 
-
-.left ul {
-        list-style: none;
-        margin-left: 0px;
+#left {
+    position: fixed;
 }
 
-.left ul a:link, .left ul a:visited {
+#left ul {
+        list-style: none;
+        margin-left: 0px;
+        padding-left: 30px;
+}
+
+#left ul a:link, #left ul a:visited {
     font-size: 1.15em;    
     display: block;
     width: 96px;
@@ -101,29 +35,29 @@ body {
     text-decoration: none;
     border-radius: 14px;
 }
-.left ul a:hover {
+#left ul a:hover {
         color: #336699;
 }
-.left ul a.active {
+#left ul a.active {
         color: #fff;
         background: #292929;
 }
 
-.left dl {
-        margin-top: 35px;
+#left dl {
+        margin-top: 10px;
         font-weight: bold;
 }
-.left dt {
-        padding: 8px 8px 6px 8px;
+#left dt {
+        padding: 8px;
         color: #999;
 }
-.left dd a:link, .left dd a:visited {
+#left dd a:link, .left dd a:visited {
         display: block;
         padding: 8px 8px 6px 30px;
         color: #6699cc;
         text-decoration: none;
         }
-.left dd a:hover {
+#left dd a:hover {
         color: #336699;
 }
 a#twitter {
@@ -143,65 +77,29 @@ a#pinterest {
 }
 
 /**** RIGHT ****/
-
-.right {
-        display: inline;
-        float: right;
-        width: 600px;
-}
-
 h1 {
-        font-size: 2.5em;
+    font-size: 2.5em;
 }
 h2 {
-        font-size: 1.75em;
-        margin-top: 2em;
-        margin-bottom: 1em;
+    font-size: 1.75em;
+    margin-top: 2em;
 }
 
 h3 {
-        font-size: 1.15em;
-        line-height: 1.3em;
+    font-size: 1.15em;
+    line-height: 1.3em;
 }
-
-.right ol { padding-left: 20px; }
-p, .right li {
-        font-weight: normal;
-        font-size: 16px;
-        line-height: 22px;
-        margin-top: 16px;
-        color: #979797;
-}
-
-.right h3 a:link, .right h3 a:visited {
-        text-decoration: none;
-        color: #505050;
-        padding-right: 20px;
-}
-.right h3 a:hover {
-        color: #67ac1c;
-}
-
-.right p a:link, .right p a:visited {
-        color: #333;
-        font-weight: bold;
-}
-.right p a:hover {
-        color: #528a15;
-}
-
         
 /**** BOTTOM ****/
-
 a#signup-link:link, a#signup-link:visited {
-        display: block;
         color: #fff;
         font-size: 1.15em;
         background: #67ac1c;
-        margin-top: 20px;
-        padding: 15px 35px;
+        margin-top: 10px;
+        margin-left: 20px;
+        padding: 10px auto;
         border-radius: 35px;
-        width: 136px;
+        min-width: 110px;
         text-align: center;
         font-weight: bold;
         text-decoration: none;
@@ -217,53 +115,4 @@ a#signup-link:hover {
     padding: 20px;
     background: #eef4f7;
     border-radius: 5px;
-}
-
-input[type="text"],
-input[type="email"] {
-    resize: none;
-    display: block;
-    padding: 10px;
-    font-size: 16px;
-    color: #999;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    -webkit-box-shadow: inset 2px 2px 2px 0px #dddddd;
-    -moz-box-shadow: inset 2px 2px 2px 0px #dddddd;
-    box-shadow: inset 2px 2px 2px 0px #dddddd;
-}
-
-textarea {
-    resize: none;
-    display: block;
-    width: 390px;
-    height: 100px;
-    margin: 20px 0;
-    padding: 10px;
-    font-size: 16px;
-    line-height: 20px;
-    color: #999;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    -webkit-box-shadow: inset 2px 2px 2px 0px #dddddd;
-    -moz-box-shadow: inset 2px 2px 2px 0px #dddddd;
-    box-shadow: inset 2px 2px 2px 0px #dddddd;
-}
-
-input[type="submit"] {
-    display: block;
-    color: #fff;
-    background: #6699cc;
-    padding: 10px 20px 8px 20px;
-    border: none;
-    border-radius: 35px;
-    width: 100px;
-    font-size: 16px;
-    text-align: center;
-    font-weight: bold;
-    text-decoration: none;
-}
-input[type="submit"]:hover {
-    background: #336699;
-    cursor: pointer;
 }
