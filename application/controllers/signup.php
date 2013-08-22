@@ -595,6 +595,7 @@ class Signup extends CI_Controller {
 
 		$head = array(
             'css' => array('assets/css/loader.css'),
+            'facebook_pixel' = true,
         );
 
 		// load up the view

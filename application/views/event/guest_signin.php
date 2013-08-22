@@ -1,6 +1,6 @@
 <div class="container">
 	
-	<form id="signinWrap" class="col-lg-6 col-push-3 form" name="signin" action="/event/guests/<?= $eventDeets->url ?>/validate" method="post" data-validate="parsley" novalidate>
+	<form id="signinWrap" class="col-lg-6 col-lg-push-3 form" name="signin" action="/event/guests/<?= $eventDeets->url ?>/validate" method="post" data-validate="parsley" novalidate>
 		<?php 
 		if ( isset($upload_photo)) {
 			echo '<input type="hidden" name="upload_photo" value="1" />';	

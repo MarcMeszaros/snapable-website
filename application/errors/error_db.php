@@ -9,7 +9,7 @@
 ::webkit-selection{ background-color: #E13300; color: white; }
 
 body {
-	background-color: #fff;
+	background: #f9f9f9 url('/assets/img/logo-indented.png') no-repeat center 40px;
 	margin: 40px;
 	font: 13px/20px normal Helvetica, Arial, sans-serif;
 	color: #4F5155;
@@ -43,9 +43,13 @@ code {
 }
 
 #container {
+	display: block;
+	position: relative;
+	background: #fff;
+	top: 102px;
 	margin: 10px;
 	border: 1px solid #D0D0D0;
-	-webkit-box-shadow: 0 0 8px #D0D0D0;
+	box-shadow: 0 0 8px #D0D0D0;
 }
 
 p {
