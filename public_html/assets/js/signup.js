@@ -260,8 +260,6 @@ $(document).ready(function() {
 	        $('#signup-spinner').addClass('hide');
 	        $('#completSignup').removeAttr("disabled").show();
 	    } else {
-	        _gaq.push(['_trackPageview', 'signup/submit']);
-	        
 	        var form = $("#payment-form");
 	        // token contains id, last4, and card type
 	        var token = response['id'];
