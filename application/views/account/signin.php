@@ -1,6 +1,6 @@
 <div class="container">
 	<img id="signLogo" src="/assets/img/logo-indented.png" alt="Snapable" />
-		<form id="signinWrap" class="col-lg-4 col-push-4 form" name="signin" action="/account/validate" method="post" data-validate="parsley" novalidate>
+		<form id="signinWrap" class="col-lg-4 col-lg-push-4 form" name="signin" action="/account/validate" method="post" data-validate="parsley" novalidate>
 			<h1>Sign in to your account</h1>
 			<h2>Don't have an account? <a href="/signup">Sign-up here</a></h2>
 			
