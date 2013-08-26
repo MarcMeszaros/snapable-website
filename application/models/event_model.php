@@ -135,15 +135,6 @@ Class Event_model extends CI_Model
 		$col3 = $post['col3'];
 		
 		$event_id = explode("/", $event_uri);
-		/*
-		Array
-		(
-		    [file] => 1346536205-emailsample.csv
-		    [col1] => name
-		    [col2] => email
-		    [col3] => type
-		)
-		*/
 		
 		// GET LIST OF CURRENT GUESTS
 		$verb = 'GET';
@@ -180,8 +171,7 @@ Class Event_model extends CI_Model
 					    $numnum = 1;
 						$email = "unknown";
 						$name = "unknown";
-				        $type_uri = "/".SnapApi::$api_version."/type/5/";
-					    $row_data .= "{";
+				        $row_data .= "{";
 					    $empty = false;
 						
 						for ($c=0; $c < $num; $c++) 
@@ -193,34 +183,8 @@ Class Event_model extends CI_Model
 				        	    	// is email
 				        	    	$email = $data[$c];
 				        	    } else {
-					        	    // isn't, check if guest
-					        	    $types = array("organizer","bride/groom","wedding party","family","guest"); // SWITCH TO FILL ARRAY FROM API AND ENSURE THEY'RE LOWERCASE!!!!
-					        	    if ( in_array(strtolower($data[$c]), $types) )
-					        	    {
-					        	    	// is guest type
-					        	    	$type = strtolower($data[$c]);
-					        	    	// convert type into resource_uri
-						        	    switch ($type) {
-										    case "organizer":
-										        $type_uri = "/".SnapApi::$api_version."/type/1/";
-										        break;
-										    case "bride/groom":
-										        $type_uri = "/".SnapApi::$api_version."/type/2/";
-										        break;
-										    case "wedding party":
-										        $type_uri = "/".SnapApi::$api_version."/type/3/";
-										        break;
-										    case "family":
-										        $type_uri = "/".SnapApi::$api_version."/type/4/";
-										        break;
-										    case "guest":
-										        $type_uri = "/".SnapApi::$api_version."/type/5/";
-										        break;
-										}
-					        	    } else {
-					        	    	// isn't guest or email, must be a name
-						        	    $name = $data[$c];
-					        	    }
+				        	    	// isn't guest or email, must be a name
+					        	    $name = $data[$c];
 				        	    }
 							}
 						}
@@ -236,7 +200,6 @@ Class Event_model extends CI_Model
 									"email" => $email,
 									"event" => $event_uri,
 									"name" => $name,
-									"type" => $type_uri,
 								);
 								$resp = SnapApi::send($verb, $path, $params);
 
@@ -378,8 +341,7 @@ Class Event_model extends CI_Model
 					$listArr = explode(",", $list);
 					$email = "unknown";
 					$name = "unknown";
-					$type_uri = "/".SnapApi::$api_version."/type/5/";
-				
+
 					foreach ( $listArr as $l )
 					{
 						$l = trim($l);
@@ -388,34 +350,8 @@ Class Event_model extends CI_Model
 		        	    	// is email
 		        	    	$email = $l;
 		        	    } else {
-			        	    // isn't, check if guest
-			        	    $types = array("organizer","bride/groom","wedding party","family","guest"); // SWITCH TO FILL ARRAY FROM API AND ENSURE THEY'RE LOWERCASE!!!!
-			        	    if ( in_array(strtolower($l), $types) )
-			        	    {
-			        	    	// is guest type
-			        	    	$type = strtolower($l);
-			        	    	// convert type into resource_uri
-				        	    switch ($type) {
-								    case "organizer":
-								        $type_uri = "/".SnapApi::$api_version."/type/1/";
-								        break;
-								    case "bride/groom":
-								        $type_uri = "/".SnapApi::$api_version."/type/2/";
-								        break;
-								    case "wedding party":
-								        $type_uri = "/".SnapApi::$api_version."/type/3/";
-								        break;
-								    case "family":
-								        $type_uri = "/".SnapApi::$api_version."/type/4/";
-								        break;
-								    case "guest":
-								        $type_uri = "/".SnapApi::$api_version."/type/5/";
-								        break;
-								}
-			        	    } else {
-			        	    	// isn't guest or email, must be a name
-				        	    $name = $l;
-			        	    }
+		        	    	// isn't guest or email, must be a name
+			        	    $name = $l;
 		        	    }
 					}
 					if ( $email != "unknown")
@@ -430,7 +366,6 @@ Class Event_model extends CI_Model
 								"email" => $email,
 								"event" => $event_uri,
 								"name" => $name,
-								"type" => $type_uri,
 							);
 							$resp = SnapApi::send($verb, $path, $params);
 
