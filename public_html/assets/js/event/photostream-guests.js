@@ -1,28 +1,43 @@
 $(document).ready(function(){
+    // GUEST MENU
+    $("#guestBTN").click(function(e) {
+        e.preventDefault();
+        $(".slidContent").fadeOut("normal");
+        
+        $.Mustache.load('/assets/js/templates.html').done(function() {
+            $('#guest').mustache('invite-guests',"",{method: "html"});
+            $("#guest").slideToggle();
+            // get notification template and drop in place
+            $.get('/event/guests/notify', function(data) {
+                $("#notify-message").html(data);
+                // check if event has guests, hide 'send email' button if it doesn't
+                $.get('/event/guests/count', { resource_uri:eventID }, function(count) {
+                    if ( count == 0 ) {
+                        $("#do-notify-wrap").html("No guests have been invited yet.");
+                    }
+                });
+            });
+        });
+    });
+
     // GUESTS
-    $(document).on("click", ".tabs a", function()
-    {
+    $(document).on("click", ".tabs a", function() {
         var href = $(this).attr("href").substring(1);
         
-        if ( $(this).parent().attr("class") != "active" )
-        {
+        if ( $(this).parent().attr("class") != "active" ) {
             $(".tabs li").removeClass("active");
             $(this).parent().addClass("active");
             
-            if ( href == "guestlist" )
-            {
+            if ( href == "guestlist" ) {
                 $(".tab-content").hide();
                 $("#" + href + "Box").html('<div class="progress progress-striped active" style="width: 200px; margin: 0 auto;"><div class="progress-bar" style="width: 100%"></div></div>').show();
                 
                 // get guest list
                 var eid = eventID.split("/");
                 $.getJSON('/event/get/guests/' + eid[3], function(json) {
-                    if ( json.status == 200 )
-                    {
-                        $.Mustache.load('/assets/js/templates.html').done(function () 
-                        {
-                            $("#" + href + "Box").fadeOut("fast", function()
-                            {
+                    if ( json.status == 200 ) {
+                        $.Mustache.load('/assets/js/templates.html').done(function () {
+                            $("#" + href + "Box").fadeOut("fast", function() {
                                 // format results and then fadeIn
                                 $("#" + href + "Box").html('<table class="table"></table>');
                                 $.each(json.guests, function(key, val) {
@@ -90,28 +105,24 @@ $(document).ready(function(){
     
     //$("#guest-link-upload").on("click", function(event) {
     $(document).on("click", "#guest-link-upload", function(){ 
-        $.Mustache.load('/assets/js/templates.html').done(function () 
-        {
+        $.Mustache.load('/assets/js/templates.html').done(function() {
             $("#guest-choices").hide().mustache("guest-upload", "", {method: "html"}).addClass("guests-options-wrap").fadeIn("normal");
         });
         return false;
     });
 
-    $(document).on("click", "#guest-link-manual", function(){ 
+    $(document).on("click", "#guest-link-manual", function() {
         $("#guest-choices").hide().mustache("guest-manual", "", {method: "html"}).addClass("guests-options-wrap").fadeIn("normal");
         $('#guest-choices .spinner-wrap').spin('small');
         return false;
     });
-    
-    
+
     $(document).on("click", "#guests-file-how-to-csv-link", function(){ 
         $("#guests-file-how-to-csv").fadeIn("normal");
         return false;
     });
     
     $(document).on("click", ".guests-back-to-choices", function(){ 
-        //$("#guests-manual, #guests-upload").hide();
-        //$("#guests-choices").fadeIn();
         $("#guest-choices").hide().mustache("guest-options", "", {method: "html"}).removeClass("guests-options-wrap").fadeIn("normal");
         return false;
     });
@@ -124,7 +135,6 @@ $(document).ready(function(){
             alert("Sorry, this doesn't appear to be a CSV file");
         } else {
             var iframe = $('<iframe name="postCSViframe" id="postCSViframe" style="display: none" />');
-
             $("body").append(iframe);
 
             var form = $('#guests-file-uploader');
@@ -140,12 +150,10 @@ $(document).ready(function(){
                 iframeContents = $("#postCSViframe")[0].contentWindow.document.body.innerHTML;
                 var guestJSON = jQuery.parseJSON(iframeContents);
                 
-                if ( guestJSON.status == 200 )
-                {
+                if ( guestJSON.status == 200 ) {
                     csvFilename = guestJSON.filename;
                     
-                    $.Mustache.load('/assets/js/templates.html').done(function () 
-                    {
+                    $.Mustache.load('/assets/js/templates.html').done(function() {
                         var viewData = {
                         };
                         $("#guest-choices").removeClass("choiceBox").addClass("csvParse").mustache('guest-csv-parse', viewData, {method: "html"});
@@ -159,31 +167,23 @@ $(document).ready(function(){
                         $("#csvHeader" + guestHeader).val("type");
                         
                         // populated each row with the correct data (use template: guest-csv-row)
-                        
-                        $.each(guestJSON.rows, function(key, val) 
-                        {
+                        $.each(guestJSON.rows, function(key, val) {
                             var emailRow = emailHeader.toLowerCase();
                             var nameRow = nameHeader.toLowerCase();
                             var guestRow = guestHeader.toLowerCase();
                             
-                            $.each(val, function(k, v) 
-                            {
-                                if ( k == emailRow )
-                                {
+                            $.each(val, function(k, v) {
+                                if ( k == emailRow ) {
                                     var emailData = { 
                                         text: v 
                                     };
                                     $("#row" + emailHeader + "Contents").mustache('guest-csv-row', emailData);  
-                                }
-                                else if ( k == nameRow )
-                                {
+                                } else if ( k == nameRow ) {
                                     var nameData = { 
                                         text: v 
                                     };
                                     $("#row" + nameHeader + "Contents").mustache('guest-csv-row', nameData);    
-                                }
-                                else if ( k == guestRow )
-                                {
+                                } else if ( k == guestRow ) {
                                     var guestData = { 
                                         text: v 
                                     };
@@ -200,34 +200,23 @@ $(document).ready(function(){
             });
             
         }
-        /*
-        $("#guests-upload").html("<strong>Your guests have been uploaded.</strong><br />Would you like to compose an email to let them know to download the Snapable app? <a id='notify-guests-yes' href='#'>Yes</a> / <a id='notify-guests-no' href='#'>No</a>");
-        */
         return false;
     });
     
-    $(document).on("click", "#csvAllDone", function(e)
-    {
+    $(document).on("click", "#csvAllDone", function(e) {
         e.preventDefault();
         
-        if ( csvFilename != "" )
-        {
+        if ( csvFilename != "" ) {
             $("#allDoneWrap").html("<img src='/assets/img/spinner_32px.gif' />");
-            $.post("/parse/csv", { event:eventID, file:csvFilename, col1:$("#csvHeaderOne").val(), col2:$("#csvHeaderTwo").val(), col3:$("#csvHeaderThree").val() }, function(data)
-            {
+            $.post("/parse/csv", { event:eventID, file:csvFilename, col1:$("#csvHeaderOne").val(), col2:$("#csvHeaderTwo").val(), col3:$("#csvHeaderThree").val() }, function(data) {
                 var json = jQuery.parseJSON(data);
-                
-                if ( json.status == 200 )
-                {
+                if ( json.status == 200 ) {
                     // switch tab to notify and show content
                     $("#addTab").removeClass("active");
                     $("#notifyTab").addClass("active");
-                    $("#addBox").fadeOut("fast", function()
-                    {
-                        $.get('/event/guests/count', { resource_uri:eventID }, function(count)
-                        {
-                            if ( count == 0 )
-                            {
+                    $("#addBox").fadeOut("fast", function() {
+                        $.get('/event/guests/count', { resource_uri:eventID }, function(count) {
+                            if ( count == 0 ) {
                                 $("#do-notify-wrap").html("No guests have been invited yet.");
                             } else {
                                 $("#do-notify-wrap").html('<a href="#" id="do-notify-guests">Send Email(s)</a>');
@@ -246,10 +235,8 @@ $(document).ready(function(){
     });
     
     
-    $(document).on("focus", "#notify-custom-message", function(e)
-    {
-        if ( $(this).val() == "Enter a message for your guests." )
-        {
+    $(document).on("focus", "#notify-custom-message", function(e) {
+        if ( $(this).val() == "Enter a message for your guests." ) {
             $(this).val("").css({"color":"#333333"});
         } 
     });
@@ -260,18 +247,14 @@ $(document).ready(function(){
             $(this).val("Enter a message for your guests.").css({"color":"#999"});
         } 
     });
-    $(document).on("click", "#do-send-to-guests", function(e)
-    {
+    $(document).on("click", "#do-send-to-guests", function(e) {
     	$("#notify-group").html("<img style='vertical-align:middle' src='/assets/img/spinner_blue_sm.gif' width='16' height='16' alt='*' /> Sending...");
     	
         // get checkboxes checked and message
         var message = $("#notify-custom-message").val();
-        
-        if ( message == "" || message == "Enter a message for your guests." )
-        {
+        if ( message == "" || message == "Enter a message for your guests." ) {
             alert("You haven't supplied a message for your guests.")
-        }
-        else {
+        } else {
             $.ajax('/event/send/invites', {
                 type: 'POST',
                 data: { resource_uri:eventID, message:message },
@@ -296,21 +279,17 @@ $(document).ready(function(){
             });
         }
     });
-    
-    
-    $(document).on("click", "#notify-guests-yes", function()
-    {
+
+    $(document).on("click", "#notify-guests-yes", function() {
         $("#overlay-tabs-add").removeClass("active");
         $("#overlay-tabs-notify").addClass("active");
-        $("#add-guests-wrap").fadeOut("fast", function()
-        {
+        $("#add-guests-wrap").fadeOut("fast", function() {
             $("#notify-guests").fadeIn("fast");
         });
         return false;
     });
     
-    $(document).on("click", "#guests-manual-done", function()
-    {
+    $(document).on("click", "#guests-manual-done", function() {
         $(this).hide();
         $(this).siblings('.spinner-wrap').removeClass('hide');
         // check if there's anything in the textbox

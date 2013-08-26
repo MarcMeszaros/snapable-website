@@ -107,17 +107,7 @@
 			<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ) { ?>
 			<li><a href="#guest" id="guestBTN">Invite Guests</a></li>
 			<li><a href="#tablecards" id="tableBTN">Table Cards</a></li>
-			<?php } ?>
-			
-			
-
-			<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ): ?>
-			<li>
-				<a id="event-nav-contact" href="#nav-contact">Contact</a>
-			</li>
-			<?php endif; ?>
-			
-			<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ): ?>
+			<li><a id="event-nav-contact" href="#nav-contact">Contact</a></li>
 			<li>
 				<a id="event-nav-privacy" href="#">Privacy</a>
 				<div id="event-nav-menu-privacy" class="event-nav-menu">
@@ -130,7 +120,7 @@
 					<div id='privacySaveWrap'><input type="button" class="btn btn-primary" value="Save" /></div>
 				</div>
 			</li>
-			<?php endif; ?>
+			<?php } ?>
 		</ul>
 
 	</div>
@@ -167,9 +157,50 @@
 </div>
 <div class="clearit">&nbsp;</div>
 
-<div id="contact" class="mustache-box slidContent"></div>
+<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ): ?>
+<div id="contact" class="mustache-box hide slidContent">
+	<div class="section">
+        <form id="questionForm" action="/ajax/send_email" method="post">
+            <input type="hidden" name="from" value="<?= $owner_email ?>" />
+            <input type="hidden" name="subject" value="Message From Customer" />
+            <h3>Got a question? We're happy to answer it</h3>
+            <p>Your question may already be answered! Make sure to checkout our <a href="/site/faq">FAQ</a> page.</p>
+
+            <textarea class="message" name="message">Enter a question, comment or message...</textarea>
+            <input type="submit" name="submit" value="Send" />
+        </form>
+    </div>
+    <div class="section" style="margin-top:50px;">
+    	<h4>Connect</h4>
+        <ul class="connect">
+            <li><a class="twitter" href="http://twitter.com/getsnapable" target="_blank">Twitter</a></li>
+            <li><a class="facebook" href="http://facebook.com/snapable" target="_blank">Facebook</a></li>
+            <li><a class="pinterest" href="http://pinterest.com/snapable/" target="_blank">Pinterest</a></li>
+        </ul>
+    </div>
+</div>
+<?php endif; ?>
+
+<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ): ?>
 <div id="guest" class="mustache-box slidContent"></div>
-<div id="tablecards" class="mustache-box slidContent" data-url="<?php echo $url; ?>"></div>
+<?php endif; ?>
+
+<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ): ?>
+<div id="tablecards" class="mustache-box hide slidContent" data-url="<?php echo $url; ?>">
+	<h3>Table Cards</h3>
+	
+	<img src="/assets/img/tablecard.png" alt="Table card sample" />
+	<p>
+		Make sure your guests know about Snapable! In addition to inviting them before the event, you can also use our custom event cards at the event.
+	</p>
+	<p>
+		We recommend printing on a heavy paper (98 Bright, 100-lb). The PDF comes with 4 cards on a 
+		sheet (US Letter) to minimize printing costs (just cut them in quarters after printing).
+	</p>
+	<br>
+	<a class="download" href="/pdf/download/<?php echo $url; ?>">Download Your Table Cards</a>
+</div>
+<?php endif; ?>
 
 <div id="photoArea"></div>
 

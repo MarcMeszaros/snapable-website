@@ -1,8 +1,36 @@
-#questionForm {
+#contact {
     margin: 0 0 20px 0;
     padding: 20px;
     background: #eef4f7;
     border-radius: 5px;
+}
+
+ul.connect {
+    padding: 0;
+    min-height: 18px;
+}
+ul.connect li {
+    margin: 0 10px;
+    list-style: none;
+    float: left;
+}
+ul.connect li a:link,
+ul.connect li a:visited {
+    padding-left: 20px;
+    color: #6699cc;
+    text-decoration: none;
+}
+ul.connect li a:hover {
+    color: #336699;
+}
+ul.connect li a.facebook {
+    background: transparent url('/assets/img/icons/16px/facebook.png') no-repeat left top;
+}
+ul.connect li a.pinterest {
+    background: transparent url('/assets/img/icons/16px/pinterest.png') no-repeat left top;
+}
+ul.connect li a.twitter {
+    background: transparent url('/assets/img/icons/16px/twitter-2.png') no-repeat left top;
 }
 
 textarea {
