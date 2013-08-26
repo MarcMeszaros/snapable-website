@@ -31,7 +31,6 @@ class Event extends CI_Controller {
 				'assets/css/signin.css',
 				'assets/css/timePicker.css',
 				'assets/css/facebox.css',
-				'assets/css/setup.css',
 				'assets/css/header.css',
 				'assets/css/event/event.css',
 				'assets/css/footer.css',
@@ -307,12 +306,19 @@ class Event extends CI_Controller {
 	}
 
 	public function privacy() {
-		if ( IS_AJAX && isset($_POST) )
-		{
-			$event_uri = $_POST['event'];
-			$setting = $_POST['selected'];
-			
-			echo $this->event_model->updatePrivacy($event_uri, $setting);
+		if ( IS_AJAX && isset($_POST) ) {
+			$eventParts = explode('/', $_POST['event']);
+			$verb = 'PUT';
+			$path = '/event/'.$eventParts[3].'/';
+			$params = array(
+				'public' => ($_POST['selected'] == 0) ? false : true,
+			);
+			$resp = SnapApi::send($verb, $path, $params);
+	        if(!$resp['response']) {
+	            return json_encode(array('status' => 404));
+	        } else {
+	        	return json_encode(array('status' => $resp['code']));
+	        }
 		}
 	}
 }

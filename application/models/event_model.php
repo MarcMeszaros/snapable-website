@@ -272,7 +272,7 @@ Class Event_model extends CI_Model
 					if ($result->meta->total_count > 0) {
 						// common to all emails
 						$subject = 'At ' . $event->title . ' use Snapable!';
-						$fromname = $session_data['fname'] . " " . $session_data['lname'];
+						$fromname = $session_data['first_name'] . " " . $session_data['last_name'];
 
 						// do the first batch of results
 						foreach($result->objects as $o) {
@@ -436,27 +436,6 @@ Class Event_model extends CI_Model
 			$json = array("status" => 404);
 		}
 		return json_encode($json);
-	}
-	
-	
-	function updatePrivacy($event_uri, $setting)
-	{
-		$eventParts = explode('/',$event_uri);
-		$verb = 'PUT';
-		$path = '/event/'.$eventParts[3].'/';
-		$params = array(
-			'public' => ($setting == 0) ? false : true,
-		);
-		$resp = SnapApi::send($verb, $path, $params);
-
-        $response = $resp['response'];
-        $httpcode = $resp['code'];
-               
-        if(!$response) {
-            return json_encode(array('status' => 404));
-        } else {
-        	return json_encode(array('status' => $httpcode));
-        }
 	}
 
 	/**

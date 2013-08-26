@@ -9,13 +9,8 @@
 		{
 			if (  $loggedInBar == "owner" )
 			{
-				/*
-				print_r($this->session->userdata('logged_in'));
-				
-				Array ( [email] => andrew@snapable.com [fname] => Andrew [lname] => Draper [resource_uri] => /private_v1/user/92/ [loggedin] => 1 )
-				*/
 				$arr = $this->session->userdata('logged_in');
-				$name = $arr['fname'] . " " . substr($arr['lname'], 0,1) . ".";
+				$name = $arr['first_name'] . " " . substr($arr['last_name'], 0,1) . ".";
 				$signout_url = "/account/signout";
 				$dash_link = "<a href='/account/dashboard'>Dashboard</a> / ";
 			}
