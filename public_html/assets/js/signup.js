@@ -148,6 +148,13 @@ $(document).ready(function() {
 						discount = amount;
 					}
 					$("#package-amount").html((amount - discount)/100);
+
+					// disable billing
+					if ((amount - discount) < 50) {
+						$('#billing input[type!="submit"]').attr('disabled', 'disabled');
+					} else {
+						$('#billing input[type!="submit"]').removeAttr('disabled');
+					}
 				} else {
 					$.pnotify({
 						type: 'info',
