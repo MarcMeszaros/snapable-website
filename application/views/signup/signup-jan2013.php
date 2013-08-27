@@ -2,7 +2,7 @@
 
 <div id="wrap" class="container">
 	<div class="row">
-		<div class="col-lg-2 col-offset-1">
+		<div class="col-lg-2 col-lg-offset-1">
 			<div id="left">
 				<a id="logo" href="/">Snapable</a>
 				<ul>
