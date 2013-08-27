@@ -583,16 +583,8 @@ ul#photo-action li a.photo-download:hover {
 }
 
 #uploadArea {
-	display: none;
-	border: 2px solid #c3d7ec;
-	background: #fff;
-	border-radius: 3px;
 	padding: 20px;
-	margin: 10px 10px 20px 10px;
 	text-align: center;
-	-moz-box-shadow: 0 4px 2px -2px #666;
-	-webkit-box-shadow: 0 4px 2px -2px #666;
-	box-shadow: inset 1px 1px 6px -2px #000;
 }
 .files { 
 	font-weight: bold;

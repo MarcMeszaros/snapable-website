@@ -98,7 +98,11 @@
 		<ul id="event-nav">
 
 			<li><span>Photostream</span></li>
-			<li><a id="uploadBTN" href="#">Submit Photo</a></li>
+			<?php if ( (isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user) || (isset($guestLoggedin) && $guestLoggedin == true) ) { ?>
+				<li><a id="uploadBTN" href="#">Submit Photo</a></li>
+			<?php } else { ?>
+				<li><a id="uploadBTN" href="/event/<?= $url ?>/guest_signin?upload-photo=1" data-signin="true">Submit Photo</a></li>
+			<?php } ?>
 			<?php if ( $eventDeets->photos > 0 )
 			{
 				//echo '<li><a href="/event/' . $eventDeets->url . '/slideshow">Slideshow</a></li>';
@@ -111,13 +115,16 @@
 			<li>
 				<a id="event-nav-privacy" href="#">Privacy</a>
 				<div id="event-nav-menu-privacy" class="event-nav-menu">
-					<p>Choose private if you prefer photos are only viewed by guests. Public events will be visible to anyone who visits your album.</p>
-					<ul>
-						<li><input type="radio" name="privacy-setting" value="0" <?php echo (!$eventDeets->public) ? 'checked="checked"':''; ?>/> Private</li>
-						<li><input type="radio" name="privacy-setting" value="1" <?php echo ($eventDeets->public) ? 'checked="checked"':''; ?>/> Public</li>
-					</ul>
-					<div class="clearit">&nbsp;</div>
-					<div id='privacySaveWrap'><input type="button" class="btn btn-primary" value="Save" /></div>
+					<form method="post" action="/event/privacy" enctype="multipart/form-data" class="form-horizontal">
+						<input type="hidden" name="event" value="<?php echo $eventDeets->resource_uri; ?>" />
+						<p>Choose private if you prefer photos are only viewed by guests. Public events will be visible to anyone who visits your album.</p>
+						<ul>
+							<li><input type="radio" name="privacy-setting" value="0" <?php echo (!$eventDeets->public) ? 'checked="checked"':''; ?>/> Private</li>
+							<li><input type="radio" name="privacy-setting" value="1" <?php echo ($eventDeets->public) ? 'checked="checked"':''; ?>/> Public</li>
+						</ul>
+						<div class="clearit">&nbsp;</div>
+						<div id='privacySaveWrap'><input type="submit" class="btn btn-primary" value="Save" /></div>
+					</form>
 				</div>
 			</li>
 			<?php } ?>
@@ -131,7 +138,7 @@
 	</div>
 </div>
 
-<div id="uploadArea" class="slidContent">
+<div id="uploadArea" class="mustache-box hide slidContent">
 	<div class="hint">
 		Photos must be in jpeg format and a maximum of 10 MB. If your photos are rather large, 
 		please be patient! It might take a few minutes :)
@@ -155,7 +162,6 @@
 		</fieldset>
 	</form>
 </div>
-<div class="clearit">&nbsp;</div>
 
 <?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ): ?>
 <div id="contact" class="mustache-box hide slidContent">

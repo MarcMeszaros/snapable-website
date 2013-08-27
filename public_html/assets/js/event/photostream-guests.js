@@ -1,12 +1,15 @@
 $(document).ready(function(){
     // GUEST MENU
-    $("#guestBTN").click(function(e) {
-        e.preventDefault();
-        $(".slidContent").fadeOut("normal");
+    $("#guestBTN").click(function() {
+        $('.slidContent[id!="guest"]').slideUp();
+        if ($("#guest").hasClass('hide')) {
+            $("#guest").removeClass("hide").hide().slideDown();
+        } else {
+            $("#guest").slideToggle();
+        }
         
         $.Mustache.load('/assets/js/templates.html').done(function() {
             $('#guest').mustache('invite-guests',"",{method: "html"});
-            $("#guest").slideToggle();
             // get notification template and drop in place
             $.get('/event/guests/notify', function(data) {
                 $("#notify-message").html(data);
@@ -18,6 +21,7 @@ $(document).ready(function(){
                 });
             });
         });
+        return false;
     });
 
     // GUESTS
