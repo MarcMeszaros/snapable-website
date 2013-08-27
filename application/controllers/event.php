@@ -63,17 +63,14 @@ class Event extends CI_Controller {
 			'eventDeets' => $event_details->event
 		);
 		$head['js_vars']['photo_count'] = $event_details->event->photos;
-		$head['js_vars']['eventID'] = $event_details->event->resource_uri;
 
 		$ownerLoggedin = false;
 		$guestLoggedin = false;
 		if ( $event_details->status == 200 ) {
 			$session_owner = SnapAuth::is_logged_in();
 			$session_guest = SnapAuth::is_guest_logged_in();
-			$head['js_vars']['owner'] = false; // false unless otherwise noted
 
 			if ($session_owner && $event_details->event->user == $session_owner['resource_uri']) {
-				$head['js_vars']['owner'] = true;
 				$data['owner_email'] = $session_owner['email']; 
 				$ownerLoggedin = true;
 				$data["logged_in_user_resource_uri"] = $session_owner['resource_uri'];
@@ -93,7 +90,6 @@ class Event extends CI_Controller {
 
 				// the owner guestID was found
 				if ($resp['code'] == 200 && count($response->objects) > 0) {
-			        $head['js_vars']['guestID'] = $response->objects[0]->resource_uri;
 			        // set data for the event view
 			        $data['guest_uri'] = $response->objects[0]->resource_uri;
 				}
@@ -102,7 +98,6 @@ class Event extends CI_Controller {
 				$head["loggedInBar"] = "guest";
 				// set data for event view
 				if (!empty($session_guest['id'])) {
-					$head['js_vars']['guestID'] = '/'.SnapApi::$api_version.'/guest/'.$session_guest['id'].'/';
 					$data['guest_uri'] = '/'.SnapApi::$api_version.'/guest/'.$session_guest['id'].'/';
 				}
 			}
@@ -283,15 +278,13 @@ class Event extends CI_Controller {
 			$verb = 'PUT';
 			$path = '/event/'.$eventParts[3].'/';
 			$params = array(
-				'public' => ($_POST['selected'] == 0) ? false : true,
+				'public' => ($_POST['privacy-setting'] == 0) ? false : true,
 			);
 			$resp = SnapApi::send($verb, $path, $params);
-	        if(!$resp['response']) {
-	            return json_encode(array('status' => 404));
-	        } else {
-	        	return json_encode(array('status' => $resp['code']));
-	        }
+	        $this->output->set_status_header($resp['code']);
+	        return $resp['response'];
 		}
+		$this->output->set_status_header(403);
 	}
 }
 

@@ -1,9 +1,9 @@
-<div id="event-top">
+<?php
+	$eid = explode('/', $eventDeets->resource_uri);
+?>	
+<div id="event-top" data-event-id="<?= $eid[3] ?>">
 
-	<?php
-		$eid = explode('/', $eventDeets->resource_uri);
-	?>
-	<img id="event-cover-image" src="/p/get_event/<?php echo $eid[3]; ?>/150x150" />
+	<img id="event-cover-image" src="/p/get_event/<?= $eid[3] ?>/150x150" data-event-id="<?= $eid[3] ?>" />
 	<div id="event-title-wrap">
 		<h2 id="event-title" class="<?php echo ($ownerLoggedin)? 'edit': '';?>"><?= $eventDeets->title ?></h2>
 		<h1 id="event-address"><?= (!$eventDeets->public && isset($eventDeets->addresses[0]->{'address'})) ? $eventDeets->addresses[0]->{'address'} : '&nbsp;' ?></h1>

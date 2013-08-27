@@ -37,8 +37,7 @@ $(document).ready(function(){
                 $("#" + href + "Box").html('<div class="progress progress-striped active" style="width: 200px; margin: 0 auto;"><div class="progress-bar" style="width: 100%"></div></div>').show();
                 
                 // get guest list
-                var eid = eventID.split("/");
-                $.getJSON('/event/get/guests/' + eid[3], function(json) {
+                $.getJSON('/event/get/guests/' + $('#event-top').data('event-id'), function(json) {
                     if ( json.status == 200 ) {
                         $.Mustache.load('/assets/js/templates.html').done(function () {
                             $("#" + href + "Box").fadeOut("fast", function() {
