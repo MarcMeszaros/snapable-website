@@ -583,28 +583,14 @@ ul#photo-action li a.photo-download:hover {
 }
 
 #uploadArea {
-	display: none;
-	border: 2px solid #c3d7ec;
-	background: #fff;
-	border-radius: 3px;
 	padding: 20px;
-	margin: 10px 10px 20px 10px;
 	text-align: center;
-	-moz-box-shadow: 0 4px 2px -2px #666;
-	-webkit-box-shadow: 0 4px 2px -2px #666;
-	box-shadow: inset 1px 1px 6px -2px #000;
 }
 .files { 
-/*
-	background-color: #fff;
-	border: 1px solid #c3d7ec;
-	border-radius: 5px;
-	padding: 10px 5px; 
-*/
 	font-weight: bold;
 	text-align: center;
 	margin: 0 10px 20px 10px; 
-	}
+}
 .filesSmText {
 	margin: 5px 0;
 	font-size: 14px;
@@ -681,27 +667,6 @@ h3 {
 }
 .mustache-box a:hover {
 	color: #669900;
-}
-.mustache-box .section ul.connect li a:link,
-.mustache-box .section ul.connect li a:visited {
-	padding-left: 20px;
-	color: #6699cc;
-    text-decoration: none;
-}
-.mustache-box .section ul.connect li a:hover {
-    color: #336699;
-}
-.mustache-box .section ul.connect li a.email {
-	background: transparent url('/assets/img/icons/16px/email.png') no-repeat left top;
-}
-.mustache-box .section ul.connect li a.facebook {
-	background: transparent url('/assets/img/icons/16px/facebook.png') no-repeat left top;
-}
-.mustache-box .section ul.connect li a.pinterest {
-	background: transparent url('/assets/img/icons/16px/pinterest.png') no-repeat left top;
-}
-.mustache-box .section ul.connect li a.twitter {
-	background: transparent url('/assets/img/icons/16px/twitter-2.png') no-repeat left top;
 }
 
 /**** GUEST & SLIDESHOW UPLOAD AREA ****/
@@ -1154,22 +1119,6 @@ a#back:hover {
 	width: 65px;
 }
 .remove-cover {
-	background: #ff3300;
-	border: 2px solid #cc3300;
-}
-
-
-/**** CHECKOUT / CART STUFF ****/
-
-.photoInCart {
-	color: #666;
-	background-color: #ffcc99;
-}
-.addto-prints {
-	background: #66ccff;
-	border: 2px solid #52b0df;
-}
-.removefrom-prints {
 	background: #ff3300;
 	border: 2px solid #cc3300;
 }

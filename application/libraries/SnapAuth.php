@@ -21,8 +21,6 @@ class SnapAuth {
                 'account_uri' => $user->accounts[0],
 
                 // TODO deprecated (look through the code and try and stop using these)
-                'fname' => $user->first_name,
-                'lname' => $user->last_name,
                 'resource_uri' => $user->resource_uri,
                 'loggedin' => true,
             );
@@ -51,8 +49,6 @@ class SnapAuth {
                 'account_uri' => $users->objects[0]->accounts[0],
 
                 // TODO deprecated (look through the code and try and stop using these)
-                'fname' => $users->objects[0]->first_name,
-                'lname' => $users->objects[0]->last_name,
                 'resource_uri' => $users->objects[0]->resource_uri,
                 'loggedin' => true,
             );
@@ -74,8 +70,6 @@ class SnapAuth {
                 'account_uri' => $user->accounts[0],
 
                 // TODO deprecated (look through the code and try and stop using these)
-                'fname' => $user->first_name,
-                'lname' => $user->last_name,
                 'resource_uri' => $user->resource_uri,
                 'loggedin' => true,
             );

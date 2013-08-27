@@ -1,9 +1,9 @@
-<div id="event-top">
+<?php
+	$eid = explode('/', $eventDeets->resource_uri);
+?>	
+<div id="event-top" data-event-id="<?= $eid[3] ?>">
 
-	<?php
-		$eid = explode('/', $eventDeets->resource_uri);
-	?>
-	<img id="event-cover-image" src="/p/get_event/<?php echo $eid[3]; ?>/150x150" />
+	<img id="event-cover-image" src="/p/get_event/<?= $eid[3] ?>/150x150" data-event-id="<?= $eid[3] ?>" />
 	<div id="event-title-wrap">
 		<h2 id="event-title" class="<?php echo ($ownerLoggedin)? 'edit': '';?>"><?= $eventDeets->title ?></h2>
 		<h1 id="event-address"><?= (!$eventDeets->public && isset($eventDeets->addresses[0]->{'address'})) ? $eventDeets->addresses[0]->{'address'} : '&nbsp;' ?></h1>
@@ -98,7 +98,11 @@
 		<ul id="event-nav">
 
 			<li><span>Photostream</span></li>
-			<li><a id="uploadBTN" href="#">Submit Photo</a></li>
+			<?php if ( (isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user) || (isset($guestLoggedin) && $guestLoggedin == true) ) { ?>
+				<li><a id="uploadBTN" href="#">Submit Photo</a></li>
+			<?php } else { ?>
+				<li><a id="uploadBTN" href="/event/<?= $url ?>/guest_signin?upload-photo=1" data-signin="true">Submit Photo</a></li>
+			<?php } ?>
 			<?php if ( $eventDeets->photos > 0 )
 			{
 				//echo '<li><a href="/event/' . $eventDeets->url . '/slideshow">Slideshow</a></li>';
@@ -107,30 +111,23 @@
 			<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ) { ?>
 			<li><a href="#guest" id="guestBTN">Invite Guests</a></li>
 			<li><a href="#tablecards" id="tableBTN">Table Cards</a></li>
-			<?php } ?>
-			
-			
-
-			<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ): ?>
-			<li>
-				<a id="event-nav-contact" href="#nav-contact">Contact</a>
-			</li>
-			<?php endif; ?>
-			
-			<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ): ?>
+			<li><a id="event-nav-contact" href="#nav-contact">Contact</a></li>
 			<li>
 				<a id="event-nav-privacy" href="#">Privacy</a>
 				<div id="event-nav-menu-privacy" class="event-nav-menu">
-					<p>Choose private if you prefer photos are only viewed by guests. Public events will be visible to anyone who visits your album.</p>
-					<ul>
-						<li><input type="radio" name="privacy-setting" value="0" <?php echo (!$eventDeets->public) ? 'checked="checked"':''; ?>/> Private</li>
-						<li><input type="radio" name="privacy-setting" value="1" <?php echo ($eventDeets->public) ? 'checked="checked"':''; ?>/> Public</li>
-					</ul>
-					<div class="clearit">&nbsp;</div>
-					<div id='privacySaveWrap'><input type="button" class="btn btn-primary" value="Save" /></div>
+					<form method="post" action="/event/privacy" enctype="multipart/form-data" class="form-horizontal">
+						<input type="hidden" name="event" value="<?php echo $eventDeets->resource_uri; ?>" />
+						<p>Choose private if you prefer photos are only viewed by guests. Public events will be visible to anyone who visits your album.</p>
+						<ul>
+							<li><input type="radio" name="privacy-setting" value="0" <?php echo (!$eventDeets->public) ? 'checked="checked"':''; ?>/> Private</li>
+							<li><input type="radio" name="privacy-setting" value="1" <?php echo ($eventDeets->public) ? 'checked="checked"':''; ?>/> Public</li>
+						</ul>
+						<div class="clearit">&nbsp;</div>
+						<div id='privacySaveWrap'><input type="submit" class="btn btn-primary" value="Save" /></div>
+					</form>
 				</div>
 			</li>
-			<?php endif; ?>
+			<?php } ?>
 		</ul>
 
 	</div>
@@ -141,7 +138,7 @@
 	</div>
 </div>
 
-<div id="uploadArea" class="slidContent">
+<div id="uploadArea" class="mustache-box hide slidContent">
 	<div class="hint">
 		Photos must be in jpeg format and a maximum of 10 MB. If your photos are rather large, 
 		please be patient! It might take a few minutes :)
@@ -165,11 +162,51 @@
 		</fieldset>
 	</form>
 </div>
-<div class="clearit">&nbsp;</div>
 
-<div id="contact" class="mustache-box slidContent"></div>
+<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ): ?>
+<div id="contact" class="mustache-box hide slidContent">
+	<div class="section">
+        <form id="questionForm" action="/ajax/send_email" method="post">
+            <input type="hidden" name="from" value="<?= $owner_email ?>" />
+            <input type="hidden" name="subject" value="Message From Customer" />
+            <h3>Got a question? We're happy to answer it</h3>
+            <p>Your question may already be answered! Make sure to checkout our <a href="/site/faq">FAQ</a> page.</p>
+
+            <textarea class="message" name="message">Enter a question, comment or message...</textarea>
+            <input type="submit" name="submit" value="Send" />
+        </form>
+    </div>
+    <div class="section" style="margin-top:50px;">
+    	<h4>Connect</h4>
+        <ul class="connect">
+            <li><a class="twitter" href="http://twitter.com/getsnapable" target="_blank">Twitter</a></li>
+            <li><a class="facebook" href="http://facebook.com/snapable" target="_blank">Facebook</a></li>
+            <li><a class="pinterest" href="http://pinterest.com/snapable/" target="_blank">Pinterest</a></li>
+        </ul>
+    </div>
+</div>
+<?php endif; ?>
+
+<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ): ?>
 <div id="guest" class="mustache-box slidContent"></div>
-<div id="tablecards" class="mustache-box slidContent" data-url="<?php echo $url; ?>"></div>
+<?php endif; ?>
+
+<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ): ?>
+<div id="tablecards" class="mustache-box hide slidContent" data-url="<?php echo $url; ?>">
+	<h3>Table Cards</h3>
+	
+	<img src="/assets/img/tablecard.png" alt="Table card sample" />
+	<p>
+		Make sure your guests know about Snapable! In addition to inviting them before the event, you can also use our custom event cards at the event.
+	</p>
+	<p>
+		We recommend printing on a heavy paper (98 Bright, 100-lb). The PDF comes with 4 cards on a 
+		sheet (US Letter) to minimize printing costs (just cut them in quarters after printing).
+	</p>
+	<br>
+	<a class="download" href="/pdf/download/<?php echo $url; ?>">Download Your Table Cards</a>
+</div>
+<?php endif; ?>
 
 <div id="photoArea"></div>
 

@@ -2,15 +2,13 @@
 
 class Event extends CI_Controller {
 
-	function __construct()
-	{
+	function __construct() {
     	parent::__construct();
     	$this->load->library('email');
     	$this->load->model('event_model','',TRUE);
 	} 
 	 
-	public function index()
-	{
+	public function index() {
 		show_404();
 	}
 
@@ -31,7 +29,6 @@ class Event extends CI_Controller {
 				'assets/css/signin.css',
 				'assets/css/timePicker.css',
 				'assets/css/facebox.css',
-				'assets/css/setup.css',
 				'assets/css/header.css',
 				'assets/css/event/event.css',
 				'assets/css/footer.css',
@@ -53,6 +50,7 @@ class Event extends CI_Controller {
 				'assets/js/event/photostream-guests.js',
 				'assets/js/event/photostream-upload.js',
 				'assets/js/event/photostream-contact.js',
+				'assets/js/event/photostream-tablecards.js',
 			),
 			'url' => $event_details->event->url,
 			'type' => $this->uri->segment(1),
@@ -65,19 +63,15 @@ class Event extends CI_Controller {
 			'eventDeets' => $event_details->event
 		);
 		$head['js_vars']['photo_count'] = $event_details->event->photos;
-		$head['js_vars']['eventID'] = $event_details->event->resource_uri;
 
 		$ownerLoggedin = false;
 		$guestLoggedin = false;
-		if ( $event_details->status == 200 )
-		{
+		if ( $event_details->status == 200 ) {
 			$session_owner = SnapAuth::is_logged_in();
 			$session_guest = SnapAuth::is_guest_logged_in();
-			$head['js_vars']['owner'] = false; // false unless otherwise noted
-			if ($session_owner && $event_details->event->user == $session_owner['resource_uri'])
-			{
-				$head['js_vars']['owner'] = true;
-				$head['js_vars']['user_email'] = $session_owner['email']; 
+
+			if ($session_owner && $event_details->event->user == $session_owner['resource_uri']) {
+				$data['owner_email'] = $session_owner['email']; 
 				$ownerLoggedin = true;
 				$data["logged_in_user_resource_uri"] = $session_owner['resource_uri'];
 				$head["loggedInBar"] = "owner";
@@ -96,33 +90,22 @@ class Event extends CI_Controller {
 
 				// the owner guestID was found
 				if ($resp['code'] == 200 && count($response->objects) > 0) {
-			        $head['js_vars']['guestID'] = $response->objects[0]->resource_uri;
-			        $head['js_vars']['typeID'] = '/'.SnapApi::$api_version.'/type/1/';
 			        // set data for the event view
 			        $data['guest_uri'] = $response->objects[0]->resource_uri;
-			        $data['type_uri'] = '/'.SnapApi::$api_version.'/type/1/';
 				}
-			} 
-			else if($session_guest)
-			{
+			} else if($session_guest) {
 				$guestLoggedin = true;
 				$head["loggedInBar"] = "guest";
 				// set data for event view
 				if (!empty($session_guest['id'])) {
-					$head['js_vars']['guestID'] = '/'.SnapApi::$api_version.'/guest/'.$session_guest['id'].'/';
 					$data['guest_uri'] = '/'.SnapApi::$api_version.'/guest/'.$session_guest['id'].'/';
-				}
-				if (!empty($session_guest['type'])) {
-			    	$head['js_vars']['typeID'] = '/'.SnapApi::$api_version.'/type/'.$session_guest['type'].'/';
-			    	$data['type_uri'] = '/'.SnapApi::$api_version.'/type/'.$session_guest['type'].'/';
 				}
 			}
 			$data['ownerLoggedin'] = $ownerLoggedin;
 			$data['guestLoggedin'] = $guestLoggedin;
 			
 			// show the correct loggin screen if required
-			if (!$event_details->event->public && ($guestLoggedin != true && $ownerLoggedin != true))
-			{
+			if (!$event_details->event->public && ($guestLoggedin != true && $ownerLoggedin != true)) {
 				$this->load->view('common/html_header', $head);
 				$this->load->view('common/header2', $head);
 				$this->load->view('event/guest_signin', $data);
@@ -146,23 +129,16 @@ class Event extends CI_Controller {
 	}
 
 	public function guest_tasks($task) {
-		if ( $task == "add" )
-		{
+		if ( $task == "add" ) {
 			$this->load->view('event/guests-add');
-		} 
-		else if ( $task == "notify" && IS_AJAX )
-		{
+		} else if ( $task == "notify" && IS_AJAX ) {
 			$data = array(
 				'display' => "inline"
 			);
 			$this->load->view('email/guest_notification_html', $data);
-		} 
-		else if ( $task == "count" && IS_AJAX )
-		{
+		} else if ( $task == "count" && IS_AJAX ) {
 			echo $this->event_model->guestCount($_GET['resource_uri']);
-		} 
-		else if ( $this->uri->segment(4) == "validate" && isset($_POST) )
-		{
+		} else if ( $this->uri->segment(4) == "validate" && isset($_POST) ) {
 			$eventDeets = json_decode($this->event_model->getEventDetailsFromURL($this->uri->segment(3)));
 			$eventID = explode('/', $eventDeets->event->resource_uri);
 			
@@ -172,12 +148,9 @@ class Event extends CI_Controller {
 			}
 
 			// if the pins match
-			if ($eventDeets->event->public || (isset($_POST['pin']) && $_POST['pin'] == $eventDeets->event->pin))
-			{
-				
+			if ($eventDeets->event->public || (isset($_POST['pin']) && $_POST['pin'] == $eventDeets->event->pin)) {
 				// if the guest already exists
-				if (SnapAuth::guest_signin($_POST['email'], $eventDeets->event->resource_uri))
-				{
+				if (SnapAuth::guest_signin($_POST['email'], $eventDeets->event->resource_uri)) {
 					redirect($redirect_path);
 				} else {
 					// if email address is not already a guest add
@@ -211,15 +184,11 @@ class Event extends CI_Controller {
 
 	public function event_tasks($task) {
 		require_https();
-		if ( $task == "signout" )
-		{
+		if ( $task == "signout" ) {
 			SnapAuth::guest_signout();
 			redirect('/event/' . $this->uri->segment(2), 'refresh');
-		}
-		else if ( $task == "slideshow" )
-		{
+		} else if ( $task == "slideshow" ) {
 			$event_details = json_decode($this->event_model->getEventDetailsFromURL($this->uri->segment(2)));
-			
 			$data = array(
 				'noTagline' => true,
 				'css' => array('assets/css/setup.css', 'assets/css/slideshow.css'),
@@ -231,13 +200,9 @@ class Event extends CI_Controller {
 			$this->load->view('common/html_header', $data);
 			$this->load->view('event/slideshow', $data);
 			$this->load->view('common/html_footer', $data);
-		} 
-		else if ( $task == "invites" && IS_AJAX )
-		{
+		} else if ( $task == "invites" && IS_AJAX ) {
 			$this->event_model->sendInvite($_POST);
-		}
-		else if ( $task == "guest_signin" )
-		{
+		} else if ( $task == "guest_signin" ) {
 			if (SnapAuth::is_logged_in() || SnapAuth::is_guest_logged_in()) {
 				redirect('/event/'.$this->uri->segment(2));
 			}
@@ -287,8 +252,7 @@ class Event extends CI_Controller {
 
 	public function details_tasks($task) {
 		//// ADD GUEST LIST
-		if ( $task == "save" )
-		{
+		if ( $task == "save" ) {
 			echo "saved";
 		} else {
 			show_404();
@@ -296,30 +260,31 @@ class Event extends CI_Controller {
 	}
 
 	public function get_tasks($task) {
-		if ( $task == "photos" && IS_AJAX )
-		{
+		if ( $task == "photos" && IS_AJAX ) {
 			$offset = ($this->uri->segment(5) === false) ? 0 : $this->uri->segment(5);
 			$photos = $this->event_model->getEventsPhotos($this->uri->segment(4), $offset);
 			echo $photos; 
-		} 
-		else if ( $task == "guests" && IS_AJAX )
-		{
+		} else if ( $task == "guests" && IS_AJAX ) {
 			$guests = $this->event_model->getGuests($this->uri->segment(4));
 			echo $guests;
-		}
-		else {
+		} else {
 			show_404();
 		}
 	}
 
 	public function privacy() {
-		if ( IS_AJAX && isset($_POST) )
-		{
-			$event_uri = $_POST['event'];
-			$setting = $_POST['selected'];
-			
-			echo $this->event_model->updatePrivacy($event_uri, $setting);
+		if ( IS_AJAX && isset($_POST) ) {
+			$eventParts = explode('/', $_POST['event']);
+			$verb = 'PUT';
+			$path = '/event/'.$eventParts[3].'/';
+			$params = array(
+				'public' => ($_POST['privacy-setting'] == 0) ? false : true,
+			);
+			$resp = SnapApi::send($verb, $path, $params);
+	        $this->output->set_status_header($resp['code']);
+	        return $resp['response'];
 		}
+		$this->output->set_status_header(403);
 	}
 }
 

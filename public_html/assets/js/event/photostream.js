@@ -48,17 +48,14 @@ function checkUrl(url)
 // when the DOM is ready
 $(document).ready(function() 
 {  
-	var eid = eventID.split("/");
 	var csvFilename = "";
 
 	if ( photo_count > 0 )
 	{
-		$('#event-cover-image').attr('src', '/p/get_event/'+eid[3]+'/150x150'); // load the cover image
-
 		// Display Loader
 		$("#photoArea").css({"text-align":"center","font-weight":"bold"}).html('<div id="photoRetriever">Retrieving Photos...<div class="progress progress-striped active"><div class="progress-bar" style="width: 100%"></div></div></div>');
 		// Get photos for event
-		$.getJSON('/event/get/photos/' + eid[3], function(json) {
+		$.getJSON('/event/get/photos/' + $('#event-top').data('event-id'), function(json) {
 			if ( json.status == 200 )
 			{
 				$("#photoRetriever").css({"display":"none"});
@@ -137,10 +134,9 @@ function loadPhoto(photoData, options) {
 	var $domPhoto = $('#photoArea').mustache('event-list-photo', photoData, options);
 
 	// set cover photo
-	var eid = eventID.split("/");
 	$domPhoto.find('div.photo-buttons a.add-cover').filter(filter_position).click(function(){
 		// make an ajax call
-		$.ajax('/ajax/put_event/'+eid[3], {
+		$.ajax('/ajax/put_event/'+$('#event-top').data('event-id'), {
 			type: 'POST',
 			data: {
 				cover: $(this).data('photo_id')
@@ -244,7 +240,7 @@ function loadPhotos(photos) {
 				photo: '/p/get/' + resource_uri[3] + '/200x200',
 				caption: val.caption,
 				photographer: val.author_name,
-				owner: owner
+				owner: $('form#event-settings').length
 			};
 			// add photo to dom
 			loadPhoto(viewData);
@@ -262,8 +258,7 @@ function loadPhotos(photos) {
 		console.log('we should load more from the api');
 		photoAPIOffset += 50;
 
-		var eid = eventID.split("/");
-		$.getJSON('/event/get/photos/' + eid[3] + '/' + photoAPIOffset, function(json) {
+		$.getJSON('/event/get/photos/' + $('#event-top').data('event-id') + '/' + photoAPIOffset, function(json) {
 			if ( json.status == 200 ) {
 				photoAPI = json;
 				$("#photoArea").append("<div class='loadMoreWrap'><a class='loadMore' href='#'>Load More</a></div>");

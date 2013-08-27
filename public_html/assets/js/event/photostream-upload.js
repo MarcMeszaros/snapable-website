@@ -1,4 +1,23 @@
 $(document).ready(function(){
+    // expand based on anchor
+    if (location.hash == "#upload-photo") {
+        $("#uploadArea").removeClass("hide").hide().slideDown();
+    }
+
+    // UPLOAD MENU
+    $("#uploadBTN").click(function() {
+        // only dropdown if logged in
+        if(!$(this).data('signin')) {
+            $('.slidContent[id!="uploadArea"]').slideUp();
+            if ($("#uploadArea").hasClass('hide')) {
+                $("#uploadArea").removeClass("hide").hide().slideDown();
+            } else {
+                $("#uploadArea").slideToggle();
+            }
+            return false;
+        }
+    });
+
     // setup the ajax form
     $('#uploadArea form').ajaxForm({
         beforeSubmit: function(arr, $form, options) {
