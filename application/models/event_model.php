@@ -247,19 +247,19 @@ Class Event_model extends CI_Model
 			
 			try {
 				$message = $post['message'];
-				$event_id = explode("/", $post['resource_uri']);
+				$event_uri = SnapApi::resource_uri('event', $post['event_id']);
 
 				// get event
 				$verb = 'GET';
-				$path = '/event/'.$event_id[3];
+				$path = '/event/'.$post['event_id'];
 				$resp = SnapApi::send($verb, $path);
 				$event = json_decode($resp['response']);
-				
+
 				// get guests
 				$verb = 'GET';
 				$path = '/guest/';
 				$params = array(
-					'event' => $event_id[3],
+					'event' => $post['event_id'],
 					'invited' => 'false',
 				);
 				$resp = SnapApi::send($verb, $path, $params);
@@ -292,7 +292,7 @@ Class Event_model extends CI_Model
 			    	}
 			        $this->output->set_status_header(200);
 				} else {
-					$this->output->set_status_header(500);
+					$this->output->set_status_header($resp['code']);
 				}
 			} catch (Exception $e) {
 				$this->output->set_status_header(500);
@@ -308,10 +308,10 @@ Class Event_model extends CI_Model
 			// get event details
 			$session_data = $this->session->userdata('logged_in');
 			$event_data = $this->session->userdata('event_deets');
-			
+
 			$event_id = explode("/", $event_uri);
 			$guest_count = 0;
-			
+
 			// GET LIST OF CURRENT GUESTS
 			$verb = 'GET';
 			$path = '/guest/';

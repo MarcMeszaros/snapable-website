@@ -51,6 +51,7 @@ class Upload extends CI_Controller {
 					$this->output->set_status_header($resp['code']);
 					echo $resp['response'];
 				} catch (Exception $e) {
+					unlink($tmp_file);
 					$this->output->set_status_header('500');
 					echo json_encode(array("error" => "Something went horribly wrong with the website."));
 				}
@@ -74,103 +75,75 @@ class Upload extends CI_Controller {
 		// max file size in bytes
 		$sizeLimit = 10 * 1024 * 1024;
 		
-		if ( isset($_FILES['guests-file-input']) )
-		{
+		if ( isset($_FILES['guests-file-input']) ) {
 			ini_set('auto_detect_line_endings', true);
 			
 			$filename = $_FILES['guests-file-input']['name']; // Get the name of the file (including file extension).
 			$ext = substr($filename, strpos($filename,'.')+1, strlen($filename)-1); // Get the extension from the filename.
 			$tmp_file = $_FILES['guests-file-input']['tmp_name'];
-			
-			$server_path = $_SERVER['DOCUMENT_ROOT'] . "/tmp-files/";
-	        $new_filename = time() . "-" . preg_replace("/[^A-Za-z0-9.]/", "", $filename);
-			move_uploaded_file($_FILES["guests-file-input"]["tmp_name"], $server_path . $new_filename);  
-	       
-	       	$row = 1;
-	       	$email_row = 0;
-	       	$name_row = 0;
-	       	$guest_row = 0;
-	       	$rows = "";
-	       	$row_data = "";
-	       	
-			if (($handle = fopen($server_path . $new_filename, "r")) !== FALSE) {
-			    
-			    while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-			        $num = count($data);
-			        
-			        if ( $row <= 5 )
-			        {
-			        	$row++;
-			        	$numnum = 1;
-			        	$empty = false;
-			        	$row_data .= "{";
-			        	
+
+			try {
+		       	// if we can open the file
+		       	$guests = array();
+				if (($handle = fopen($tmp_file, "r")) !== FALSE) {
+					// loop through all the CSV rows
+				    while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+				        $num = count($data); // number of fields
+
+				    	// some loop variables
+				    	$name = '';
+				    	$email = '';
+				    	// build the guest entry
 			        	for ($c=0; $c < $num; $c++) {
-			        	    if ( $numnum <= 3 && ( strtolower($data[$c]) != "name" && strtolower($data[$c]) != "email" && strtolower($data[$c]) != "type" && strtolower($data[$c]) != "email address" && strtolower($data[$c]) != "guest type" && strtolower($data[$c]) != "guest_type" && strtolower($data[$c]) != "guest-type" ) )
-			        	    {
-				        	    $label = "unknown";
-				        	    switch ($numnum) {
-								    case 1:
-								        $label = "one";
-								        break;
-								    case 2:
-								        $label = "two";
-								        break;
-								    case 3:
-								        $label = "three";
-								        break;
-								}
-				        	    
-				        	    // check if is email address
-				        	    if( preg_match("^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$^", $data[$c]) > 0)
-				        	    {
-				        	    	// is email
-				        	    	$email_row = $label;
-				        	    } else {
-					        	    // isn't, check if guest
-					        	    $types = array("organizer","bride/groom","wedding party","family","guest"); // SWITCH TO FILL ARRAY FROM API AND ENSURE THEY'RE LOWERCASE!!!!
-					        	    if ( in_array(strtolower($data[$c]), $types) )
-					        	    {
-					        	    	// is guest type
-						        	    $guest_row = $label;
-					        	    } else {
-					        	    	// isn't guest or email, must be a name
-						        	    $name_row = $label;
-					        	    }
-				        	    }
-				        	    
-				        	    $row_data .= '"' . $label . '": "' . $data[$c] . '",';
-				        	    
-				        	    $numnum++;
-				        	} else {
-					        	$empty = true;
-				        	}
+			        	    // check if is email address
+			        	    if( preg_match("^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$^", $data[$c]) > 0){
+			        	    	// is email
+			        	    	$email = $data[$c];
+			        	    } else {
+				        	    // isn't an email, must be a name
+					        	$name = $data[$c];
+			        	    }
 			        	}
-			        	$row_data = substr($row_data, 0, -1);
-			        	if ( $empty == false )
-			        	{
-			        		$row_data .= "},";
+
+			        	// add the guest entry to the array
+			        	if (strlen($email) > 0) {
+			        		$guests[$email] = $name;
 			        	}
-			        }			        
-			    }
-			    fclose($handle);
-			    
-			    $rows = substr($row_data, 0, -1);
-			    
-			    echo '{
-			    	"status": 200,
-			    	"filename": "' . $new_filename . '",
-					"header": {
-						"email": "' . $email_row . '",
-						"name": "' . $name_row . '",
-						"type": "' . $guest_row . '"
-					},
-					"rows": [' . $rows . ']
-			    }';
+				    }
+				    fclose($handle); // close the csv
+				    unlink($tmp_file);
+				}
+
+				// create the guest entries
+				$verb = 'POST';
+				$path = 'guest';
+				$httpCode = 202;
+				$response = '';
+				foreach ($guests as $email => $name) {
+					$params = array(
+						'email' => $email,
+						'name' => $name,
+						'event' => SnapApi::resource_uri('guest', $_POST['event_id']),
+					);
+					$resp = SnapApi::send($verb, $path, $params);
+
+					// update the status code
+					if ($resp['code'] > 202) {
+						$httpCode = $resp['code'];
+						$response = $resp['response'];
+					}
+				}
+
+				// set the response header
+				$this->output->set_status_header($httpCode);
+				if (strlen($response) > 0) {
+					echo $response;
+				}
+			} catch (Exception $e) {
+				unlink($tmp_file);
+				$this->output->set_status_header('500');
+				echo json_encode(array("error" => "Something went horribly wrong with the website."));
 			}
-	        
-		} else {
-			echo "Big Fat Fail";
 		}
 	}
 }
