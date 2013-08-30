@@ -102,7 +102,7 @@
 
 		          <p>Once your album is set up, you’re ready to collect your photos!</p>
 		          
-		          <p class="pLink"><a href="http://snapable.com/event/demo" target="_blank">Sample Album</a></p>
+		          <a href="http://snapable.com/event/demo" class="btn btn-primary" target="_blank">Sample Album</a>
 		        </div>
 		
 		        <div class="box">
@@ -119,7 +119,7 @@
 		          </ul>
 		          <p>A copy of each photo taken with the Snapable app will be instantly added to your album.</p>
 		          
-		          <p class="pLink"><a href="/home/app" class="overlay">See Sample</a></p>
+		          <a href="/home/app" class="btn btn-primary overlay">See Sample</a>
 		        </div>
 		
 		        <div class="box">
@@ -137,7 +137,7 @@
 
 			       <p>It’s that easy! All of your photos in one spot, so you don’t miss a single moment.</p>
 		          
-		          <p class="pLink"><a href="/signup">Sign Up</a></p>
+		          <a href="/signup" class="btn btn-primary">Sign Up</a>
 		        </div>
 		
 		      </div>

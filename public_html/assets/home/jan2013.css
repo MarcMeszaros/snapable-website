@@ -239,18 +239,6 @@ section#how-it-works h2 {
 	line-height:20px;
 	color:#555;
 }
-p.pLink {
-	margin-top: 20px;
-}
-
-#restOfPageWrap section .box a {
-	background: #0099cc;
-	color: #fff;
-	text-align: center;
-	text-decoration: none;
-	padding: 5px 15px;
-	border-radius: 10px;
-}
 
 #restOfPageWrap section .box .image {
 	background-image:url('/assets/home/img/fpo/sprite-why.jpg');
