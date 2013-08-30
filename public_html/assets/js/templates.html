@@ -99,7 +99,7 @@
 </script>
 
 <script id="guest-options" type="text/html">
-	<!-- <a id="guest-link-upload" href="#">Upload from File</a> -->
+	<a id="guest-link-upload" href="#">Upload from File</a>
 
 	<a id="guest-link-manual" href="#">
 		Copy/Paste or Manual Entry		
@@ -113,7 +113,10 @@
 			
 	<p><strong>Select a CSV</strong> file from your computer and <strong>click upload</strong>.</p>
 	
-	<form id="guests-file-uploader"><input type="file" accept="text/csv" id="guests-csv-input" name="guests-file-input" /> <input id="guests-upload-csv" type="button" value="Upload" /></form>
+	<form id="guests-file-uploader" method="post" action="/upload/csv" enctype="multipart/form-data">
+		<input type="file" accept="text/csv" id="guests-csv-input" name="guests-file-input" />
+		<input id="guests-upload-csv" type="submit" value="Upload" />
+	</form>
 	
 	<p><em>The expected format is <strong>Name, Email</strong></em></p>	
 	
@@ -123,7 +126,7 @@
 	
 		<p><strong>Saving a CSV File from Microsoft Excel</strong></p>
 
-		<p>Select <strong>Save As</strong>strong from the <strong>File</strong> menu.</p> 
+		<p>Select <strong>Save As</strong> from the <strong>File</strong> menu.</p> 
 
 		<p>In the window that opens, under the file browser, you'll see a drop down called <strong>Save as type</strong>, you can select CSV (Comma Delimited). Name your file, and click <strong>Save.</strong></p>
 

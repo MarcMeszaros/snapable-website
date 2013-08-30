@@ -13,12 +13,6 @@ $(document).ready(function(){
             // get notification template and drop in place
             $.get('/event/guests/notify', function(data) {
                 $("#notify-message").html(data);
-                // check if event has guests, hide 'send email' button if it doesn't
-                $.get('/event/guests/count', { resource_uri:eventID }, function(count) {
-                    if ( count == 0 ) {
-                        $("#do-notify-wrap").html("No guests have been invited yet.");
-                    }
-                });
             });
         });
         return false;
@@ -110,6 +104,31 @@ $(document).ready(function(){
     $(document).on("click", "#guest-link-upload", function(){ 
         $.Mustache.load('/assets/js/templates.html').done(function() {
             $("#guest-choices").hide().mustache("guest-upload", "", {method: "html"}).addClass("guests-options-wrap").fadeIn("normal");
+
+            // setup the ajax form
+            $('#guests-file-uploader').ajaxForm({
+                beforeSubmit: function(arr, $form, options) {
+                    arr.push({'name':'event_id', 'value':$('#event-top').data('event-id')});
+                },
+                success: function(responseText, statusText, xhr, $form) {
+                    // reset the form
+                    $('#guests-file-uploader').resetForm();
+
+                    $.pnotify({
+                        type: 'success',
+                        title: 'Guest List Uploaded',
+                        text: 'The guest list was successfully uploaded.'
+                    });
+                },
+                error: function(){ 
+                    // show a notification
+                    $.pnotify({
+                        type: 'error',
+                        title: 'Guest List Not Uploaded',
+                        text: 'An error occurred while trying to upload your guest list.'
+                    });
+                }
+            });
         });
         return false;
     });
@@ -127,82 +146,6 @@ $(document).ready(function(){
     
     $(document).on("click", ".guests-back-to-choices", function(){ 
         $("#guest-choices").hide().mustache("guest-options", "", {method: "html"}).removeClass("guests-options-wrap").fadeIn("normal");
-        return false;
-    });
-    
-    $(document).on("click", "#guests-upload-csv", function(e){
-        e.preventDefault();
-        
-        var ext = $('#guests-csv-input').val().split('.').pop().toLowerCase();
-        if($.inArray(ext, ['csv']) == -1) {
-            alert("Sorry, this doesn't appear to be a CSV file");
-        } else {
-            var iframe = $('<iframe name="postCSViframe" id="postCSViframe" style="display: none" />');
-            $("body").append(iframe);
-
-            var form = $('#guests-file-uploader');
-            form.attr("action", "/upload/csv");
-            form.attr("method", "post");
-            form.attr("enctype", "multipart/form-data");
-            form.attr("encoding", "multipart/form-data");
-            form.attr("target", "postCSViframe");
-            form.attr("file", $('#guests-csv-input').val());
-            form.submit();
-
-            $("#postCSViframe").load(function () {
-                iframeContents = $("#postCSViframe")[0].contentWindow.document.body.innerHTML;
-                var guestJSON = jQuery.parseJSON(iframeContents);
-                
-                if ( guestJSON.status == 200 ) {
-                    csvFilename = guestJSON.filename;
-                    
-                    $.Mustache.load('/assets/js/templates.html').done(function() {
-                        var viewData = {
-                        };
-                        $("#guest-choices").removeClass("choiceBox").addClass("csvParse").mustache('guest-csv-parse', viewData, {method: "html"});
-                        
-                        var emailHeader = guestJSON.header.email.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-                        var nameHeader = guestJSON.header.name.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-                        var guestHeader = guestJSON.header.type.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-                        
-                        $("#csvHeader" + emailHeader).val("email");
-                        $("#csvHeader" + nameHeader).val("name");
-                        $("#csvHeader" + guestHeader).val("type");
-                        
-                        // populated each row with the correct data (use template: guest-csv-row)
-                        $.each(guestJSON.rows, function(key, val) {
-                            var emailRow = emailHeader.toLowerCase();
-                            var nameRow = nameHeader.toLowerCase();
-                            var guestRow = guestHeader.toLowerCase();
-                            
-                            $.each(val, function(k, v) {
-                                if ( k == emailRow ) {
-                                    var emailData = { 
-                                        text: v 
-                                    };
-                                    $("#row" + emailHeader + "Contents").mustache('guest-csv-row', emailData);  
-                                } else if ( k == nameRow ) {
-                                    var nameData = { 
-                                        text: v 
-                                    };
-                                    $("#row" + nameHeader + "Contents").mustache('guest-csv-row', nameData);    
-                                } else if ( k == guestRow ) {
-                                    var guestData = { 
-                                        text: v 
-                                    };
-                                    $("#row" + guestHeader + "Contents").mustache('guest-csv-row', guestData);  
-                                }   
-                            })
-                        });
-                        
-                    });
-                } else {
-                    alert("Sad Trombone, it seems we couldn't read the file you uploaded.");
-                }
-                
-            });
-            
-        }
         return false;
     });
     
