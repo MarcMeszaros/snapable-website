@@ -27,13 +27,12 @@
 }
 
 #left ul a:link, #left ul a:visited {
-    font-size: 1.15em;    
     display: block;
     width: 96px;
-    padding: 8px 10px;
+    padding: 6px 10px;
     color: #6699cc;
     text-decoration: none;
-    border-radius: 14px;
+    border-radius: 10px;
 }
 #left ul a:hover {
         color: #336699;
@@ -70,7 +69,7 @@ a#pinterest {
         background: transparent url('../../img/icons/16px/pinterest.png') no-repeat 8px 9px;
 }
 .copyright {
-        margin-top: 50px;
+        margin-top: 30px;
         color: #999;
         font-size: 14px;
         font-weight: normal;
@@ -92,26 +91,14 @@ h3 {
         
 /**** BOTTOM ****/
 a#signup-link:link, a#signup-link:visited {
-        color: #fff;
-        font-size: 1.15em;
-        background: #67ac1c;
-        margin-top: 10px;
         margin-left: 20px;
-        padding: 10px auto;
-        border-radius: 35px;
         min-width: 110px;
-        text-align: center;
         font-weight: bold;
-        text-decoration: none;
         box-shadow: 1px 1px 5px 1px #ccc;
-}
-a#signup-link:hover {
-        background: #528a15;
 }
 
 /* CONTACT FORM */
 #questionForm {
-    margin: 0 0 20px 0;
     padding: 20px;
     background: #eef4f7;
     border-radius: 5px;
