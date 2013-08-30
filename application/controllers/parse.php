@@ -35,7 +35,7 @@ class Parse extends CI_Controller {
 				$added = 0;
 				foreach ( $message as $m )
 				{
-					$status = $this->event_model->addManualGuests($m,$_POST['eventURI']);
+					$status = $this->event_model->addManualGuests($m,SnapAPI::resource_uri('event', $_POST['event_id']));
 					if ( $status > 0)
 					{
 						$added++;
