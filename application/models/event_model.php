@@ -259,7 +259,7 @@ Class Event_model extends CI_Model
 				$verb = 'GET';
 				$path = '/guest/';
 				$params = array(
-					'event' => $event_uri,
+					'event' => $post['event_id'],
 					'invited' => 'false',
 				);
 				$resp = SnapApi::send($verb, $path, $params);
@@ -292,7 +292,7 @@ Class Event_model extends CI_Model
 			    	}
 			        $this->output->set_status_header(200);
 				} else {
-					$this->output->set_status_header(500);
+					$this->output->set_status_header($resp['code']);
 				}
 			} catch (Exception $e) {
 				$this->output->set_status_header(500);
