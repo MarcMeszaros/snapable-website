@@ -19,7 +19,6 @@
 	margin: 0;
 }
 
-
 #event-pin {
 	float: right;
 	display: inline;
@@ -59,19 +58,11 @@
 }
 
 /** Event Cover **/
-#event-cover-wrap {
-
-}
 #event-cover-image {
 	float: left;
-	display: inline-block;
 	width: 110px;
 	height: 110px;
-	padding: 4px;
 	margin: 27px 10px 0 0;
-	background: #fff;
-	border: 1px solid #ccc;
-	border-radius: 4px;
 	box-shadow: 1px 1px 2px 1px #ccc;
 }
 
@@ -649,9 +640,6 @@ h3 {
 	padding: 30px;
 	border: 1px solid #e1e1e1;
 }
-.mustache-box .section {
-	padding: 5px 0;
-}
 
 .mustache-box .section ul.connect {
 	list-style: none;
@@ -732,12 +720,6 @@ ul.tabs li.active a { color: #fff; }
 .tab-content a:hover {
 	color: #669900;
 }
-/*
-#guests-choices {
-	margin: 20px auto 0 auto;
-	width: 420px;	
-}
-*/
 #add-guests-wrap p {
 	margin: 10px 0;
 }
@@ -777,20 +759,12 @@ a#guest-link-upload:hover, a#guest-link-manual:hover {
 	border-radius: 5px;
 	padding: 10px;
 	margin: 20px auto 0 auto;
-	width: 420px;
-	}
+}
 .guests-options-wrap p {
 	font-size: 14px;
 	line-height: 18px;
 	margin: 0 0 10px 0;
 }
-	
-#guests-file-uploader {
-	margin: 0 0 10px 0;
-	padding: 5px;
-	background: #f6dca6;
-	border-radius: 3px;
-}	
 
 #guests-file-how-to-csv {
 	display: none;
@@ -805,77 +779,19 @@ a#guest-link-upload:hover, a#guest-link-manual:hover {
 	margin: 0 auto 5px auto;
 }
 
-.choiceBox, #notify-wrap {
+#notify-wrap {
 	margin: 20px auto;
 }
-.choiceBox {
-	width: 420px;
-}
+
 .csvParse {
 	width: 100%;
 	margin: 20px 0;
 	border: none;
 	background: none;
 }
-#csvRow1, #csvRow2, #csvRow3 {
-	float: left;
-	display: inline;
-	background: #ffffee;
-	border: 1px solid #E3C27C;
-	border-radius: 5px;
-	padding: 20px 10px 10px 10px;
-	margin-right: 20px;
-	width: 220px;
-	text-align: center;
-}
-#csvRow1 ul, #csvRow2 ul, #csvRow3 ul {
-	list-style: none;
-	margin: 20px 0;
-	padding-top: 10px;
-	border-top: 1px solid #E3C27C;
-	font-size: 14px;
-	line-height: 14px;
-	color: #333;
-}
-#csvRow1 li, #csvRow2 li, #csvRow3 li {
-	margin-bottom: 5px;
-	padding-bottom: 5px;
-	border-bottom: 1px dotted #E3C27C;
-}
+
 #guest-choices h3 { font-weight: normal; margin-bottom: 20px; }
 #guest-choices h3 strong { color: #3399cc; }
-
-#csvAllDone {
-	display: block;
-	margin: 20px auto;
-	text-indent: -8000px;
-	background: transparent url('/assets/img/all_done.png') no-repeat;
-	width: 273px;
-	height: 75px;
-}
-#allDoneWrap img {
-	display: block;
-	margin: 63px auto 20px auto;
-	width: 32px;
-	height: 32px;
-}
-
-#guest-choices textarea {
-	width: 395px;
-	height: 100px;
-	resize: none;
-	border: 1px solid #999;
-	border-radius: 3px;
-	padding: 10px;
-	margin: 10px 0;
-	background: #fff url('/assets/img/textbox-inner-shadow.png') no-repeat;
-	font-size: 14px;
-	line-height: 18px;
-}
-
-#guests-upload-csv {
-	float: right;
-}
 
 #notify-guests {
 	display: none;
@@ -914,27 +830,6 @@ a#guest-link-upload:hover, a#guest-link-manual:hover {
 	font-size: 14px;
 	line-height: 18px;
 	color: #999;
-}
-
-.guestDoneWrap {
-	width: 100px;
-	margin: 0 auto;
-}
-
-a.buttonBox:link, a.buttonBox:visited {
-	display: block;
-	color: #fff;
-	background: #67ac1c;
-	margin: 5px auto;
-	padding: 10px 20px 9px 20px;
-	border-radius: 10px;
-	width: 100px;
-	text-align: center;
-	font-weight: bold;
-	text-decoration: none;
-}
-a.buttonBox:hover {
-	background: #528a15;
 }
 
 #do-notify-wrap {
@@ -984,20 +879,6 @@ a#do-send-to-guests:hover {
 	text-indent: 10000px;
 }
 
-#tablecards {
-	font-size: 14px;
-	line-height: 20px;
-}
-#tablecards:after  {
-	content: ".";
-    display: block;
-    height: 0;
-    clear: both;
-    visibility: hidden;
-    margin: 0;
-    padding: 0;
-}
-
 #tablecards img {
 	float: right;
 	margin-left: 25px;
@@ -1007,21 +888,9 @@ a#do-send-to-guests:hover {
 }
 
 #tablecards .download {
-    display: block;
     color: #fff;
-    font-size: 1.15em;
-    background: #67ac1c;
-    margin-top: 20px;
-    padding: 15px 35px;
-    border-radius: 35px;
-    width: 270px;
-    text-align: center;
     font-weight: bold;
-    text-decoration: none;
     box-shadow: 1px 1px 5px 1px #ccc;
-}
-#tablecards .download:hover {
-    background: #528a15;
 }
 
 /*** PHOTO OVERLAY ****/

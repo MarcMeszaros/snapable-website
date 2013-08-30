@@ -148,39 +148,7 @@ $(document).ready(function(){
         $("#guest-choices").hide().mustache("guest-options", "", {method: "html"}).removeClass("guests-options-wrap").fadeIn("normal");
         return false;
     });
-    
-    $(document).on("click", "#csvAllDone", function(e) {
-        e.preventDefault();
-        
-        if ( csvFilename != "" ) {
-            $("#allDoneWrap").html("<img src='/assets/img/spinner_32px.gif' />");
-            $.post("/parse/csv", { event:eventID, file:csvFilename, col1:$("#csvHeaderOne").val(), col2:$("#csvHeaderTwo").val(), col3:$("#csvHeaderThree").val() }, function(data) {
-                var json = jQuery.parseJSON(data);
-                if ( json.status == 200 ) {
-                    // switch tab to notify and show content
-                    $("#addTab").removeClass("active");
-                    $("#notifyTab").addClass("active");
-                    $("#addBox").fadeOut("fast", function() {
-                        $.get('/event/guests/count', { resource_uri:eventID }, function(count) {
-                            if ( count == 0 ) {
-                                $("#do-notify-wrap").html("No guests have been invited yet.");
-                            } else {
-                                $("#do-notify-wrap").html('<a href="#" id="do-notify-guests">Send Email(s)</a>');
-                            }
-                        });
-                        $("#notifyBox").fadeIn("fast");
-                    });
-                } else {
-                    alert("We weren't able to complete the upload of your guest list at this time.");
-                    $("#allDoneWrap").html("<a id='csvAllDone' href='#'>All Done </a>");
-                }
-            });
-        } else {
-            alert("We weren't able to complete the upload of your guest list at this time.");
-        }
-    });
-    
-    
+
     $(document).on("focus", "#notify-custom-message", function(e) {
         if ( $(this).val() == "Enter a message for your guests." ) {
             $(this).val("").css({"color":"#333333"});
