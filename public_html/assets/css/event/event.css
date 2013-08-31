@@ -111,14 +111,6 @@ ul#event-nav  {
 	padding-right: 0;
 	border-right: none;
 }
-#event-nav a:link, #event-nav a:visited {
-	color: #336699;
-	text-decoration: none;
-}
-#event-nav a:hover {
-	color: #cc3300;
-	text-decoration: underline;
-}
 
 .event-nav-menu {
 	display: none;
