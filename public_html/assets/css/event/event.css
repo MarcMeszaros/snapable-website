@@ -350,28 +350,6 @@ div.time-picker {
 	background: transparent url('/assets/img/firstrun/arrowUpload.png') no-repeat 45px 10px;
 }
 
-.loadMoreWrap:before {
-	content: ".";
-    display: block;
-    height: 0;
-    clear: both;
-    visibility: hidden;
-    margin: 0;
-    padding: 0;
-}
-
-a.loadMore:link, a.loadMore:visited {
-	display: block;
-	margin: 10px auto;
-	width: 146px;
-	height: 40px;
-	text-indent: -8000px;
-	background: transparent url('/assets/img/btnLoadMore.png') no-repeat;
-}
-a.loadMore:hover {
-	opacity: 0.8;
-}
-
 .photo {
 	float: left;
 	display: inline;
