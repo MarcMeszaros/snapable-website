@@ -1,3 +1,4 @@
+<!-- events -->
 <script id="event-list-photo" type="text/html">
 	<div class="photo{{photoClass}}">
 		<div class="photo-overlay">
@@ -45,7 +46,7 @@
 	</div>
 </script>
 
-
+<!-- guests -->
 <script id="invite-guests" type="text/html">
 	<h3>Invite Guests</h3>
 	
@@ -133,13 +134,13 @@
 <script id="guest-manual" type="text/html">
 	<a class="guests-back-to-choices" href="#">‹ Back</a>
 		
-		<form role="form">
+		<form role="form" id="guests-text-uploader" method="post" action="/upload/text" enctype="multipart/form-data">
 			<div class="form-group">	
 				Copy/paste (or type) your guests below then click "Done".
 				<br /><em>The expected format is <strong>Name, Email</strong> (one per line)</em>
 			</div>
 			<div class="form-group">
-				<textarea id="guests-manual-textarea" class="form-control" rows="8" placeholder="Bob Smith,bob.smith@example.com"></textarea>
+				<textarea id="guests-manual-textarea" class="form-control" rows="8" name="message" placeholder="Bob Smith,bob.smith@example.com"></textarea>
 			</div>
 			<div class="form-group">
 				<button id="guests-manual-done" class="btn btn-primary col-lg-4 col-lg-push-4">Done</button>

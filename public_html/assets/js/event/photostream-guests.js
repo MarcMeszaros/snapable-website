@@ -134,8 +134,34 @@ $(document).ready(function(){
     });
 
     $(document).on("click", "#guest-link-manual", function() {
-        $("#guest-choices").hide().mustache("guest-manual", "", {method: "html"}).addClass("guests-options-wrap").fadeIn("normal");
-        $('#guest-choices .spinner-wrap').spin('small');
+        $.Mustache.load('/assets/js/templates.html').done(function() {
+            $("#guest-choices").hide().mustache("guest-manual", "", {method: "html"}).addClass("guests-options-wrap").fadeIn("normal");
+            
+            // setup the ajax form
+            $('#guests-text-uploader').ajaxForm({
+                beforeSubmit: function(arr, $form, options) {
+                    arr.push({'name':'event_id', 'value':$('#event-top').data('event-id')});
+                },
+                success: function(responseText, statusText, xhr, $form) {
+                    // reset the form
+                    $('#guests-text-uploader').resetForm();
+
+                    $.pnotify({
+                        type: 'success',
+                        title: 'Guest List Uploaded',
+                        text: 'The guest list was successfully uploaded.'
+                    });
+                },
+                error: function(){ 
+                    // show a notification
+                    $.pnotify({
+                        type: 'error',
+                        title: 'Guest List Not Uploaded',
+                        text: 'An error occurred while trying to upload your guest list.'
+                    });
+                }
+            });
+        });
         return false;
     });
 
@@ -203,6 +229,7 @@ $(document).ready(function(){
         return false;
     });
     
+    /*
     $(document).on("click", "#guests-manual-done", function() {
         $(this).hide();
         $(this).siblings('.spinner-wrap').removeClass('hide');
@@ -239,5 +266,7 @@ $(document).ready(function(){
                 }
             });
         }
+        return false;
     });
+    */
 });
