@@ -37,7 +37,7 @@
 		
 		<div class="sectionWrap">
 			
-			<a id="ctaBtn" href="/signup"><img src="/assets/home/img/jan2013/setup_event.png" width="409" height="85" border="0" alt="Setup Your Event" /></a>
+			<a id="ctaBtn" class="btn btn-success btn-lg" href="/signup" style="font-size:40px;">Set up Your Event</span></a>
 			
 			<section id="why-use">
 		      <div class="inner">
@@ -172,7 +172,7 @@
 		        			<span class="old-price grey hide"><span class="strike"></span>$79</span>
 		        			<span class="price">$49</span>
 		        		</div>
-		        		<a href="/signup"><img src="/assets/home/img/jan2013/setup_event-sm.png" width="300" height="62" border="0" alt="Setup Your Event" /></a>
+		        		<a class="btn btn-success btn-lg" href="/signup" style="font-size:30px;">Set up Your Event</span></a>
 		        		
 		        	</div>
 		        	
