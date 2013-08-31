@@ -192,57 +192,19 @@ hr {
 .package-promo input {
 	width: 125px;
 	font-size:14px;
-	padding:3px;
-	margin-top: 5px;
+	padding: 2px 2px 6px 2px;
+	margin-top: 6px;
 	margin-bottom: 10px;
 	border-radius: 3px;
 	border: 1px solid #ccc;
 	background-color: #f4f9fc;
 }
 #apply-promo-code {
-	display: inline-block;
-	width: 56px;
-	background: #99cc33;
-	color: #fff;
-	margin-left: 5px;
-	padding: 4px 10px;
-	text-align: center;
-	border-radius: 10px;
-	text-decoration: none;
-    box-shadow: 1px 1px 2px 1px #ccc;
-}
-#apply-promo-code:hover {
-	background: #669900;
-}
-
-
-a.button:link, a.button:visited, #completSignup {
-    display: block;
-    width: 210px;
-    padding: 20px;
-    background: #99cc33;
-    border-radius: 30px;
-    border: none;
-    color: #fff;
-    font-size: 20px;
-    line-height: 22px;
-    font-weight: normal;
-    text-decoration: none;
-    text-align: center;
-    cursor: pointer;
-    box-shadow: 1px 1px 2px 1px #ccc;
-}
-a.button:hover, #completSignup:hover {
-	background: #669900;
-}
-
-#completSignup:disabled {
-	background: #ccc;
+	box-shadow: 1px 1px 2px 1px #ccc;
 }
 
 .secureInfo {
 	float: right;
-	margin-top: 14px;
 	padding: 14px 5px 14px 35px;
 	width: 190px;
 	border-radius: 5px;
