@@ -6,14 +6,14 @@
 /**** LEFT ****/
 
 #logo {
-        display: block;
-        width: 82px;
-        height: 82px;
-        margin: 0 0 30px 0;
-        overflow: hidden;
-        background: transparent url('../../home/img/logo-circle.png') no-repeat;
-        text-indent: -8000px;
-        text-decoration: none;
+    display: block;
+    width: 82px;
+    height: 82px;
+    margin: 0 0 30px 0;
+    overflow: hidden;
+    background: transparent url('../../home/img/logo-circle.png') no-repeat;
+    text-indent: -8000px;
+    text-decoration: none;
 }
 
 #left {
@@ -21,59 +21,57 @@
 }
 
 #left ul {
-        list-style: none;
-        margin-left: 0px;
-        padding-left: 30px;
+    list-style: none;
+    margin-left: 0px;
+    padding-left: 30px;
 }
 
 #left ul a:link, #left ul a:visited {
-    font-size: 1.15em;    
     display: block;
     width: 96px;
-    padding: 8px 10px;
+    padding: 6px 10px;
     color: #6699cc;
     text-decoration: none;
-    border-radius: 14px;
+    border-radius: 10px;
 }
 #left ul a:hover {
-        color: #336699;
+    color: #336699;
 }
 #left ul a.active {
-        color: #fff;
-        background: #292929;
+    color: #fff;
+    background: #292929;
 }
 
 #left dl {
-        margin-top: 10px;
-        font-weight: bold;
+    margin-top: 10px;
 }
 #left dt {
-        padding: 8px;
-        color: #999;
+    padding: 8px;
+    color: #999;
 }
 #left dd a:link, .left dd a:visited {
-        display: block;
-        padding: 8px 8px 6px 30px;
-        color: #6699cc;
-        text-decoration: none;
-        }
+    display: block;
+    padding: 8px 8px 6px 30px;
+    color: #6699cc;
+    text-decoration: none;
+}
 #left dd a:hover {
-        color: #336699;
+    color: #336699;
 }
 a#twitter {
-        background: transparent url('../../img/icons/16px/twitter-2.png') no-repeat 8px 9px;
+    background: transparent url('../../img/icons/16px/twitter-2.png') no-repeat 8px 9px;
 }
 a#facebook {
-        background: transparent url('../../img/icons/16px/facebook.png') no-repeat 8px 9px;
+    background: transparent url('../../img/icons/16px/facebook.png') no-repeat 8px 9px;
 }
 a#pinterest {
-        background: transparent url('../../img/icons/16px/pinterest.png') no-repeat 8px 9px;
+    background: transparent url('../../img/icons/16px/pinterest.png') no-repeat 8px 9px;
 }
 .copyright {
-        margin-top: 50px;
-        color: #999;
-        font-size: 14px;
-        font-weight: normal;
+    margin-top: 30px;
+    color: #999;
+    font-size: 14px;
+    font-weight: normal;
 }
 
 /**** RIGHT ****/
@@ -92,26 +90,14 @@ h3 {
         
 /**** BOTTOM ****/
 a#signup-link:link, a#signup-link:visited {
-        color: #fff;
-        font-size: 1.15em;
-        background: #67ac1c;
-        margin-top: 10px;
-        margin-left: 20px;
-        padding: 10px auto;
-        border-radius: 35px;
-        min-width: 110px;
-        text-align: center;
-        font-weight: bold;
-        text-decoration: none;
-        box-shadow: 1px 1px 5px 1px #ccc;
-}
-a#signup-link:hover {
-        background: #528a15;
+    margin-left: 20px;
+    min-width: 110px;
+    font-weight: bold;
+    box-shadow: 1px 1px 5px 1px #ccc;
 }
 
 /* CONTACT FORM */
 #questionForm {
-    margin: 0 0 20px 0;
     padding: 20px;
     background: #eef4f7;
     border-radius: 5px;

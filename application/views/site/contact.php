@@ -1,7 +1,7 @@
-<div class="col-lg-5">
+<div class="col-lg-7">
     <h1>Contact</h1>
 
-    <form id="questionForm" class="form" action="/ajax/send_email" method="post">
+    <form id="questionForm" role="form" action="/ajax/send_email" method="post">
         <input type="hidden" name="subject" value="Message From Website" />
         <fieldset>
             <h3>Got a question? We're happy to answer it</h3>
@@ -10,7 +10,7 @@
                 <input type="email" id="contact-email" class="form-control" name="from" placeholder="Your email" />
             </div>
             <div class="form-group">
-                <textarea class="form-control message" name="message">Enter a question, comment or message...</textarea>
+                <textarea class="form-control message" name="message" rows="6">Enter a question, comment or message...</textarea>
             </div>
 
             <!-- The following code is invisible to humans and contains some robot trap text fields. -->

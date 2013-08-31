@@ -1,3 +1,4 @@
+<!-- events -->
 <script id="event-list-photo" type="text/html">
 	<div class="photo{{photoClass}}">
 		<div class="photo-overlay">
@@ -45,7 +46,7 @@
 	</div>
 </script>
 
-
+<!-- guests -->
 <script id="invite-guests" type="text/html">
 	<h3>Invite Guests</h3>
 	
@@ -61,27 +62,10 @@
 	<div id="tablecardBox" class="tab-content">{{>guest-tablecardbox}}</div>	
 </script>
 
-
-<script id="tablecards" type="text/html">
-	<h3>Table Cards</h3>
-	
-	<img src="/assets/img/tablecard.png" alt="Table card sample" />
-	<p>
-		Make sure your guests know about Snapable! In addition to inviting them before the event, you can also use our custom event cards at the event.
-	</p>
-	<p>
-		We recommend printing on a heavy paper (98 Bright, 100-lb). The PDF comes with 4 cards on a 
-		sheet (US Letter) to minimize printing costs (just cut them in quarters after printing).
-	</p>
-	<br>
-	<a class="download" href="/pdf/download/{{url}}">Download Your Table Cards</a>
-</script>
-
-
 <script id="guest-addbox" type="text/html">
 	<p>Make sure everyone knows about Snapable before the big day! Import your guest list or enter the email addresses manually.</p>
 	
-	<div id="guest-choices" class="choiceBox">{{>guest-options}}</div>
+	<div id="guest-choices" class="col-lg-6 col-lg-push-3">{{>guest-options}}</div>
 </script>
 
 <script id="guest-notifybox" type="text/html">
@@ -91,10 +75,9 @@
 	<div id="notify-wrap">	
 		<div id="notify-group">
 		
-			<a href="#" id="do-send-to-guests">Send Email(s)</a>
+			<button id="do-send-to-guests" class="btn btn-primary btn-lg">Send Email(s)</button>
 		</div>		
 		<div id="notify-message"></div>
-		<div class="clearit">&nbsp;</div>
 	</div>
 </script>
 
@@ -104,8 +87,6 @@
 	<a id="guest-link-manual" href="#">
 		Copy/Paste or Manual Entry		
 	</a>
-	
-	<div class="clearit">&nbsp;</div>
 </script>
 
 <script id="guest-upload" type="text/html">
@@ -113,15 +94,30 @@
 			
 	<p><strong>Select a CSV</strong> file from your computer and <strong>click upload</strong>.</p>
 	
-	<form id="guests-file-uploader" method="post" action="/upload/csv" enctype="multipart/form-data">
-		<input type="file" accept="text/csv" id="guests-csv-input" name="guests-file-input" />
-		<input id="guests-upload-csv" type="submit" value="Upload" />
-	</form>
+	<p><em>The expected format is <strong>Name, Email</strong></em></p>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<form role="form" id="guests-file-uploader" method="post" action="/upload/csv" enctype="multipart/form-data">
+					<div class="form-group">
+						<input type="file" accept="text/csv" id="guests-csv-input" class="form-control" name="guests-file-input" />
+					</div>
+					<div class="form-group">
+						<button id="guests-upload-csv" type="submit" class="btn btn-primary col-lg-4 col-lg-push-4">Upload</button>
+					</div>
+				</form>
+			</div>
+		</div>
 	
-	<p><em>The expected format is <strong>Name, Email</strong></em></p>	
-	
-	<p>&rarr; <a href="#" id="guests-file-how-to-csv-link">How-to Save a CSV file</a> &nbsp; &nbsp; &rarr; <a href="/assets/csv_sample.csv">Download a Sample CSV file</a></p>		
-	
+		<div class="row">
+			<div class="col-lg-12" style="margin-top:20px;">
+				<p>
+					<span class="glyphicon glyphicon-arrow-right"></span> <a href="#" id="guests-file-how-to-csv-link">How-to Save a CSV file</a> &nbsp; &nbsp; <span class="glyphicon glyphicon-arrow-right"></span> <a href="/assets/csv_sample.csv">Download a Sample CSV file</a>
+				</p>
+			</div>
+		</div>		
+	</div>
 	<div id="guests-file-how-to-csv">
 	
 		<p><strong>Saving a CSV File from Microsoft Excel</strong></p>
@@ -137,55 +133,20 @@
 
 <script id="guest-manual" type="text/html">
 	<a class="guests-back-to-choices" href="#">‹ Back</a>
-			
-			Copy/paste (or type) your guests below then click "Done".
-			<br /><em>The expected format is <strong>Name, Email</strong> (one per line)</em>
-			
-			<textarea id="guests-manual-textarea"></textarea>
-			
-			<div class="guestDoneWrap">
-				<a class="buttonBox" id="guests-manual-done" href="#">Done</a>
+		
+		<form role="form" id="guests-text-uploader" method="post" action="/upload/text" enctype="multipart/form-data">
+			<div class="form-group">	
+				Copy/paste (or type) your guests below then click "Done".
+				<br /><em>The expected format is <strong>Name, Email</strong> (one per line)</em>
+			</div>
+			<div class="form-group">
+				<textarea id="guests-manual-textarea" class="form-control" rows="8" name="message" placeholder="Bob Smith,bob.smith@example.com"></textarea>
+			</div>
+			<div class="form-group">
+				<button id="guests-manual-done" class="btn btn-primary col-lg-4 col-lg-push-4">Done</button>
 				<span class="spinner-wrap hide"></span>
 			</div>
-</script>
-
-<script id="guest-csv-parse" type="text/html">
-	<h3><strong>Almost done. </strong>Now match the columns in your uploaded file to the correct categories below.</h3>
-
-	<div class="csvRow" id="csvRow1">
-		<select id="csvHeaderOne">
-			<option value="email">Email</option>
-			<option value="name">Name</option>
-		</select>
-		
-		<ul id="rowOneContents"></ul>
-	</div>
-	
-	<div class="csvRow" id="csvRow2">
-		<select id="csvHeaderTwo">
-			<option value="email">Email</option>
-			<option value="name">Name</option>
-		</select>
-		
-		<ul id="rowTwoContents"></ul>
-	</div>
-	
-	<div class="csvRow" id="csvRow3">
-		<select id="csvHeaderThree">
-			<option value="email">Email</option>
-			<option value="name">Name</option>
-			<option value="type">Guest Type</option>
-		</select>
-		
-		<ul id="rowThreeContents"></ul>
-	</div>
-	
-	<div class="clearit">&nbsp;</div>
-	<div id="allDoneWrap"><a id="csvAllDone" href="#">All Done </a></div>
-</script>
-
-<script id="guest-csv-row" type="text/html">
-	<li>{{text}}</li>
+		</form>
 </script>
 
 <script id="guest-list" type="text/html">

@@ -88,7 +88,7 @@
 
 					<hr />
 
-					<a class="button" id="eventDeets" href="#">Next: Your Details ›</a>
+					<button type="button" id="eventDeets" class="btn btn-primary btn-lg">Next: Your Details ›</button>
 				</fieldset>
 			</div>
 
@@ -129,7 +129,7 @@
 
 					<hr />
 
-					<a class="button" id="yourDeets" href="#">Next: Billing Info ›</a>
+					<button type="button" id="yourDeets" class="btn btn-primary btn-lg">Next: Billing Info ›</button>
 				</fieldset>
 			</div>
 
@@ -232,7 +232,7 @@
 
 					<div class="secureInfo">Your information is secure</div>
 					<div>
-						<input id="completSignup" type="submit" name="submit-button" value="Setup Event ›" />
+						<button id="completSignup" class="btn btn-primary btn-lg" type="submit" name="submit-button">Setup Event ›</button>
 						<span id="signup-spinner" class="spinner-wrap hide" data-length="8" data-radius="5" data-width="4"></span>
 					</div>
 				</fieldset>
@@ -257,7 +257,7 @@
 
 	    	<div class="package-promo">
 	    		Have a promo code? Enter it here:
-	    		<br /><input type="text" id="promo-code" name="promo-code" data-amount="0" /> <a id="apply-promo-code" href="#">Apply</a>
+	    		<br /><input type="text" id="promo-code" name="promo-code" data-amount="0" /> <button type="button" id="apply-promo-code" class="btn btn-primary btn-sm" href="#">Apply</button>
 	    		<input type="hidden" id="promo-code-applied" name="promo-code-applied" value="" />
 	    	</div>
 		</div>

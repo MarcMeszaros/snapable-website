@@ -117,7 +117,7 @@ class Upload extends CI_Controller {
 				// create the guest entries
 				$verb = 'POST';
 				$path = 'guest';
-				$httpCode = 202;
+				$httpCode = 201;
 				$response = '';
 				foreach ($guests as $email => $name) {
 					$params = array(
@@ -144,6 +144,88 @@ class Upload extends CI_Controller {
 				$this->output->set_status_header('500');
 				echo json_encode(array("error" => "Something went horribly wrong with the website."));
 			}
+		}
+	}
+
+	function text()
+	{
+		// sanity check
+		if (!isset($_POST['message']) || empty($_POST['message'])) {
+			$this->output->set_status_header(400);
+			return;
+		} 
+		$message = explode("\n", $_POST['message']);
+
+		$guests = array();
+		foreach ( $message as $line ) {
+			// only process valid lines
+			if (stristr($line, ',')) {
+				$details = explode(',', $line);
+				// some loop variables
+				$name = '';
+				$email = '';
+				foreach ($details as $data) {
+					// check if is email address
+					$data = trim($data);
+					if( preg_match("^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$^", $data) > 0){
+						$email = $data; // is email
+					} else if (strlen($data) > 0) {
+						$name = $data; // isn't an email, must be a name
+					}
+				}
+				// add the guest entry to the array
+				if (strlen($email) > 0) {
+					$guests[$email] = $name;
+				}
+			}
+		}
+
+		// GET LIST OF CURRENT GUESTS
+		$verb = 'GET';
+		$path = '/guest/';
+		$params = array(
+			'event' => $_POST['event_id'],
+		);
+		$resp = SnapApi::send($verb, $path, $params);
+		$result = json_decode($resp['response']);
+	
+		// build a list of existing emails
+		$existingGuests = array();	
+		if ( $result->meta->total_count > 0 ) {
+			foreach ( $result->objects as $guest ) {
+				$existingGuests = $guest->email;
+			}
+		}
+
+		// create/update the guest entries
+		$path = 'guest';
+		$httpCode = 201;
+		$response = '';
+		foreach ($guests as $email => $name) {
+			$verb = (in_array($email, $existingGuests)) ? 'PATCH' : 'POST';
+
+			if ($verb == 'POST') {
+				$params = array(
+					'email' => $email,
+					'name' => $name,
+					'event' => SnapApi::resource_uri('guest', $_POST['event_id']),
+				);
+				$resp = SnapApi::send($verb, $path, $params);
+
+				// update the status code
+				if ($resp['code'] > 201) {
+					$httpCode = $resp['code'];
+				}
+				if ($resp['code'] > 202) {
+					$response = $resp['response'];
+				}
+			}
+		}
+
+		// set the response header
+		$this->output->set_status_header($httpCode);
+		if (strlen($response) > 0) {
+			echo $response;
 		}
 	}
 }

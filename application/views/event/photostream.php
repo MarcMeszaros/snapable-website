@@ -3,7 +3,7 @@
 ?>	
 <div id="event-top" data-event-id="<?= $eid[3] ?>">
 
-	<img id="event-cover-image" src="/p/get_event/<?= $eid[3] ?>/150x150" data-event-id="<?= $eid[3] ?>" />
+	<img id="event-cover-image" class="img-thumbnail" src="/p/get_event/<?= $eid[3] ?>/150x150" data-event-id="<?= $eid[3] ?>" />
 	<div id="event-title-wrap">
 		<h2 id="event-title" class="<?php echo ($ownerLoggedin)? 'edit': '';?>"><?= $eventDeets->title ?></h2>
 		<h1 id="event-address"><?= (!$eventDeets->public && isset($eventDeets->addresses[0]->{'address'})) ? $eventDeets->addresses[0]->{'address'} : '&nbsp;' ?></h1>
@@ -157,7 +157,7 @@
 				<label class="control-label" for="upload-file" style="padding-top:0;">File</label>
 				<input id="upload-file" class="form-control" type="file" name="file_element" required />
 			</div>
-			<input type="submit" id="photo-upload-btn" value="Upload" />
+			<input type="submit" id="photo-upload-btn" class="btn btn-primary btn-lg" value="Upload" />
 			<span id="photo-upload-spinner" class="spinner-wrap hide" data-color="#366993"></span>
 		</fieldset>
 	</form>
@@ -166,17 +166,21 @@
 <?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ): ?>
 <div id="contact" class="mustache-box hide slidContent">
 	<div class="section">
-        <form id="questionForm" action="/ajax/send_email" method="post">
+        <form role="form" id="questionForm" action="/ajax/send_email" method="post">
             <input type="hidden" name="from" value="<?= $owner_email ?>" />
             <input type="hidden" name="subject" value="Message From Customer" />
             <h3>Got a question? We're happy to answer it</h3>
             <p>Your question may already be answered! Make sure to checkout our <a href="/site/faq">FAQ</a> page.</p>
 
-            <textarea class="message" name="message">Enter a question, comment or message...</textarea>
-            <input type="submit" name="submit" value="Send" />
+            <div class="form-group">
+            	<textarea class="form-control message" name="message" rows="6">Enter a question, comment or message...</textarea>
+        	</div>
+        	<div class="form-group">
+            	<button type="submit" class="btn btn-primary">Send</button>
+        	</div>
         </form>
     </div>
-    <div class="section" style="margin-top:50px;">
+    <div class="section" style="margin-top:30px;">
     	<h4>Connect</h4>
         <ul class="connect">
             <li><a class="twitter" href="http://twitter.com/getsnapable" target="_blank">Twitter</a></li>
@@ -204,7 +208,7 @@
 		sheet (US Letter) to minimize printing costs (just cut them in quarters after printing).
 	</p>
 	<br>
-	<a class="download" href="/pdf/download/<?php echo $url; ?>">Download Your Table Cards</a>
+	<a class="btn btn-primary btn-lg download" href="/pdf/download/<?php echo $url; ?>">Download Your Table Cards</a>
 </div>
 <?php endif; ?>
 
