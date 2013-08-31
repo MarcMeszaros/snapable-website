@@ -1,0 +1,15 @@
+hr.dotted {
+    border-bottom: 1px dotted #ccc;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    height: 1px;
+    overflow: hidden;
+}
+
+ul.dotted li {
+    border-bottom: 1px dotted #ccc;
+}
+ul.dotted li:last-child {
+    border-bottom: none;
+}

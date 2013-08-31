@@ -1,6 +1,6 @@
 <div class="container">
 	<img id="signLogo" src="/assets/img/logo-indented.png" alt="Snapable" />
-		<form id="signinWrap" class="col-lg-4 col-lg-push-4 form" name="signin" action="/account/validate" method="post" data-validate="parsley" novalidate>
+		<form role="form" id="signinWrap" class="col-lg-4 col-lg-push-4" name="signin" action="/account/validate" method="post" data-validate="parsley" novalidate>
 			<h1>Sign in to your account</h1>
 			<h2>Don't have an account? <a href="/signup">Sign-up here</a></h2>
 			
@@ -27,7 +27,9 @@
 
 			<hr />
 
-			<input type="submit" name="submit" value="Sign in" />
+			<div class="form-group">
+				<button type="submit" name="submit" class="form-control btn btn-primary">Sign in</button>
+			</div>
 			<a id="forgotPassword" href="/account/reset">Forgot your password?</a>
 			
 		</form>

@@ -156,7 +156,7 @@
 		        	
 			        	<h4>You get all this for your event:</h4>
 			        	
-			        	<ul>
+			        	<ul class="dotted">
 			        		<li>Unlimited guests</li>
 			        		<li>Unlimited photos </li>
 			        		<li>Download your photos anytime</li>
