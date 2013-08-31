@@ -839,22 +839,6 @@ a#guest-link-upload:hover, a#guest-link-manual:hover {
 	line-height: 16px;
 }
 
-a#do-send-to-guests {
-	display: block;
-	width: 140px;
-	color: #fff;
-	background: #99cc33;
-	border-radius: 20px;
-	padding: 10px;
-	font-size: 18px;
-	line-height: 20px;
-	text-align: center;
-	text-decoration: none;
-}
-a#do-send-to-guests:hover {
-	background: #669900;
-}
-
 /**** GUEST LIST ****/
 #guestlistBox .table tbody>tr>td {
 	border-top: none;

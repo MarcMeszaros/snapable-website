@@ -193,11 +193,16 @@ $(document).ready(function(){
         // get checkboxes checked and message
         var message = $("#notify-custom-message").val();
         if ( message == "" || message == "Enter a message for your guests." ) {
-            alert("You haven't supplied a message for your guests.")
+            $.pnotify({
+                type: 'error',
+                title: 'Invitations',
+                text: "You haven't supplied a message for your guests."
+            });
+            $("#notify-group").html('<button id="do-send-to-guests" class="btn btn-primary btn-lg">Send Email(s)</button>');
         } else {
             $.ajax('/event/send/invites', {
                 type: 'POST',
-                data: { resource_uri:eventID, message:message },
+                data: { event_id:$('#event-top').data('event-id'), message:message },
                 dataType: 'json',
                 success: function(data, textStatus, jqXHR) {
                     $.pnotify({
@@ -214,7 +219,7 @@ $(document).ready(function(){
                     });
                 },
                 complete: function(jqXHR, textStatus) {
-                    $("#notify-group").html('<a href="#" id="do-send-to-guests">Send Email(s)</a>');
+                    $("#notify-group").html('<button id="do-send-to-guests" class="btn btn-primary btn-lg">Send Email(s)</button>');
                 }
             });
         }
@@ -228,45 +233,5 @@ $(document).ready(function(){
         });
         return false;
     });
-    
-    /*
-    $(document).on("click", "#guests-manual-done", function() {
-        $(this).hide();
-        $(this).siblings('.spinner-wrap').removeClass('hide');
-        // check if there's anything in the textbox
-        if ( $("#guests-manual-textarea").val() == "" ) {
-            $.pnotify({
-                type: 'error',
-                title: 'Invitations',
-                text: "It doesn't look like you've invited anyone to your event."
-            });
-            $("#guests-manual-textarea").focus();
-        } else {
-            $.ajax("/parse/text", {
-                type: 'POST',
-                data: { eventURI:eventID, message:$("#guests-manual-textarea").val() }, 
-                success: function(data, textStatus, jqXHR){
-                    // switch tab to notify and show content
-                    $("#addTab").removeClass("active");
-                    $("#notifyTab").addClass("active");
-                    $("#addBox").fadeOut("fast", function() {
-                        $("#notifyBox").fadeIn("fast");
-                    });
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    $.pnotify({
-                        type: 'error',
-                        title: 'Invitations',
-                        text: "We weren't able to complete the upload of your guest list at this time."
-                    });
-                },
-                complete: function(jqXHR, textStatus) {
-                    $(this).show();
-                    $(this).siblings('.spinner-wrap').addClass('hide');
-                }
-            });
-        }
-        return false;
-    });
-    */
+
 });
