@@ -798,13 +798,7 @@ a#guest-link-upload:hover, a#guest-link-manual:hover {
 }
 
 #guestlistBox a:link, #guestlistBox a:visited {
-	color: #336699;
-	text-decoration: none;
 	font-weight: normal;
-}
-#guestlistBox a:hover {
-	color: #cc3300;
-	text-decoration: underline;
 }
 
 #tablecards img {
