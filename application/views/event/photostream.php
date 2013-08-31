@@ -97,7 +97,7 @@
 		</ul>
 		<ul id="event-nav">
 
-			<li><span>Photostream</span></li>
+			<li><span class="down">Photostream</span></li>
 			<?php if ( (isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user) || (isset($guestLoggedin) && $guestLoggedin == true) ) { ?>
 				<li><a id="uploadBTN" href="#">Submit Photo</a></li>
 			<?php } else { ?>

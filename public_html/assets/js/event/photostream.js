@@ -189,8 +189,7 @@ function loadPhoto(photoData, options) {
 	});
 
 	// Trigger photo overlay code
-	$domPhoto.find('div.photo').filter(filter_position).hover(
-	  function () {
+	$domPhoto.find('div.photo').filter(filter_position).hover(function () {
 	    $(".photo-overlay", this).fadeIn("fast");
 	  },
 	  function () {
@@ -201,7 +200,7 @@ function loadPhoto(photoData, options) {
 	$domPhoto.find('div.photo a.photo-share').filter(filter_position).facebox();
 
 	// setup the tooltips
-	$domPhoto.find('div.photo .photo-comment').filter(filter_position).tooltip();
+	$domPhoto.find('div.photo .photo-credit').filter(filter_position).tooltip();
 
 	// setup the download
 	$domPhoto.find('a.photo-download').filter(filter_position).click(function(){
