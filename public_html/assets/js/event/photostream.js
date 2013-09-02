@@ -48,9 +48,7 @@ function checkUrl(url)
 // when the DOM is ready
 $(document).ready(function() 
 {  
-	var csvFilename = "";
-
-	if ( photo_count > 0 )
+	if ( $('#event-top').data('photo-count') > 0 )
 	{
 		// Display Loader
 		$("#photoArea").css({"text-align":"center","font-weight":"bold"}).html('<div id="photoRetriever">Retrieving Photos...<div class="progress progress-striped active"><div class="progress-bar" style="width: 100%"></div></div></div>');
