@@ -49,7 +49,7 @@ $(document).ready(function(){
                                 $("#" + href + "Box").fadeIn("normal");
 
                                 // setup the delete per guest
-                                $('#guestlistBox').find('tr a.guest-delete').click(function(){
+                                $('#guestlistBox').find('tr .guest-delete').click(function(){
                                     var deleteButton = $(this); // save a reference to that button
 
                                     // anonymous function to handle the deletion/keep variable scope
@@ -64,7 +64,7 @@ $(document).ready(function(){
                                                     success: function(data, textStatus, jqXHR) {
                                                         if (jqXHR.status == 200 || jqXHR.status == 204) {
                                                             // remove it from the ui
-                                                            $(deleteButton).closest('li').remove();
+                                                            $(deleteButton).closest('tr').remove();
                                                         }   
                                                     },
                                                     error: function(jqXHR, textStatus, errorThrown) {
@@ -108,6 +108,9 @@ $(document).ready(function(){
             // setup the ajax form
             $('#guests-file-uploader').ajaxForm({
                 beforeSubmit: function(arr, $form, options) {
+                    $('#guests-file-uploader span.spinner-wrap').spin('small');
+                    $('#guests-upload-csv').addClass('hide');
+                    $('#guests-file-uploader span.spinner-wrap').removeClass('hide');
                     arr.push({'name':'event_id', 'value':$('#event-top').data('event-id')});
                 },
                 success: function(responseText, statusText, xhr, $form) {
@@ -119,6 +122,9 @@ $(document).ready(function(){
                         title: 'Guest List Uploaded',
                         text: 'The guest list was successfully uploaded.'
                     });
+
+                    $('#guests-upload-csv').removeClass('hide');
+                    $('#guests-file-uploader span.spinner-wrap').addClass('hide');
                 },
                 error: function(){ 
                     // show a notification
@@ -127,6 +133,9 @@ $(document).ready(function(){
                         title: 'Guest List Not Uploaded',
                         text: 'An error occurred while trying to upload your guest list.'
                     });
+
+                    $('#guests-upload-csv').removeClass('hide');
+                    $('#guests-file-uploader span.spinner-wrap').addClass('hide');
                 }
             });
         });
@@ -140,6 +149,9 @@ $(document).ready(function(){
             // setup the ajax form
             $('#guests-text-uploader').ajaxForm({
                 beforeSubmit: function(arr, $form, options) {
+                    $('#guests-text-uploader span.spinner-wrap').spin('small');
+                    $('#guests-manual-done').addClass('hide');
+                    $('#guests-text-uploader span.spinner-wrap').removeClass('hide');
                     arr.push({'name':'event_id', 'value':$('#event-top').data('event-id')});
                 },
                 success: function(responseText, statusText, xhr, $form) {
@@ -151,6 +163,9 @@ $(document).ready(function(){
                         title: 'Guest List Uploaded',
                         text: 'The guest list was successfully uploaded.'
                     });
+
+                    $('#guests-manual-done').removeClass('hide');
+                    $('#guests-text-uploader span.spinner-wrap').addClass('hide');
                 },
                 error: function(){ 
                     // show a notification
@@ -159,6 +174,9 @@ $(document).ready(function(){
                         title: 'Guest List Not Uploaded',
                         text: 'An error occurred while trying to upload your guest list.'
                     });
+
+                    $('#guests-manual-done').removeClass('hide');
+                    $('#guests-text-uploader span.spinner-wrap').addClass('hide');
                 }
             });
         });
