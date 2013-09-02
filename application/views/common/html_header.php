@@ -24,6 +24,7 @@
     <link type="text/css" rel="stylesheet" href="/assets/libs/pnotify/jquery.pnotify.default.css" />
     <link type="text/css" rel="stylesheet" href="/assets/css/common/fonts.css" />
     <link type="text/css" rel="stylesheet" href="/assets/css/common/default.css" />
+    <link type="text/css" rel="stylesheet" href="/assets/css/common/snapable-theme.css" />
     <?php 
     // external resources
     if ( isset($ext_css) ) {

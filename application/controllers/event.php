@@ -62,7 +62,6 @@ class Event extends CI_Controller {
 			'url' => $url,
 			'eventDeets' => $event_details->event
 		);
-		$head['js_vars']['photo_count'] = $event_details->event->photos;
 
 		$ownerLoggedin = false;
 		$guestLoggedin = false;

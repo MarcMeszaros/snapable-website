@@ -1,3 +1,5 @@
+	<div class="container">
+		<div class="col-lg-10 col-lg-push-1">
 		<section id="footer">
 	    	&copy; <?= date("Y") ?> Snapable / <a href="/site/contact">Contact</a> / <a href="/site/faq">FAQ</a>  / <a href="http://blog.snapable.com">Blog</a> / <a href="/site/terms">Terms of Service</a> / <a href="/site/privacy">Privacy</a>
 	    	
@@ -7,5 +9,7 @@
 	    		<a id="sm-pinterest" href="http://pinterest.com/snapable" target="_blank">Follow us</a>
 	    	</div>
 	    </section>
+		</div>
+	</div>
 	    
 	</div>

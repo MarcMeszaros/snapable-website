@@ -1,7 +1,9 @@
 <?php
 	$eid = explode('/', $eventDeets->resource_uri);
 ?>	
-<div id="event-top" data-event-id="<?= $eid[3] ?>">
+<div class="container">
+<div class="col-lg-10 col-lg-push-1">
+<div id="event-top" data-event-id="<?= $eid[3] ?>" data-photo-count="<?= $eventDeets->photos ?>">
 
 	<img id="event-cover-image" class="img-thumbnail" src="/p/get_event/<?= $eid[3] ?>/150x150" data-event-id="<?= $eid[3] ?>" />
 	<div id="event-title-wrap">
@@ -97,7 +99,7 @@
 		</ul>
 		<ul id="event-nav">
 
-			<li><span>Photostream</span></li>
+			<li><span class="down">Photostream</span></li>
 			<?php if ( (isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user) || (isset($guestLoggedin) && $guestLoggedin == true) ) { ?>
 				<li><a id="uploadBTN" href="#">Submit Photo</a></li>
 			<?php } else { ?>
@@ -215,3 +217,5 @@
 <div id="photoArea"></div>
 
 <div class="clearit">&nbsp;</div>
+</div>
+</div>

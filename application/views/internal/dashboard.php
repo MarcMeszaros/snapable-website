@@ -109,21 +109,21 @@
             <form id="delete-event-form" method="post" action="/ajax_internal/delete_event">
                 <label for="delete-event">Delete event:</label>
                 <input type="number" id="delete-event" name="event_id" placeholder="Event ID" />
-                <input type="submit" value="Delete" onclick="return sendForm(this, deleteCallback);" />
+                <button type="submit" class="btn btn-danger btn-xs" onclick="return sendForm(this, deleteCallback);">Delete</button>
             </form>
         </div>
         <div class="col-lg-4">
             <form id="delete-user-form" method="post" action="/ajax_internal/delete_user">
                 <label for="delete-user">Delete user:</label>
                 <input type="number" id="delete-user" name="user_id" placeholder="User ID" />
-                <input type="submit" value="Delete" onclick="return sendForm(this, deleteCallback);" />
+                <button type="submit" class="btn btn-danger btn-xs" onclick="return sendForm(this, deleteCallback);">Delete</button>
             </form>
         </div>
         <div class="col-lg-4">
             <form id="delete-photo-form" method="post" action="/ajax_internal/delete_photo">
                 <label for="delete-photo">Delete photo:</label>
                 <input type="number" id="delete-photo" name="photo_id" placeholder="Photo ID" />
-                <input type="submit" value="Delete" onclick="return sendForm(this, deleteCallback);" />
+                <button type="submit" class="btn btn-danger btn-xs" onclick="return sendForm(this, deleteCallback);">Delete</button>
             </form>
         </div>
     </div>

@@ -1,5 +1,4 @@
 /**** FOOTER ****/
-
 section#footer {
 	border-top: 1px dotted #ccc;
 	margin-top: 50px;
@@ -15,12 +14,6 @@ section#footer:after {
     visibility: hidden;
     margin: 0;
     padding: 0;
-}
-section#footer a:link, section#footer a:visited {
-	color: #0099cc;
-}
-section#footer a:hover {
-	color: #cc3300;
 }
 
 #sm-links {

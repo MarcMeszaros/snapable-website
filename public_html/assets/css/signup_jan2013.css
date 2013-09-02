@@ -156,18 +156,6 @@ hr {
 #package li {
 	text-align: center;
 	padding: 10px 0;
-	border-bottom: 1px dotted #ccc;
-	font-size: 14px;
-	line-height: 16px;
-}
-#package li:last-child {
-	border-bottom: none;
-}
-#package li div {
-	font-size: 12px;
-}
-#package li strong {
-	color: #ff9900;
 }
 
 .package-big-bottom {

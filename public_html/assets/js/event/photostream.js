@@ -48,9 +48,7 @@ function checkUrl(url)
 // when the DOM is ready
 $(document).ready(function() 
 {  
-	var csvFilename = "";
-
-	if ( photo_count > 0 )
+	if ( $('#event-top').data('photo-count') > 0 )
 	{
 		// Display Loader
 		$("#photoArea").css({"text-align":"center","font-weight":"bold"}).html('<div id="photoRetriever">Retrieving Photos...<div class="progress progress-striped active"><div class="progress-bar" style="width: 100%"></div></div></div>');
@@ -158,7 +156,7 @@ function loadPhoto(photoData, options) {
 	$domPhoto.find('div.photo a.photo-delete').filter(filter_position).click(function(){
 		var deleteButton = $(this); // save a reference to that button
 
-		$.ajax('/ajax/delete_photo/'+$(deleteButton).attr('data-photo_id'), {
+		$.ajax('/ajax/delete_photo/'+$(deleteButton).data('photo_id'), {
 			success: function(data, textStatus, jqXHR) {
 				if (jqXHR.status == 200 || jqXHR.status == 204) {
 					// remove it from the ui
@@ -189,11 +187,10 @@ function loadPhoto(photoData, options) {
 	});
 
 	// Trigger photo overlay code
-	$domPhoto.find('div.photo').filter(filter_position).hover(
-	  function () {
+	$domPhoto.find('div.photo').filter(filter_position).hover(function() {
 	    $(".photo-overlay", this).fadeIn("fast");
 	  },
-	  function () {
+	  function() {
 	    $(".photo-overlay", this).fadeOut("fast");
 	  }
 	);
@@ -201,11 +198,11 @@ function loadPhoto(photoData, options) {
 	$domPhoto.find('div.photo a.photo-share').filter(filter_position).facebox();
 
 	// setup the tooltips
-	$domPhoto.find('div.photo .photo-comment').filter(filter_position).tooltip();
+	$domPhoto.find('div.photo .photo-credit').filter(filter_position).tooltip();
 
 	// setup the download
 	$domPhoto.find('a.photo-download').filter(filter_position).click(function(){
-		document.location = '/download/photo/'+$(this).attr('data-photo_id')+'/orig';
+		document.location = '/download/photo/'+$(this).data('photo_id')+'/orig';
 		return false; // end execution of the javascript
 	});
 }
@@ -229,8 +226,7 @@ function loadPhotos(photos) {
 	for (var key = offset; key < photos.response.objects.length ; key++) {
 		var val = photos.response.objects[key];
 
-		if ( count < 12 )
-		{
+		if ( count < 12 ) {
 			var resource_uri = val.resource_uri.split("/");
 			var inPhotoArr = $.inArray(resource_uri[3], photoArr);
 			
@@ -251,9 +247,8 @@ function loadPhotos(photos) {
 	photos.response.objects.offset += count; // used to know where to resume looping
 	$(".loadMoreWrap").remove();
 	
-	if ( photos.response.objects.offset < photos.response.objects.length-1 )
-	{
-		$("#photoArea").append("<div class='loadMoreWrap'><a class='loadMore' href='#'>Load More</a></div>");
+	if ( photos.response.objects.offset < photos.response.objects.length-1 ) {
+		$("#photoArea").append('<div class="loadMoreWrap"><button class="btn btn-primary btn-lg loadMore"><span class="glyphicon glyphicon-plus"></span> Load More</button></div>');
 	} else if (photo_count > 50 && (photoAPIOffset + 1) < photo_count) {
 		console.log('we should load more from the api');
 		photoAPIOffset += 50;
@@ -261,7 +256,7 @@ function loadPhotos(photos) {
 		$.getJSON('/event/get/photos/' + $('#event-top').data('event-id') + '/' + photoAPIOffset, function(json) {
 			if ( json.status == 200 ) {
 				photoAPI = json;
-				$("#photoArea").append("<div class='loadMoreWrap'><a class='loadMore' href='#'>Load More</a></div>");
+				$("#photoArea").append('<div class="loadMoreWrap"><button class="btn btn-primary btn-lg loadMore"><span class="glyphicon glyphicon-plus"></span> Load More</button></div>');
 			}
 		});
 	}
