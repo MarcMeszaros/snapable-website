@@ -1,6 +1,8 @@
 <?php
 	$eid = explode('/', $eventDeets->resource_uri);
 ?>	
+<div class="container">
+<div class="col-lg-10 col-lg-push-1">
 <div id="event-top" data-event-id="<?= $eid[3] ?>">
 
 	<img id="event-cover-image" class="img-thumbnail" src="/p/get_event/<?= $eid[3] ?>/150x150" data-event-id="<?= $eid[3] ?>" />
@@ -215,3 +217,5 @@
 <div id="photoArea"></div>
 
 <div class="clearit">&nbsp;</div>
+</div>
+</div>
