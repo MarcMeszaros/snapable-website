@@ -1,3 +1,4 @@
+/* Custom dotted divider lines */
 hr.dotted {
     border-bottom: 1px dotted #ccc;
     border-top: none;
@@ -12,4 +13,41 @@ ul.dotted li {
 }
 ul.dotted li:last-child {
     border-bottom: none;
+}
+
+/* Small hack to fix button hover effect of Bootstrap theme */
+.btn-primary:hover,
+.btn-primary:focus {
+    background-image: -webkit-gradient(linear, left 0%, left 100%, from(#2b669a), to(#2d6ca2));
+    background-image: -webkit-linear-gradient(top, #2b669a, 0%, #2d6ca2, 100%);
+    background-image: -moz-linear-gradient(top, #2b669a 0%, #2d6ca2 100%);
+    background-image: linear-gradient(to bottom, #2b669a 0%, #2d6ca2 100%);
+}
+.btn-success:hover,
+.btn-success:focus {
+    background-image: -webkit-gradient(linear, left 0%, left 100%, from(#419641), to(#419641));
+    background-image: -webkit-linear-gradient(top, #419641, 0%, #419641, 100%);
+    background-image: -moz-linear-gradient(top, #419641 0%, #419641 100%);
+    background-image: linear-gradient(to bottom, #419641 0%, #419641 100%);
+}
+.btn-warning:hover,
+.btn-warning:focus {
+    background-image: -webkit-gradient(linear, left 0%, left 100%, from(#eb9316), to(#eb9316));
+    background-image: -webkit-linear-gradient(top, #eb9316, 0%, #eb9316, 100%);
+    background-image: -moz-linear-gradient(top, #eb9316 0%, #eb9316 100%);
+    background-image: linear-gradient(to bottom, #eb9316 0%, #eb9316 100%);
+}
+.btn-danger:hover,
+.btn-danger:focus {
+    background-image: -webkit-gradient(linear, left 0%, left 100%, from(#c12e2a), to(#c12e2a));
+    background-image: -webkit-linear-gradient(top, #c12e2a, 0%, #c12e2a, 100%);
+    background-image: -moz-linear-gradient(top, #c12e2a 0%, #c12e2a 100%);
+    background-image: linear-gradient(to bottom, #c12e2a 0%, #c12e2a 100%);
+}
+.btn-info:hover,
+.btn-info:focus {
+    background-image: -webkit-gradient(linear, left 0%, left 100%, from(#2aabd2), to(#2aabd2));
+    background-image: -webkit-linear-gradient(top, #2aabd2, 0%, #2aabd2, 100%);
+    background-image: -moz-linear-gradient(top, #2aabd2 0%, #2aabd2 100%);
+    background-image: linear-gradient(to bottom, #2aabd2 0%, #2aabd2 100%);
 }
