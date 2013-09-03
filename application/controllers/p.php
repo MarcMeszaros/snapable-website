@@ -40,8 +40,7 @@ class P extends CI_Controller {
 			'event_name' => $photo_deets->event_name,
 		);
 		
-		if ( IS_AJAX )
-		{
+		if ( IS_AJAX ) {
 			$this->load->view('photo/header');
 			$this->load->view('photo/index', $data);
 			$this->load->view('photo/footer');
