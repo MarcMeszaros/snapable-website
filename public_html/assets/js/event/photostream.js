@@ -132,7 +132,7 @@ function loadPhoto(photoData, options) {
 	var $domPhoto = $('#photoArea').mustache('event-list-photo', photoData, options);
 
 	// set cover photo
-	$domPhoto.find('div.photo-buttons a.add-cover').filter(filter_position).click(function(){
+	$domPhoto.find('div.photo-buttons .add-cover').filter(filter_position).click(function(){
 		// make an ajax call
 		$.ajax('/ajax/put_event/'+$('#event-top').data('event-id'), {
 			type: 'POST',
@@ -153,7 +153,7 @@ function loadPhoto(photoData, options) {
 	});
 
 	// setup the delete per photo
-	$domPhoto.find('div.photo a.photo-delete').filter(filter_position).click(function(){
+	$domPhoto.find('div.photo .photo-delete').filter(filter_position).click(function(){
 		var deleteButton = $(this); // save a reference to that button
 
 		$.ajax('/ajax/delete_photo/'+$(deleteButton).data('photo_id'), {
@@ -194,14 +194,14 @@ function loadPhoto(photoData, options) {
 	    $(".photo-overlay", this).fadeOut("fast");
 	  }
 	);
-	$domPhoto.find('div.photo a.photo-enlarge').filter(filter_position).facebox();
-	$domPhoto.find('div.photo a.photo-share').filter(filter_position).facebox();
+	$domPhoto.find('div.photo .photo-enlarge').filter(filter_position).facebox();
+	$domPhoto.find('div.photo .photo-share').filter(filter_position).facebox();
 
 	// setup the tooltips
 	$domPhoto.find('div.photo .photo-credit').filter(filter_position).tooltip();
 
 	// setup the download
-	$domPhoto.find('a.photo-download').filter(filter_position).click(function(){
+	$domPhoto.find('.photo-download').filter(filter_position).click(function(){
 		document.location = '/download/photo/'+$(this).data('photo_id')+'/orig';
 		return false; // end execution of the javascript
 	});
@@ -249,7 +249,7 @@ function loadPhotos(photos) {
 	
 	if ( photos.response.objects.offset < photos.response.objects.length-1 ) {
 		$("#photoArea").append('<div class="loadMoreWrap"><button class="btn btn-primary btn-lg loadMore"><span class="glyphicon glyphicon-plus"></span> Load More</button></div>');
-	} else if (photo_count > 50 && (photoAPIOffset + 1) < photo_count) {
+	} else if ($('#event-top').data('photo-count') > 50 && (photoAPIOffset + 1) < $('#event-top').data('photo-count')) {
 		console.log('we should load more from the api');
 		photoAPIOffset += 50;
 
