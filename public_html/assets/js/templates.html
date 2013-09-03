@@ -4,10 +4,10 @@
 		<div class="photo-overlay">
 			<div class="photo-buttons">
 				{{#owner}}
-				<a class="button add-cover" href="#" data-photo_id="{{id}}">Set as Cover Photo</a>
+				<button class="btn btn-primary add-cover" href="#" data-photo_id="{{id}}">Set as Cover Photo</button>
 				{{/owner}}
-				<br />
-				<a class="button share photo-share" href="{{url}}" title="Share">Share</a>
+				<br /><br />
+				<button class="btn btn-primary photo-share" href="{{url}}">Share</button>
 			</div>
 			<div id="photo-action-container" style="width:{{#owner}}190px{{/owner}}{{^owner}}130px{{/owner}};">
 			<ul id="photo-action">
