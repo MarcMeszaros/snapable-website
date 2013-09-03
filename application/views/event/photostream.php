@@ -7,9 +7,9 @@
 
 	<img id="event-cover-image" class="img-thumbnail" src="/p/get_event/<?= $eid[3] ?>/150x150" data-event-id="<?= $eid[3] ?>" />
 	<div id="event-title-wrap">
-		<h2 id="event-title" class="<?php echo ($ownerLoggedin)? 'edit': '';?>"><?= $eventDeets->title ?></h2>
-		<h1 id="event-address"><?= (!$eventDeets->public && isset($eventDeets->addresses[0]->{'address'})) ? $eventDeets->addresses[0]->{'address'} : '&nbsp;' ?></h1>
-		<h1 id="event-timestamp-start"><?= $eventDeets->human_start ?></span> to <span id="event-timestamp-end"><?= $eventDeets->human_end ?></h1>
+		<h2 id="event-title"><?= $eventDeets->title ?></h2>
+		<div id="event-address"><?= (!$eventDeets->public && isset($eventDeets->addresses[0]->{'address'})) ? $eventDeets->addresses[0]->{'address'} : '&nbsp;' ?></div>
+		<div id="event-timestamp-start"><?= $eventDeets->human_start ?></span> to <span id="event-timestamp-end"><?= $eventDeets->human_end ?><?php if ($ownerLoggedin) { ?> &nbsp; <button id="event-settings-btn" class="btn btn-primary btn-xs" style="font-size:10px; margin-top:-2px;">Edit Event</button><?php } ?></div>
 		<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ) { ?>
 		<form id="event-settings" class="form">
 			<h3>Edit Your Event Details</h3>

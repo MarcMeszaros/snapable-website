@@ -34,8 +34,7 @@
 #event-pin div {
 	font-size: 30px;
 	line-height: 32px;
-	}
-
+}
 
 #setup-wrap {
 	width: 790px;
@@ -59,8 +58,8 @@
 /** Event Cover **/
 #event-cover-image {
 	float: left;
-	width: 110px;
-	height: 110px;
+	width: 135px;
+	height: 135px;
 	margin: 27px 10px 0 0;
 	box-shadow: 1px 1px 2px 1px #ccc;
 }
@@ -149,15 +148,6 @@ ul#event-nav  {
 
 #event-title-wrap ul {
 	margin: 0;
-}
-
-#event-title.edit {
-	cursor: pointer;
-	background: url('/assets/img/icons/pen_alt_fill_12x12-lgt_grey.png') no-repeat center left;
-}
-#event-title.edit:hover {
-	text-decoration: underline;
-	background: url('/assets/img/icons/pen_alt_fill_12x12-blue.png') no-repeat center left;
 }
 
 #event-title input {
@@ -546,24 +536,10 @@ ul#photo-action li a.photo-download:hover {
 	padding: 20px;
 	text-align: center;
 }
-.files { 
-	font-weight: bold;
-	text-align: center;
-	margin: 0 10px 20px 10px; 
-}
-.filesSmText {
-	margin: 5px 0;
-	font-size: 14px;
-	color: #999;
-	font-style: italic;
-}
 #photoRetriever { 
 	width: 200px; 
 	margin: 0 auto;
 }
-
-.uploadText { padding-top: 30px; }
-
 /********/
 
 .divider {
@@ -576,8 +552,8 @@ ul#photo-action li a.photo-download:hover {
 /*** TEXT ****/
 
 h1 {
-	font-size: 14px;
-	line-height: 14px;
+	font-size: 1em;
+	line-height: 1em;
 	color: #666;
 	font-weight: normal;
 }
@@ -588,8 +564,6 @@ h1#event-timestamp-start {
 	padding-top: 20px;
 }
 h2 {
-	font-size: 26px;
-	line-height: 30px;
 	color: #3399cc;
 	font-weight: normal;
 }

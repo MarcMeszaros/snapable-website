@@ -1,7 +1,6 @@
 $(document).ready(function(){
     /**** Event Settings ****/
-    $('#event-title').click(function(){
-        $('#event-settings-save-wrap img').remove();
+    $('#event-settings-btn').click(function(){
         $('#event-settings').show();
     });
     $('#event-settings input[type=button].cancel').click(function(){
