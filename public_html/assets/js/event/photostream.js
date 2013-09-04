@@ -219,7 +219,7 @@ function loadPhotos(photos) {
 	offset = 0;
 	if (photos.response.objects.hasOwnProperty('offset')) {
 		offset = photos.response.objects.offset;
-		$(".loadMoreWrap").html("<span></span>").addClass("bar");
+		$(".loadMoreWrap").addClass("bar");
 	} else {
 		photos.response.objects.offset = offset;
 	}
@@ -245,10 +245,10 @@ function loadPhotos(photos) {
 		}
 	}
 	photos.response.objects.offset += count; // used to know where to resume looping
-	$(".loadMoreWrap").remove();
+	$(".loadMoreWrap").addClass('hide');
 	
 	if ( photos.response.objects.offset < photos.response.objects.length-1 ) {
-		$("#photoArea").append('<div class="loadMoreWrap"><button class="btn btn-primary btn-lg loadMore"><span class="glyphicon glyphicon-plus"></span> Load More</button></div>');
+		$(".loadMoreWrap").removeClass('hide');
 	} else if ($('#event-top').data('photo-count') > 50 && (photoAPIOffset + 1) < $('#event-top').data('photo-count')) {
 		console.log('we should load more from the api');
 		photoAPIOffset += 50;
@@ -256,7 +256,7 @@ function loadPhotos(photos) {
 		$.getJSON('/event/get/photos/' + $('#event-top').data('event-id') + '/' + photoAPIOffset, function(json) {
 			if ( json.status == 200 ) {
 				photoAPI = json;
-				$("#photoArea").append('<div class="loadMoreWrap"><button class="btn btn-primary btn-lg loadMore"><span class="glyphicon glyphicon-plus"></span> Load More</button></div>');
+				$(".loadMoreWrap").removeClass('hide');
 			}
 		});
 	}
