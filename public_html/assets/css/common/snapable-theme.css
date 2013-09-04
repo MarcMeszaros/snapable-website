@@ -18,10 +18,10 @@ ul.dotted li:last-child {
 /* Small hack to fix button hover effect of Bootstrap theme */
 .btn-primary:hover,
 .btn-primary:focus {
-    background-image: -webkit-gradient(linear, left 0%, left 100%, from(#2b669a), to(#2d6ca2));
-    background-image: -webkit-linear-gradient(top, #2b669a, 0%, #2d6ca2, 100%);
-    background-image: -moz-linear-gradient(top, #2b669a 0%, #2d6ca2 100%);
-    background-image: linear-gradient(to bottom, #2b669a 0%, #2d6ca2 100%);
+    background-image: -webkit-gradient(linear, left 0%, left 100%, from(#2b669a), to(#2b669a));
+    background-image: -webkit-linear-gradient(top, #2b669a, 0%, #2b669a, 100%);
+    background-image: -moz-linear-gradient(top, #2b669a 0%, #2b669a 100%);
+    background-image: linear-gradient(to bottom, #2b669a 0%, #2b669a 100%);
 }
 .btn-success:hover,
 .btn-success:focus {

@@ -214,8 +214,15 @@
 </div>
 <?php endif; ?>
 
-<div id="photoArea"></div>
-
-<div class="clearit">&nbsp;</div>
+<div class="container">
+	<div id="photoArea">
+	</div>
 </div>
+
+<div class="container loadMoreWrap hide">
+	<div class="col-lg-2 col-lg-push-5">
+		<button class="btn btn-primary btn-lg loadMore"><span class="glyphicon glyphicon-plus"></span> Load More</button>
+	</div>
+</div>
+
 </div>
