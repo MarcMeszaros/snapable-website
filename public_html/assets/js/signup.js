@@ -167,7 +167,7 @@ $(document).ready(function() {
 	});
 	
 	// form verification and submission 
-	$(".button").click( function() {
+	$("#eventDeets,#yourDeets").click( function() {
 		var id = $(this).attr("id");
 		
 		$(".field-error").css({ "display":"none" });
