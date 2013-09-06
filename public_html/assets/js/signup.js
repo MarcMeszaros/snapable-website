@@ -257,7 +257,7 @@ $(document).ready(function() {
 	});
 	
 	function stripeResponseHandler(status, response) {
-	    if (response.error) {
+	    if (response.error && !$('#billing input').is(':disabled')) {
 	    	_gaq.push(['_trackPageview', 'signup/error']);
 	    	$.pnotify({
 				type: 'error',
@@ -268,10 +268,12 @@ $(document).ready(function() {
 	        $('#completSignup').removeAttr("disabled").show();
 	    } else {
 	        var form = $("#payment-form");
-	        // token contains id, last4, and card type
-	        var token = response['id'];
-	        // insert the token into the form so it gets submitted to the server
-	        form.append('<input type="hidden" name="stripeToken" value="' + token + '"/>');
+	        if (response['id'] != 'undefined') {
+	        	// token contains id, last4, and card type
+	        	var token = response['id'];
+	        	// insert the token into the form so it gets submitted to the server
+	        	form.append('<input type="hidden" name="stripeToken" value="' + token + '"/>');
+	    	}
 	        // and submit
 	        form.get(0).submit();
 	    }

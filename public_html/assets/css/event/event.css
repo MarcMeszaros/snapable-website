@@ -1,13 +1,12 @@
 /**** STRUCTURE ****/
 #restOfPageWrap {
-	margin: 96px auto 0 auto;
+	margin-top: 96px;
 }
 
 /**** EVENT TITLE AREA ****/
 
 #event-top {
 	margin-bottom: 25px;
-	margin-left: 8px;
 }
 #event-top h1,
 #event-top h2,
@@ -19,19 +18,19 @@
 }
 
 #event-pin {
-	float: right;
-	display: inline;
-	width: 100px;
-	margin-top: 30px;
-	padding: 5px;
-	text-align: center;
+	width: 120px;
 	color: #fff;
 	background: #2b669a;
-	border-radius: 8px;
 }
-#event-pin div {
-	font-size: 30px;
-	line-height: 32px;
+#event-pin .small {
+	line-height: 2.5em;
+}
+#event-pin .large {
+	margin-top: -0.5em;
+	font-size: 2.5em;
+}
+#event-pin .panel-body {
+	padding: 0;
 }
 
 #event-top:after {
@@ -46,18 +45,9 @@
 
 /** Event Cover **/
 #event-cover-image {
-	float: left;
 	width: 135px;
 	height: 135px;
-	margin: 27px 10px 0 0;
 	box-shadow: 1px 1px 2px 1px #ccc;
-}
-
-#event-title-wrap {
-	float: left;
-	display: inline;
-	width: 640px;
-	padding-top: 25px;
 }
 
 /** Event Social **/
@@ -330,9 +320,8 @@ div.time-picker {
 
 .photo {
 	float: left;
-	display: inline;
 	padding: 5px;
-	margin: 0 6px 15px 6px;
+	margin: 0 12px 15px 12px;
 	width: 210px;
 	min-height: 200px;
 	background: #fff;
@@ -340,8 +329,6 @@ div.time-picker {
 	-webkit-box-shadow:1px 1px 2px 1px #ccc;
 	box-shadow:1px 1px 2px 1px #ccc;
 	text-align: center;
-	font-size: 14px;
-	line-height: 14px;
 	color: #999;
 }
 .photoHidden { display: none; }
@@ -522,7 +509,6 @@ ul#photo-action li a.photo-download:hover {
 }
 
 #uploadArea {
-	padding: 20px;
 	text-align: center;
 }
 #photoRetriever { 
@@ -539,7 +525,14 @@ ul#photo-action li a.photo-download:hover {
 }
 
 /*** TEXT ****/
-
+#event-title-wrap {
+	padding-left: 0;
+}
+#event-title-wrap > h2,
+#event-title-wrap > div,
+#event-title-wrap > ul {
+	padding-left: 0;
+}
 #event-title-wrap h1 {
 	font-size: 1em;
 	line-height: 1em;
@@ -568,7 +561,7 @@ ul#photo-action li a.photo-download:hover {
 	display: none;
 	background: #fff;
 	border-radius: 5px;
-	margin: 10px;
+	margin-bottom: 10px;
 	padding: 30px;
 	border: 1px solid #e1e1e1;
 }

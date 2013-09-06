@@ -2,11 +2,14 @@
 	$eid = explode('/', $eventDeets->resource_uri);
 ?>	
 <div class="container">
+<div class="row">
 <div class="col-lg-10 col-lg-push-1">
 <div id="event-top" data-event-id="<?= $eid[3] ?>" data-photo-count="<?= $eventDeets->photos ?>">
-
-	<img id="event-cover-image" class="img-thumbnail" src="/p/get_event/<?= $eid[3] ?>/150x150" data-event-id="<?= $eid[3] ?>" />
-	<div id="event-title-wrap">
+	<div class="row" style="margin-top:30px;">
+		<div class="col-lg-2">
+			<img id="event-cover-image" class="img-thumbnail" src="/p/get_event/<?= $eid[3] ?>/150x150" data-event-id="<?= $eid[3] ?>" />
+		</div>
+	<div id="event-title-wrap" class="col-lg-8">
 		<h2 id="event-title"><?= $eventDeets->title ?></h2>
 		<div id="event-address"><?= (!$eventDeets->public && isset($eventDeets->addresses[0]->{'address'})) ? $eventDeets->addresses[0]->{'address'} : '&nbsp;' ?></div>
 		<div id="event-timestamp-start"><?= $eventDeets->human_start ?></span> to <span id="event-timestamp-end"><?= $eventDeets->human_end ?><?php if ($ownerLoggedin) { ?> &nbsp; <button id="event-settings-btn" class="btn btn-primary btn-xs" style="font-size:10px; margin-top:-2px;">Edit Event</button><?php } ?></div>
@@ -134,10 +137,15 @@
 
 	</div>
 
-	<div id="event-pin" <?php echo ($eventDeets->public) ? 'style="display:none;"':''; ?>>
-		Event PIN:
-		<div><?= $eventDeets->pin ?></div>
+	<div class="col-lg-2">
+		<div id="event-pin" class="col-lg-2 panel panel-default" <?php echo ($eventDeets->public) ? 'style="display:none;"':''; ?>>
+			<div class="panel-body text-center">
+				<div class="small">Event PIN:</div>
+				<div class="large"><?= $eventDeets->pin ?></div>
+			</div>
+		</div>
 	</div>
+	</div><!-- /row -->
 </div>
 
 <div id="uploadArea" class="mustache-box hide slidContent">
@@ -213,16 +221,17 @@
 	<a class="btn btn-primary btn-lg download" href="/pdf/download/<?php echo $url; ?>">Download Your Table Cards</a>
 </div>
 <?php endif; ?>
+</div><!-- /row -->
 
-<div class="container">
-	<div id="photoArea">
+<div class="row">
+	<div id="photoArea" class="col-lg-10 col-lg-push-1">
 	</div>
 </div>
 
-<div class="container loadMoreWrap hide">
+<div class="row loadMoreWrap hide">
 	<div class="col-lg-2 col-lg-push-5">
 		<button class="btn btn-primary btn-lg loadMore"><span class="glyphicon glyphicon-plus"></span> Load More</button>
 	</div>
 </div>
 
-</div>
+</div><!-- /container -->
