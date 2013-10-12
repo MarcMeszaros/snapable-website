@@ -261,8 +261,18 @@ class Event extends CI_Controller {
 	public function get_tasks($task) {
 		if ( $task == "photos" && IS_AJAX ) {
 			$offset = ($this->uri->segment(5) === false) ? 0 : $this->uri->segment(5);
-			$photos = $this->event_model->getEventsPhotos($this->uri->segment(4), $offset);
-			echo $photos; 
+
+			// get the event photos
+			$verb = 'GET';
+			$path = '/photo/';
+			$params = array(
+		       'event' => $this->uri->segment(4),
+		       'offset' => $offset,
+		       'limit' => 50,
+			);
+			$resp = SnapApi::send($verb, $path, $params);
+			$this->output->set_status_header($resp['code']);
+			echo  $resp['response'];
 		} else if ( $task == "guests" && IS_AJAX ) {
 			$guests = $this->event_model->getGuests($this->uri->segment(4));
 			echo $guests;

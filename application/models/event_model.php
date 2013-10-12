@@ -77,26 +77,7 @@ Class Event_model extends CI_Model
 		//$details = $this->db->where('url', $url)->where('active', 1)->get('event', 1,0);
 		// check if there's a positive result
 	}
-	
-	function getEventsPhotos($id, $offset = 0)
-	{
-		$verb = 'GET';
-		$path = '/photo/';
-		$params = array(
-			'event' => $id,
-			'offset' => $offset,
-			'limit' => 50,
-		);
-		$resp = SnapApi::send($verb, $path, $params);
 
-		$response = $resp['response'];
-		
-		return '{
-					"status": 200,
-					"response": ' . $response . '
-				}';
-	}
-	
 	function guestCount($resource_uri)
 	{
 		$event = explode("/", $resource_uri);
