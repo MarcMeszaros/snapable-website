@@ -166,4 +166,22 @@ class SnapApi {
     public static function resource_uri($resource_name, $resource_pk) {
         return '/'.self::$api_version.'/'.$resource_name.'/'.$resource_pk.'/';
     }
+
+    /**
+     * A helper function to get a resource pk using the resource uri.
+     */
+    public static function resource_pk($resource_uri) {
+        // if the value is numeric return it
+        if (is_numeric($resource_uri)) {
+            return (int)$resource_uri;
+        } else {
+            // parse/return the pk if we have a pattern matching a resource URI
+            // ie. '/<api_version>/<resource>/<pk>/'
+            if(preg_match('/^\/(\w|[-])+\/(\w|[-])+\/(\d)+\/$/', $resource_uri)) {
+                $parts = array_filter(explode('/', $resource_uri));
+                return end($parts);
+            }
+        }
+        return false;
+    }
 }
