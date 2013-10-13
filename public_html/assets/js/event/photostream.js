@@ -130,6 +130,25 @@ function loadPhoto(photoData, options) {
 	}
 	var $domPhoto = $('#photoArea').mustache('event-list-photo', photoData, options);
 
+	// setup the toggle switch
+	$domPhoto.find('div.photo-buttons .make-switch').filter(filter_position).bootstrapSwitch();
+	$domPhoto.find('div.photo-buttons .make-switch').filter(filter_position).on('switch-change', function(e, data) {
+    	$.ajax('/ajax/patch_photo/'+$(this).data('photo_id'), {
+			type: 'POST',
+			data: {
+				'streamable': data.value
+			}
+		}).fail(function(){
+			$.pnotify({
+				type: 'error',
+				title: 'Photo Details',
+				text: 'Unable to update photo details.'
+			});
+	    	// undo switch change and skip sending the switch event
+	    	$(data.el).parents('.has-switch').bootstrapSwitch('toggleState', true);
+		});
+	});
+
 	// set cover photo
 	$domPhoto.find('div.photo-buttons .add-cover').filter(filter_position).click(function(){
 		// make an ajax call
@@ -235,7 +254,8 @@ function loadPhotos(photos) {
 				photo: '/p/get/' + resource_uri[3] + '/200x200',
 				caption: val.caption,
 				photographer: val.author_name,
-				owner: $('form#event-settings').length
+				owner: $('form#event-settings').length,
+				streamable: val.streamable
 			};
 			// add photo to dom
 			loadPhoto(viewData);

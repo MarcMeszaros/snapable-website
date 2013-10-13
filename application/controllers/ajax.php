@@ -6,6 +6,7 @@ class Ajax extends CI_Controller {
     {
         parent::__construct();
         $this->load->library('email');
+        $this->load->model('event_model','',TRUE);
 
         // always check if it's an AJAX call
         if (!IS_AJAX)
@@ -274,6 +275,36 @@ class Ajax extends CI_Controller {
             } else {
                 $this->output->set_status_header('404');
             }
+        } else {
+            $this->output->set_status_header('404');
+        }
+    }
+
+    /**
+     * PATCH the photo (if organizer).
+     */
+    public function patch_photo($photo_pk) {
+        // get all the post variables
+        $post = array();
+        foreach (array_keys($_POST) as $key) {
+            $post[$key] = $this->input->post($key);
+        }
+
+        // get photo details
+        $verb = 'GET';
+        $path = 'photo/'.$photo_pk;
+        $photo_resp = SnapApi::send($verb, $path);
+        $photo_result = json_decode($photo_resp['response']);
+
+        // update the photo
+        $session_owner = SnapAuth::is_logged_in();
+        if ($session_owner && $this->event_model->is_organizer($photo_result->event, $session_owner['user_uri'])) {
+            $verb = 'PATCH';
+            $path = 'photo/'.$photo_pk;
+            $resp = SnapApi::send($verb, $path, $post);
+
+            $this->output->set_status_header($resp['code']);
+            echo $resp['response'];
         } else {
             $this->output->set_status_header('404');
         }

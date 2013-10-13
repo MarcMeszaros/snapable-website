@@ -393,9 +393,8 @@ ul.photo-share li {
 
 .photo-buttons {
 	position: absolute;
-	top: 65px;
+	top: 25px;
 	width: 200px;
-	text-align: center;
 }
 a.button:link, a.button:visited {
 	display: block;
