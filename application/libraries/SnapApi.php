@@ -71,7 +71,7 @@ class SnapApi {
         );
         // define default headers
         $defaultHeaders = array(
-            'User-Agent' => 'SnapApi/1.2',
+            'User-Agent' => 'SnapApi/1.2.1',
             'Accept' => 'application/json',
             'Authorization' => 'SNAP '.implode(',',$sign_array),
         );
@@ -91,6 +91,11 @@ class SnapApi {
             } else {
                 // json encode the params
                 $json = json_encode($params);
+                // PHP json_encode() sucks, it puts "" around JSON boolean values.
+                // So we need to fix it ourselves... -_-
+                $json = str_replace('":"true"}', '":true}', $json);
+                $json = str_replace('":"false"}', '":false}', $json);
+                // set the content headers headers
                 $defaultHeaders['Content-Length'] = strlen($json);
                 $defaultHeaders['Content-Type'] = 'application/json';
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
