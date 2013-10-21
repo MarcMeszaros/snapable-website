@@ -1,13 +1,20 @@
 <!-- events -->
 <script id="event-list-photo" type="text/html">
-	<div class="photo{{photoClass}}">
+	<div class="photo">
 		<div class="photo-overlay">
 			<div class="photo-buttons">
 				{{#owner}}
 				<button class="btn btn-primary add-cover" href="#" data-photo_id="{{id}}">Set as Cover Photo</button>
+				<br /><br />
+				<label>In Guest Stream</label><br />
+				<div class="make-switch photo-streamable" data-photo_id="{{id}}" data-on="primary" data-off="danger" data-on-label="Yes" data-off-label="No">
+    				<input type="checkbox" {{#streamable}}checked{{/streamable}}>
+				</div>
 				{{/owner}}
+				{{^owner}}
 				<br /><br />
 				<button class="btn btn-primary photo-share" href="{{url}}">Share <span class="glyphicon glyphicon-share-alt"></span></button>
+				{{/owner}}
 			</div>
 			<div id="photo-action-container" style="width:{{#owner}}190px{{/owner}}{{^owner}}130px{{/owner}};">
 			<ul id="photo-action">

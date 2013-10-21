@@ -9,142 +9,142 @@
 		<div class="col-lg-2">
 			<img id="event-cover-image" class="img-thumbnail" src="/p/get_event/<?= $eid[3] ?>/150x150" data-event-id="<?= $eid[3] ?>" />
 		</div>
-	<div id="event-title-wrap" class="col-lg-8">
-		<h2 id="event-title"><?= $eventDeets->title ?></h2>
-		<div id="event-address"><?= (!$eventDeets->public && isset($eventDeets->addresses[0]->{'address'})) ? $eventDeets->addresses[0]->{'address'} : '&nbsp;' ?></div>
-		<div id="event-timestamp-start"><?= $eventDeets->human_start ?></span> to <span id="event-timestamp-end"><?= $eventDeets->human_end ?><?php if ($ownerLoggedin) { ?> &nbsp; <button id="event-settings-btn" class="btn btn-primary btn-xs" style="font-size:10px; margin-top:-2px;">Edit Event</button><?php } ?></div>
-		<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ) { ?>
-		<form id="event-settings" class="form">
-			<h3>Edit Your Event Details</h3>
-			<input id="event-settings-lat" name="lat" type="hidden" value="<?= (isset($eventDeets->addresses[0])) ? $eventDeets->addresses[0]->{'lat'} : '0' ?>"/>
-			<input id="event-settings-lng" name="lng" type="hidden" value="<?= (isset($eventDeets->addresses[0])) ? $eventDeets->addresses[0]->{'lng'} : '0' ?>"/>
-			<input id="event-settings-timezone" name="tz_offset" type="hidden" value="<?php echo $eventDeets->tz_offset; ?>"/>
-			<input id="event-settings-start" name="start" type="hidden" value="<?php echo $eventDeets->start_epoch; ?>"/>
-
-			<div class="small-field">
-				<label for="event-settings-title">Event Title</label>
-				<input id="event-settings-title" name="title" type="text" value="<?php echo $eventDeets->title; ?>"/>
-			</div>
-			<div class="small-field">
-				<label for="event-settings-url">Event URL</label>
-				<input id="event-settings-url" name="url" type="text" data-orig="<?php echo $eventDeets->url; ?>" value="<?php echo $eventDeets->url; ?>"/><span id="event-settings-url-status" class="status">&nbsp;</span>
-			</div>
-			<div class="small-field">
-				<div class="small-field-inner">
-					<label for="event-start-date">Date</label>
-					<input type="text" id="event-start-date" class="longer datepicker" name="event[start_date]" value="<?= date("M j, Y", $eventDeets->start_epoch + ($eventDeets->tz_offset * 60)) ?>">
-				</div>
-				<div class="small-field-inner">
-					<label for="event-start-time">Time</label>
-					<input id="event-start-time" name="event[start_time]" type="text" value="<?= date("h:i A", $eventDeets->start_epoch + ($eventDeets->tz_offset * 60)) ?>">
-				</div>
-				<div class="small-field-inner-wide">
-					<label for="event-duration-num">Duration</label>
-					<select id="event-duration-num" name="event[duration_num]">
-					<?php
-					// get the delta (sec.)
-					$delta = $eventDeets->end_epoch - $eventDeets->start_epoch;
-
-					if ($delta < 60*60*24) {
-						for ($i=1; $i<=23; $i++) {
-							if ( $i == floor($delta/60/60) )	{
-								$selected = " SELECTED";
-							} else {
-								$selected = "";
-							}
-							echo "<option value='" . $i . "'" . $selected . ">" . $i . "</option>";
-						}
-					} else {
-						for ($i=1; $i<=7; $i++) {
-							if ( $i == floor($delta/60/60/24) )	{
-								$selected = " SELECTED";
-							} else {
-								$selected = "";
-							}
-							echo "<option value='" . $i . "'" . $selected . ">" . $i . "</option>";
-						}	
-					}
-					?>
-					</select>
-					<select id="event-duration-type" name="event[duration_type]">
-						<?php if ($delta < 60*60*24) { ?>
-						<option value="hours" selected>Hours</option>
-						<option value="days">Days</option>
-						<?php } else { ?>
-						<option value="hours">Hours</option>
-						<option value="days" selected>Days</option>
-						<?php } ?>
-					</select>
-				</div>
-			</div>
-			<div class="small-field">
-				<label for="event-settings-address">Event Location</label>
-				<input id="event-settings-address" name="address" type="text" data-resource-uri="<?= (isset($eventDeets->addresses[0]->{'resource_uri'})) ? $eventDeets->addresses[0]->{'resource_uri'} : '' ?>" value="<?= (isset($eventDeets->addresses[0]->{'address'})) ? $eventDeets->addresses[0]->{'address'} : '' ?>"/><span class="help tooltip"></span><span id="event-settings-address-status" class="status">&nbsp;</span>
-				<div id="map_canvas-wrap" style="display:none;">
-					<div class="form-field_hint">Tip: Drag the pin to your event address.</div>
-					<div id="map_canvas" style="width:412px; height:280px;"></div>
-				</div>
-			</div>
-			<div class="small-field">
-				<div id="event-settings-save-wrap">
-					<input type="button" class="btn btn-default cancel" value="Cancel" />
-					<input type="button" class="btn btn-primary save" value="Save" />
-				</div>
-			</div>
-		</form>
-		<?php } ?>
-		<ul id="event-social">
-			<li><span class='st_twitter_hcount' displayText='Tweet' onclick="_gaq.push(['_trackEvent', 'Share', 'Twitter', 'Event']);" st_via='GetSnapable' st_url="https://snapable.com/event/<?= $eventDeets->url ?>" st_title="<?= "Follow the photos on " . date("D M j", $eventDeets->start_epoch) . " at " .  date("g:i a", $eventDeets->start_epoch) . " for " . $eventDeets->title ?>"></span></li>
-			<li><span class='st_facebook_hcount' displayText='Facebook' onclick="_gaq.push(['_trackEvent', 'Share', 'Facebook', 'Event']);" st_url="https://snapable.com/event/<?= $eventDeets->url ?>" st_title="<?= "Follow the photos on " . date("D M j", $eventDeets->start_epoch) . " at " .  date("g:i a", $eventDeets->start_epoch) . " for " . $eventDeets->title ?>"></span></li>
-			<li><span class='st_pinterest_hcount' displayText='Pinterest' onclick="_gaq.push(['_trackEvent', 'Share', 'Pinterest', 'Event']);" st_url="https://snapable.com/event/<?= $eventDeets->url ?>" st_image="<?= 'https://snapable.com/p/get_event/'.$eid[3].'/crop' ?>"></span></li>
-			<li><span class='st_googleplus_hcount' displayText='Google+' onclick="_gaq.push(['_trackEvent', 'Share', 'Google+', 'Event']);" st_url="https://snapable.com/event/<?= $eventDeets->url ?>" st_title="<?= "Follow the photos on " . date("D M j", $eventDeets->start_epoch) . " at " .  date("g:i a", $eventDeets->start_epoch) . " for " . $eventDeets->title ?>"></span></li>
-			<li><span class='st_email_hcount' displayText='Email' onclick="_gaq.push(['_trackEvent', 'Share', 'Email', 'Event']);" st_url="https://snapable.com/event/<?= $eventDeets->url ?>" st_title="<?= "Follow the photos on " . date("D M j", $eventDeets->start_epoch) . " at " .  date("g:i a", $eventDeets->start_epoch) . " for " . $eventDeets->title ?>"></span></li>
-		</ul>
-		<ul id="event-nav">
-
-			<li><span class="down">Photostream</span></li>
-			<?php if ( (isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user) || (isset($guestLoggedin) && $guestLoggedin == true) ) { ?>
-				<li><a id="uploadBTN" href="#">Submit Photo</a></li>
-			<?php } else { ?>
-				<li><a id="uploadBTN" href="/event/<?= $url ?>/guest_signin?upload-photo=1" data-signin="true">Submit Photo</a></li>
-			<?php } ?>
-			<?php if ( $eventDeets->photos > 0 )
-			{
-				//echo '<li><a href="/event/' . $eventDeets->url . '/slideshow">Slideshow</a></li>';
-			} ?>
-
+		<div id="event-title-wrap" class="col-lg-8">
+			<h2 id="event-title"><?= $eventDeets->title ?></h2>
+			<div id="event-address"><?= (!$eventDeets->public && isset($eventDeets->addresses[0]->{'address'})) ? $eventDeets->addresses[0]->{'address'} : '&nbsp;' ?></div>
+			<div id="event-timestamp-start"><?= $eventDeets->human_start ?></span> to <span id="event-timestamp-end"><?= $eventDeets->human_end ?><?php if ($ownerLoggedin) { ?> &nbsp; <button id="event-settings-btn" class="btn btn-primary btn-xs" style="font-size:10px; margin-top:-2px;">Edit Event</button><?php } ?></div>
 			<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ) { ?>
-			<li><a href="#guest" id="guestBTN">Invite Guests</a></li>
-			<li><a href="#tablecards" id="tableBTN">Table Cards</a></li>
-			<li><a id="event-nav-contact" href="#nav-contact">Contact</a></li>
-			<li>
-				<a id="event-nav-privacy" href="#">Privacy</a>
-				<div id="event-nav-menu-privacy" class="event-nav-menu">
-					<form method="post" action="/event/privacy" enctype="multipart/form-data" class="form-horizontal">
-						<input type="hidden" name="event" value="<?php echo $eventDeets->resource_uri; ?>" />
-						<p>Choose private if you prefer photos are only viewed by guests. Public events will be visible to anyone who visits your album.</p>
-						<ul>
-							<li><input type="radio" name="privacy-setting" value="0" <?php echo (!$eventDeets->public) ? 'checked="checked"':''; ?>/> Private</li>
-							<li><input type="radio" name="privacy-setting" value="1" <?php echo ($eventDeets->public) ? 'checked="checked"':''; ?>/> Public</li>
-						</ul>
-						<div class="clearit">&nbsp;</div>
-						<div id='privacySaveWrap'><input type="submit" class="btn btn-primary" value="Save" /></div>
-					</form>
+			<form id="event-settings" class="form">
+				<h3>Edit Your Event Details</h3>
+				<input id="event-settings-lat" name="lat" type="hidden" value="<?= (isset($eventDeets->addresses[0])) ? $eventDeets->addresses[0]->{'lat'} : '0' ?>"/>
+				<input id="event-settings-lng" name="lng" type="hidden" value="<?= (isset($eventDeets->addresses[0])) ? $eventDeets->addresses[0]->{'lng'} : '0' ?>"/>
+				<input id="event-settings-timezone" name="tz_offset" type="hidden" value="<?php echo $eventDeets->tz_offset; ?>"/>
+				<input id="event-settings-start" name="start" type="hidden" value="<?php echo $eventDeets->start_epoch; ?>"/>
+
+				<div class="small-field">
+					<label for="event-settings-title">Event Title</label>
+					<input id="event-settings-title" name="title" type="text" value="<?php echo $eventDeets->title; ?>"/>
 				</div>
-			</li>
+				<div class="small-field">
+					<label for="event-settings-url">Event URL</label>
+					<input id="event-settings-url" name="url" type="text" data-orig="<?php echo $eventDeets->url; ?>" value="<?php echo $eventDeets->url; ?>"/><span id="event-settings-url-status" class="status">&nbsp;</span>
+				</div>
+				<div class="small-field">
+					<div class="small-field-inner">
+						<label for="event-start-date">Date</label>
+						<input type="text" id="event-start-date" class="longer datepicker" name="event[start_date]" value="<?= date("M j, Y", $eventDeets->start_epoch + ($eventDeets->tz_offset * 60)) ?>">
+					</div>
+					<div class="small-field-inner">
+						<label for="event-start-time">Time</label>
+						<input id="event-start-time" name="event[start_time]" type="text" value="<?= date("h:i A", $eventDeets->start_epoch + ($eventDeets->tz_offset * 60)) ?>">
+					</div>
+					<div class="small-field-inner-wide">
+						<label for="event-duration-num">Duration</label>
+						<select id="event-duration-num" name="event[duration_num]">
+						<?php
+						// get the delta (sec.)
+						$delta = $eventDeets->end_epoch - $eventDeets->start_epoch;
+
+						if ($delta < 60*60*24) {
+							for ($i=1; $i<=23; $i++) {
+								if ( $i == floor($delta/60/60) )	{
+									$selected = " SELECTED";
+								} else {
+									$selected = "";
+								}
+								echo "<option value='" . $i . "'" . $selected . ">" . $i . "</option>";
+							}
+						} else {
+							for ($i=1; $i<=7; $i++) {
+								if ( $i == floor($delta/60/60/24) )	{
+									$selected = " SELECTED";
+								} else {
+									$selected = "";
+								}
+								echo "<option value='" . $i . "'" . $selected . ">" . $i . "</option>";
+							}	
+						}
+						?>
+						</select>
+						<select id="event-duration-type" name="event[duration_type]">
+							<?php if ($delta < 60*60*24) { ?>
+							<option value="hours" selected>Hours</option>
+							<option value="days">Days</option>
+							<?php } else { ?>
+							<option value="hours">Hours</option>
+							<option value="days" selected>Days</option>
+							<?php } ?>
+						</select>
+					</div>
+				</div>
+				<div class="small-field">
+					<label for="event-settings-address">Event Location</label>
+					<input id="event-settings-address" name="address" type="text" data-resource-uri="<?= (isset($eventDeets->addresses[0]->{'resource_uri'})) ? $eventDeets->addresses[0]->{'resource_uri'} : '' ?>" value="<?= (isset($eventDeets->addresses[0]->{'address'})) ? $eventDeets->addresses[0]->{'address'} : '' ?>"/><span class="help tooltip"></span><span id="event-settings-address-status" class="status">&nbsp;</span>
+					<div id="map_canvas-wrap" style="display:none;">
+						<div class="form-field_hint">Tip: Drag the pin to your event address.</div>
+						<div id="map_canvas" style="width:412px; height:280px;"></div>
+					</div>
+				</div>
+				<div class="small-field">
+					<div id="event-settings-save-wrap">
+						<input type="button" class="btn btn-default cancel" value="Cancel" />
+						<input type="button" class="btn btn-primary save" value="Save" />
+					</div>
+				</div>
+			</form>
 			<?php } ?>
-		</ul>
+			<ul id="event-social">
+				<li><span class='st_twitter_hcount' displayText='Tweet' onclick="_gaq.push(['_trackEvent', 'Share', 'Twitter', 'Event']);" st_via='GetSnapable' st_url="https://snapable.com/event/<?= $eventDeets->url ?>" st_title="<?= "Follow the photos on " . date("D M j", $eventDeets->start_epoch) . " at " .  date("g:i a", $eventDeets->start_epoch) . " for " . $eventDeets->title ?>"></span></li>
+				<li><span class='st_facebook_hcount' displayText='Facebook' onclick="_gaq.push(['_trackEvent', 'Share', 'Facebook', 'Event']);" st_url="https://snapable.com/event/<?= $eventDeets->url ?>" st_title="<?= "Follow the photos on " . date("D M j", $eventDeets->start_epoch) . " at " .  date("g:i a", $eventDeets->start_epoch) . " for " . $eventDeets->title ?>"></span></li>
+				<li><span class='st_pinterest_hcount' displayText='Pinterest' onclick="_gaq.push(['_trackEvent', 'Share', 'Pinterest', 'Event']);" st_url="https://snapable.com/event/<?= $eventDeets->url ?>" st_image="<?= 'https://snapable.com/p/get_event/'.$eid[3].'/crop' ?>"></span></li>
+				<li><span class='st_googleplus_hcount' displayText='Google+' onclick="_gaq.push(['_trackEvent', 'Share', 'Google+', 'Event']);" st_url="https://snapable.com/event/<?= $eventDeets->url ?>" st_title="<?= "Follow the photos on " . date("D M j", $eventDeets->start_epoch) . " at " .  date("g:i a", $eventDeets->start_epoch) . " for " . $eventDeets->title ?>"></span></li>
+				<li><span class='st_email_hcount' displayText='Email' onclick="_gaq.push(['_trackEvent', 'Share', 'Email', 'Event']);" st_url="https://snapable.com/event/<?= $eventDeets->url ?>" st_title="<?= "Follow the photos on " . date("D M j", $eventDeets->start_epoch) . " at " .  date("g:i a", $eventDeets->start_epoch) . " for " . $eventDeets->title ?>"></span></li>
+			</ul>
+			<ul id="event-nav">
 
-	</div>
+				<li><span class="down">Photostream</span></li>
+				<?php if ( (isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user) || (isset($guestLoggedin) && $guestLoggedin == true) ) { ?>
+					<li><a id="uploadBTN" href="#">Submit Photo</a></li>
+				<?php } else { ?>
+					<li><a id="uploadBTN" href="/event/<?= $url ?>/guest_signin?upload-photo=1" data-signin="true">Submit Photo</a></li>
+				<?php } ?>
+				<?php if ( $eventDeets->photos > 0 )
+				{
+					//echo '<li><a href="/event/' . $eventDeets->url . '/slideshow">Slideshow</a></li>';
+				} ?>
 
-	<div class="col-lg-2">
-		<div id="event-pin" class="col-lg-2 panel panel-default" <?php echo ($eventDeets->public) ? 'style="display:none;"':''; ?>>
-			<div class="panel-body text-center">
-				<div class="small">Event PIN:</div>
-				<div class="large"><?= $eventDeets->pin ?></div>
+				<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ) { ?>
+				<li><a href="#guest" id="guestBTN">Invite Guests</a></li>
+				<li><a href="#tablecards" id="tableBTN">Table Cards</a></li>
+				<li><a id="event-nav-contact" href="#nav-contact">Contact</a></li>
+				<li>
+					<a id="event-nav-privacy" href="#">Privacy</a>
+					<div id="event-nav-menu-privacy" class="event-nav-menu">
+						<form method="post" action="/event/privacy" enctype="multipart/form-data" class="form-horizontal">
+							<input type="hidden" name="event" value="<?php echo $eventDeets->resource_uri; ?>" />
+							<p>Choose private if you prefer photos are only viewed by guests. Public events will be visible to anyone who visits your album.</p>
+							<ul>
+								<li><input type="radio" name="privacy-setting" value="0" <?php echo (!$eventDeets->public) ? 'checked="checked"':''; ?>/> Private</li>
+								<li><input type="radio" name="privacy-setting" value="1" <?php echo ($eventDeets->public) ? 'checked="checked"':''; ?>/> Public</li>
+							</ul>
+							<div class="clearit">&nbsp;</div>
+							<div id='privacySaveWrap'><input type="submit" class="btn btn-primary" value="Save" /></div>
+						</form>
+					</div>
+				</li>
+				<?php } ?>
+			</ul>
+
+		</div>
+
+		<div class="col-lg-2">
+			<div id="event-pin" class="col-lg-2 panel panel-default" <?php echo ($eventDeets->public) ? 'style="display:none;"':''; ?>>
+				<div class="panel-body text-center">
+					<div class="small">Event PIN:</div>
+					<div class="large"><?= $eventDeets->pin ?></div>
+				</div>
 			</div>
 		</div>
-	</div>
 	</div><!-- /row -->
 </div>
 
@@ -221,6 +221,7 @@
 	<a class="btn btn-primary btn-lg download" href="/pdf/download/<?php echo $url; ?>">Download Your Table Cards</a>
 </div>
 <?php endif; ?>
+</div>
 </div><!-- /row -->
 
 <div class="row">

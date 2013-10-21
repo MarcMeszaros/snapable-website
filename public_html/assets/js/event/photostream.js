@@ -53,36 +53,35 @@ $(document).ready(function()
 		// Display Loader
 		$("#photoArea").css({"text-align":"center","font-weight":"bold"}).html('<div id="photoRetriever">Retrieving Photos...<div class="progress progress-striped active"><div class="progress-bar" style="width: 100%"></div></div></div>');
 		// Get photos for event
-		$.getJSON('/event/get/photos/' + $('#event-top').data('event-id'), function(json) {
-			if ( json.status == 200 )
-			{
-				$("#photoRetriever").css({"display":"none"});
-				$.Mustache.load('/assets/js/templates.html').done(function () 
-				{
-					// check if any photos are in the cart
-					var photoArr = new Array();
-					
-					// add initial photos
-					photoAPI = json;
-					loadPhotos(photoAPI);
+		$.ajax('/event/get/photos/' + $('#event-top').data('event-id'), {
+			type: 'GET'//,
+			//data: { 'url': url }
+		}).done(function(data) {
+			var json = $.parseJSON(data);
+			$("#photoRetriever").css({"display":"none"});
+			$.Mustache.load('/assets/js/templates.html').done(function() {
+				// check if any photos are in the cart
+				var photoArr = new Array();
+				
+				// add initial photos
+				photoAPI = json;
+				loadPhotos(photoAPI);
 
-					// hook up the 'Load More' button
-					$(document).on("click", ".loadMore", function(e)
-					{ 
-						e.preventDefault();
-						$.Mustache.load('/assets/js/templates.html').done(function () 
-						{
-							loadPhotos(photoAPI);
-						});
-						return false;
+				// hook up the 'Load More' button
+				$(document).on("click", ".loadMore", function(e)
+				{ 
+					e.preventDefault();
+					$.Mustache.load('/assets/js/templates.html').done(function () 
+					{
+						loadPhotos(photoAPI);
 					});
-
+					return false;
 				});
-			} else {
-				// hide loader and display error
-				$("#photoArea").html("Something went wrong while fetching the photos for this event.");
-			}
-		});
+			});
+		}).fail(function() {
+    		// hide loader and display error
+			$("#photoArea").html("Something went wrong while fetching the photos for this event.");
+  		});
 	} else {
 		$("#photoArea").addClass("noPhotos");
 		
@@ -130,6 +129,25 @@ function loadPhoto(photoData, options) {
 		filter_position = ':first';
 	}
 	var $domPhoto = $('#photoArea').mustache('event-list-photo', photoData, options);
+
+	// setup the toggle switch
+	$domPhoto.find('div.photo-buttons .make-switch').filter(filter_position).bootstrapSwitch();
+	$domPhoto.find('div.photo-buttons .make-switch').filter(filter_position).on('switch-change', function(e, data) {
+    	$.ajax('/ajax/patch_photo/'+$(this).data('photo_id'), {
+			type: 'POST',
+			data: {
+				'streamable': data.value
+			}
+		}).fail(function(){
+			$.pnotify({
+				type: 'error',
+				title: 'Photo Details',
+				text: 'Unable to update photo details.'
+			});
+	    	// undo switch change and skip sending the switch event
+	    	$(data.el).parents('.has-switch').bootstrapSwitch('toggleState', true);
+		});
+	});
 
 	// set cover photo
 	$domPhoto.find('div.photo-buttons .add-cover').filter(filter_position).click(function(){
@@ -215,16 +233,16 @@ function loadPhotos(photos) {
 	// setup some variables
 	var count = 0;
 
-	//$.each(photos.response.objects, function(key, val) {
+	//$.each(photos.objects, function(key, val) {
 	offset = 0;
-	if (photos.response.objects.hasOwnProperty('offset')) {
-		offset = photos.response.objects.offset;
+	if (photos.objects.hasOwnProperty('offset')) {
+		offset = photos.objects.offset;
 		$(".loadMoreWrap").addClass("bar");
 	} else {
-		photos.response.objects.offset = offset;
+		photos.objects.offset = offset;
 	}
-	for (var key = offset; key < photos.response.objects.length ; key++) {
-		var val = photos.response.objects[key];
+	for (var key = offset; key < photos.objects.length ; key++) {
+		var val = photos.objects[key];
 
 		if ( count < 12 ) {
 			var resource_uri = val.resource_uri.split("/");
@@ -236,28 +254,29 @@ function loadPhotos(photos) {
 				photo: '/p/get/' + resource_uri[3] + '/200x200',
 				caption: val.caption,
 				photographer: val.author_name,
-				owner: $('form#event-settings').length
+				owner: $('form#event-settings').length,
+				streamable: val.streamable
 			};
 			// add photo to dom
 			loadPhoto(viewData);
-			delete photos.response.objects[key];
+			delete photos.objects[key];
 			count++;
 		}
 	}
-	photos.response.objects.offset += count; // used to know where to resume looping
+	photos.objects.offset += count; // used to know where to resume looping
 	$(".loadMoreWrap").addClass('hide');
 	
-	if ( photos.response.objects.offset < photos.response.objects.length-1 ) {
+	if ( photos.objects.offset < photos.objects.length-1 ) {
 		$(".loadMoreWrap").removeClass('hide');
 	} else if ($('#event-top').data('photo-count') > 50 && (photoAPIOffset + 1) < $('#event-top').data('photo-count')) {
 		console.log('we should load more from the api');
 		photoAPIOffset += 50;
 
-		$.getJSON('/event/get/photos/' + $('#event-top').data('event-id') + '/' + photoAPIOffset, function(json) {
-			if ( json.status == 200 ) {
-				photoAPI = json;
-				$(".loadMoreWrap").removeClass('hide');
-			}
+		$.ajax('/event/get/photos/' + $('#event-top').data('event-id') + '/' + photoAPIOffset, {
+		}).done(function(data) {
+			var json = $.parseJSON(data);
+			photoAPI = json;
+			$(".loadMoreWrap").removeClass('hide');
 		});
 	}
 

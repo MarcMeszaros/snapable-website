@@ -2,6 +2,31 @@
 Class Event_model extends CI_Model
 {
 
+	function is_organizer($event, $user)
+	{
+		$event_pk = SnapAPI::resource_pk($event);
+		$user_pk = SnapAPI::resource_pk($user);
+
+		// if either of the pks are null, return false
+		if (empty($event_pk) || empty($user_pk)) {
+			return false;
+		}
+
+		// get event session details
+        $verb = 'GET';
+        $path = 'event/'.$event_pk;
+        $event_resp = SnapApi::send($verb, $path);
+        $event_result = json_decode($event_resp['response']);
+
+        // get accounts the user belongs to
+        $verb = 'GET';
+        $path = 'user/'.$user_pk;
+        $user_resp = SnapApi::send($verb, $path);
+        $user_result = json_decode($user_resp['response']);
+
+        return in_array($event_result->account, $user_result->accounts);
+	}
+
 	function getEventDetailsFromURL($url)
 	{
 		$verb = 'GET';
@@ -77,26 +102,7 @@ Class Event_model extends CI_Model
 		//$details = $this->db->where('url', $url)->where('active', 1)->get('event', 1,0);
 		// check if there's a positive result
 	}
-	
-	function getEventsPhotos($id, $offset = 0)
-	{
-		$verb = 'GET';
-		$path = '/photo/';
-		$params = array(
-			'event' => $id,
-			'offset' => $offset,
-			'limit' => 50,
-		);
-		$resp = SnapApi::send($verb, $path, $params);
 
-		$response = $resp['response'];
-		
-		return '{
-					"status": 200,
-					"response": ' . $response . '
-				}';
-	}
-	
 	function guestCount($resource_uri)
 	{
 		$event = explode("/", $resource_uri);
