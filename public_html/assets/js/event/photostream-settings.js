@@ -25,7 +25,7 @@ $(document).ready(function(){
             data.url = $('#event-settings-url').val();
         }
 
-        $('<img src="/assets/img/spinner_blue_sm.gif" />').insertAfter('#event-settings input[type=button].save');
+        $('#settings-save-spinner').removeClass('hide');
         $.post('/ajax/put_event/'+$('#event-top').data('event-id'), data, function(data)
         {
             $('#event-settings').hide();
@@ -46,12 +46,14 @@ $(document).ready(function(){
                             window.location = '/event/'+$('#event-settings-url').val();
                         }
                     });
+                    $('#settings-save-spinner').addClass('hide');
                 } else {
                     $.pnotify({
                         type: 'success',
                         title: 'Settings',
                         text: 'Your event settings have been updated.'
                     });
+                    $('#settings-save-spinner').addClass('hide');
                 }
             } else {
                 $.pnotify({
@@ -59,6 +61,7 @@ $(document).ready(function(){
                     title: 'Settings',
                     text: "This is embarassing, something went wrong and we weren't able to change your event settings. If the problem persists, please contact us!"
                 });
+                $('#settings-save-spinner').addClass('hide');
             }
         });
     });

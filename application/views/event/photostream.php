@@ -99,6 +99,7 @@
 					<div id="event-settings-save-wrap">
 						<input type="button" class="btn btn-default cancel" value="Cancel" />
 						<input type="button" class="btn btn-primary save" value="Save" />
+						<span id="settings-save-spinner" class="spinner-wrap hide" data-color="#366993"></span>
 					</div>
 				</div>
 			</form>
