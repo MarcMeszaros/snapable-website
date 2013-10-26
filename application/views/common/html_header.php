@@ -1,6 +1,3 @@
-<?php
- $cdn = (defined('DEBUG') && DEBUG) ? '/cdn' : '//cdnjs.cloudflare.com';
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,9 +16,9 @@
     <link rel="icon" type="image/vnd.microsoft.icon" href="/favicon.ico" />
     <link rel="SHORTCUT ICON" href="/favicon.ico"/>
     
-    <link type="text/css" rel="stylesheet" href="<?= $cdn ?>/ajax/libs/twitter-bootstrap/3.0.0/css/bootstrap.min.css" />
-    <link type="text/css" rel="stylesheet" href="<?= $cdn ?>/ajax/libs/twitter-bootstrap/3.0.0/css/bootstrap-theme.min.css" />
-    <link type="text/css" rel="stylesheet" href="<?= $cdn ?>/ajax/libs/bootstrap-switch/1.8/css/bootstrap-switch.css" />
+    <link type="text/css" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0/css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0/css/bootstrap-theme.min.css" />
+    <link type="text/css" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/1.8/css/bootstrap-switch.css" />
     <link type="text/css" rel="stylesheet" href="/assets/libs/pnotify/jquery.pnotify.default.css" />
     <link type="text/css" rel="stylesheet" href="/assets/css/common/fonts.css" />
     <link type="text/css" rel="stylesheet" href="/assets/css/common/default.css" />
@@ -47,13 +44,13 @@
     } 
     ?>
     
-    <script type="text/javascript" src="<?= $cdn ?>/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-    <script type="text/javascript" src="<?= $cdn ?>/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
-    <script type="text/javascript" src="<?= $cdn ?>/ajax/libs/twitter-bootstrap/3.0.0/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="<?= $cdn ?>/ajax/libs/bootstrap-switch/1.8/js/bootstrap-switch.min.js"></script>
-    <script type="text/javascript" src="<?= $cdn ?>/ajax/libs/parsley.js/1.1.16/parsley.min.js"></script>
-    <script type="text/javascript" src="<?= $cdn ?>/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js"></script>
-    <script type="text/javascript" src="<?= $cdn ?>/ajax/libs/spin.js/1.2.7/spin.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/1.8/js/bootstrap-switch.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/parsley.js/1.1.16/parsley.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/spin.js/1.2.7/spin.min.js"></script>
     <script type="text/javascript" src="/assets/js/libs/jquery.spin.js"></script>
     <script type="text/javascript" src="/assets/libs/pnotify/jquery.pnotify.min.js"></script>
     <script type="text/javascript" src="/assets/js/common/default.js"></script>
