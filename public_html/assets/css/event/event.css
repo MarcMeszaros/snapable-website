@@ -188,13 +188,7 @@ ul#event-nav  {
 
 #event-settings input[type=text] {
 	width: 95%;
-	padding: 7px 10px;
-	border: 1px solid #f4f4f4;
-	border-radius: 3px;
-	font-size: 16px;
-	line-height: 18px;
-	-webkit-box-shadow: inset 0px 1px 1px 1px rgba(0, 0, 0, .3);
-	box-shadow: inset 0px 1px 1px 1px rgba(0, 0, 0, .3);
+	padding: 5px;
 }
 #event-settings select {
 	width: 72px;
@@ -209,26 +203,16 @@ ul#event-nav  {
 	background: url('/assets/img/spinner_blue_sm.gif') no-repeat right bottom;
 }
 
-#event-settings .small-field {
-	padding: 5px 0;
-}
-#event-settings .small-field:after {
-	content: ".";
-    display: block;
-    height: 0;
-    clear: both;
-    visibility: hidden;
-    margin: 0;
-    padding: 0;
-}
-
-#event-settings .small-field label {
-	display: block;
-}
 #event-settings .small-field-inner {
 	float: left;
 	margin-right: 5px;
 }
+
+#event-settings .small-field-inner label,
+#event-settings .small-field-inner-wide label {
+	display: block;
+}
+
 #event-settings .small-field-inner input[type=text] {
 	width: 110px;
 	display: block;
@@ -552,7 +536,6 @@ ul#photo-action li a.photo-download:hover {
 	font-size: 18px;
 	line-height: 20px;
 	color: #3399cc;
-	margin-bottom: 40px;
 }
 
 /* MUSTACHE BOXES */
