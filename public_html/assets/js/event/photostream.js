@@ -35,12 +35,18 @@ function sanitizeUrl(url)
 
 function checkUrl(url)
 {
-	$("#event-settings-url-status").removeClass("good").removeClass("bad").addClass("spinner-16px");
-	$.getJSON("/signup/check", { "url": url }, function(data) {		
-		if ( data['status'] == 404 && url.length > 0) {
-			$("#event-settings-url-status").removeClass("bad").removeClass("spinner-16px").addClass("good");	
-		} else {
-			$("#event-settings-url-status").removeClass("good").removeClass("spinner-16px").addClass("bad");	
+	$.ajax({
+		url: '/signup/check',
+		data: {"url": url },
+		beforeSend: function(){
+			$("#event-settings-url-status").removeClass("good").removeClass("bad").addClass("spinner-16px");
+		}
+	}).done(function(data){
+		var json = $.parseJSON(data);
+		if (json.meta.total_count > 0) {
+			$("#event-settings-url-status").removeClass("good").removeClass("spinner-16px").addClass("bad");
+		} else if (url.length > 0) {
+			$("#event-settings-url-status").removeClass("bad").removeClass("spinner-16px").addClass("good");
 		}
 	});
 }

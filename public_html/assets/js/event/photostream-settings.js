@@ -25,49 +25,50 @@ $(document).ready(function(){
             data.url = $('#event-settings-url').val();
         }
 
-        $('#settings-save-spinner').removeClass('hide');
-        $.post('/ajax/put_event/'+$('#event-top').data('event-id'), data, function(data)
-        {
+        $.ajax({
+            url: '/ajax/put_event/'+$('#event-top').data('event-id'),
+            type: 'POST',
+            data: data,
+            beforeSend: function(){
+                $('#settings-save-spinner').removeClass('hide');
+            }
+        }).done(function(data){
             $('#event-settings').hide();
-            var json = jQuery.parseJSON(data);
-            if ( json.status = 202 ) {
-                // update field values
-                $('#event-title').html(json.title);
-                $('#event-address').html(json.addresses[0].address);
+            var json = $.parseJSON(data);
+            // update field values
+            $('#event-title').html(json.title);
+            $('#event-address').html(json.addresses[0].address);
 
-                // we shanged the url, redirect
-                if ($('#event-settings-url').val() != $('#event-settings-url').data('orig')) {
-                    $.pnotify({
-                        type: 'success',
-                        title: 'Settings',
-                        text: "Your event settings have been updated.<br>We will redirect you to the new event url...",
-                        delay: 3000,
-                        after_close: function(pnotify) {
-                            window.location = '/event/'+$('#event-settings-url').val();
-                        }
-                    });
-                    $('#settings-save-spinner').addClass('hide');
-                } else {
-                    $.pnotify({
-                        type: 'success',
-                        title: 'Settings',
-                        text: 'Your event settings have been updated.'
-                    });
-                    $('#settings-save-spinner').addClass('hide');
-                }
+            // we shanged the url, redirect
+            if ($('#event-settings-url').val() != $('#event-settings-url').data('orig')) {
+                $.pnotify({
+                    type: 'success',
+                    title: 'Settings',
+                    text: "Your event settings have been updated.<br>We will redirect you to the new event url...",
+                    delay: 3000,
+                    after_close: function(pnotify) {
+                        window.location = '/event/'+$('#event-settings-url').val();
+                    }
+                });
             } else {
                 $.pnotify({
-                    type: 'error',
+                    type: 'success',
                     title: 'Settings',
-                    text: "This is embarassing, something went wrong and we weren't able to change your event settings. If the problem persists, please contact us!"
+                    text: 'Your event settings have been updated.'
                 });
-                $('#settings-save-spinner').addClass('hide');
             }
+        }).fail(function(){
+            $.pnotify({
+                type: 'error',
+                title: 'Settings',
+                text: "This is embarassing, something went wrong and we weren't able to change your event settings. If the problem persists, please contact us!"
+            });
+        }).always(function(){
+            $('#settings-save-spinner').addClass('hide');
         });
     });
     $('#event-settings-url').keyup(function(){
-        var url = $(this).val();
-        url = sanitizeUrl(url);
+        var url = sanitizeUrl($(this).val());
         $(this).val(url);
         if(url != $(this).data('orig')) {
             checkUrl(url);
