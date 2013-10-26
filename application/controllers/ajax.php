@@ -23,7 +23,7 @@ class Ajax extends CI_Controller {
     /**
      * Handle event ajax calls.
      */
-    public function put_event() {
+    public function put_event($event_id) {
         // get all the post variables
         $post = array();
         foreach (array_keys($_POST) as $key) 
@@ -86,48 +86,39 @@ class Ajax extends CI_Controller {
         }
 
         // update the event
-        if ($this->uri->segment(3) !== false) {
-            $session_owner = SnapAuth::is_logged_in();
-            if ($session_owner) {
-                // get event session details
-                $verb = 'GET';
-                $path = 'event/'.$this->uri->segment(3);
-                $event_resp = SnapApi::send($verb, $path);
-                $event_result = json_decode($event_resp['response']);
+        $session_owner = SnapAuth::is_logged_in();
+        if ($session_owner) {
+            // get event session details
+            $verb = 'GET';
+            $path = 'event/'.$event_id;
+            $event_resp = SnapApi::send($verb, $path);
+            $event_result = json_decode($event_resp['response']);
 
-                // get accounts the user belongs to
-                $sessionIdParts = explode('/', $session_owner['user_uri']);
-                $verb = 'GET';
-                $path = 'user/'.$sessionIdParts[3];
-                $user_resp = SnapApi::send($verb, $path);
-                $user_result = json_decode($user_resp['response']);
+            // get accounts the user belongs to
+            $sessionIdParts = explode('/', $session_owner['user_uri']);
+            $verb = 'GET';
+            $path = 'user/'.$sessionIdParts[3];
+            $user_resp = SnapApi::send($verb, $path);
+            $user_result = json_decode($user_resp['response']);
 
-                // make sure the the user belongs to the event account, and then delete
-                if (in_array($event_result->account, $user_result->accounts) == true) {
-                    // tweak the data
-                    if (isset($post['cover'])) {
-                        $post['cover'] = '/'.API_VERSION.'/photo/'.$post['cover'].'/';
-                    }
-
-                    $verb = 'PUT';
-                    $path = 'event/'.$this->uri->segment(3);
-                    $resp = SnapApi::send($verb, $path, $post);
-
-                    $this->output->set_status_header($resp['code']);
-                    echo $resp['response'];
-                } else {
-                    $this->output->set_status_header('404');
+            // make sure the the user belongs to the event account, and then delete
+            if (in_array($event_result->account, $user_result->accounts) == true) {
+                // tweak the data
+                if (isset($post['cover'])) {
+                    $post['cover'] = '/'.API_VERSION.'/photo/'.$post['cover'].'/';
                 }
+
+                $verb = 'PUT';
+                $path = 'event/'.$event_id;
+                $resp = SnapApi::send($verb, $path, $post);
+
+                $this->output->set_status_header($resp['code']);
+                echo $resp['response'];
             } else {
                 $this->output->set_status_header('404');
             }
         } else {
-            $verb = 'PUT';
-            $path = ($this->uri->segment(3) !== false) ? 'event/'.$this->uri->segment(3) : 'event';
-            $resp = SnapApi::send($verb, $path, $post);
-
-            $this->output->set_status_header($resp['code']);
-            echo $resp['response'];
+            $this->output->set_status_header('404');
         }
     }
 
