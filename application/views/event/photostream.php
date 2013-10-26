@@ -78,17 +78,15 @@
 					</div>
 					<div style="clear:both;"></div>
 				</div>
-				<!--
 				<div class="form-group">
 					<label for="event-settings-streamable">Automatically Add Guest Photos to Stream</label>
 					<div class="form-field_hint">Should photos uploaded by guests automatically be available in the stream?</div>
 					<div>
-					<div class="make-switch" data-on="primary" data-off="danger" data-on-label="Yes" data-off-label="No">
-    					<input id="event-settings-streamable" name="streamable" type="checkbox" <?php echo ($eventDeets->are_photos_streamable) ? 'checked' : ''; ?>>
+					<div id="event-settings-streamable" class="make-switch" data-on="primary" data-off="danger" data-on-label="Yes" data-off-label="No">
+    					<input name="are_photos_streamable" type="checkbox" <?php echo ($eventDeets->are_photos_streamable) ? 'checked' : ''; ?>>
 					</div>
 					</div>
 				</div>
-				-->
 				<div class="form-group">
 					<label for="event-settings-address">Event Location</label>
 					<input id="event-settings-address" name="address" type="text" data-resource-uri="<?= (isset($eventDeets->addresses[0]->{'resource_uri'})) ? $eventDeets->addresses[0]->{'resource_uri'} : '' ?>" value="<?= (isset($eventDeets->addresses[0]->{'address'})) ? $eventDeets->addresses[0]->{'address'} : '' ?>"/><span class="help tooltip"></span><span id="event-settings-address-status" class="status">&nbsp;</span>
@@ -140,7 +138,7 @@
 								<li><input type="radio" name="privacy-setting" value="1" <?php echo ($eventDeets->public) ? 'checked="checked"':''; ?>/> Public</li>
 							</ul>
 							<div class="clearit">&nbsp;</div>
-							<div id='privacySaveWrap'><input type="submit" class="btn btn-primary" value="Save" /></div>
+							<div id='privacySaveWrap'><input type="submit" class="btn btn-primary save" value="Save" /></div>
 						</form>
 					</div>
 				</li>

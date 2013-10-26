@@ -18,8 +18,8 @@ $(document).ready(function(){
             start_date: $('#event-start-date').val(),
             start_time: $('#event-start-time').val(),
             duration_num: $('#event-duration-num').val(),
-            duration_type: $('#event-duration-type').val()
-            //are_photos_streamable: $('#event-settings-streamable').bootstrapSwitch('status')
+            duration_type: $('#event-duration-type').val(),
+            are_photos_streamable: $('#event-settings-streamable').bootstrapSwitch('status')
         }
         if ($('#event-settings-url').val() != $('#event-settings-url').data('orig') && $('#event-settings-url').val().length > 0) {
             data.url = $('#event-settings-url').val();
