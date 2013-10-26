@@ -65,6 +65,7 @@ Class Event_model extends CI_Model
 				$privacyParts = explode('/', $e->type);
 				$eventRes = array(
 					'addresses' => $e->addresses,
+					'are_photos_streamable' => $e->are_photos_streamable,
 					'enabled' => $e->enabled,
 					'url' => $e->url,
 					'title' => $e->title,
