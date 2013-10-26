@@ -3,20 +3,20 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "7acd92910b6a119c57db73685ad32c6c",
+    "hash": "fa50c72e64cce1aecd5acdc5f7ee0459",
     "packages": [
         {
             "name": "raven/raven",
-            "version": "0.6.0",
+            "version": "0.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/raven-php.git",
-                "reference": "0.6.0"
+                "reference": "5e5cb95beeb95b4065e7bffe719a588015dff50f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/raven-php/zipball/0.6.0",
-                "reference": "0.6.0",
+                "url": "https://api.github.com/repos/getsentry/raven-php/zipball/5e5cb95beeb95b4065e7bffe719a588015dff50f",
+                "reference": "5e5cb95beeb95b4065e7bffe719a588015dff50f",
                 "shasum": ""
             },
             "require": {
@@ -29,6 +29,11 @@
                 "bin/raven"
             ],
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.7.x-dev"
+                }
+            },
             "autoload": {
                 "psr-0": {
                     "Raven_": "lib/"
@@ -50,53 +55,7 @@
                 "log",
                 "logging"
             ],
-            "time": "2013-06-05 21:27:00"
-        },
-        {
-            "name": "stripe/stripe-php",
-            "version": "v1.8.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "v1.8.0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/v1.8.0",
-                "reference": "v1.8.0",
-                "shasum": ""
-            },
-            "require": {
-                "ext-curl": "*",
-                "php": ">=5.2"
-            },
-            "require-dev": {
-                "vierbergenlars/simpletest": "*"
-            },
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "lib/Stripe/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Stripe and contributors",
-                    "homepage": "https://github.com/stripe/stripe-php/contributors"
-                }
-            ],
-            "description": "Stripe PHP Library",
-            "homepage": "https://stripe.com/",
-            "keywords": [
-                "api",
-                "payment processing",
-                "stripe"
-            ],
-            "time": "2013-04-12 18:56:41"
+            "time": "2013-09-17 19:35:03"
         }
     ],
     "packages-dev": [

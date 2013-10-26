@@ -355,7 +355,6 @@ class Signup extends CI_Controller {
     	$this->load->model('account_model','',TRUE);
 		
     	$this->load->library('email');
-    	$this->load->helper('stripe');
     	$this->load->helper('currency');
     	$this->load->helper('cookie');  	
 	}
