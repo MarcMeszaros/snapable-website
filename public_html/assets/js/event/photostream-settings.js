@@ -73,7 +73,7 @@ $(document).ready(function(){
         if(url != $(this).data('orig')) {
             checkUrl(url);
         } else {
-            $("#event-settings-url-status").removeClass("bad").removeClass("spinner-16px").addClass("good");
+            $("#event-settings-url").removeClass("bad").removeClass("spinner-16px").addClass("good");
         }
     });
 
@@ -93,7 +93,7 @@ $(document).ready(function(){
 
     // update map
     function updateMap(context) {
-        $("#event-settings-address-status").removeClass("good").removeClass("bad").addClass("spinner-16px");
+        $("#event-settings-address").removeClass("good").removeClass("bad").addClass("spinner-16px");
         $.getJSON("https://maps.googleapis.com/maps/api/geocode/json?address=" + encodeURIComponent($(context).val()) + "&sensor=false", function(data)
         {
             // get the lat/lng of the address
@@ -104,9 +104,9 @@ $(document).ready(function(){
                 $("#event-settings-lat").val(lat);
                 $("#event-settings-lng").val(lng);
                 // set spinner to checkmark
-                $("#event-settings-address-status").removeClass("spinner-16px").addClass("good");
+                $("#event-settings-address").removeClass("spinner-16px").addClass("good");
             } else {
-                $("#event-settings-address-status").removeClass("spinner-16px").addClass("bad");
+                $("#event-settings-address").removeClass("spinner-16px").addClass("bad");
             }
 
             // display the google map

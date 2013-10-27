@@ -23,6 +23,20 @@
     color: #cc3300;
 }
 
+/* spinner inside input */
+input.status {
+    padding-right: 25px;
+}
+input.status.bad {
+    background: url('/assets/img/x_alt_16x16.png') no-repeat right 5px bottom 50%;
+}
+input.status.good {
+    background: url('/assets/img/check_alt_16x16.png') no-repeat right 5px bottom 50%;
+}
+input.status.spinner-16px {
+    background: url('/assets/img/spinner_blue_sm.gif') no-repeat right 5px bottom 50%;
+}
+
 /* spinner */
 span.spinner-wrap {
     display: inline-block;

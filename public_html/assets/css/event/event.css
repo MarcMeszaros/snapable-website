@@ -171,11 +171,7 @@ ul#event-nav  {
 	color: #000;
 	border-bottom: 1px solid #ccc;
 }
-#event-settings span.status {
-	margin-left: 4px;
-	width: 16px;
-	display: inline-block;
-}
+
 #event-settings #map_canvas-wrap {
 	padding: 10px 0;
 }
@@ -184,42 +180,6 @@ ul#event-nav  {
 	font-size: 14px;
 	line-height: 14px;
 	color: #333;
-}
-
-#event-settings input[type=text] {
-	width: 95%;
-	padding: 5px;
-}
-#event-settings select {
-	width: 72px;
-}
-#event-settings .status.bad {
-	background: url('/assets/img/x_alt_16x16.png') no-repeat right bottom;
-}
-#event-settings .status.good {
-	background: url('/assets/img/check_alt_16x16.png') no-repeat right bottom;
-}
-#event-settings .status.spinner-16px {
-	background: url('/assets/img/spinner_blue_sm.gif') no-repeat right bottom;
-}
-
-#event-settings .small-field-inner {
-	float: left;
-	margin-right: 5px;
-}
-
-#event-settings .small-field-inner label,
-#event-settings .small-field-inner-wide label {
-	display: block;
-}
-
-#event-settings .small-field-inner input[type=text] {
-	width: 110px;
-	display: block;
-}
-
-#event-settings .small-field-inner-wide select {
-	display: inline-block;
 }
 
 div.time-picker {

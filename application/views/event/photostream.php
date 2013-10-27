@@ -23,58 +23,60 @@
 
 				<div class="form-group">
 					<label for="event-settings-title">Event Title</label>
-					<input id="event-settings-title" name="title" type="text" value="<?php echo $eventDeets->title; ?>"/>
+					<input id="event-settings-title" class="form-control" name="title" type="text" value="<?php echo $eventDeets->title; ?>"/>
 				</div>
 				<div class="form-group">
 					<label for="event-settings-url">Event URL</label>
-					<input id="event-settings-url" name="url" type="text" data-orig="<?php echo $eventDeets->url; ?>" value="<?php echo $eventDeets->url; ?>"/><span id="event-settings-url-status" class="status">&nbsp;</span>
+					<input id="event-settings-url" class="form-control status" name="url" type="text" data-orig="<?php echo $eventDeets->url; ?>" value="<?php echo $eventDeets->url; ?>"/>
 				</div>
-				<div class="form-group">
-					<div class="small-field-inner">
+				<div class="form-group row">
+					<div class="form-group col-sm-3">
 						<label for="event-start-date">Date</label>
-						<input type="text" id="event-start-date" class="longer datepicker" name="event[start_date]" value="<?= date("M j, Y", $eventDeets->start_epoch + ($eventDeets->tz_offset * 60)) ?>">
+						<input type="text" id="event-start-date" class="form-control longer datepicker" name="event[start_date]" value="<?= date("M j, Y", $eventDeets->start_epoch + ($eventDeets->tz_offset * 60)) ?>">
 					</div>
-					<div class="small-field-inner">
+					<div class="form-group col-sm-3">
 						<label for="event-start-time">Time</label>
-						<input id="event-start-time" name="event[start_time]" type="text" value="<?= date("h:i A", $eventDeets->start_epoch + ($eventDeets->tz_offset * 60)) ?>">
+						<input id="event-start-time" class="form-control" name="event[start_time]" type="text" value="<?= date("h:i A", $eventDeets->start_epoch + ($eventDeets->tz_offset * 60)) ?>">
 					</div>
-					<div class="small-field-inner">
+					<div class="form-group col-sm-6">
 						<label for="event-duration-num">Duration</label>
-						<select id="event-duration-num" name="event[duration_num]">
-						<?php
-						// get the delta (sec.)
-						$delta = $eventDeets->end_epoch - $eventDeets->start_epoch;
+						<div class="form-inline">
+						<select id="event-duration-num" class="form-control" name="event[duration_num]" style="width:49%;">
+							<?php
+							// get the delta (sec.)
+							$delta = $eventDeets->end_epoch - $eventDeets->start_epoch;
 
-						if ($delta < 60*60*24) {
-							for ($i=1; $i<=23; $i++) {
-								if ( $i == floor($delta/60/60) )	{
-									$selected = " SELECTED";
-								} else {
-									$selected = "";
+							if ($delta < 60*60*24) {
+								for ($i=1; $i<=23; $i++) {
+									if ( $i == floor($delta/60/60) )	{
+										$selected = " SELECTED";
+									} else {
+										$selected = "";
+									}
+									echo "<option value='" . $i . "'" . $selected . ">" . $i . "</option>";
 								}
-								echo "<option value='" . $i . "'" . $selected . ">" . $i . "</option>";
+							} else {
+								for ($i=1; $i<=7; $i++) {
+									if ( $i == floor($delta/60/60/24) )	{
+										$selected = " SELECTED";
+									} else {
+										$selected = "";
+									}
+									echo "<option value='" . $i . "'" . $selected . ">" . $i . "</option>";
+								}	
 							}
-						} else {
-							for ($i=1; $i<=7; $i++) {
-								if ( $i == floor($delta/60/60/24) )	{
-									$selected = " SELECTED";
-								} else {
-									$selected = "";
-								}
-								echo "<option value='" . $i . "'" . $selected . ">" . $i . "</option>";
-							}	
-						}
-						?>
-						</select>
-						<select id="event-duration-type" name="event[duration_type]">
-							<?php if ($delta < 60*60*24) { ?>
-							<option value="hours" selected>Hours</option>
-							<option value="days">Days</option>
-							<?php } else { ?>
-							<option value="hours">Hours</option>
-							<option value="days" selected>Days</option>
-							<?php } ?>
-						</select>
+							?>
+							</select>
+							<select id="event-duration-type" class="form-control" name="event[duration_type]" style="width:49%;">
+								<?php if ($delta < 60*60*24) { ?>
+								<option value="hours" selected>Hours</option>
+								<option value="days">Days</option>
+								<?php } else { ?>
+								<option value="hours">Hours</option>
+								<option value="days" selected>Days</option>
+								<?php } ?>
+							</select>
+						</div>
 					</div>
 					<div style="clear:both;"></div>
 				</div>
@@ -89,10 +91,10 @@
 				</div>
 				<div class="form-group">
 					<label for="event-settings-address">Event Location</label>
-					<input id="event-settings-address" name="address" type="text" data-resource-uri="<?= (isset($eventDeets->addresses[0]->{'resource_uri'})) ? $eventDeets->addresses[0]->{'resource_uri'} : '' ?>" value="<?= (isset($eventDeets->addresses[0]->{'address'})) ? $eventDeets->addresses[0]->{'address'} : '' ?>"/><span class="help tooltip"></span><span id="event-settings-address-status" class="status">&nbsp;</span>
+					<input id="event-settings-address" class="form-control status" name="address" type="text" data-resource-uri="<?= (isset($eventDeets->addresses[0]->{'resource_uri'})) ? $eventDeets->addresses[0]->{'resource_uri'} : '' ?>" value="<?= (isset($eventDeets->addresses[0]->{'address'})) ? $eventDeets->addresses[0]->{'address'} : '' ?>"/>
 					<div id="map_canvas-wrap" style="display:none;">
 						<div class="form-field_hint">Tip: Drag the pin to your event address.</div>
-						<div id="map_canvas" style="width:412px; height:280px;"></div>
+						<div id="map_canvas" style="width:435px; height:280px;"></div>
 					</div>
 				</div>
 				<div class="form-group">

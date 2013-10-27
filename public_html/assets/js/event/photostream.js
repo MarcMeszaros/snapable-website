@@ -39,14 +39,14 @@ function checkUrl(url)
 		url: '/signup/check',
 		data: {"url": url },
 		beforeSend: function(){
-			$("#event-settings-url-status").removeClass("good").removeClass("bad").addClass("spinner-16px");
+			$("#event-settings-url").removeClass("good").removeClass("bad").addClass("spinner-16px");
 		}
 	}).done(function(data){
 		var json = $.parseJSON(data);
 		if (json.meta.total_count > 0) {
-			$("#event-settings-url-status").removeClass("good").removeClass("spinner-16px").addClass("bad");
+			$("#event-settings-url").removeClass("good").removeClass("spinner-16px").addClass("bad");
 		} else if (url.length > 0) {
-			$("#event-settings-url-status").removeClass("bad").removeClass("spinner-16px").addClass("good");
+			$("#event-settings-url").removeClass("bad").removeClass("spinner-16px").addClass("good");
 		}
 	});
 }
@@ -59,7 +59,8 @@ $(document).ready(function()
 		// Display Loader
 		$("#photoArea").css({"text-align":"center","font-weight":"bold"}).html('<div id="photoRetriever">Retrieving Photos...<div class="progress progress-striped active"><div class="progress-bar" style="width: 100%"></div></div></div>');
 		// Get photos for event
-		$.ajax('/event/get/photos/' + $('#event-top').data('event-id'), {
+		$.ajax({
+			url: '/event/get/photos/' + $('#event-top').data('event-id'),
 			type: 'GET'//,
 			//data: { 'url': url }
 		}).done(function(data) {
@@ -139,12 +140,13 @@ function loadPhoto(photoData, options) {
 	// setup the toggle switch
 	$domPhoto.find('div.photo-buttons .make-switch').filter(filter_position).bootstrapSwitch();
 	$domPhoto.find('div.photo-buttons .make-switch').filter(filter_position).on('switch-change', function(e, data) {
-    	$.ajax('/ajax/patch_photo/'+$(this).data('photo_id'), {
+    	$.ajax({
+    		url: '/ajax/patch_photo/'+$(this).data('photo_id'),
 			type: 'POST',
 			data: {
 				'streamable': data.value
 			}
-		}).fail(function(){
+		}).fail(function(jqXHR, textStatus, errorThrown){
 			$.pnotify({
 				type: 'error',
 				title: 'Photo Details',
@@ -158,21 +160,21 @@ function loadPhoto(photoData, options) {
 	// set cover photo
 	$domPhoto.find('div.photo-buttons .add-cover').filter(filter_position).click(function(){
 		// make an ajax call
-		$.ajax('/ajax/put_event/'+$('#event-top').data('event-id'), {
+		$.ajax({
+			url: '/ajax/put_event/'+$('#event-top').data('event-id'),
 			type: 'POST',
 			data: {
 				cover: $(this).data('photo_id')
-			},
-			success: function(){
-				// update the DOM
-				var imgSrc = $('img#event-cover-image').attr('src').split('?');
-				$('img#event-cover-image').attr('src', imgSrc[0]+'?'+new Date().getTime());
-				$.pnotify({
-			    	type: 'success',
-			        title: 'Event Cover Photo Updated',
-			        text: 'Your event cover photo has been successfully updated.'
-		    	});
 			}
+		}).done(function(){
+			// update the DOM
+			var imgSrc = $('img#event-cover-image').attr('src').split('?');
+			$('img#event-cover-image').attr('src', imgSrc[0]+'?'+new Date().getTime());
+			$.pnotify({
+		    	type: 'success',
+		        title: 'Event Cover Photo Updated',
+		        text: 'Your event cover photo has been successfully updated.'
+	    	});
 		});
 	});
 
@@ -180,31 +182,23 @@ function loadPhoto(photoData, options) {
 	$domPhoto.find('div.photo .photo-delete').filter(filter_position).click(function(){
 		var deleteButton = $(this); // save a reference to that button
 
-		$.ajax('/ajax/delete_photo/'+$(deleteButton).data('photo_id'), {
-			success: function(data, textStatus, jqXHR) {
-				if (jqXHR.status == 200 || jqXHR.status == 204) {
-					// remove it from the ui
-					$(deleteButton).closest('div.photo').remove();
-					$.pnotify({
-			    		type: 'info',
-			        	title: 'Photo Deleted',
-			        	text: 'The photo was successfully deleted.',
-		        	});
-				} else {
-					$.pnotify({
-			    		type: 'error',
-			        	title: 'Photo Not Deleted',
-			        	text: 'Oops. Something went wrong and we could not delete the photo.',
-		        	});
-				}	
-			},
-			error: function(jqXHR, textStatus, errorThrown) {
-				$.pnotify({
-					type: 'error',
-					title: 'Photo Delete',
-					text: 'There was an error deleting the photo.'
-				});
-			}
+		$.ajax({
+			url: '/ajax/delete_photo/'+$(deleteButton).data('photo_id'),
+			type: 'GET'
+		}).done(function(data){
+			// remove it from the ui
+			$(deleteButton).closest('div.photo').remove();
+			$.pnotify({
+	    		type: 'info',
+	        	title: 'Photo Deleted',
+	        	text: 'The photo was successfully deleted.',
+        	});
+		}).fail(function(jqXHR, textStatus, errorThrown){
+			$.pnotify({
+				type: 'error',
+				title: 'Photo Delete',
+				text: 'There was an error deleting the photo.'
+			});
 		});
 
 		return false;
