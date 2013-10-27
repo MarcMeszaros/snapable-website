@@ -1,22 +1,4 @@
 /*** SETUP ****/
-* { 
-	margin: 0; 
-	padding: 0; 
-	font-family: MyriadPro-Regular, 'Myriad Pro Regular', MyriadPro, 'Myriad Pro', 'PT Sans Caption', Helvetica, Arial, sans-serif;
-	}
-*:focus {
-	outline: none;
-	}
-.clearit {
-	content: ".";
-    display: block;
-    height: 0;
-    clear: both;
-    visibility: hidden;
-    margin: 0;
-    padding: 0;
-	}
-
 article,aside,details,figcaption,figure,
     footer,header,hgroup,menu,nav,section { 
             display:block;
@@ -101,9 +83,11 @@ ul#nav {
 	padding: 5px 15px 3px 15px;
 }
 #nav a.signin { 
-	font-size: 12px;
 	font-weight: normal; 
-	}
+}
+#nav a.signup {
+	margin-top: 0px;
+}
 #nav a:link, #nav a:visited {
 	color: #336699;
 }
@@ -147,7 +131,7 @@ ul#nav {
 
 #hand {
 	width: 491px;
-	height: 416px;
+	height: 405px;
 	margin: 0 auto;
 	text-indent: -8000px;
 	background: transparent url('/assets/home/img/jan2013/hand.png') no-repeat;
@@ -157,6 +141,7 @@ ul#nav {
 	display: block;
 	margin: 0 auto;
 	width: 409px;
+	box-shadow: 1px 1px 5px 1px #ccc; 
 }
 
 /**** TEXT ****/
@@ -245,7 +230,6 @@ section#how-it-works h2 {
 #restOfPageWrap section .box p {
 	line-height:20px;
 	color:#555;
-	font-size:12px;
 }
 #restOfPageWrap section .box ul {
 	padding-left: 10px;
@@ -255,20 +239,6 @@ section#how-it-works h2 {
 	margin: 2px 0;
 	line-height:20px;
 	color:#555;
-	font-size:12px;
-}
-p.pLink {
-	margin-top: 20px;
-}
-
-#restOfPageWrap section .box a {
-	background: #0099cc;
-	color: #fff;
-	text-align: center;
-	text-decoration: none;
-	padding: 5px 15px;
-	border-radius: 10px;
-	font-size: 12px;
 }
 
 #restOfPageWrap section .box .image {
@@ -416,7 +386,6 @@ p.pLink {
 .package-big-box li {
 	text-align: center;
 	padding: 10px 0;
-	border-bottom: 1px dotted #ccc;
 	font-size: 16px;
 	line-height: 18px;
 }
@@ -439,9 +408,22 @@ p.pLink {
 	color: #357a9e;
 	font-weight: bold;
 }
-.package-big-bottom .price {
+.package-big-bottom .price,
+.package-big-bottom .old-price {
 	position: relative;
 	top: 20px;
+}
+.package-big-bottom .old-price {
+	font-size: 64px;
+}
+.package-big-bottom .old-price .strike {
+	display: inline-block;
+	position: absolute;
+	width: 94px;
+	height: 6px;
+	top: 36px;
+	background: #c22a2a;
+	z-index: 10;
 }
 .package-price {
 	font-size: 42px;
@@ -452,7 +434,7 @@ p.pLink {
 	/*text-shadow: #266485 1px -1px -2px;*/
 }
 .package-price span { font-size: 18px; color: #999; }
-.package-price span.grey { font-weight: normal; color: #999; }
+.package-big-bottom span.grey { font-weight: normal; color: #999; }
 .package-small-print { text-align: center; width: 350px; margin: 0 auto; font-size: 12px; line-height: 14px; color: #999; }
 
 #package-sign-up {

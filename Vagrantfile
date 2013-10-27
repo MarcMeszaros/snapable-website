@@ -8,6 +8,7 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant virtual environment requires a box to build off of.
   config.vm.box = "precise64"
+  config.vm.hostname = 'website'
   config.vm.provision :shell, :path => "script/dependencies.sh"
   config.vm.provision :shell, :path => "script/vagrant_bootstrap.sh"
 
@@ -17,7 +18,7 @@ Vagrant.configure("2") do |config|
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
-  config.vm.network :private_network, ip: "192.168.56.102"
+  config.vm.network :private_network, ip: "192.168.56.105"
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.

@@ -14,14 +14,15 @@
     } ?>
 
     <link rel="icon" type="image/vnd.microsoft.icon" href="/favicon.ico" />
-    <link href="https://plus.google.com/117772662503157448966" rel="publisher" />
     <link rel="SHORTCUT ICON" href="/favicon.ico"/>
     
-    <link type="text/css" rel="stylesheet" href="//fonts.googleapis.com/css?family=PT+Sans+Caption:400,700" />
-    <link type="text/css" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0/css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0/css/bootstrap-theme.min.css" />
+    <link type="text/css" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/1.8/css/bootstrap-switch.css" />
     <link type="text/css" rel="stylesheet" href="/assets/libs/pnotify/jquery.pnotify.default.css" />
     <link type="text/css" rel="stylesheet" href="/assets/css/common/fonts.css" />
     <link type="text/css" rel="stylesheet" href="/assets/css/common/default.css" />
+    <link type="text/css" rel="stylesheet" href="/assets/css/common/snapable-theme.css" />
     <?php 
     // external resources
     if ( isset($ext_css) ) {
@@ -45,8 +46,12 @@
     
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/parsley.js/1.1.10/parsley.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/1.8/js/bootstrap-switch.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/parsley.js/1.1.16/parsley.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/spin.js/1.2.7/spin.min.js"></script>
+    <script type="text/javascript" src="/assets/js/libs/jquery.spin.js"></script>
     <script type="text/javascript" src="/assets/libs/pnotify/jquery.pnotify.min.js"></script>
     <script type="text/javascript" src="/assets/js/common/default.js"></script>
     <?php
@@ -69,12 +74,15 @@
 			}
 	    }
     ?>
-    <?php if( isset($stripe) ) { ?>
-        <script type="text/javascript" src="https://js.stripe.com/v1/"></script>
+    <?php if(isset($stripe) && $stripe == true) { ?>
+        <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
         <script type="text/javascript">
             Stripe.setPublishableKey('<?= STRIPE_KEY_PUBLIC ?>');
         </script>
     <?php } ?>
+
+    <script type="text/javascript" src="https://ws.sharethis.com/button/buttons.js"></script>
+    <script type="text/javascript">stLight.options({publisher: "48c58afe-c312-46d6-aa45-ad95fc653c83", doNotHash: true, doNotCopy: true, hashAddressBar: false});</script>
 
     <?php if (isset($js_vars)) { ?>
     <script type="text/javascript">
@@ -107,6 +115,23 @@
  <?php } ?>
 	</script>
 
+    <?php if (isset($facebook_pixel) && $facebook_pixel == true && ($_SERVER['HTTP_HOST'] == "snapable.com" || $_SERVER['HTTP_HOST'] == "www.snapable.com")) { ?>
+    <script type="text/javascript">
+    var fb_param = {};
+    fb_param.pixel_id = '6008243038461';
+    fb_param.value = '0.00';
+    fb_param.currency = 'USD';
+
+    (function(){
+      var fpw = document.createElement('script');
+      fpw.async = true;
+      fpw.src = '//connect.facebook.net/en_US/fp.js';
+      var ref = document.getElementsByTagName('script')[0];
+      ref.parentNode.insertBefore(fpw, ref);
+    })();
+    </script>
+    <noscript><img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/offsite_event.php?id=6008243038461&amp;value=0&amp;currency=USD" /></noscript>
+    <?php } ?>
 </head>
 
 <body id="top">

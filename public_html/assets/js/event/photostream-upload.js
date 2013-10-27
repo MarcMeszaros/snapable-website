@@ -1,4 +1,23 @@
 $(document).ready(function(){
+    // expand based on anchor
+    if (location.hash == "#upload-photo") {
+        $("#uploadArea").removeClass("hide").hide().slideDown();
+    }
+
+    // UPLOAD MENU
+    $("#uploadBTN").click(function() {
+        // only dropdown if logged in
+        if(!$(this).data('signin')) {
+            $('.slidContent[id!="uploadArea"]').slideUp();
+            if ($("#uploadArea").hasClass('hide')) {
+                $("#uploadArea").removeClass("hide").hide().slideDown();
+            } else {
+                $("#uploadArea").slideToggle();
+            }
+            return false;
+        }
+    });
+
     // setup the ajax form
     $('#uploadArea form').ajaxForm({
         beforeSubmit: function(arr, $form, options) {
@@ -15,15 +34,15 @@ $(document).ready(function(){
 
             $.pnotify({
                 type: 'success',
-                title: 'Image Uploaded',
-                text: 'The image was successfully uploaded.'
+                title: 'Photo Uploaded',
+                text: 'The photo was successfully uploaded.\nRefresh the page to see your photo in the stream.'
             });
         },
         error: function(){ 
             // show a notification
             $.pnotify({
                 type: 'error',
-                title: 'Image Not Uploaded',
+                title: 'Photo Not Uploaded',
                 text: 'An error occurred while trying to upload your photo. Make sure the selected image is smaller than 10MB and is a JPEG.'
             });
 

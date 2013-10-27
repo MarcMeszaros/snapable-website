@@ -56,9 +56,12 @@ $route['event/(:any)/(:any)'] = 'event/event_tasks/$2';
 $route['event/(:any)'] = 'event/load_event/$1';
 
 // p controller
-$route['p/(:num)'] = 'p/load_photo/$1';
-$route['p/get/(:num)/(:any)'] = 'p/get_photo/$1/$2';
-$route['p/get/(:num)'] = 'p/get_photo/$1';
+$route['p/get/(:any)/(:any)'] = 'p/get_photo/$1/$2';
+$route['p/get/(:any)'] = 'p/get_photo/$1';
+$route['p/get_photo/(:any)'] = 'p/get_photo/$1';
+$route['p/get_event/(:any)'] = 'p/get_event/$1';
+$route['p/(:any)'] = 'p/load_photo/$1';
+
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

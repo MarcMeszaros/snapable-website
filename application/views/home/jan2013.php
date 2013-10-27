@@ -4,7 +4,7 @@
 			<div id="logo">Snapable. Every moment at your event in photos</div>
 			
 			<ul id="nav">
-				<li><a href="signup" onClick="_gaq.push(['_trackEvent', 'Signups', 'Clicked', 'Signup (Header)']);">Sign-up</a></li>
+				<li><a class="signup" href="signup" onClick="_gaq.push(['_trackEvent', 'Signups', 'Clicked', 'Signup (Header)']);">Sign-up</a></li>
 				<li><a class="signin" href="/account/signin">Sign-in</a></li>
 				<li><a href="http://blog.snapable.com/">Blog</a></li>
 				<li><a href="#pricing" class="anchorLink">Pricing</a></li>
@@ -37,13 +37,13 @@
 		
 		<div class="sectionWrap">
 			
-			<a id="ctaBtn" href="/signup"><img src="/assets/home/img/jan2013/setup_event.png" width="409" height="85" border="0" alt="Setup Your Event" /></a>
+			<a id="ctaBtn" class="btn btn-success btn-lg" href="/signup" style="font-size:40px;">Set up Your Event</span></a>
 			
 			<section id="why-use">
 		      <div class="inner">
 		        <h2>Why Use Snapable?</h2>
 		        
-		        <h3>Letting your guests take photos during your event is a fun and easy way to get them involved. Best of all, the photos will be instantly added to your Snapable album, so you’ll have everything on one place.</h3>
+		        <h3>Letting your guests take photos during your event is a fun and easy way to get them involved. Best of all, the photos will be instantly added to your Snapable album, so you’ll have everything in one place.</h3>
 		
 		        <div class="box box-1">
 			    	<div class="image"></div>
@@ -102,7 +102,7 @@
 
 		          <p>Once your album is set up, you’re ready to collect your photos!</p>
 		          
-		          <p class="pLink"><a href="http://snapable.com/event/demo" target="_blank">Sample Album</a></p>
+		          <a href="http://snapable.com/event/demo" class="btn btn-primary" target="_blank">Sample Album</a>
 		        </div>
 		
 		        <div class="box">
@@ -119,7 +119,7 @@
 		          </ul>
 		          <p>A copy of each photo taken with the Snapable app will be instantly added to your album.</p>
 		          
-		          <p class="pLink"><a href="/home/app" class="overlay">See Sample</a></p>
+		          <a href="/home/app" class="btn btn-primary overlay">See Sample</a>
 		        </div>
 		
 		        <div class="box">
@@ -127,7 +127,7 @@
 		            <div class="browser2"></div>
 		          </div>
 		          <h3>After Your Event</h3>
-		          <p>OPeruse the album and see what guests have uploaded. You can:</p>
+		          <p>Peruse the album and see what guests have uploaded. You can:</p>
 
 		          <ul>
 		          	<li>Download your favorite photos.</li>
@@ -137,7 +137,7 @@
 
 			       <p>It’s that easy! All of your photos in one spot, so you don’t miss a single moment.</p>
 		          
-		          <p class="pLink"><a href="/signup">Sign Up</a></p>
+		          <a href="/signup" class="btn btn-primary">Sign Up</a>
 		        </div>
 		
 		      </div>
@@ -148,7 +148,7 @@
 	    
 		    <section id="pricing">
 		      <div class="inner">
-		        <h2>Set up your event for just $79 and get started today.</h2>
+		        <h2>Set up your event for just $49 and get started today.</h2>
 		        
 		        <div class="package-big-box-wrap">
 		        	
@@ -156,7 +156,7 @@
 		        	
 			        	<h4>You get all this for your event:</h4>
 			        	
-			        	<ul>
+			        	<ul class="dotted">
 			        		<li>Unlimited guests</li>
 			        		<li>Unlimited photos </li>
 			        		<li>Download your photos anytime</li>
@@ -168,8 +168,11 @@
 		        	</div>
 		        	
 		        	<div class="package-big-bottom">
-		        		<span class="price">$79</span>
-		        		<a href="/signup"><img src="/assets/home/img/jan2013/setup_event-sm.png" width="300" height="62" border="0" alt="Setup Your Event" /></a>
+		        		<div>
+		        			<span class="old-price grey hide"><span class="strike"></span>$79</span>
+		        			<span class="price">$49</span>
+		        		</div>
+		        		<a class="btn btn-success btn-lg" href="/signup" style="font-size:30px;">Set up Your Event</span></a>
 		        		
 		        	</div>
 		        	

@@ -2,6 +2,31 @@
 Class Event_model extends CI_Model
 {
 
+	function is_organizer($event, $user)
+	{
+		$event_pk = SnapAPI::resource_pk($event);
+		$user_pk = SnapAPI::resource_pk($user);
+
+		// if either of the pks are null, return false
+		if (empty($event_pk) || empty($user_pk)) {
+			return false;
+		}
+
+		// get event session details
+        $verb = 'GET';
+        $path = 'event/'.$event_pk;
+        $event_resp = SnapApi::send($verb, $path);
+        $event_result = json_decode($event_resp['response']);
+
+        // get accounts the user belongs to
+        $verb = 'GET';
+        $path = 'user/'.$user_pk;
+        $user_resp = SnapApi::send($verb, $path);
+        $user_result = json_decode($user_resp['response']);
+
+        return in_array($event_result->account, $user_result->accounts);
+	}
+
 	function getEventDetailsFromURL($url)
 	{
 		$verb = 'GET';
@@ -40,6 +65,7 @@ Class Event_model extends CI_Model
 				$privacyParts = explode('/', $e->type);
 				$eventRes = array(
 					'addresses' => $e->addresses,
+					'are_photos_streamable' => $e->are_photos_streamable,
 					'enabled' => $e->enabled,
 					'url' => $e->url,
 					'title' => $e->title,
@@ -77,26 +103,7 @@ Class Event_model extends CI_Model
 		//$details = $this->db->where('url', $url)->where('active', 1)->get('event', 1,0);
 		// check if there's a positive result
 	}
-	
-	function getEventsPhotos($id, $offset = 0)
-	{
-		$verb = 'GET';
-		$path = '/photo/';
-		$params = array(
-			'event' => $id,
-			'offset' => $offset,
-			'limit' => 50,
-		);
-		$resp = SnapApi::send($verb, $path, $params);
 
-		$response = $resp['response'];
-		
-		return '{
-					"status": 200,
-					"response": ' . $response . '
-				}';
-	}
-	
 	function guestCount($resource_uri)
 	{
 		$event = explode("/", $resource_uri);
@@ -135,15 +142,6 @@ Class Event_model extends CI_Model
 		$col3 = $post['col3'];
 		
 		$event_id = explode("/", $event_uri);
-		/*
-		Array
-		(
-		    [file] => 1346536205-emailsample.csv
-		    [col1] => name
-		    [col2] => email
-		    [col3] => type
-		)
-		*/
 		
 		// GET LIST OF CURRENT GUESTS
 		$verb = 'GET';
@@ -180,8 +178,7 @@ Class Event_model extends CI_Model
 					    $numnum = 1;
 						$email = "unknown";
 						$name = "unknown";
-				        $type_uri = "/".SnapApi::$api_version."/type/5/";
-					    $row_data .= "{";
+				        $row_data .= "{";
 					    $empty = false;
 						
 						for ($c=0; $c < $num; $c++) 
@@ -193,34 +190,8 @@ Class Event_model extends CI_Model
 				        	    	// is email
 				        	    	$email = $data[$c];
 				        	    } else {
-					        	    // isn't, check if guest
-					        	    $types = array("organizer","bride/groom","wedding party","family","guest"); // SWITCH TO FILL ARRAY FROM API AND ENSURE THEY'RE LOWERCASE!!!!
-					        	    if ( in_array(strtolower($data[$c]), $types) )
-					        	    {
-					        	    	// is guest type
-					        	    	$type = strtolower($data[$c]);
-					        	    	// convert type into resource_uri
-						        	    switch ($type) {
-										    case "organizer":
-										        $type_uri = "/".SnapApi::$api_version."/type/1/";
-										        break;
-										    case "bride/groom":
-										        $type_uri = "/".SnapApi::$api_version."/type/2/";
-										        break;
-										    case "wedding party":
-										        $type_uri = "/".SnapApi::$api_version."/type/3/";
-										        break;
-										    case "family":
-										        $type_uri = "/".SnapApi::$api_version."/type/4/";
-										        break;
-										    case "guest":
-										        $type_uri = "/".SnapApi::$api_version."/type/5/";
-										        break;
-										}
-					        	    } else {
-					        	    	// isn't guest or email, must be a name
-						        	    $name = $data[$c];
-					        	    }
+				        	    	// isn't guest or email, must be a name
+					        	    $name = $data[$c];
 				        	    }
 							}
 						}
@@ -236,7 +207,6 @@ Class Event_model extends CI_Model
 									"email" => $email,
 									"event" => $event_uri,
 									"name" => $name,
-									"type" => $type_uri,
 								);
 								$resp = SnapApi::send($verb, $path, $params);
 
@@ -280,222 +250,63 @@ Class Event_model extends CI_Model
 		{
 			// get event details
 			$session_data = $this->session->userdata('logged_in');
-			$event_data = $this->session->userdata('event_deets');
+			//$event_data = $this->session->userdata('event_deets');
 			
-			if ( isset($post['message']) )
-			{
+			try {
 				$message = $post['message'];
-				$event_id = explode("/", $post['resource_uri']);
-				
+				$event_uri = SnapApi::resource_uri('event', $post['event_id']);
+
+				// get event
+				$verb = 'GET';
+				$path = '/event/'.$post['event_id'];
+				$resp = SnapApi::send($verb, $path);
+				$event = json_decode($resp['response']);
+
 				// get guests
 				$verb = 'GET';
 				$path = '/guest/';
 				$params = array(
-					'event' => $event_id[3],
+					'event' => $post['event_id'],
+					'invited' => 'false',
 				);
 				$resp = SnapApi::send($verb, $path, $params);
 
 				$response = $resp['response'];
 				$result = json_decode($response);
-				$httpcode = $resp['code'];
-				
-				if ( $httpcode == 200 && $result->meta->total_count > 0 )
-				{
-					$url = 'http://sendgrid.com/';
-					$user = 'snapable';
-					$pass = 'Snapa!23'; 
-					
-					if ( isset($_POST['from']) ) {
-						$from = $_POST['from'];
-					} else {
-						$from = "team@snapable.com";
-					}
-					
-					$subject = 'At ' . $event_data['title'] . ' use Snapable!';
-					$fromname = $session_data['fname'] . " " . $session_data['lname'];
-					
-					foreach($result->objects as $o )
-					{
-						$type = explode("/", $o->type);
-						
-						$to = $o->email;
-						$toname = $o->name;
-						
-						if ( $o->name == "" )
-						{
-							$name_html = "";
-							$name_text = "";
-						} else {
-							$name_html = $o->name . ", <br /><br />";
-							$name_text = $o->name . ', \n\n';
+
+				if ($resp['code'] == 200) {
+					// only send emails if there are some
+					if ($result->meta->total_count > 0) {
+						// common to all emails
+						$subject = 'At ' . $event->title . ' use Snapable!';
+						$fromname = $session_data['first_name'] . " " . $session_data['last_name'];
+
+						// do the first batch of results
+						foreach($result->objects as $o) {
+							$this->email_guest($o->resource_uri, $subject, $o->email, $o->name, $fromname, $message);
 						}
-						
-						$data = array(
-							'display' => "email",
-							'message' => $message,
-							'name' => $name_html,
-							'fromname' => $fromname
-						);
-						$message_html = $this->load->view('email/guest_notification', $data, true);
-						
-						$message_text = $name_text . $fromname . ' has sent you this message:\n\n ' . $message . '\n\nWhat is Snapable?\n\nBy downloading the Snapable app, you can take photos at the event and share them the organizer, allowing them and everyone at the event to get a full view of what happened during the event and get the ones they like best printed to display with pride.\n\nFind out more at http://snapable.com\n\n(c) ' . date("Y") . ' Snapable. All rights reserved.';
-						
-						$params = array(
-						    'api_user'  => $user,
-						    'api_key'   => $pass,
-						    'to'        => $to,
-						    'toname'	=> $toname,
-						    'subject'   => $subject,
-						    'html'      => $message_html,
-						    'text'      => $message_text,
-						    'from'      => $from,
-						    'fromname'	=> $fromname
-						  );
-						
-						$request =  $url.'api/mail.send.json';
-						
-						// Generate curl request
-						$session = curl_init($request);
-						// Tell curl to use HTTP POST
-						curl_setopt ($session, CURLOPT_POST, true);
-						// Tell curl that this is the body of the POST
-						curl_setopt ($session, CURLOPT_POSTFIELDS, $params);
-						// Tell curl not to return headers, but do return the response
-						curl_setopt($session, CURLOPT_HEADER, false);
-						curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
-						
-						// obtain response
-						$response = json_decode(curl_exec($session));
-						curl_close($session);
-					}
-					
-					return 'sent';
+
+						// start looping through the pages of results
+				        while (isset($response_loop->meta->next)) {
+				            $resp_loop = SnapAPI::next($response_loop->meta->next);
+				            $response_loop = json_decode($resp_loop['response']);
+
+				            // the next non invited person
+				            foreach ($response_loop->objects as $o) {
+				                $this->email_guest($o->resource_uri, $subject, $o->email, $o->name, $fromname, $message);
+				            }
+				        }
+			    	}
+			        $this->output->set_status_header(200);
 				} else {
-					return 'failed';
+					$this->output->set_status_header($resp['code']);
 				}
-			} else {
-				return 'failed';
+			} catch (Exception $e) {
+				$this->output->set_status_header(500);
 			}
 		}
 	}
-	
-	
-	function addManualGuests($list, $event_uri)
-	{
-		if($this->session->userdata('logged_in'))
-		{
-			// get event details
-			$session_data = $this->session->userdata('logged_in');
-			$event_data = $this->session->userdata('event_deets');
-			
-			$event_id = explode("/", $event_uri);
-			$guest_count = 0;
-			
-			// GET LIST OF CURRENT GUESTS
-			$verb = 'GET';
-			$path = '/guest/';
-			$params = array(
-				'event' => $event_id[3],
-			);
-			$resp = SnapApi::send($verb, $path, $params);
 
-			$response = $resp['response'];
-			$result = json_decode($response);
-			$httpcode = $resp['code'];
-			
-			if ( $httpcode == 200 )
-			{
-				$existing_guests = $result->meta->total_count;
-				if ( $existing_guests > 0 )
-				{
-					$emails = array();
-					foreach ( $result->objects as $g )
-					{
-						$emails[] = $g->email;
-					}
-				}
-				
-				if ( stristr($list, ",") )
-				{
-					$listArr = explode(",", $list);
-					$email = "unknown";
-					$name = "unknown";
-					$type_uri = "/".SnapApi::$api_version."/type/5/";
-				
-					foreach ( $listArr as $l )
-					{
-						$l = trim($l);
-						if( preg_match("^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$^", $l) > 0)
-		        	    {
-		        	    	// is email
-		        	    	$email = $l;
-		        	    } else {
-			        	    // isn't, check if guest
-			        	    $types = array("organizer","bride/groom","wedding party","family","guest"); // SWITCH TO FILL ARRAY FROM API AND ENSURE THEY'RE LOWERCASE!!!!
-			        	    if ( in_array(strtolower($l), $types) )
-			        	    {
-			        	    	// is guest type
-			        	    	$type = strtolower($l);
-			        	    	// convert type into resource_uri
-				        	    switch ($type) {
-								    case "organizer":
-								        $type_uri = "/".SnapApi::$api_version."/type/1/";
-								        break;
-								    case "bride/groom":
-								        $type_uri = "/".SnapApi::$api_version."/type/2/";
-								        break;
-								    case "wedding party":
-								        $type_uri = "/".SnapApi::$api_version."/type/3/";
-								        break;
-								    case "family":
-								        $type_uri = "/".SnapApi::$api_version."/type/4/";
-								        break;
-								    case "guest":
-								        $type_uri = "/".SnapApi::$api_version."/type/5/";
-								        break;
-								}
-			        	    } else {
-			        	    	// isn't guest or email, must be a name
-				        	    $name = $l;
-			        	    }
-		        	    }
-					}
-					if ( $email != "unknown")
-					{
-		        	    // check if email is already registered as a guest
-		        	    if ( !in_array($email, $emails) )
-		        	    {
-			        	    // add to database	
-							$verb = 'POST';
-							$path = '/guest/';
-							$params = array(
-								"email" => $email,
-								"event" => $event_uri,
-								"name" => $name,
-								"type" => $type_uri,
-							);
-							$resp = SnapApi::send($verb, $path, $params);
-
-							$response = $resp['response'];
-							$httpcode = $resp['code'];
-							
-							if ( $httpcode == 201 )
-							{
-								$guest_count++;
-							}
-			        	}
-		        	}
-				}
-				return 1;
-			} else {
-				return 0;
-			}
-		} else {
-			return 0;
-		}
-	}
-	
-	
 	function getGuests($eventID)
 	{
 		$verb = 'GET';
@@ -504,59 +315,45 @@ Class Event_model extends CI_Model
 			'event' => $eventID,
 		);
 		$resp = SnapApi::send($verb, $path, $params);
+		$result = json_decode($resp['response']);
 
-		$response = $resp['response'];
-		$result = json_decode($response);
-		$httpcode = $resp['code'];
+		if ( $resp['code'] == 200 && $result->meta->total_count > 0 ) {
+			$guests = array();
+			foreach ( $result->objects as $r ) {	
+				$gid = explode('/', $r->resource_uri);
+				$guests[] = array(
+					'id' => $gid[3],
+					'name' => $r->name,
+					'email' => $r->email,
+					'invited' => $r->invited,
+				);
+			}
 
-		if ( $httpcode == 200 )
-		{
-			if ( $result->meta->total_count > 0 )
-			{
-				$guestJSON = "";
-				$guests = array();
-				foreach ( $result->objects as $r )
-				{	
-					$gid = explode('/', $r->resource_uri);
+			// start looping through the pages of results
+	        while (isset($result->meta->next)) {
+	            $resp = SnapAPI::next($result->meta->next);
+	            $result = json_decode($resp['response']);
+
+	            // the next non invited person
+	            foreach ($result->objects as $r) {
+	                $gid = explode('/', $r->resource_uri);
 					$guests[] = array(
 						'id' => $gid[3],
 						'name' => $r->name,
 						'email' => $r->email,
+						'invited' => $r->invited,
 					);
-				}
-				$guestJSON = substr($guestJSON, 0, -1);
-				$json = array(
-					"status" => 200,
-					"guests" => $guests,
-				);
-			} else {
-				$json = array("status"=>404);
-			}
+	            }
+	        }
+
+			$json = array(
+				"status" => 200,
+				"guests" => $guests,
+			);
 		} else {
-			$json = array("status"=>404);
+			$json = array("status" => 404);
 		}
 		return json_encode($json);
-	}
-	
-	
-	function updatePrivacy($event_uri, $setting)
-	{
-		$eventParts = explode('/',$event_uri);
-		$verb = 'PUT';
-		$path = '/event/'.$eventParts[3].'/';
-		$params = array(
-			'public' => ($setting == 0) ? false : true,
-		);
-		$resp = SnapApi::send($verb, $path, $params);
-
-        $response = $resp['response'];
-        $httpcode = $resp['code'];
-               
-        if(!$response) {
-            return json_encode(array('status' => 404));
-        } else {
-        	return json_encode(array('status' => $httpcode));
-        }
 	}
 
 	/**
@@ -573,6 +370,37 @@ Class Event_model extends CI_Model
 			'response' => json_decode($resp['response'], true),
 			'code' => $resp['code'],
 		);
+	}
+
+	// private function
+	private function email_guest($resource_uri, $subject, $email, $toname, $fromname, $message) {
+		$gid = explode('/', $resource_uri);
+		// common to all emails
+		$this->email->initialize(array('mailtype'=>'html'));
+		$this->email->from('robot@snapable.com', 'Snapable');
+		$this->email->subject($subject);
+		
+		// data to pass to the views for the templates
+		$data = array(
+			'display' => "email",
+			'message' => $message,
+			'toname' => $toname,
+			'fromname' => $fromname
+		);
+
+		$this->email->to($email);
+		$this->email->message($this->load->view('email/guest_notification_html', $data, true));
+		$this->email->set_alt_message($this->load->view('email/guest_notification_txt', $data, true));		      
+		if ($this->email->send()) {
+		    // mark the user as invited
+		    // GET LIST OF CURRENT GUESTS
+			$verb = 'PATCH';
+			$path = '/guest/'.$gid[3];
+			$params = array(
+				'invited' => 'false',
+			);
+			$resp = SnapApi::send($verb, $path, $params);
+		}
 	}
 	
 

@@ -6,6 +6,7 @@ class Ajax extends CI_Controller {
     {
         parent::__construct();
         $this->load->library('email');
+        $this->load->model('event_model','',TRUE);
 
         // always check if it's an AJAX call
         if (!IS_AJAX)
@@ -22,7 +23,7 @@ class Ajax extends CI_Controller {
     /**
      * Handle event ajax calls.
      */
-    public function put_event() {
+    public function put_event($event_id) {
         // get all the post variables
         $post = array();
         foreach (array_keys($_POST) as $key) 
@@ -85,48 +86,39 @@ class Ajax extends CI_Controller {
         }
 
         // update the event
-        if ($this->uri->segment(3) !== false) {
-            $session_owner = SnapAuth::is_logged_in();
-            if ($session_owner) {
-                // get event session details
-                $verb = 'GET';
-                $path = 'event/'.$this->uri->segment(3);
-                $event_resp = SnapApi::send($verb, $path);
-                $event_result = json_decode($event_resp['response']);
+        $session_owner = SnapAuth::is_logged_in();
+        if ($session_owner) {
+            // get event session details
+            $verb = 'GET';
+            $path = 'event/'.$event_id;
+            $event_resp = SnapApi::send($verb, $path);
+            $event_result = json_decode($event_resp['response']);
 
-                // get accounts the user belongs to
-                $sessionIdParts = explode('/', $session_owner['user_uri']);
-                $verb = 'GET';
-                $path = 'user/'.$sessionIdParts[3];
-                $user_resp = SnapApi::send($verb, $path);
-                $user_result = json_decode($user_resp['response']);
+            // get accounts the user belongs to
+            $sessionIdParts = explode('/', $session_owner['user_uri']);
+            $verb = 'GET';
+            $path = 'user/'.$sessionIdParts[3];
+            $user_resp = SnapApi::send($verb, $path);
+            $user_result = json_decode($user_resp['response']);
 
-                // make sure the the user belongs to the event account, and then delete
-                if (in_array($event_result->account, $user_result->accounts) == true) {
-                    // tweak the data
-                    if (isset($post['cover'])) {
-                        $post['cover'] = '/'.API_VERSION.'/photo/'.$post['cover'].'/';
-                    }
-
-                    $verb = 'PUT';
-                    $path = 'event/'.$this->uri->segment(3);
-                    $resp = SnapApi::send($verb, $path, $post);
-
-                    $this->output->set_status_header($resp['code']);
-                    echo $resp['response'];
-                } else {
-                    $this->output->set_status_header('404');
+            // make sure the the user belongs to the event account, and then delete
+            if (in_array($event_result->account, $user_result->accounts) == true) {
+                // tweak the data
+                if (isset($post['cover'])) {
+                    $post['cover'] = '/'.API_VERSION.'/photo/'.$post['cover'].'/';
                 }
+
+                $verb = 'PUT';
+                $path = 'event/'.$event_id;
+                $resp = SnapApi::send($verb, $path, $post);
+
+                $this->output->set_status_header($resp['code']);
+                echo $resp['response'];
             } else {
                 $this->output->set_status_header('404');
             }
         } else {
-            $verb = 'PUT';
-            $path = ($this->uri->segment(3) !== false) ? 'event/'.$this->uri->segment(3) : 'event';
-            $resp = SnapApi::send($verb, $path, $post);
-
-            $this->output->set_status_header($resp['code']);
-            echo $resp['response'];
+            $this->output->set_status_header('404');
         }
     }
 
@@ -167,6 +159,7 @@ class Ajax extends CI_Controller {
         foreach ($_POST['re-cap'] as $key => $value) {
             if ($value != '') {
                 $this->output->set_status_header(403);
+                Log::i('SPAM BOT', $_POST);
                 return;
             }
         }
@@ -178,8 +171,8 @@ class Ajax extends CI_Controller {
         $message = $this->input->post('message', TRUE);
 
         // set some defaults
-        if (!$to) { $to = 'team@snapable.com'; }
-        if (!$from) { $from = 'team@snapable.com'; }
+        if (!$to) { $to = 'support@snapable.com'; }
+        if (!$from) { $from = 'robot@snapable.com'; }
         if (!$subject) { $subject = 'Snapable Automated Email'; }
         if (!$message) { $message = ''; }
 
@@ -191,6 +184,7 @@ class Ajax extends CI_Controller {
         $this->email->set_alt_message($message);       
         if ($this->email->send()) 
         {
+            $this->output->set_status_header(200);
             echo "success";
         } else {
             $this->output->set_status_header(500);
@@ -272,6 +266,36 @@ class Ajax extends CI_Controller {
             } else {
                 $this->output->set_status_header('404');
             }
+        } else {
+            $this->output->set_status_header('404');
+        }
+    }
+
+    /**
+     * PATCH the photo (if organizer).
+     */
+    public function patch_photo($photo_pk) {
+        // get all the post variables
+        $post = array();
+        foreach (array_keys($_POST) as $key) {
+            $post[$key] = $this->input->post($key);
+        }
+
+        // get photo details
+        $verb = 'GET';
+        $path = 'photo/'.$photo_pk;
+        $photo_resp = SnapApi::send($verb, $path);
+        $photo_result = json_decode($photo_resp['response']);
+
+        // update the photo
+        $session_owner = SnapAuth::is_logged_in();
+        if ($session_owner && $this->event_model->is_organizer($photo_result->event, $session_owner['user_uri'])) {
+            $verb = 'PATCH';
+            $path = 'photo/'.$photo_pk;
+            $resp = SnapApi::send($verb, $path, $post);
+
+            $this->output->set_status_header($resp['code']);
+            echo $resp['response'];
         } else {
             $this->output->set_status_header('404');
         }

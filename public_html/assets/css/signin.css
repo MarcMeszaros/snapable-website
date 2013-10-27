@@ -15,18 +15,6 @@ body {
 	height: 40px;
 }
 
-#signinWrap {
-	display: block;
-	position: relative;
-	width: 350px;
-	padding: 20px;
-	margin: 25px auto;
-	background: #fff;
-	border: 1px solid #ccc;
-	border-radius: 5px;
-	box-shadow: 0 3px 3px -2px #666;
-}
-
 #error {
 	color: #fff;
 	background: #cc3300;
@@ -61,48 +49,17 @@ body {
 }
 h2#guestH2 { margin-top: 15px; }
 
-#signinWrap h2 a:link, h2 a:visited {
-	color: #006699;
-}
-#signinWrap h2 a:hover {
-	color: #528a15;
-}
-
-#signinWrap hr {
-	border-bottom: 1px dotted #ccc;
-	border-top: none;
-	border-left: none;
-	border-right: none;
-	height: 1px;
-	overflow: hidden;
-	padding-top: 20px;
-	margin-bottom: 20px;
-}
-
 #signinWrap label {
 	display: block;
-	margin: 10px 0 5px 0;
-	font-size: 14px;
-	color: #999;
 	text-align: center;
-}
-#signinWrap label div {
-	display: none;
-	font-weight: bold;
-	color: #cc3300;
 }
 
 #signinWrap input {
-	border-radius: 10px;
 	background: #f4f4f4;
-	padding: 10px 10px 8px 10px;
-	font-size: 16px;
-	line-height: 18px;
-	width: 330px;
 }
 input#pinInput {
 	display: block;
-	width: 80px;
+	width: 100px;
 	margin: 0 auto;
 }
 #signinWrap input:focus {
@@ -113,32 +70,8 @@ input#pinInput {
 	background-color: #ffcccc
 }
 
-#signinWrap input[type=submit] {
-	display: block;
-	color: #fff;
-	background: #67ac1c;
-	margin: 15px auto 0 auto;
-	padding: 20px 40px 18px 40px;
-	border: none;
-	border-radius: 35px;
-	width: 170px;
-	font-size: 20px;
-	text-align: center;
-	font-weight: bold;
-	text-decoration: none;
-}
-#signinWrap input[type=submit]:hover {
-	background: #528a15;
-	cursor: pointer;
-}
-
-a#forgotPassword:link, a#forgotPassword:visited {
+a#forgotPassword {
 	display: block;
 	margin-top: 40px;
-	font-size: 12px;
-	color: #006699;
 	text-align: center;
-}
-a#forgotPassword:hover {
-	color: #528a15;
 }

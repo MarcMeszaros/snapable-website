@@ -1,0 +1,152 @@
+/* Custom dotted divider lines */
+hr.dotted {
+    border-bottom: 1px dotted #ccc;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    height: 1px;
+    overflow: hidden;
+}
+
+ul.dotted li {
+    border-bottom: 1px dotted #ccc;
+}
+ul.dotted li:last-child {
+    border-bottom: none;
+}
+
+/* Small hack to fix button hover effect of Bootstrap theme */
+.btn-primary:hover,
+.btn-primary:focus {
+    background-image: -webkit-gradient(linear, left 0%, left 100%, from(#2b669a), to(#2b669a));
+    background-image: -webkit-linear-gradient(top, #2b669a, 0%, #2b669a, 100%);
+    background-image: -moz-linear-gradient(top, #2b669a 0%, #2b669a 100%);
+    background-image: linear-gradient(to bottom, #2b669a 0%, #2b669a 100%);
+}
+
+.btn-success:hover,
+.btn-success:focus {
+    background-image: -webkit-gradient(linear, left 0%, left 100%, from(#419641), to(#419641));
+    background-image: -webkit-linear-gradient(top, #419641, 0%, #419641, 100%);
+    background-image: -moz-linear-gradient(top, #419641 0%, #419641 100%);
+    background-image: linear-gradient(to bottom, #419641 0%, #419641 100%);
+}
+.btn-warning:hover,
+.btn-warning:focus {
+    background-image: -webkit-gradient(linear, left 0%, left 100%, from(#eb9316), to(#eb9316));
+    background-image: -webkit-linear-gradient(top, #eb9316, 0%, #eb9316, 100%);
+    background-image: -moz-linear-gradient(top, #eb9316 0%, #eb9316 100%);
+    background-image: linear-gradient(to bottom, #eb9316 0%, #eb9316 100%);
+}
+.btn-danger:hover,
+.btn-danger:focus {
+    background-image: -webkit-gradient(linear, left 0%, left 100%, from(#c12e2a), to(#c12e2a));
+    background-image: -webkit-linear-gradient(top, #c12e2a, 0%, #c12e2a, 100%);
+    background-image: -moz-linear-gradient(top, #c12e2a 0%, #c12e2a 100%);
+    background-image: linear-gradient(to bottom, #c12e2a 0%, #c12e2a 100%);
+}
+.btn-info:hover,
+.btn-info:focus {
+    background-image: -webkit-gradient(linear, left 0%, left 100%, from(#2aabd2), to(#2aabd2));
+    background-image: -webkit-linear-gradient(top, #2aabd2, 0%, #2aabd2, 100%);
+    background-image: -moz-linear-gradient(top, #2aabd2 0%, #2aabd2 100%);
+    background-image: linear-gradient(to bottom, #2aabd2 0%, #2aabd2 100%);
+}
+
+/* Small hack to fix switches */
+.has-switch span.switch-primary,
+.has-switch span.switch-left {
+    background-image: -webkit-gradient(linear, left 0%, left 100%, from(#428bca), to(#3071a9));
+    background-image: -webkit-linear-gradient(top, #428bca, 0%, #3071a9, 100%);
+    background-image: -moz-linear-gradient(top, #428bca 0%, #3071a9 100%);
+    background-image: linear-gradient(to bottom, #428bca 0%, #3071a9 100%);
+}
+.has-switch span.switch-primary:hover,
+.has-switch span.switch-left:hover,
+.has-switch span.switch-primary:focus,
+.has-switch span.switch-left:focus,
+.has-switch span.switch-primary:active,
+.has-switch span.switch-left:active,
+.has-switch span.switch-primary.active,
+.has-switch span.switch-left.active,
+.has-switch span.switch-primary.disabled,
+.has-switch span.switch-left.disabled,
+.has-switch span.switch-primary[disabled],
+.has-switch span.switch-left[disabled] {
+    background-image: -webkit-gradient(linear, left 0%, left 100%, from(#2b669a), to(#2b669a));
+    background-image: -webkit-linear-gradient(top, #2b669a, 0%, #2b669a, 100%);
+    background-image: -moz-linear-gradient(top, #2b669a 0%, #2b669a 100%);
+    background-image: linear-gradient(to bottom, #2b669a 0%, #2b669a 100%);
+}
+
+.has-switch span.switch-success {
+    background-image: -webkit-gradient(linear, left 0%, left 100%, from(#419641), to(#419641));
+    background-image: -webkit-linear-gradient(top, #419641, 0%, #419641, 100%);
+    background-image: -moz-linear-gradient(top, #419641 0%, #419641 100%);
+    background-image: linear-gradient(to bottom, #419641 0%, #419641 100%);
+}
+.has-switch span.switch-success:hover,
+.has-switch span.switch-success:focus,
+.has-switch span.switch-success:active,
+.has-switch span.switch-success.active,
+.has-switch span.switch-success.disabled,
+.has-switch span.switch-success[disabled] {
+    background-image: -webkit-gradient(linear, left 0%, left 100%, from(#5cb85c), to(#449d44));
+    background-image: -webkit-linear-gradient(top, #5cb85c, 0%, #449d44, 100%);
+    background-image: -moz-linear-gradient(top, #5cb85c 0%, #449d44 100%);
+    background-image: linear-gradient(to bottom, #5cb85c 0%, #449d44 100%);
+}
+
+.has-switch span.switch-warning {
+    background-image: -webkit-gradient(linear, left 0%, left 100%, from(#eb9316), to(#eb9316));
+    background-image: -webkit-linear-gradient(top, #eb9316, 0%, #eb9316, 100%);
+    background-image: -moz-linear-gradient(top, #eb9316 0%, #eb9316 100%);
+    background-image: linear-gradient(to bottom, #eb9316 0%, #eb9316 100%);
+}
+.has-switch span.switch-warning:hover,
+.has-switch span.switch-warning:focus,
+.has-switch span.switch-warning:active,
+.has-switch span.switch-warning.active,
+.has-switch span.switch-warning.disabled,
+.has-switch span.switch-warning[disabled] {
+    background-image: -webkit-gradient(linear, left 0%, left 100%, from(#f0ad4e), to(#ec971f));
+    background-image: -webkit-linear-gradient(top, #f0ad4e, 0%, #ec971f, 100%);
+    background-image: -moz-linear-gradient(top, #f0ad4e 0%, #ec971f 100%);
+    background-image: linear-gradient(to bottom, #f0ad4e 0%, #ec971f 100%);
+}
+
+.has-switch span.switch-danger {
+    background-image: -webkit-gradient(linear, left 0%, left 100%, from(#c12e2a), to(#c12e2a));
+    background-image: -webkit-linear-gradient(top, #c12e2a, 0%, #c12e2a, 100%);
+    background-image: -moz-linear-gradient(top, #c12e2a 0%, #c12e2a 100%);
+    background-image: linear-gradient(to bottom, #c12e2a 0%, #c12e2a 100%);
+}
+.has-switch span.switch-danger:hover,
+.has-switch span.switch-danger:focus,
+.has-switch span.switch-danger:active,
+.has-switch span.switch-danger.active,
+.has-switch span.switch-danger.disabled,
+.has-switch span.switch-danger[disabled] {
+    background-image: -webkit-gradient(linear, left 0%, left 100%, from(#d9534f), to(#c9302c));
+    background-image: -webkit-linear-gradient(top, #d9534f, 0%, #c9302c, 100%);
+    background-image: -moz-linear-gradient(top, #d9534f 0%, #c9302c 100%);
+    background-image: linear-gradient(to bottom, #d9534f 0%, #c9302c 100%);
+}
+
+.has-switch span.switch-info {
+    background-image: -webkit-gradient(linear, left 0%, left 100%, from(#2aabd2), to(#2aabd2));
+    background-image: -webkit-linear-gradient(top, #2aabd2, 0%, #2aabd2, 100%);
+    background-image: -moz-linear-gradient(top, #2aabd2 0%, #2aabd2 100%);
+    background-image: linear-gradient(to bottom, #2aabd2 0%, #2aabd2 100%);
+}
+.has-switch span.switch-info:hover,
+.has-switch span.switch-info:focus,
+.has-switch span.switch-info:active,
+.has-switch span.switch-info.active,
+.has-switch span.switch-info.disabled,
+.has-switch span.switch-info[disabled] {
+    background-image: -webkit-gradient(linear, left 0%, left 100%, from(#5bc0de), to(#31b0d5));
+    background-image: -webkit-linear-gradient(top, #5bc0de, 0%, #31b0d5, 100%);
+    background-image: -moz-linear-gradient(top, #5bc0de 0%, #31b0d5 100%);
+    background-image: linear-gradient(to bottom, #5bc0de 0%, #31b0d5 100%);
+}

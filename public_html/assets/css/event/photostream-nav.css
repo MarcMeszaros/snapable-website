@@ -1,41 +1,27 @@
-#questionForm {
-    margin: 0 0 20px 0;
-    padding: 20px;
-    background: #eef4f7;
-    border-radius: 5px;
+ul.connect {
+    padding: 0;
+    min-height: 18px;
 }
-
-textarea {
-    resize: none;
-    display: block;
-    width: 390px;
-    height: 100px;
-    margin: 20px 0;
-    padding: 10px;
-    font-size: 16px;
-    line-height: 20px;
-    color: #999;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    -webkit-box-shadow: inset 2px 2px 2px 0px #dddddd;
-    -moz-box-shadow: inset 2px 2px 2px 0px #dddddd;
-    box-shadow: inset 2px 2px 2px 0px #dddddd;
+ul.connect li {
+    margin: 0 10px;
+    list-style: none;
+    float: left;
 }
-
-input[type=submit] {
-    /*display: block;*/
-    color: #fff;
-    background: #6699cc;
-    padding: 10px 20px 8px 20px;
-    border: none;
-    border-radius: 35px;
-    width: 100px;
-    font-size: 16px;
-    text-align: center;
-    font-weight: bold;
+ul.connect li a:link,
+ul.connect li a:visited {
+    padding-left: 20px;
+    color: #6699cc;
     text-decoration: none;
 }
-input[type=submit]:hover {
-    background: #336699;
-    cursor: pointer;
+ul.connect li a:hover {
+    color: #336699;
+}
+ul.connect li a.facebook {
+    background: transparent url('/assets/img/icons/16px/facebook.png') no-repeat left top;
+}
+ul.connect li a.pinterest {
+    background: transparent url('/assets/img/icons/16px/pinterest.png') no-repeat left top;
+}
+ul.connect li a.twitter {
+    background: transparent url('/assets/img/icons/16px/twitter-2.png') no-repeat left top;
 }

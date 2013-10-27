@@ -1,7 +1,7 @@
 
 	<div id="eventCountdown"><?= $days_until ?> Days <?= $days_verb ?> Your Event.</div>
 
-	<div id='signedInBar'><div id='signedInText'>Signed In as <strong><?= $session['fname'] . " " . substr($session['lname'], 0, 1) . "." ?></strong> / <a href='/account/signout'>Sign Out</a></div></div>
+	<div id='signedInBar'><div id='signedInText'>Signed In as <strong><?= $session['first_name'] . " " . substr($session['last_name'], 0, 1) . "." ?></strong> / <a href='/account/signout'>Sign Out</a></div></div>
 	
 	<div id="wrap">
 		

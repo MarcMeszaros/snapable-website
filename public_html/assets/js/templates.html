@@ -1,17 +1,22 @@
+<!-- events -->
 <script id="event-list-photo" type="text/html">
-	<div class="photo{{photoClass}}">
+	<div class="photo">
 		<div class="photo-overlay">
-			<!--
 			<div class="photo-buttons">
-				<a class="button {{buttonClass}}" href="#{{id}}">{{buttonText}}</a>
+				{{#owner}}
+				<button class="btn btn-primary add-cover" href="#" data-photo_id="{{id}}">Set as Cover Photo</button>
+				<br /><br />
+				<label>In Guest Stream</label><br />
+				<div class="make-switch photo-streamable" data-photo_id="{{id}}" data-on="primary" data-off="danger" data-on-label="Yes" data-off-label="No">
+    				<input type="checkbox" {{#streamable}}checked{{/streamable}}>
+				</div>
+				{{/owner}}
+				{{^owner}}
+				<br /><br />
+				<button class="btn btn-primary photo-share" href="{{url}}">Share <span class="glyphicon glyphicon-share-alt"></span></button>
+				{{/owner}}
 			</div>
-			-->
-			{{#owner}}
-			<div class="photo-buttons">
-				<a class="button add-cover" href="#" data-photo_id="{{id}}">Set as Cover Photo</a>
-			</div>
-			{{/owner}}
-			<div id="photo-action-container" style="width:{{#owner}}109px{{/owner}}{{^owner}}44px{{/owner}};">
+			<div id="photo-action-container" style="width:{{#owner}}190px{{/owner}}{{^owner}}130px{{/owner}};">
 			<ul id="photo-action">
 				{{#owner}}
 					<li><a class="photo-delete" href="#" title="Delete" data-photo_id="{{id}}">Delete</a></li>
@@ -24,29 +29,11 @@
 			</div>
 		</div>
 		<img src="{{photo}}" />
-		<img class="photo-comment" data-toggle="tooltip" data-placement="bottom" title="{{caption}}" src="/assets/img/icons/{{#caption}}comment.png{{/caption}}{{^caption}}blank.png{{/caption}}" /> {{photographer}}	
+		<div class="photo-credit" data-toggle="tooltip" data-placement="bottom" data-title="{{caption}}">
+			<img class="photo-comment" title="{{caption}}" src="/assets/img/icons/{{#caption}}comment.png{{/caption}}{{^caption}}blank.png{{/caption}}" /> {{photographer}}
+		</div>	
 	</div>
 </script>
-
-<script id="event-list-photo-with-sharing" type="text/html">
-	<div class="photo">
-		<div class="photo-overlay">
-			<ul class="photo-share">
-				<li><a class="photo-share-twitter" href="#">Tweet</a></li>
-				<li><a class="photo-share-facebook" href="#">Share</a></li>
-				<li><a class="photo-share-email" href="#">Email</a></li>
-			</ul>
-			<div class="photo-buttons">
-				<a class="button addto-prints" href="#">Add to Prints</a>
-			</div>
-			<a class="photo-enlarge" href="{{url}}" title="Enlarge">Enlarge</a>
-			<!--<a class="photo-download" href="#" title="Download">Download</a>-->
-		</div>
-		<img src="{{photo}}" />
-		<img class="photo-comment" title="{{caption}}" src="/assets/img/icons/{{caption_icon}}" /> {{photographer}}	
-	</div>
-</script>
-
 
 <script id="event-first-run" type="text/html">
 	<div id="eventFirstRun">
@@ -54,38 +41,21 @@
 			<li id="uploadText" class="displayMe">
 				<h1>Add a few photos to get started!</h1>
 			</li>
-			<!--<li id="slideshowText">
-				<h1>Create a slideshow</h1>
-				<h2>Set up a screen in the corner</h2>
-				<h3>(Let your guests see the photos that are taken as they're taken)</h3>
-			</li>-->
 			<li id="guestsText">
 				<h1>Let people know to use Snapable</h1>
 				<h2>Add your guest list</h2>
 				<h3>(To ensure only the people you want can take and see the photos)</h3>
 			</li>
-			<!--<li id="shareText">
-				<h1>Tell your Facebook or Twitter friends</h1>
-				<h2>Share your event link with them</h2>
-				<h3>(They can follow along in real-time or see what they've missed)</h3>
-			</li>
-			<li id="privacyText">
-				<h1>Set the privacy of uploaded photos</h1>
-				<h2>Just in case Aunt Ida sees Uncle Tom dancing with the bridesmaids.</h2>
-				<h3>(You can change this any time, even on a per photo basis)</h3>
-			</li>-->
 		</ul>
 		<div id="eventFirstRunDots">
 			<a id="uploadDot" class="blue" href="#upload">Add Photos</a>
 			<!--<a id="slideshowDot" href="#slideshow">Slideshow</a>-->
 			<a id="guestsDot" href="#guests">Invite Guests</a>
-			<!--<a id="shareDot" href="#share">Share</a>
-			<a id="privacyDot" href="#privacy">Privacy</a>-->
 		</div>
 	</div>
 </script>
 
-
+<!-- guests -->
 <script id="invite-guests" type="text/html">
 	<h3>Invite Guests</h3>
 	
@@ -101,78 +71,68 @@
 	<div id="tablecardBox" class="tab-content">{{>guest-tablecardbox}}</div>	
 </script>
 
-
-<script id="tablecards" type="text/html">
-	<h3>Table Cards</h3>
-	
-	<img src="/assets/img/tablecard.png" alt="Table card sample" />
-	<p>
-		Make sure your guests know about Snapable! In addition to inviting them before the event, you can also use our custom event cards at the event.
-	</p>
-	<p>
-		We recommend printing on a heavy paper (98 Bright, 100-lb). The PDF comes with 4 cards on a 
-		sheet (US Letter) to minimize printing costs (just cut them in quarters after printing).
-	</p>
-	<br>
-	<a class="download" href="/pdf/download/{{url}}">Download Your Table Cards</a>
-</script>
-
-
 <script id="guest-addbox" type="text/html">
 	<p>Make sure everyone knows about Snapable before the big day! Import your guest list or enter the email addresses manually.</p>
 	
-	<div id="guest-choices" class="choiceBox">{{>guest-options}}</div>
+	<div id="guest-choices" class="col-lg-6 col-lg-push-3">{{>guest-options}}</div>
 </script>
 
 <script id="guest-notifybox" type="text/html">
-	<p>
-		Let your guests know to download Snapable in advance. 
-	</p>
+	<p>Let your guests know to download Snapable in advance.</p>
+	<p><em>Invites will only be sent to guests who have not yet received one already.</em></p>
 	
 	<div id="notify-wrap">	
 		<div id="notify-group">
 		
-			<a href="#" id="do-send-to-guests">Send Email(s)</a>
+			<button id="do-send-to-guests" class="btn btn-primary btn-lg">Send Email(s)</button>
 		</div>		
 		<div id="notify-message"></div>
-		<div class="clearit">&nbsp;</div>
 	</div>
 </script>
 
-<script id="guest-options">
+<script id="guest-options" type="text/html">
 	<a id="guest-link-upload" href="#">Upload from File</a>
 
 	<a id="guest-link-manual" href="#">
-
-		<!--
-		<textarea>Name, Email, Type</textarea>
-		<input type="button" value="Add Guests" />
-		* One guest per line
-		-->
-		
-		Copy/Paste or Manual Entry
-		
+		Copy/Paste or Manual Entry		
 	</a>
-	
-	<div class="clearit">&nbsp;</div>
 </script>
 
 <script id="guest-upload" type="text/html">
-	<a class="guests-back-to-choices" href="#">‹ Back</a>
+	<a class="guests-back-to-choices" href="#"><span class="glyphicon glyphicon-chevron-left"></span> Back</a>
 			
 	<p><strong>Select a CSV</strong> file from your computer and <strong>click upload</strong>.</p>
 	
-	<form id="guests-file-uploader"><input type="file" accept="text/csv" id="guests-csv-input" name="guests-file-input" /> <input id="guests-upload-csv" type="button" value="Upload" /></form>
+	<p><em>The expected format is <strong>Name, Email</strong></em></p>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<form role="form" id="guests-file-uploader" method="post" action="/upload/csv" enctype="multipart/form-data">
+					<div class="form-group">
+						<input type="file" accept="text/csv" id="guests-csv-input" class="form-control" name="guests-file-input" />
+					</div>
+					<div class="form-group">
+						<button id="guests-upload-csv" type="submit" class="btn btn-primary col-lg-4 col-lg-push-4">Upload</button>
+						<span class="spinner-wrap col-lg-4 col-lg-push-4 hide"></span>
+					</div>
+				</form>
+			</div>
+		</div>
 	
-	<p><em>The expected format is <strong>Name, Email</strong></em></p>	
-	
-	<p>&rarr; <a href="#" id="guests-file-how-to-csv-link">How-to Save a CSV file</a> &nbsp; &nbsp; &rarr; <a href="/assets/csv_sample.csv">Download a Sample CSV file</a></p>		
-	
+		<div class="row">
+			<div class="col-lg-12" style="margin-top:20px;">
+				<p>
+					<span class="glyphicon glyphicon-arrow-right"></span> <a href="#" id="guests-file-how-to-csv-link">How-to Save a CSV file</a> &nbsp; &nbsp; <span class="glyphicon glyphicon-arrow-right"></span> <a href="/assets/csv_sample.csv">Download a Sample CSV file</a>
+				</p>
+			</div>
+		</div>		
+	</div>
 	<div id="guests-file-how-to-csv">
 	
 		<p><strong>Saving a CSV File from Microsoft Excel</strong></p>
 
-		<p>Select <strong>Save As</strong>strong from the <strong>File</strong> menu.</p> 
+		<p>Select <strong>Save As</strong> from the <strong>File</strong> menu.</p> 
 
 		<p>In the window that opens, under the file browser, you'll see a drop down called <strong>Save as type</strong>, you can select CSV (Comma Delimited). Name your file, and click <strong>Save.</strong></p>
 
@@ -182,106 +142,27 @@
 </script>
 
 <script id="guest-manual" type="text/html">
-	<a class="guests-back-to-choices" href="#">‹ Back</a>
-			
-			Copy/paste (or type) your guests below then click "Done".
-			<br /><em>The expected format is <strong>Name, Email</strong> (one per line)</em>
-			
-			<textarea id="guests-manual-textarea"></textarea>
-			
-			<a class="buttonBox" id="guests-manual-done" href="#">Done</a>
-</script>
-
-<script id="guest-csv-parse" type="text/html">
-	<h3><strong>Almost done. </strong>Now match the columns in your uploaded file to the correct categories below.</h3>
-
-	<div class="csvRow" id="csvRow1">
-		<select id="csvHeaderOne">
-			<option value="email">Email</option>
-			<option value="name">Name</option>
-		</select>
+	<a class="guests-back-to-choices" href="#"><span class="glyphicon glyphicon-chevron-left"></span> Back</a>
 		
-		<ul id="rowOneContents"></ul>
-	</div>
-	
-	<div class="csvRow" id="csvRow2">
-		<select id="csvHeaderTwo">
-			<option value="email">Email</option>
-			<option value="name">Name</option>
-		</select>
-		
-		<ul id="rowTwoContents"></ul>
-	</div>
-	
-	<div class="csvRow" id="csvRow3">
-		<select id="csvHeaderThree">
-			<option value="email">Email</option>
-			<option value="name">Name</option>
-			<option value="type">Guest Type</option>
-		</select>
-		
-		<ul id="rowThreeContents"></ul>
-	</div>
-	
-	<div class="clearit">&nbsp;</div>
-	<div id="allDoneWrap"><a id="csvAllDone" href="#">All Done </a></div>
-</script>
-
-<script id="guest-csv-row" type="text/html">
-	<li>{{text}}</li>
+		<form role="form" id="guests-text-uploader" method="post" action="/upload/text" enctype="multipart/form-data">
+			<div class="form-group">	
+				Copy/paste (or type) your guests below then click "Done".
+				<br /><em>The expected format is <strong>Name, Email</strong> (one per line)</em>
+			</div>
+			<div class="form-group">
+				<textarea id="guests-manual-textarea" class="form-control" rows="8" name="message" placeholder="Bob Smith,bob.smith@example.com"></textarea>
+			</div>
+			<div class="form-group">
+				<button id="guests-manual-done" class="btn btn-primary col-lg-4 col-lg-push-4">Done</button>
+				<span class="spinner-wrap col-lg-4 col-lg-push-4 hide"></span>
+			</div>
+		</form>
 </script>
 
 <script id="guest-list" type="text/html">
-	<li>
-		<div class="guest-name">{{name}}</div>
-		<div class="guest-email"><a href="mailto:{{email}}">{{email}}</a></div>
-		<a class="guest-delete" href="#" data-guest_id="{{id}}">Delete</a>
-	</li>
-</script>
-
-<script id="checkout-photo" type="text/html">
-	<div class="photo">
-		<div class="photo-overlay">
-			<div class="photo-buttons">
-				<a class="button removefrom-prints" href="#{{id}}">Remove from Prints</a>
-			</div>
-		</div>
-		<img src="{{photo}}" />
-	</div>
-</script>
-
-<script id="upgrade-list" type="text/html">
-	<li>
-		<div class="upgradeLeft">
-			<div class="upgradeTitle"><span>{{titleDrk}}</span> {{titleLgt}}</div>
-			{{{desc}}}
-		</div>
-		<div class="upgradeRight">
-			<div class="smBoxTop">
-    			<div class="smBoxPrice">
-    				${{price}}
-    				<div>{{{shipping}}}</div>
-    			</div>
-    		</div>
-		</div>
-	</li>
-</script>
-
-<script id="checkout-review-singles" type="text/html">
-	<li>
-		<div class='checkoutReviewLeft'>
-			<div class='checkoutReviewItem'><span>{{num}} x </span>Single Prints @ $1 ea. <a class='checkoutRemove' href='#' title='Remove' rel='{{type}}'>X</a></div>
-		</div>
-		<div class='checkoutReviewRight'>${{num}}</div>
-	</li>
-</script>
-
-<script id="checkout-review-upgrade" type="text/html">
-	<li id="addon-{{id}}">
-		<div class="checkoutReviewLeft">
-			<div class="checkoutReviewItem"><span>{{num}} x </span>{{print_count}} Print Upgrade <a class="checkoutRemove" rel="{{id}}|{{price}}" href="#" title="Remove">X</a></div>
-			{{{instructions}}}
-		</div>
-		<div class="checkoutReviewRight">${{price}}</div>
-	</li>
+	<tr>
+		<td style="width:40%;">{{name}}</td>
+		<td style="width:55%;"><a href="mailto:{{email}}">{{email}}</a></td>
+		<td style="width:5%;"><button class="guest-delete btn btn-danger btn-xs" href="#" data-guest_id="{{id}}">Delete</button></td>
+	</tr>
 </script>
