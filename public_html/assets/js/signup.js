@@ -1,17 +1,17 @@
 function checkUrl(url) {
-	$("#event_url_status").removeClass("url_good").removeClass("url_bad").addClass("spinner-16px");
+	$("#event_url").removeClass("good").removeClass("bad").addClass("spinner-16px");
 	$.ajax('/signup/check', {
 		type: 'GET',
 		data: { 'url': url }
 	}).done(function(data){
 		var resp = $.parseJSON(data);
 		if (resp.meta.total_count > 0) {
-			$("#event_url_status").addClass("url_bad");
+			$("#event_url").addClass("bad");
 		} else {
-			$("#event_url_status").addClass("url_good");
+			$("#event_url").addClass("good");
 		}
 	}).always(function(data){
-		$("#event_url_status").removeClass("spinner-16px");
+		$("#event_url").removeClass("spinner-16px");
 	});
 }
 
@@ -39,19 +39,19 @@ function geocoder(address) {
 }
 
 function userExists(email) {
-	$("#email_status").removeClass("email_good").removeClass("email_bad").addClass("spinner-16px");	
+	$("#user_email").removeClass("good").removeClass("bad").addClass("spinner-16px");
 	$.ajax('/signup/check', {
 		type: 'GET',
 		data: { 'email': email }
 	}).done(function(data){
 		var resp = $.parseJSON(data);
 		if (resp.meta.total_count > 0) {
-			$("#email_status").addClass("email_bad");
+			$("#user_email").addClass("bad");
 		} else {
-			$("#email_status").addClass("email_good");
+			$("#user_email").addClass("good");
 		}
 	}).always(function(data){
-		$("#email_status").removeClass("spinner-16px");
+		$("#user_email").removeClass("spinner-16px");
 	});
 }
 

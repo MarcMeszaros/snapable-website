@@ -66,8 +66,7 @@
 					<div class="form-group">
 						<label for="event_location">Location</label>
 						<div class="form-inline">
-							<input id="event_location" class="form-control" name="event[location]" type="text" data-required="true" data-notblank="true" data-error-message="You must provide a location for your event." /> 
-							<span id="event_location_status"></span>
+							<input id="event_location" class="form-control status" name="event[location]" type="text" data-required="true" data-notblank="true" data-error-message="You must provide a location for your event." /> 
 						</div>
 						<span class="help-block">Example: 255 Bremner Blvd, Toronto, Canada, M5V 3M9</span>
 					</div>
@@ -80,8 +79,7 @@
 					<div class="form-group">
 						<label for="event_url">Choose a unique event URL</label>
 						<div class="form-inline">
-							<span id="event_url-start">snapable.com/event/</span><input id="event_url" class="form-control" name="event[url]" type="text" data-required="true" data-notblank="true" />
-							<span id="event_url_status"></span>
+							<span id="event_url-start">snapable.com/event/</span><input id="event_url" class="form-control status" name="event[url]" type="text" data-required="true" data-notblank="true" />
 						</div>
 						<span class="help-block">Example: https://snapable.com/event/<b>my-big-fat-greek-wedding</b></span>
 					</div>
@@ -108,8 +106,7 @@
 					<div class="form-group">
 						<label for="user_email">Email address <em>(you'll use this to sign in)</em></label>
 						<div class="form-inline">
-							<input id="user_email" class="form-control" name="user[email]" type="email" data-required="true" data-notblank="true" data-error-message="You must provide a properly formatted email address." />
-							<span id="email_status"></span>
+							<input id="user_email" class="form-control status" name="user[email]" type="email" data-required="true" data-notblank="true" data-error-message="You must provide a properly formatted email address." />
 						</div>
 					</div>
 

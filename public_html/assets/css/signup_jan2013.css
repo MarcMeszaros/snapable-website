@@ -86,47 +86,12 @@ div.ui-datepicker{
  font-size:14px;
 }
 
-#event_location { width: 93% }
 #event_url-start { width: 28%; font-size: 14px; padding-top: 4px; padding-right: 5px;}
-#event_url { width: 66%; }
-#user_email { width: 93% }
+#event_url { width: 72% }
 #cc_cvc { width: 15%; }
-
-#event_location_status, #event_url_status, #email_status { display: inline-block; width: 16px; margin-left: 5px; }
 
 .help-block {
     font-size:12px;
-}
-
-.url_bad, .url_good {
-	float: right;
-	margin-top: 7px;
-	width: 16px;
-	height: 16px;
-	overflow: hidden;
-}
-.url_bad {
-	background: transparent url('/assets/img/x_alt_16x16.png') no-repeat;
-}
-.url_good {
-	background: transparent url('/assets/img/check_alt_16x16.png') no-repeat;
-}
-
-.location_good, .spinner-16px, .email_good, .email_bad {
-	float: right;
-	margin-top: 7px;
-	width: 16px;
-	height: 16px;
-	overflow: hidden;
-}
-.location_good, .email_good {
-	background: transparent url('/assets/img/check_alt_16x16.png') no-repeat;
-}
-.location_bad, .email_bad {
-	background: transparent url('/assets/img/x_alt_16x16.png') no-repeat;
-}
-.spinner-16px {
-	background: transparent url('/assets/img/spinner-sm.gif') no-repeat;
 }
 
 .parsley-error-list {
