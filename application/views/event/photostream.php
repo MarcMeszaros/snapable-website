@@ -3,7 +3,7 @@
 ?>	
 <div class="container">
 <div class="row">
-<div class="col-lg-10 col-lg-push-1">
+<div class="col-lg-12">
 <div id="event-top" data-event-id="<?= $eid[3] ?>" data-photo-count="<?= $eventDeets->photos ?>">
 	<div class="row" style="margin-top:30px;">
 		<div class="col-lg-2">
@@ -238,7 +238,7 @@
 </div><!-- /row -->
 
 <div class="row">
-	<div id="photoArea" class="col-lg-10 col-lg-push-1">
+	<div id="photoArea" class="col-lg-12">
 	</div>
 </div>
 

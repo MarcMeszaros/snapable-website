@@ -244,7 +244,7 @@ function loadPhotos(photos) {
 	for (var key = offset; key < photos.objects.length ; key++) {
 		var val = photos.objects[key];
 
-		if ( count < 12 ) {
+		if ( count < 15 ) {
 			var resource_uri = val.resource_uri.split("/");
 			var inPhotoArr = $.inArray(resource_uri[3], photoArr);
 			
