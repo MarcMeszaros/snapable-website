@@ -190,8 +190,7 @@ class Event extends CI_Controller {
 			$event_details = json_decode($this->event_model->getEventDetailsFromURL($this->uri->segment(2)));
 			$data = array(
 				'noTagline' => true,
-				'css' => array('assets/css/setup.css', 'assets/css/slideshow.css'),
-				'js' => array('assets/js/jquery.cycle.all.js', 'assets/js/slideshow.js'),
+				'css' => array('assets/css/setup.css'),
 				'url' => $event_details->event->url,
 				'title' => $event_details->event->title . ", " . $event_details->event->display_timedate . " via Snapable"
 			);
