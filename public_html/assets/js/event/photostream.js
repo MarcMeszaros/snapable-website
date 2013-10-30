@@ -212,8 +212,24 @@ function loadPhoto(photoData, options) {
 	    $(".photo-overlay", this).fadeOut("fast");
 	  }
 	);
-	$domPhoto.find('div.photo .photo-enlarge').filter(filter_position).facebox();
-	$domPhoto.find('div.photo .photo-share').filter(filter_position).facebox();
+	$domPhoto.find('div.photo .photo-enlarge').filter(filter_position).click(function(e){
+		e.preventDefault();
+		var target = $(this).attr("href");
+		// load the url and show modal on success
+    	$("#photo-preview-modal .modal-body").load(target, function() {
+    		$('#photo-preview-modal .modal-dialog').css('width', '900px');
+        	$("#photo-preview-modal").modal("show");
+    	});
+	});
+	$domPhoto.find('div.photo .photo-share').filter(filter_position).click(function(e){
+		e.preventDefault();
+		var target = $(this).attr("href");
+		// load the url and show modal on success
+    	$("#photo-preview-modal .modal-body").load(target, function() {
+    		$('#photo-preview-modal .modal-dialog').css('width', '900px');
+        	$("#photo-preview-modal").modal("show");
+    	});
+	});
 
 	// setup the tooltips
 	$domPhoto.find('div.photo .photo-credit').filter(filter_position).tooltip();

@@ -28,7 +28,6 @@ class Event extends CI_Controller {
 			'css' => array(
 				'assets/css/signin.css',
 				'assets/css/timePicker.css',
-				'assets/css/facebox.css',
 				'assets/css/header.css',
 				'assets/css/event/event.css',
 				'assets/css/footer.css',
@@ -43,7 +42,6 @@ class Event extends CI_Controller {
 			'js' => array(
 				'assets/js/libs/jquery-Mustache.js',
 				'assets/js/libs/jquery.timePicker.min.js',
-				'assets/js/facebox.js',
 				'assets/js/event/photostream.js',
 				'assets/js/event/photostream-nav.js',
 				'assets/js/event/photostream-settings.js',
