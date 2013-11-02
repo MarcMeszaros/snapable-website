@@ -13,7 +13,7 @@
 		<div id="event-title-wrap" class="col-lg-8">
 			<h2 id="event-title"><?= $eventDeets->title ?></h2>
 			<div id="event-address"><?= (!$eventDeets->public && isset($eventDeets->addresses[0]->{'address'})) ? $eventDeets->addresses[0]->{'address'} : '&nbsp;' ?></div>
-			<div id="event-timestamp-start"><?= $eventDeets->human_start ?></span> to <span id="event-timestamp-end"><?= $eventDeets->human_end ?><?php if ($ownerLoggedin) { ?> &nbsp; <button id="event-settings-btn" class="btn btn-primary btn-xs" style="font-size:10px; margin-top:-2px;" onclick="$('#event-settings').show();">Edit Event</button><?php } ?></div>
+			<div id="event-timestamp-start"><?= $eventDeets->human_start ?></span> to <span id="event-timestamp-end"><?= $eventDeets->human_end ?><?php if ($ownerLoggedin) { ?> &nbsp; <button id="event-settings-btn" class="btn btn-primary btn-xs" style="font-size:10px; margin-top:-2px;" onclick="$('#event-settings').slideDown();">Edit Event</button><?php } ?></div>
 			<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ) { ?>
 			<form id="event-settings" role="form" method="POST" action="/ajax/put_event/<?= $eid[3] ?>">
 				<h3>Edit Your Event Details</h3>
@@ -22,6 +22,7 @@
 				<input id="event-settings-timezone" name="tz_offset" type="hidden" value="<?php echo $eventDeets->tz_offset; ?>"/>
 				<input id="event-settings-start" name="start" type="hidden" value="<?php echo $eventDeets->start_epoch; ?>"/>
 				<input id="event-settings-streamable" name="are_photos_streamable" type="hidden" value="<?= $eventDeets->are_photos_streamable ?>"/>
+				<input id="event-settings-public" name="public" type="hidden" value="<?= $eventDeets->public ?>"/>
 
 				<div class="form-group">
 					<label for="event-settings-title">Event Title</label>
@@ -92,6 +93,15 @@
 					</div>
 				</div>
 				<div class="form-group">
+					<label for="event-settings-public-toggle">Public Event</label>
+					<div class="form-field_hint">Public events allow anyone to view and upload photos to the album. Private events are only viewable by guests that know the event PIN.</div>
+					<div>
+					<div id="event-settings-public-toggle" class="make-switch" data-on-label="Yes" data-off-label="No">
+    					<input type="checkbox" <?php echo ($eventDeets->public) ? 'checked' : ''; ?>>
+					</div>
+					</div>
+				</div>
+				<div class="form-group">
 					<label for="event-settings-address">Event Location</label>
 					<input type="hidden" name="address_id" value="<?= $aid[3] ?>" />
 					<input id="event-settings-address" class="form-control status" name="address" type="text" data-resource-uri="<?= (isset($eventDeets->addresses[0]->{'resource_uri'})) ? $eventDeets->addresses[0]->{'resource_uri'} : '' ?>" value="<?= (isset($eventDeets->addresses[0]->{'address'})) ? $eventDeets->addresses[0]->{'address'} : '' ?>"/>
@@ -102,7 +112,6 @@
 				</div>
 				<div class="form-group">
 					<div id="event-settings-save-wrap">
-						<button class="btn btn-default cancel" onclick="$('#event-settings').hide(); return false;">Cancel</button>
 						<button class="btn btn-primary save" onclick="return sendForm(this, settingsSuccess, settingsError, settingsBeforeSubmit);">Save</button>
 						<span id="settings-save-spinner" class="spinner-wrap hide" data-color="#366993"></span>
 					</div>
@@ -117,7 +126,6 @@
 				<li><span class='st_email_hcount' displayText='Email' onclick="_gaq.push(['_trackEvent', 'Share', 'Email', 'Event']);" st_url="https://snapable.com/event/<?= $eventDeets->url ?>" st_title="<?= "Follow the photos on " . date("D M j", $eventDeets->start_epoch) . " at " .  date("g:i a", $eventDeets->start_epoch) . " for " . $eventDeets->title ?>"></span></li>
 			</ul>
 			<ul id="event-nav">
-
 				<li><span class="down">Photostream</span></li>
 				<?php if ( (isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user) || (isset($guestLoggedin) && $guestLoggedin == true) ) { ?>
 					<li><a id="uploadBTN" href="#">Submit Photo</a></li>
@@ -128,25 +136,8 @@
 				<li><a href="#guest" id="guestBTN">Invite Guests</a></li>
 				<li><a href="#tablecards" id="tableBTN">Table Cards</a></li>
 				<li><a id="event-nav-contact" href="#nav-contact">Contact</a></li>
-				<li>
-					<a id="event-nav-privacy" href="#">Privacy</a>
-					<div id="event-nav-menu-privacy" class="event-nav-menu">
-						<form role="form" class="form-horizontal" method="POST" action="/event/privacy">
-							<input type="hidden" name="event" value="<?php echo $eventDeets->resource_uri; ?>" />
-							<p>Choose private if you prefer photos are only viewed by guests. Public events will be visible to anyone who visits your album.</p>
-							<ul>
-								<li><input type="radio" name="privacy-setting" value="0" <?php echo (!$eventDeets->public) ? 'checked="checked"':''; ?>/> Private</li>
-								<li><input type="radio" name="privacy-setting" value="1" <?php echo ($eventDeets->public) ? 'checked="checked"':''; ?>/> Public</li>
-							</ul>
-							<div class="clearit">&nbsp;</div>
-							<button class="btn btn-primary" onclick="return sendForm(this, privacySettingSuccess, privacySettingError, privacySettingBeforeSubmit);">Save</button>
-							<span class="spinner-wrap hide" data-color="#366993"></span>
-						</form>
-					</div>
-				</li>
 				<?php } ?>
 			</ul>
-
 		</div>
 
 		<div class="col-lg-2">

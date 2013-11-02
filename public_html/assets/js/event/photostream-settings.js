@@ -1,6 +1,7 @@
 function settingsBeforeSubmit() {
     $('#settings-save-spinner').removeClass('hide');
     $('#event-settings-streamable').val($('#event-settings-streamable-toggle').bootstrapSwitch('status'));
+    $('#event-settings-public').val($('#event-settings-public-toggle').bootstrapSwitch('status'));
 }
 
 function settingsSuccess() {
@@ -9,6 +10,11 @@ function settingsSuccess() {
     // update field values
     $('#event-title').html(json.title);
     $('#event-address').html(json.addresses[0].address);
+    if ($('#event-settings-public-toggle').bootstrapSwitch('status')) {
+        $('#event-pin').fadeOut();
+    } else {
+        $('#event-pin').fadeIn();      
+    }
 
     // we shanged the url, redirect
     if ($('#event-settings-url').val() != $('#event-settings-url').data('orig')) {
@@ -41,6 +47,12 @@ function settingsError() {
 }
 
 $(document).ready(function(){
+    $(document).mouseup(function(e) {
+        if ($(e.target).attr('id') != 'event-settings' && $(e.target).parents('#event-settings').length == 0) {
+            $('#event-settings').slideUp();
+        }
+    });
+
     $('#event-settings-url').keyup(function(){
         var url = sanitizeUrl($(this).val());
         $(this).val(url);

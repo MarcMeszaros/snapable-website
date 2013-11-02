@@ -34,7 +34,7 @@ class Event extends CI_Controller {
 				'assets/css/event/photostream-nav.css',
 			),
 			'ext_js' => array(
-				'//cdnjs.cloudflare.com/ajax/libs/jquery.form/3.24/jquery.form.js',
+				'//cdnjs.cloudflare.com/ajax/libs/jquery.form/3.32/jquery.form.js',
 				'//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.0.0/js/bootstrap-datepicker.min.js',
 				'//cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.0/mustache.min.js',
 				'//maps.googleapis.com/maps/api/js?key=AIzaSyAofUaaxFh5DUuOdZHmoWETZNAzP1QEya0&sensor=false',
@@ -43,7 +43,6 @@ class Event extends CI_Controller {
 				'assets/js/libs/jquery-Mustache.js',
 				'assets/js/libs/jquery.timePicker.min.js',
 				'assets/js/event/photostream.js',
-				'assets/js/event/photostream-nav.js',
 				'assets/js/event/photostream-settings.js',
 				'assets/js/event/photostream-guests.js',
 				'assets/js/event/photostream-upload.js',
@@ -51,7 +50,6 @@ class Event extends CI_Controller {
 				'assets/js/event/photostream-tablecards.js',
 			),
 			'url' => $event_details->event->url,
-			'type' => $this->uri->segment(1),
 			'title' => $event_details->event->title . ", via Snapable"
 		);
 
