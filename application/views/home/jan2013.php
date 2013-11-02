@@ -4,7 +4,7 @@
 			<div id="logo">Snapable. Every moment at your event in photos</div>
 			
 			<ul id="nav">
-				<li><a class="signup" href="signup" onClick="_gaq.push(['_trackEvent', 'Signups', 'Clicked', 'Signup (Header)']);">Sign-up</a></li>
+				<li><a class="signup" href="signup" onClick="ga('send', 'event', 'Signups', 'Clicked', 'Signup (Header)'); _gaq.push(['_trackEvent', 'Signups', 'Clicked', 'Signup (Header)']);">Sign-up</a></li>
 				<li><a class="signin" href="/account/signin">Sign-in</a></li>
 				<li><a href="http://blog.snapable.com/">Blog</a></li>
 				<li><a href="#pricing" class="anchorLink">Pricing</a></li>

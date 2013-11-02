@@ -1,6 +1,7 @@
 $(document).ready(function(){
     // TABLE CARDS
     $('#tablecards a.download').click(function(){
+        ga('send', 'event', 'Downloads', 'PDF');
         _gaq.push(['_trackEvent', 'Downloads', 'PDF']); // track the download as an analytics event
     });
 

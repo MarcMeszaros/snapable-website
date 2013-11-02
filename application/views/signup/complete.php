@@ -15,6 +15,7 @@ cinterval = setInterval('time_dec()', 1000);
 
 
 $(document).ready(function() {
+    ga('send', 'pageview', 'signup/submit');
     _gaq.push(['_trackPageview', 'signup/submit']);
 });
 </script>
