@@ -21,6 +21,7 @@
 				<input id="event-settings-lng" name="lng" type="hidden" value="<?= (isset($eventDeets->addresses[0])) ? $eventDeets->addresses[0]->{'lng'} : '0' ?>"/>
 				<input id="event-settings-timezone" name="tz_offset" type="hidden" value="<?php echo $eventDeets->tz_offset; ?>"/>
 				<input id="event-settings-start" name="start" type="hidden" value="<?php echo $eventDeets->start_epoch; ?>"/>
+				<input id="event-settings-streamable" name="are_photos_streamable" type="hidden" value="<?= $eventDeets->are_photos_streamable ?>"/>
 
 				<div class="form-group">
 					<label for="event-settings-title">Event Title</label>
@@ -82,11 +83,11 @@
 					<div style="clear:both;"></div>
 				</div>
 				<div class="form-group">
-					<label for="event-settings-streamable">Automatically Add Guest Photos to Stream</label>
+					<label for="event-settings-streamable-toggle">Automatically Add Guest Photos to Stream</label>
 					<div class="form-field_hint">Should photos uploaded by guests automatically be available in the stream?</div>
 					<div>
-					<div id="event-settings-streamable" class="make-switch" data-on="primary" data-off="danger" data-on-label="Yes" data-off-label="No">
-    					<input name="are_photos_streamable" type="checkbox" <?php echo ($eventDeets->are_photos_streamable) ? 'checked' : ''; ?>>
+					<div id="event-settings-streamable-toggle" class="make-switch" data-on="primary" data-off="danger" data-on-label="Yes" data-off-label="No">
+    					<input type="checkbox" <?php echo ($eventDeets->are_photos_streamable) ? 'checked' : ''; ?>>
 					</div>
 					</div>
 				</div>

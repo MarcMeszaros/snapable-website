@@ -1,5 +1,6 @@
 function settingsBeforeSubmit() {
     $('#settings-save-spinner').removeClass('hide');
+    $('#event-settings-streamable').val($('#event-settings-streamable-toggle').bootstrapSwitch('status'));
 }
 
 function settingsSuccess() {
