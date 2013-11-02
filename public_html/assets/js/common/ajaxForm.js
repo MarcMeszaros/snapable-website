@@ -1,6 +1,11 @@
 // use the native FormData
 function sendForm(input, successCallback, errorCallback, beforeSubmit) {
     console.log('sendForm');
+    // validate the form
+    if (!$(input.form).parsley('validate')) {
+        return false;
+    }
+
     if (typeof beforeSubmit === 'function') {
         beforeSubmit();
     }

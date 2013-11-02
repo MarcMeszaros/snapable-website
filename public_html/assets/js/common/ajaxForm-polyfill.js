@@ -1,6 +1,11 @@
 /* we don't have native FormData, so use the jquery.form library */
 function sendForm(input, successCallback, errorCallback, beforeSubmit) {
     console.log('sendForm polyfill');
+    // validate the form
+    if (!$(input.form).parsley('validate')) {
+        return false;
+    }
+
     var params = {};
     if (typeof successCallback === 'function') {
         params.success = function(data, status, xhr) {
