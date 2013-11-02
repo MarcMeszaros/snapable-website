@@ -2,7 +2,7 @@
 function sendForm(input, successCallback, errorCallback, beforeSubmit) {
     console.log('sendForm');
     // validate the form
-    if (!$(input.form).parsley('validate')) {
+    if ($(input.form).data('validate') === 'parsley' && !$(input.form).parsley('validate')) {
         return false;
     }
 
