@@ -21,8 +21,6 @@
 				<input id="event-settings-lng" name="lng" type="hidden" value="<?= (isset($eventDeets->addresses[0])) ? $eventDeets->addresses[0]->{'lng'} : '0' ?>"/>
 				<input id="event-settings-timezone" name="tz_offset" type="hidden" value="<?php echo $eventDeets->tz_offset; ?>"/>
 				<input id="event-settings-start" name="start" type="hidden" value="<?php echo $eventDeets->start_epoch; ?>"/>
-				<input id="event-settings-streamable" name="are_photos_streamable" type="hidden" value="<?= $eventDeets->are_photos_streamable ?>"/>
-				<input id="event-settings-public" name="public" type="hidden" value="<?= $eventDeets->public ?>"/>
 
 				<div class="form-group">
 					<label for="event-settings-title">Event Title</label>
@@ -33,15 +31,15 @@
 					<input id="event-settings-url" class="form-control status" name="url" type="text" data-orig="<?php echo $eventDeets->url; ?>" value="<?php echo $eventDeets->url; ?>"/>
 				</div>
 				<div class="form-group row">
-					<div class="form-group col-sm-3">
+					<div class="form-group col-sm-4">
 						<label for="event-start-date">Date</label>
-						<input type="text" id="event-start-date" class="form-control longer datepicker" name="start_date" value="<?= date("M j, Y", $eventDeets->start_epoch + ($eventDeets->tz_offset * 60)) ?>">
+						<input type="text" id="event-start-date" class="form-control" name="start_date" value="<?= date("M j, Y", $eventDeets->start_epoch + ($eventDeets->tz_offset * 60)) ?>">
 					</div>
 					<div class="form-group col-sm-3">
 						<label for="event-start-time">Time</label>
-						<input id="event-start-time" class="form-control" name="start_time" type="text" value="<?= date("h:i A", $eventDeets->start_epoch + ($eventDeets->tz_offset * 60)) ?>">
+						<input type="text" id="event-start-time" class="form-control" name="start_time" value="<?= date("h:i A", $eventDeets->start_epoch + ($eventDeets->tz_offset * 60)) ?>">
 					</div>
-					<div class="form-group col-sm-6">
+					<div class="form-group col-sm-5">
 						<label for="event-duration-num">Duration</label>
 						<div class="form-inline">
 						<select id="event-duration-num" class="form-control" name="duration_num" style="width:49%;">
@@ -84,6 +82,7 @@
 					<div style="clear:both;"></div>
 				</div>
 				<div class="form-group">
+					<input id="event-settings-streamable" name="are_photos_streamable" type="hidden" value="<?= $eventDeets->are_photos_streamable ?>"/>
 					<label for="event-settings-streamable-toggle">Automatically Add Guest Photos to Stream</label>
 					<div class="form-field_hint">Should photos uploaded by guests automatically be available in the stream?</div>
 					<div>
@@ -93,6 +92,7 @@
 					</div>
 				</div>
 				<div class="form-group">
+					<input id="event-settings-public" name="public" type="hidden" value="<?= $eventDeets->public ?>"/>
 					<label for="event-settings-public-toggle">Public Event</label>
 					<div class="form-field_hint">Public events allow anyone to view and upload photos to the album. Private events are only viewable by guests that know the event PIN.</div>
 					<div>
@@ -111,10 +111,8 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<div id="event-settings-save-wrap">
-						<button type="submit" class="btn btn-primary save" onclick="return sendForm(this, settingsSuccess, settingsError, settingsBeforeSubmit);">Save</button>
-						<span id="settings-save-spinner" class="spinner-wrap hide" data-color="#366993"></span>
-					</div>
+					<button type="submit" class="btn btn-primary save" onclick="return sendForm(this, settingsSuccess, settingsError, settingsBeforeSubmit);">Save</button>
+					<span id="settings-save-spinner" class="spinner-wrap hide" data-color="#366993"></span>
 				</div>
 			</form>
 			<?php } ?>

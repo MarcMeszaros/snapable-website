@@ -48,7 +48,7 @@ function settingsError() {
 
 $(document).ready(function(){
     $(document).mouseup(function(e) {
-        if ($(e.target).attr('id') != 'event-settings' && $(e.target).parents('#event-settings').length == 0) {
+        if ($(e.target).attr('id') != 'event-settings' && $(e.target).parents('#event-settings,.datepicker,.time-picker').length == 0) {
             $('#event-settings').slideUp();
         }
     });
@@ -157,7 +157,9 @@ $(document).ready(function(){
         }
     });
     // initialize the pickers
-    $("#event-start-date").datepicker({format: 'M d, yyyy', autoclose: true});
+    //if (!Modernizr.inputtypes.date) {
+        $("#event-start-date").datepicker({format: 'M d, yyyy', autoclose: true});
+    //}
     $("#event-start-time").timePicker({
         startTime: "06.00", // Using string. Can take string or Date object.
         show24Hours: false,

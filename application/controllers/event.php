@@ -221,7 +221,6 @@ class Event extends CI_Controller {
 					'assets/js/event/photostream-login.js',
 				),
 				'url' => $event_details->event->url,
-				'type' => $this->uri->segment(1),
 				'title' => $event_details->event->title . ", via Snapable"
 			);
 
