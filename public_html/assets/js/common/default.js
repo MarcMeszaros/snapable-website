@@ -21,3 +21,10 @@ $(document).ready(function(){
         $(this).spin('small');
     });
 });
+
+// ajaxForm (native vs polyfill implementation)
+Modernizr.load({
+  test: 'FormData' in window,
+  yep: '/assets/js/common/ajaxForm.js',
+  nope: ['//cdnjs.cloudflare.com/ajax/libs/jquery.form/3.32/jquery.form.js', '/assets/js/common/ajaxForm-polyfill.js']
+});

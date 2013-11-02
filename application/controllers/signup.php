@@ -381,8 +381,7 @@ class Signup extends CI_Controller {
 
 		// failed to get package
 		if ($resp['code'] != 200) {
-			$raven_client = new Raven_Client(SENTRY_DSN);
-			$raven_client->captureMessage('Unable to initialize signup process.');
+			Log::e('Unable to initialize signup process.');
 			show_error('Unable to initialize signup process.<br>We\'ve been automatically notified and are looking into the problem.', 500);
 		}
 
@@ -422,8 +421,7 @@ class Signup extends CI_Controller {
 	{
 		// make sure form data is here
 		if(!isset($_POST)) {
-			$raven_client = new Raven_Client(SENTRY_DSN);
-			$raven_client->captureMessage('Unable to create event. No form POST.');
+			Log::e('Unable to create event. No form POST.');
 			show_error('Unable to create the event.', 500);
 		}
 
@@ -514,8 +512,7 @@ class Signup extends CI_Controller {
 			} 
 			// can't create order
 			else {
-				$raven_client = new Raven_Client(SENTRY_DSN);
-				$raven_client->captureMessage('Unable to process payment. There was a problem with the Credit Card.');
+				Log::e('Unable to process payment. There was a problem with the Credit Card.');
 				throw new Exception('Unable to process payment.');
 			}
 
@@ -525,7 +522,7 @@ class Signup extends CI_Controller {
 				'end_timestamp' => $end_timestamp,
 				'email_address' => $_POST['user']['email'],
 				'affiliate' => '',
-				'total' => $amount_in_cents,
+				'total' => $order_response->ammount,
 			);
 			$signup_details['coupon'] = (isset($coupon)) ? $coupon : '';
 			if ($this->input->cookie('affiliate')) {
@@ -567,8 +564,7 @@ class Signup extends CI_Controller {
 			//$this->session->keep_flashdata('package_id');
 			//$this->session->keep_flashdata('package_price');
 			// send the exception to sentry
-			$raven_client = new Raven_Client(SENTRY_DSN);
-			$raven_client->captureMessage('Unable to create event. There was no valid response after creating the event..');
+			Log::e('Unable to create event. There was no valid response after creating the event.');
 			show_error('Unable to create the event.<br>We\'ve been notified and are looking into the problem.', 500);
 		}
 

@@ -12,7 +12,7 @@
 					<li><a href="contact"<?php if($active == "contact") { echo ' class="active"'; } ?>>Contact</a></li>
 				</ul>
 
-				<a id="signup-link" href="/signup" class="ajax btn btn-success" onClick="_gaq.push(['_trackEvent', 'Signups', 'Clicked', 'Help Sidebar']);">Sign up</a>
+				<a id="signup-link" href="/signup" class="ajax btn btn-success" onClick="ga('send', 'event', 'Signups', 'Clicked', 'Help Sidebar'); _gaq.push(['_trackEvent', 'Signups', 'Clicked', 'Help Sidebar']);">Sign up</a>
 
 				<dl>
 					<dt>Connect:</dt>

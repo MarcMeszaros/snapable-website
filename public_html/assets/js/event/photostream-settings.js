@@ -1,72 +1,58 @@
-$(document).ready(function(){
-    /**** Event Settings ****/
-    $('#event-settings-btn').click(function(){
-        $('#event-settings').show();
-    });
-    $('#event-settings input[type=button].cancel').click(function(){
-        $('#event-settings').hide();
-    });
-    $('#event-settings input[type=button].save').click(function(){
-        var addressIdParts = $('#event-settings-address').data('resourceUri').split("/");
-        var data = {
-            title: $('#event-settings-title').val(),
-            address_id: addressIdParts[3],
-            address: $('#event-settings-address').val(),
-            lat: $('#event-settings-lat').val(),
-            lng: $('#event-settings-lng').val(),
-            tz_offset: $('#event-settings-timezone').val(),
-            start_date: $('#event-start-date').val(),
-            start_time: $('#event-start-time').val(),
-            duration_num: $('#event-duration-num').val(),
-            duration_type: $('#event-duration-type').val(),
-            are_photos_streamable: $('#event-settings-streamable').bootstrapSwitch('status')
-        }
-        if ($('#event-settings-url').val() != $('#event-settings-url').data('orig') && $('#event-settings-url').val().length > 0) {
-            data.url = $('#event-settings-url').val();
-        }
+function settingsBeforeSubmit() {
+    $('#settings-save-spinner').removeClass('hide');
+    $('#event-settings-streamable').val($('#event-settings-streamable-toggle').bootstrapSwitch('status'));
+    $('#event-settings-public').val($('#event-settings-public-toggle').bootstrapSwitch('status'));
+}
 
-        $.ajax({
-            url: '/ajax/put_event/'+$('#event-top').data('event-id'),
-            type: 'POST',
-            data: data,
-            beforeSend: function(){
-                $('#settings-save-spinner').removeClass('hide');
-            }
-        }).done(function(data){
-            $('#event-settings').hide();
-            var json = $.parseJSON(data);
-            // update field values
-            $('#event-title').html(json.title);
-            $('#event-address').html(json.addresses[0].address);
+function settingsSuccess() {
+    $('#event-settings').hide();
+    var json = $.parseJSON(this.response);
+    // update field values
+    $('#event-title').html(json.title);
+    $('#event-address').html(json.addresses[0].address);
+    if ($('#event-settings-public-toggle').bootstrapSwitch('status')) {
+        $('#event-pin').fadeOut();
+    } else {
+        $('#event-pin').fadeIn();      
+    }
 
-            // we shanged the url, redirect
-            if ($('#event-settings-url').val() != $('#event-settings-url').data('orig')) {
-                $.pnotify({
-                    type: 'success',
-                    title: 'Settings',
-                    text: "Your event settings have been updated.<br>We will redirect you to the new event url...",
-                    delay: 3000,
-                    after_close: function(pnotify) {
-                        window.location = '/event/'+$('#event-settings-url').val();
-                    }
-                });
-            } else {
-                $.pnotify({
-                    type: 'success',
-                    title: 'Settings',
-                    text: 'Your event settings have been updated.'
-                });
+    // we shanged the url, redirect
+    if ($('#event-settings-url').val() != $('#event-settings-url').data('orig')) {
+        $.pnotify({
+            type: 'success',
+            title: 'Settings',
+            text: "Your event settings have been updated.<br>We will redirect you to the new event url...",
+            delay: 3000,
+            after_close: function(pnotify) {
+                window.location = '/event/'+$('#event-settings-url').val();
             }
-        }).fail(function(){
-            $.pnotify({
-                type: 'error',
-                title: 'Settings',
-                text: "This is embarassing, something went wrong and we weren't able to change your event settings. If the problem persists, please contact us!"
-            });
-        }).always(function(){
-            $('#settings-save-spinner').addClass('hide');
         });
+    } else {
+        $.pnotify({
+            type: 'success',
+            title: 'Settings',
+            text: 'Your event settings have been updated.'
+        });
+    }
+    $('#settings-save-spinner').addClass('hide');
+}
+
+function settingsError() {
+    $.pnotify({
+        type: 'error',
+        title: 'Settings',
+        text: "This is embarassing, something went wrong and we weren't able to change your event settings. If the problem persists, please contact us!"
     });
+    $('#settings-save-spinner').addClass('hide');
+}
+
+$(document).ready(function(){
+    $(document).mouseup(function(e) {
+        if ($(e.target).attr('id') != 'event-settings' && $(e.target).parents('#event-settings,.datepicker,.time-picker').length == 0) {
+            $('#event-settings').slideUp();
+        }
+    });
+
     $('#event-settings-url').keyup(function(){
         var url = sanitizeUrl($(this).val());
         $(this).val(url);
@@ -171,7 +157,9 @@ $(document).ready(function(){
         }
     });
     // initialize the pickers
-    $("#event-start-date").datepicker({format: 'M d, yyyy', autoclose: true});
+    //if (!Modernizr.inputtypes.date) {
+        $("#event-start-date").datepicker({format: 'M d, yyyy', autoclose: true});
+    //}
     $("#event-start-time").timePicker({
         startTime: "06.00", // Using string. Can take string or Date object.
         show24Hours: false,

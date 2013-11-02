@@ -227,6 +227,16 @@ $(document).ready(function() {
 
 		// check the email for more than one user
 		var email = $('#user_email').val();
+		if (email.length < 6) {
+			$.pnotify({
+				type: 'error',
+				text: 'Invalid email address.'
+			});
+			$('#signup-spinner').addClass('hide');
+			$('#completSignup').removeAttr("disabled").show();
+			return false;
+		}
+
 		$.ajax('/signup/check', {
 			type: 'GET',
 			data: { 'email': email },

@@ -154,9 +154,8 @@ ul#event-nav  {
 	display: none;
 	width: 475px;
 	position: absolute;
-	top: 60px;
+	top: 38px;
 	padding: 20px;
-	color: #999;
 	background: #fff;
 	border-radius: 3px;
 	-webkit-box-shadow: 1px 1px 5px rgba(50, 50, 50, 0.75);
@@ -265,7 +264,7 @@ div.time-picker {
 .photo {
 	float: left;
 	padding: 5px;
-	margin: 0 12px 15px 12px;
+	margin: 0 9px 15px 9px;
 	width: 210px;
 	min-height: 200px;
 	background: #fff;

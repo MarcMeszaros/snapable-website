@@ -17,6 +17,7 @@ $(document).ready(function()
 	{
 		e.preventDefault();
 		
+		ga('send', 'event', 'Signups', 'Clicked', 'Email Captured');
 		_gaq.push(['_trackEvent', 'Signups', 'Clicked', 'Email Captured']);
 		
 		var package = $("input[name=package]").val();

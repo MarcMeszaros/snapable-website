@@ -21,8 +21,8 @@
     <link type="text/css" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/1.8/css/bootstrap-switch.css" />
     <link type="text/css" rel="stylesheet" href="/assets/libs/pnotify/jquery.pnotify.default.css" />
     <link type="text/css" rel="stylesheet" href="/assets/css/common/fonts.css" />
-    <link type="text/css" rel="stylesheet" href="/assets/css/common/default.css" />
-    <link type="text/css" rel="stylesheet" href="/assets/css/common/snapable-theme.css" />
+    <link type="text/css" rel="stylesheet" href="/assets/css/common/default.css?<?= md5_file('assets/css/common/default.css') ?>" />
+    <link type="text/css" rel="stylesheet" href="/assets/css/common/snapable-theme.css?<?= md5_file('assets/css/common/snapable-theme.css') ?>" />
     <?php 
     // external resources
     if ( isset($ext_css) ) {
@@ -34,26 +34,23 @@
     // internal resources
     if ( isset($css) ) {
     	// add assets
-		if(defined('MINIFY') && MINIFY == false) {
-			foreach ($css as $asset) {
-                echo '<link type="text/css" rel="stylesheet" href="/' . $asset . '?'. md5_file($asset) .'" media="screen" />'.PHP_EOL;
-			}
-		} else {
-			echo '<link type="text/css" rel="stylesheet" href="/min/c/' . base64_encode(implode(',', $css)) . '" media="screen" />';
+		foreach ($css as $asset) {
+            echo '<link type="text/css" rel="stylesheet" href="/' . $asset . '?'. md5_file($asset) .'" media="screen" />'.PHP_EOL;
 		}
     } 
     ?>
     
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery-migrate/1.2.1/jquery-migrate.min.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/1.8/js/bootstrap-switch.min.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/parsley.js/1.1.16/parsley.min.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js"></script>
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/spin.js/1.2.7/spin.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/spin.js/1.3.2/spin.min.js"></script>
     <script type="text/javascript" src="/assets/js/libs/jquery.spin.js"></script>
     <script type="text/javascript" src="/assets/libs/pnotify/jquery.pnotify.min.js"></script>
-    <script type="text/javascript" src="/assets/js/common/default.js"></script>
+    <script type="text/javascript" src="/assets/js/common/default.js?<?= md5_file('assets/js/common/default.js') ?>"></script>
     <?php
         // external resources
         if ( isset($ext_js) ) {
@@ -65,14 +62,10 @@
         // internal resources
 	    if ( isset($js) ) {
             // add assets
-			if(defined('MINIFY') && MINIFY == false) {
-				foreach ($js as $asset) {
-                    echo '<script type="text/javascript" src="/' . $asset . '?'. md5_file($asset) .'"></script>'.PHP_EOL;
-				}
-			} else {
-				echo '<script type="text/javascript" src="/min/j/' . base64_encode(implode(',', $js)) . '"></script>';
+			foreach ($js as $asset) {
+                echo '<script type="text/javascript" src="/' . $asset . '?'. md5_file($asset) .'"></script>'.PHP_EOL;
 			}
-	    }
+		}
     ?>
     <?php if(isset($stripe) && $stripe == true) { ?>
         <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
@@ -99,20 +92,29 @@
     <![endif]-->
 
     <script type="text/javascript">
-<?php if ( $_SERVER['HTTP_HOST'] == "snapable.com" || $_SERVER['HTTP_HOST'] == "www.snapable.com" ) { ?>  
-	  var _gaq = _gaq || [];
-	  _gaq.push(['_setAccount', 'UA-295382-36']);
-	  _gaq.push(['_setDomainName', 'snapable.com']);
-	  _gaq.push(['_trackPageview']);
-	
-	  (function() {
-	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-	  })();
- <?php } else { ?> 
- 	var _gaq = _gaq || [];
- <?php } ?>
+    <?php if ( $_SERVER['HTTP_HOST'] == "snapable.com" || $_SERVER['HTTP_HOST'] == "www.snapable.com" ) { ?> 
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-38299813-2', 'snapable.com');
+        ga('send', 'pageview');
+
+        // old analytics
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-295382-36']);
+        _gaq.push(['_setDomainName', 'snapable.com']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    <?php } else { ?> 
+        var _gaq = _gaq || [];
+    <?php } ?>
 	</script>
 
     <?php if (isset($facebook_pixel) && $facebook_pixel == true && ($_SERVER['HTTP_HOST'] == "snapable.com" || $_SERVER['HTTP_HOST'] == "www.snapable.com")) { ?>

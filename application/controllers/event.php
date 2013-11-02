@@ -28,14 +28,12 @@ class Event extends CI_Controller {
 			'css' => array(
 				'assets/css/signin.css',
 				'assets/css/timePicker.css',
-				'assets/css/facebox.css',
 				'assets/css/header.css',
 				'assets/css/event/event.css',
 				'assets/css/footer.css',
 				'assets/css/event/photostream-nav.css',
 			),
 			'ext_js' => array(
-				'//cdnjs.cloudflare.com/ajax/libs/jquery.form/3.24/jquery.form.js',
 				'//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.0.0/js/bootstrap-datepicker.min.js',
 				'//cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.0/mustache.min.js',
 				'//maps.googleapis.com/maps/api/js?key=AIzaSyAofUaaxFh5DUuOdZHmoWETZNAzP1QEya0&sensor=false',
@@ -43,9 +41,7 @@ class Event extends CI_Controller {
 			'js' => array(
 				'assets/js/libs/jquery-Mustache.js',
 				'assets/js/libs/jquery.timePicker.min.js',
-				'assets/js/facebox.js',
 				'assets/js/event/photostream.js',
-				'assets/js/event/photostream-nav.js',
 				'assets/js/event/photostream-settings.js',
 				'assets/js/event/photostream-guests.js',
 				'assets/js/event/photostream-upload.js',
@@ -53,7 +49,6 @@ class Event extends CI_Controller {
 				'assets/js/event/photostream-tablecards.js',
 			),
 			'url' => $event_details->event->url,
-			'type' => $this->uri->segment(1),
 			'title' => $event_details->event->title . ", via Snapable"
 		);
 
@@ -190,8 +185,7 @@ class Event extends CI_Controller {
 			$event_details = json_decode($this->event_model->getEventDetailsFromURL($this->uri->segment(2)));
 			$data = array(
 				'noTagline' => true,
-				'css' => array('assets/css/setup.css', 'assets/css/slideshow.css'),
-				'js' => array('assets/js/jquery.cycle.all.js', 'assets/js/slideshow.js'),
+				'css' => array('assets/css/setup.css'),
 				'url' => $event_details->event->url,
 				'title' => $event_details->event->title . ", " . $event_details->event->display_timedate . " via Snapable"
 			);
@@ -227,7 +221,6 @@ class Event extends CI_Controller {
 					'assets/js/event/photostream-login.js',
 				),
 				'url' => $event_details->event->url,
-				'type' => $this->uri->segment(1),
 				'title' => $event_details->event->title . ", via Snapable"
 			);
 
@@ -296,9 +289,10 @@ class Event extends CI_Controller {
 			);
 			$resp = SnapApi::send($verb, $path, $params);
 	        $this->output->set_status_header($resp['code']);
-	        return $resp['response'];
+	        echo $resp['response'];
+		} else {
+			$this->output->set_status_header(403);
 		}
-		$this->output->set_status_header(403);
 	}
 }
 
