@@ -160,7 +160,7 @@
 	</div><!-- /row -->
 </div>
 
-<div id="uploadArea" class="mustache-box hide slidContent">
+<div id="uploadArea" class="row mustache-box hide slidContent">
 	<div class="hint">
 		Photos must be in jpeg format and a maximum of 10 MB. If your photos are rather large, 
 		please be patient! It might take a few minutes :)
@@ -186,7 +186,7 @@
 </div>
 
 <?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ): ?>
-<div id="contact" class="mustache-box hide slidContent">
+<div id="contact" class="row mustache-box hide slidContent">
 	<div class="section">
         <form role="form" id="questionForm" action="/ajax/send_email" method="post">
             <input type="hidden" name="from" value="<?= $owner_email ?>" />
@@ -214,11 +214,11 @@
 <?php endif; ?>
 
 <?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ): ?>
-<div id="guest" class="mustache-box slidContent"></div>
+<div id="guest" class="row mustache-box slidContent"></div>
 <?php endif; ?>
 
 <?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ): ?>
-<div id="tablecards" class="mustache-box hide slidContent" data-url="<?php echo $url; ?>">
+<div id="tablecards" class="row mustache-box hide slidContent" data-url="<?php echo $url; ?>">
 	<h3>Table Cards</h3>
 	
 	<img src="/assets/img/tablecard.png" alt="Table card sample" />
