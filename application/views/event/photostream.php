@@ -112,7 +112,7 @@
 				</div>
 				<div class="form-group">
 					<div id="event-settings-save-wrap">
-						<button class="btn btn-primary save" onclick="return sendForm(this, settingsSuccess, settingsError, settingsBeforeSubmit);">Save</button>
+						<button type="submit" class="btn btn-primary save" onclick="return sendForm(this, settingsSuccess, settingsError, settingsBeforeSubmit);">Save</button>
 						<span id="settings-save-spinner" class="spinner-wrap hide" data-color="#366993"></span>
 					</div>
 				</div>
