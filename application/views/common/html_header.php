@@ -21,8 +21,8 @@
     <link type="text/css" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/1.8/css/bootstrap-switch.css" />
     <link type="text/css" rel="stylesheet" href="/assets/libs/pnotify/jquery.pnotify.default.css" />
     <link type="text/css" rel="stylesheet" href="/assets/css/common/fonts.css" />
-    <link type="text/css" rel="stylesheet" href="/assets/css/common/default.css" />
-    <link type="text/css" rel="stylesheet" href="/assets/css/common/snapable-theme.css" />
+    <link type="text/css" rel="stylesheet" href="/assets/css/common/default.css?<?= md5_file('assets/css/common/default.css') ?>" />
+    <link type="text/css" rel="stylesheet" href="/assets/css/common/snapable-theme.css?<?= md5_file('assets/css/common/snapable-theme.css') ?>" />
     <?php 
     // external resources
     if ( isset($ext_css) ) {
@@ -34,12 +34,8 @@
     // internal resources
     if ( isset($css) ) {
     	// add assets
-		if(defined('MINIFY') && MINIFY == false) {
-			foreach ($css as $asset) {
-                echo '<link type="text/css" rel="stylesheet" href="/' . $asset . '?'. md5_file($asset) .'" media="screen" />'.PHP_EOL;
-			}
-		} else {
-			echo '<link type="text/css" rel="stylesheet" href="/min/c/' . base64_encode(implode(',', $css)) . '" media="screen" />';
+		foreach ($css as $asset) {
+            echo '<link type="text/css" rel="stylesheet" href="/' . $asset . '?'. md5_file($asset) .'" media="screen" />'.PHP_EOL;
 		}
     } 
     ?>
@@ -54,7 +50,7 @@
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/spin.js/1.3.2/spin.min.js"></script>
     <script type="text/javascript" src="/assets/js/libs/jquery.spin.js"></script>
     <script type="text/javascript" src="/assets/libs/pnotify/jquery.pnotify.min.js"></script>
-    <script type="text/javascript" src="/assets/js/common/default.js"></script>
+    <script type="text/javascript" src="/assets/js/common/default.js?<?= md5_file('assets/js/common/default.js') ?>"></script>
     <?php
         // external resources
         if ( isset($ext_js) ) {
@@ -66,14 +62,10 @@
         // internal resources
 	    if ( isset($js) ) {
             // add assets
-			if(defined('MINIFY') && MINIFY == false) {
-				foreach ($js as $asset) {
-                    echo '<script type="text/javascript" src="/' . $asset . '?'. md5_file($asset) .'"></script>'.PHP_EOL;
-				}
-			} else {
-				echo '<script type="text/javascript" src="/min/j/' . base64_encode(implode(',', $js)) . '"></script>';
+			foreach ($js as $asset) {
+                echo '<script type="text/javascript" src="/' . $asset . '?'. md5_file($asset) .'"></script>'.PHP_EOL;
 			}
-	    }
+		}
     ?>
     <?php if(isset($stripe) && $stripe == true) { ?>
         <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
