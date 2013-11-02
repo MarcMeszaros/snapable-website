@@ -293,9 +293,10 @@ class Event extends CI_Controller {
 			);
 			$resp = SnapApi::send($verb, $path, $params);
 	        $this->output->set_status_header($resp['code']);
-	        return $resp['response'];
+	        echo $resp['response'];
+		} else {
+			$this->output->set_status_header(403);
 		}
-		$this->output->set_status_header(403);
 	}
 }
 

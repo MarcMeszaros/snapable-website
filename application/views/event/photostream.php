@@ -1,5 +1,6 @@
 <?php
 	$eid = explode('/', $eventDeets->resource_uri);
+	$aid = explode('/', $eventDeets->addresses[0]->{'resource_uri'});
 ?>	
 <div class="container">
 <div class="row">
@@ -12,9 +13,9 @@
 		<div id="event-title-wrap" class="col-lg-8">
 			<h2 id="event-title"><?= $eventDeets->title ?></h2>
 			<div id="event-address"><?= (!$eventDeets->public && isset($eventDeets->addresses[0]->{'address'})) ? $eventDeets->addresses[0]->{'address'} : '&nbsp;' ?></div>
-			<div id="event-timestamp-start"><?= $eventDeets->human_start ?></span> to <span id="event-timestamp-end"><?= $eventDeets->human_end ?><?php if ($ownerLoggedin) { ?> &nbsp; <button id="event-settings-btn" class="btn btn-primary btn-xs" style="font-size:10px; margin-top:-2px;">Edit Event</button><?php } ?></div>
+			<div id="event-timestamp-start"><?= $eventDeets->human_start ?></span> to <span id="event-timestamp-end"><?= $eventDeets->human_end ?><?php if ($ownerLoggedin) { ?> &nbsp; <button id="event-settings-btn" class="btn btn-primary btn-xs" style="font-size:10px; margin-top:-2px;" onclick="$('#event-settings').show();">Edit Event</button><?php } ?></div>
 			<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ) { ?>
-			<form id="event-settings" role="form">
+			<form id="event-settings" role="form" method="POST" action="/ajax/put_event/<?= $eid[3] ?>">
 				<h3>Edit Your Event Details</h3>
 				<input id="event-settings-lat" name="lat" type="hidden" value="<?= (isset($eventDeets->addresses[0])) ? $eventDeets->addresses[0]->{'lat'} : '0' ?>"/>
 				<input id="event-settings-lng" name="lng" type="hidden" value="<?= (isset($eventDeets->addresses[0])) ? $eventDeets->addresses[0]->{'lng'} : '0' ?>"/>
@@ -32,16 +33,16 @@
 				<div class="form-group row">
 					<div class="form-group col-sm-3">
 						<label for="event-start-date">Date</label>
-						<input type="text" id="event-start-date" class="form-control longer datepicker" name="event[start_date]" value="<?= date("M j, Y", $eventDeets->start_epoch + ($eventDeets->tz_offset * 60)) ?>">
+						<input type="text" id="event-start-date" class="form-control longer datepicker" name="start_date" value="<?= date("M j, Y", $eventDeets->start_epoch + ($eventDeets->tz_offset * 60)) ?>">
 					</div>
 					<div class="form-group col-sm-3">
 						<label for="event-start-time">Time</label>
-						<input id="event-start-time" class="form-control" name="event[start_time]" type="text" value="<?= date("h:i A", $eventDeets->start_epoch + ($eventDeets->tz_offset * 60)) ?>">
+						<input id="event-start-time" class="form-control" name="start_time" type="text" value="<?= date("h:i A", $eventDeets->start_epoch + ($eventDeets->tz_offset * 60)) ?>">
 					</div>
 					<div class="form-group col-sm-6">
 						<label for="event-duration-num">Duration</label>
 						<div class="form-inline">
-						<select id="event-duration-num" class="form-control" name="event[duration_num]" style="width:49%;">
+						<select id="event-duration-num" class="form-control" name="duration_num" style="width:49%;">
 							<?php
 							// get the delta (sec.)
 							$delta = $eventDeets->end_epoch - $eventDeets->start_epoch;
@@ -67,7 +68,7 @@
 							}
 							?>
 							</select>
-							<select id="event-duration-type" class="form-control" name="event[duration_type]" style="width:49%;">
+							<select id="event-duration-type" class="form-control" name="duration_type" style="width:49%;">
 								<?php if ($delta < 60*60*24) { ?>
 								<option value="hours" selected>Hours</option>
 								<option value="days">Days</option>
@@ -91,6 +92,7 @@
 				</div>
 				<div class="form-group">
 					<label for="event-settings-address">Event Location</label>
+					<input type="hidden" name="address_id" value="<?= $aid[3] ?>" />
 					<input id="event-settings-address" class="form-control status" name="address" type="text" data-resource-uri="<?= (isset($eventDeets->addresses[0]->{'resource_uri'})) ? $eventDeets->addresses[0]->{'resource_uri'} : '' ?>" value="<?= (isset($eventDeets->addresses[0]->{'address'})) ? $eventDeets->addresses[0]->{'address'} : '' ?>"/>
 					<div id="map_canvas-wrap" style="display:none;">
 						<div class="form-field_hint">Tip: Drag the pin to your event address.</div>
@@ -99,8 +101,8 @@
 				</div>
 				<div class="form-group">
 					<div id="event-settings-save-wrap">
-						<input type="button" class="btn btn-default cancel" value="Cancel" />
-						<input type="button" class="btn btn-primary save" value="Save" />
+						<button class="btn btn-default cancel" onclick="$('#event-settings').hide(); return false;">Cancel</button>
+						<button class="btn btn-primary save" onclick="return sendForm(this, settingsSuccess, settingsError, settingsBeforeSubmit);">Save</button>
 						<span id="settings-save-spinner" class="spinner-wrap hide" data-color="#366993"></span>
 					</div>
 				</div>
@@ -121,11 +123,6 @@
 				<?php } else { ?>
 					<li><a id="uploadBTN" href="/event/<?= $url ?>/guest_signin?upload-photo=1" data-signin="true">Submit Photo</a></li>
 				<?php } ?>
-				<?php if ( $eventDeets->photos > 0 )
-				{
-					//echo '<li><a href="/event/' . $eventDeets->url . '/slideshow">Slideshow</a></li>';
-				} ?>
-
 				<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ) { ?>
 				<li><a href="#guest" id="guestBTN">Invite Guests</a></li>
 				<li><a href="#tablecards" id="tableBTN">Table Cards</a></li>
@@ -133,7 +130,7 @@
 				<li>
 					<a id="event-nav-privacy" href="#">Privacy</a>
 					<div id="event-nav-menu-privacy" class="event-nav-menu">
-						<form method="post" action="/event/privacy" enctype="multipart/form-data" class="form-horizontal">
+						<form role="form" class="form-horizontal" method="POST" action="/event/privacy">
 							<input type="hidden" name="event" value="<?php echo $eventDeets->resource_uri; ?>" />
 							<p>Choose private if you prefer photos are only viewed by guests. Public events will be visible to anyone who visits your album.</p>
 							<ul>
@@ -141,7 +138,8 @@
 								<li><input type="radio" name="privacy-setting" value="1" <?php echo ($eventDeets->public) ? 'checked="checked"':''; ?>/> Public</li>
 							</ul>
 							<div class="clearit">&nbsp;</div>
-							<div id='privacySaveWrap'><input type="submit" class="btn btn-primary save" value="Save" /></div>
+							<button class="btn btn-primary" onclick="return sendForm(this, privacySettingSuccess, privacySettingError, privacySettingBeforeSubmit);">Save</button>
+							<span class="spinner-wrap hide" data-color="#366993"></span>
 						</form>
 					</div>
 				</li>

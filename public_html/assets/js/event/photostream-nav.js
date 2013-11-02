@@ -21,7 +21,8 @@ $(document).ready(function(){
     // setup the ajax form
     $('#event-nav-menu-privacy form').ajaxForm({
         beforeSubmit: function(arr, $form, options) {
-            $("#privacySaveWrap").html("<img src='/assets/img/spinner_blue_sm.gif' />");
+            $form.children('button').addClass('hide');
+            $form.children('.spinner-wrap').removeClass('hide');
         },
         success: function(responseText, statusText, xhr, $form) {
             var privacy_selected = $("#event-nav-menu-privacy input[name=privacy-setting]:checked").val();
@@ -30,7 +31,8 @@ $(document).ready(function(){
                 title: 'Settings',
                 text: 'Your privacy settings have been updated.'
             });
-            $("#privacySaveWrap").html('<input type="submit" class="btn btn-primary" value="Save" />');
+            $form.children('button').removeClass('hide');
+            $form.children('.spinner-wrap').addClass('hide');
             if (privacy_selected == 0) {
                 $('#event-pin').fadeIn();
             } else {
@@ -44,6 +46,8 @@ $(document).ready(function(){
                 title: 'Settings',
                 text: "This is embarassing, something went wrong and we weren't able to change your privacy setting. If the problem persists, please contact us!"
             });
+            $('#event-nav-menu-privacy button').removeClass('hide');
+            $('#event-nav-menu-privacy .spinner-wrap').addClass('hide');
         }
     });
 
