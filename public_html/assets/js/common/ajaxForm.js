@@ -1,6 +1,10 @@
 // use the native FormData
-function sendForm(input, successCallback, errorCallback) {
+function sendForm(input, successCallback, errorCallback, beforeSubmit) {
     console.log('sendForm');
+    if (typeof beforeSubmit === 'function') {
+        beforeSubmit();
+    }
+
     // if the feature isn't undefined
     var formData = new FormData(input.form);
 
