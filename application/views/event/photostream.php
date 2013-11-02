@@ -179,17 +179,17 @@
 <?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ): ?>
 <div id="contact" class="row mustache-box hide slidContent">
 	<div class="section">
-        <form role="form" id="questionForm" action="/ajax/send_email" method="post">
+        <form role="form" id="questionForm" method="POST" action="/ajax/send_email" data-validate="parsley">
             <input type="hidden" name="from" value="<?= $owner_email ?>" />
             <input type="hidden" name="subject" value="Message From Customer" />
             <h3>Got a question? We're happy to answer it</h3>
             <p>Your question may already be answered! Make sure to checkout our <a href="/site/faq">FAQ</a> page.</p>
 
             <div class="form-group">
-            	<textarea class="form-control message" name="message" rows="6">Enter a question, comment or message...</textarea>
+            	<textarea class="form-control message" name="message" rows="6" data-required="true" placeholder="Enter a question, comment or message..."></textarea>
         	</div>
         	<div class="form-group">
-            	<button type="submit" class="btn btn-primary">Send</button>
+            	<button type="submit" class="btn btn-primary" onclick="return sendForm(this, contactSuccess, contactError);">Send</button>
         	</div>
         </form>
     </div>
