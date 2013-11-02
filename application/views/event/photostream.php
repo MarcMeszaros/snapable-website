@@ -156,7 +156,7 @@
 		Photos must be in jpeg format and a maximum of 10 MB. If your photos are rather large, 
 		please be patient! It might take a few minutes :)
 	</div>
-	<form method="post" action="/upload" enctype="multipart/form-data" class="form-horizontal" style="width:500px;margin:0 auto;">
+	<form role="form" method="POST" action="/upload" class="form-horizontal" style="width:500px;margin:0 auto;">
 		<input type="hidden" name="event" value="<?php echo $eventDeets->resource_uri; ?>" />
 		<?php if(isset($guest_uri)) { ?>
 		<input type="hidden" name="guest" value="<?php echo $guest_uri; ?>" />
@@ -170,7 +170,7 @@
 				<label class="control-label" for="upload-file" style="padding-top:0;">File</label>
 				<input id="upload-file" class="form-control" type="file" name="file_element" required />
 			</div>
-			<input type="submit" id="photo-upload-btn" class="btn btn-primary btn-lg" value="Upload" />
+			<button type="submit" id="photo-upload-btn" class="btn btn-primary btn-lg" onclick="return sendForm(this, uploadSuccess, uploadError, uploadBeforeSubmit);">Upload</button>
 			<span id="photo-upload-spinner" class="spinner-wrap hide" data-color="#366993"></span>
 		</fieldset>
 	</form>
