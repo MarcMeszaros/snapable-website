@@ -44,11 +44,18 @@
     <p>
         No information or material from the <b>Snapable</b> web site may be copied, reproduced, 
         republished, uploaded, posted, transmitted, or distributed in any way whatsoever except 
-        that you may download one copy of the materials on any single computer, for your personal, 
-        non-commercial home use only, provided you keep intact all copyright and proprietary notices. 
-        You agree that you do not acquire any ownership rights in any downloaded content. You agree 
-        to abide by all copyright notices, information and restrictions contained in any content on 
-        the <b>Snapable</b> web site and any content accessed through the <b>Snapable</b> web site.
+        where noted otherwise. You agree to abide by all copyright notices, information and restrictions 
+        contained in any content on the <b>Snapable</b> web site and any content accessed through the 
+        <b>Snapable</b> web site.
+    </p>
+
+    <p>
+        You retain copyright and any other rights you already hold in Content which you submit, 
+        post or display on or through, the Services. By submitting, posting or displaying the content 
+        you give <b>Snapable</b> a perpetual, irrevocable, worldwide, royalty-free, and non-exclusive license 
+        to reproduce, adapt, modify, translate, publish, publicly perform, publicly display and distribute 
+        any Content which you submit, post or display on or through, the Services. This license is for the 
+        sole purpose of enabling <b>Snapable</b> to display, distribute and promote the Services.
     </p>
 
     <p>
@@ -77,5 +84,15 @@
         the Federal Court of Canada in Ontario, or any other judicial district or jurisdiction as <b>Snapable</b> 
         may determine in any and all actions, disputes, or controversies relating hereto. The parties have required 
         that the Terms and Conditions and all documents relating thereto be drawn up in English.
+    </p>
+
+    <br><br>
+    <p>
+        We reserve the right to make changes to these terms. Any changes to these terms will be posted.
+    </p>
+
+    <br><br>
+    <p>    
+        Last Modified: <?php echo date('Y-m-d', filemtime(__file__)); ?>
     </p>
 </div>
