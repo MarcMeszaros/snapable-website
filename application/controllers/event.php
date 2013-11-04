@@ -36,6 +36,7 @@ class Event extends CI_Controller {
 			'ext_js' => array(
 				'//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.0.0/js/bootstrap-datepicker.min.js',
 				'//cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.0/mustache.min.js',
+				'//cdnjs.cloudflare.com/ajax/libs/jquery.form/3.32/jquery.form.js',
 				'//maps.googleapis.com/maps/api/js?key=AIzaSyAofUaaxFh5DUuOdZHmoWETZNAzP1QEya0&sensor=false',
 			),
 			'js' => array(
