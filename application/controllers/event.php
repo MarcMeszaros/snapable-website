@@ -66,7 +66,12 @@ class Event extends CI_Controller {
 			$session_guest = SnapAuth::is_guest_logged_in();
 
 			if ($session_owner && $event_details->event->user == $session_owner['resource_uri']) {
-				$data['owner_email'] = $session_owner['email']; 
+				$verb = 'GET';
+				$path = 'user/'.SnapApi::resource_pk($event_details->event->user);
+				$user_resp = SnapApi::send($verb, $path);
+				$user = json_decode($user_resp['response']);
+
+				$data['owner_email'] = $user->first_name.' '.$user->last_name.' <'.$user->email.'>'; 
 				$ownerLoggedin = true;
 				$data["logged_in_user_resource_uri"] = $session_owner['resource_uri'];
 				$head["loggedInBar"] = "owner";
