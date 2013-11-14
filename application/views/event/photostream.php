@@ -148,8 +148,8 @@
 		</div>
 
 		<div class="col-lg-2">
-			<a id="appstore" href="http://itunes.com/apps/snapable"><img alt="Available on the App Store" src="/assets/home/img/jan2013/appstore.png" width="161" height="56" /></a>
-			<a id="playstore" href="https://play.google.com/store/apps/details?id=ca.hashbrown.snapable"><img alt="Android app on Google Play" src="https://developer.android.com/images/brand/en_app_rgb_wo_60.png" width="161" height="56" /></a>
+			<a id="appstore" href="http://itunes.com/apps/snapable"><img alt="Available on the App Store" src="/assets/home/img/jan2013/appstore.png" width="161" height="56" onclick="ga('send', 'event', 'Downloads', 'App Store', 'iOS');" /></a>
+			<a id="playstore" href="https://play.google.com/store/apps/details?id=ca.hashbrown.snapable"><img alt="Android app on Google Play" src="https://developer.android.com/images/brand/en_app_rgb_wo_60.png" width="161" height="56" onclick="ga('send', 'event', 'Downloads', 'App Store', 'Android');" /></a>
 		</div>
 	</div><!-- /row -->
 </div>
