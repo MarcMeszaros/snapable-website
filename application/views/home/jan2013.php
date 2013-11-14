@@ -18,9 +18,9 @@
 	<div id="ctaWrap">
 		<div id="cta">
 			
-			<a id="appstore" href="http://itunes.com/apps/snapable">Available on the App Store</a>
+			<a id="appstore" href="http://itunes.com/apps/snapable"><img alt="iPhone app on the App Store" src="/assets/home/img/jan2013/appstore.png" width="161" height="56" /></a>
 			<a id="playstore" href="https://play.google.com/store/apps/details?id=ca.hashbrown.snapable">
-				<img alt="Android app on Google Play" src="https://developer.android.com/images/brand/en_app_rgb_wo_60.png" />
+				<img alt="Android app on Google Play" src="https://developer.android.com/images/brand/en_app_rgb_wo_60.png" width="161" height="56" />
 			</a>
 			
 			<h1>Every Moment, Captured.</h1>

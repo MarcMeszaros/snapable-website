@@ -10,7 +10,7 @@
 		<div class="col-lg-2">
 			<img id="event-cover-image" class="img-thumbnail" src="/p/get_event/<?= $eid[3] ?>/150x150" data-event-id="<?= $eid[3] ?>" />
 		</div>
-		<div id="event-title-wrap" class="col-lg-8">
+		<div id="event-title-wrap" class="col-lg-6">
 			<h2 id="event-title"><?= $eventDeets->title ?></h2>
 			<div id="event-address"><?= (!$eventDeets->public && isset($eventDeets->addresses[0]->{'address'})) ? $eventDeets->addresses[0]->{'address'} : '&nbsp;' ?></div>
 			<div id="event-timestamp-start"><?= $eventDeets->human_start ?></span> to <span id="event-timestamp-end"><?= $eventDeets->human_end ?><?php if ($ownerLoggedin) { ?> &nbsp; <button id="event-settings-btn" class="btn btn-primary btn-xs" style="font-size:10px; margin-top:-2px;" onclick="$('#event-settings').slideDown();">Edit Event</button><?php } ?></div>
@@ -145,6 +145,11 @@
 					<div class="large"><?= $eventDeets->pin ?></div>
 				</div>
 			</div>
+		</div>
+
+		<div class="col-lg-2">
+			<a id="appstore" href="http://itunes.com/apps/snapable"><img alt="Available on the App Store" src="/assets/home/img/jan2013/appstore.png" width="161" height="56" /></a>
+			<a id="playstore" href="https://play.google.com/store/apps/details?id=ca.hashbrown.snapable"><img alt="Android app on Google Play" src="https://developer.android.com/images/brand/en_app_rgb_wo_60.png" width="161" height="56" /></a>
 		</div>
 	</div><!-- /row -->
 </div>
