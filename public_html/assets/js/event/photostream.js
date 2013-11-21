@@ -182,24 +182,44 @@ function loadPhoto(photoData, options) {
 	$domPhoto.find('div.photo .photo-delete').filter(filter_position).click(function(){
 		var deleteButton = $(this); // save a reference to that button
 
-		$.ajax({
-			url: '/ajax/delete_photo/'+$(deleteButton).data('photo_id'),
-			type: 'GET'
-		}).done(function(data){
-			// remove it from the ui
-			$(deleteButton).closest('div.photo').remove();
-			$.pnotify({
-	    		type: 'info',
-	        	title: 'Photo Deleted',
-	        	text: 'The photo was successfully deleted.',
-        	});
-		}).fail(function(jqXHR, textStatus, errorThrown){
-			$.pnotify({
-				type: 'error',
-				title: 'Photo Delete',
-				text: 'There was an error deleting the photo.'
-			});
-		});
+		// anonymous function to handle the deletion/keep variable scope
+		(function(){
+			// setup the notification message and the deletion code
+		    var notice = $.pnotify({
+		    	type: 'info',
+		        title: 'Photo Delete',
+		        text: 'Photo will be deleted. <a class="undo" href="#" style="text-decoration:underline;">Undo</a>',
+		        after_open: function(pnotify){
+		        	$(deleteButton).closest('div.photo').fadeOut();
+		        },
+		        after_close: function(pnotify){
+		        	$.ajax({
+						url: '/ajax/delete_photo/'+$(deleteButton).data('photo_id'),
+						type: 'GET'
+					}).done(function(data){
+						// remove it from the ui
+						$(deleteButton).closest('div.photo').remove();
+						$.pnotify({
+				    		type: 'info',
+				        	title: 'Photo Deleted',
+				        	text: 'The photo was successfully deleted.',
+			        	});
+					}).fail(function(jqXHR, textStatus, errorThrown){
+						$.pnotify({
+							type: 'error',
+							title: 'Photo Delete',
+							text: 'There was an error deleting the photo.'
+						});
+					});
+		        }
+		    });
+		    // setup the undo to cancel the delete
+		    notice.find('a.undo').click(function(e){
+		    	$(deleteButton).closest('div.photo').fadeIn();
+		    	delete notice.opts.after_close;
+		        notice.pnotify_remove();
+		    });
+		})();
 
 		return false;
 	});
