@@ -169,7 +169,7 @@ class Account extends CI_Controller {
 		{
 			if ( isset($_GET['error']) )
 			{
-				$data['error'] = "<div id='error'>We weren't able to reset your password<br />Please try again.</div>";
+				$data['error'] = "<div id='error'>We weren't able to reset your password.<br />Please try again.</div>";
 			} else {
 				$data['error'] = "";
 			}
@@ -186,6 +186,9 @@ class Account extends CI_Controller {
 	
 	function doreset()
 	{
+		$data = array(
+			'css' => array('assets/css/setup.css', 'assets/css/signin.css')
+		);
 		if ( isset($_POST) && isset($_POST['email']) )
 		{
 			$userDeets = json_decode($this->account_model->userDetails($_POST['email']));
@@ -197,9 +200,6 @@ class Account extends CI_Controller {
 				
 				if ( $nonce = 1 )
 				{
-					$data = array(
-						'css' => array('assets/css/setup.css', 'assets/css/signin.css')
-					);
 					$this->load->view('common/html_header', $data);
 					$this->load->view('account/email_sent', $data);
 					$this->load->view('common/html_footer', $data);
@@ -207,14 +207,16 @@ class Account extends CI_Controller {
 					redirect("/account/reset?error");
 				}
 			} else {
-				echo '{
-					"status": 404
-				}';
+				$data['error'] = '<div id="error">We weren\'t able to reset your password.<br />Please make sure your email address is correct.</div>';
+				$this->load->view('common/html_header', $data);
+				$this->load->view('account/reset', $data);
+				$this->load->view('common/html_footer', $data);
 			}
 		} else {
-			echo '{
-				"status": 404
-			}';
+			$data['error'] = '<div id="error">We weren\'t able to reset your password.<br />If the problem persists, please <a href="/site/contact">Contact Us</a>.</div>';
+			$this->load->view('common/html_header', $data);
+			$this->load->view('account/reset', $data);
+			$this->load->view('common/html_footer', $data);
 		}
 	}
 	
