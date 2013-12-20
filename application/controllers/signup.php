@@ -522,7 +522,7 @@ class Signup extends CI_Controller {
 				'end_timestamp' => $end_timestamp,
 				'email_address' => $_POST['user']['email'],
 				'affiliate' => '',
-				'total' => $order_response->ammount,
+				'total' => $order_response->amount,
 			);
 			$signup_details['coupon'] = (isset($coupon)) ? $coupon : '';
 			if ($this->input->cookie('affiliate')) {
