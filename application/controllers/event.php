@@ -188,17 +188,37 @@ class Event extends CI_Controller {
 			SnapAuth::guest_signout();
 			redirect('/event/' . $this->uri->segment(2), 'refresh');
 		} else if ( $task == "slideshow" ) {
-			$event_details = json_decode($this->event_model->getEventDetailsFromURL($this->uri->segment(2)));
-			$data = array(
-				'noTagline' => true,
-				'css' => array('assets/css/setup.css'),
-				'url' => $event_details->event->url,
-				'title' => $event_details->event->title . ", " . $event_details->event->display_timedate . " via Snapable"
+			// get the event details
+			$deets = json_decode($this->event_model->getEventDetailsFromURL($this->uri->segment(2)));
+			$event_id = SnapApi::resource_pk($deets->event->resource_uri);
+
+			// get some photos
+			$verb = 'GET';
+			$path = 'photo';
+			$params = array(
+				'event' => $event_id,
 			);
-			
-			$this->load->view('common/html_header', $data);
+			$resp = SnapApi::send($verb, $path, $params);
+			$photos_raw = json_decode($resp['response']);
+			$photos = array_reverse($photos_raw->objects);
+			$data = array(
+				'photos' => $photos,
+			);
+
+			$head = array(
+				'css' => array(
+					'assets/libs/superslides/superslides.css',
+				),
+				'js' => array(
+					//'assets/libs/superslides/jquery.animate-enhanced.min.js',
+					'assets/libs/superslides/jquery.superslides.min.js',
+					'assets/js/event/slides.js',
+				),
+			);
+
+			$this->load->view('common/html_header', $head);
 			$this->load->view('event/slideshow', $data);
-			$this->load->view('common/html_footer', $data);
+			$this->load->view('common/html_footer');
 		} else if ( $task == "invites" && IS_AJAX ) {
 			$this->event_model->sendInvite($_POST);
 		} else if ( $task == "guest_signin" ) {

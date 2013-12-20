@@ -134,6 +134,7 @@
 				<li><a href="#guest" id="guestBTN">Invite Guests</a></li>
 				<li><a href="#tablecards" id="tableBTN">Table Cards</a></li>
 				<li><a id="event-nav-contact" href="#nav-contact">Contact</a></li>
+				<li><a href="/event/<?= $url ?>/slideshow" target="_new">Live Slideshow<span class="badge" style="margin-left:3px;">Beta</span></a></li>
 				<?php } ?>
 			</ul>
 		</div>
