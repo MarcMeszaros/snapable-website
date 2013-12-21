@@ -187,7 +187,7 @@ class Event extends CI_Controller {
 		if ( $task == "signout" ) {
 			SnapAuth::guest_signout();
 			redirect('/event/' . $this->uri->segment(2), 'refresh');
-		} else if ( $task == "slideshow" ) {
+		} else if ( $task == "slides" ) {
 			// get the event details
 			$deets = json_decode($this->event_model->getEventDetailsFromURL($this->uri->segment(2)));
 			$event_id = SnapApi::resource_pk($deets->event->resource_uri);
@@ -210,6 +210,7 @@ class Event extends CI_Controller {
 			$head = array(
 				'css' => array(
 					'assets/libs/superslides/superslides.css',
+					'assets/css/event/slides.css',
 				),
 				'js' => array(
 					//'assets/libs/superslides/jquery.animate-enhanced.min.js',

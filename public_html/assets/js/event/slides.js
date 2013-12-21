@@ -58,18 +58,48 @@ function nextPhotoIfAvailable() {
     }
 }
 
+var pfx = ["webkit", "moz", "ms", "o", ""];
+function RunPrefixMethod(obj, method) {
+    
+    var p = 0, m, t;
+    while (p < pfx.length && !obj[m]) {
+        m = method;
+        if (pfx[p] == "") {
+            m = m.substr(0,1).toLowerCase() + m.substr(1);
+        }
+        m = pfx[p] + m;
+        t = typeof obj[m];
+        if (t != "undefined") {
+            pfx = [pfx[p]];
+            return (t == "function" ? obj[m]() : obj[m]);
+        }
+        p++;
+    }
+
+}
+
 $(document).ready(function(){
     window.lastUpdate = new Date().getTime();
     // start the slides
     $('#slides').superslides({
-        //pagination: false
-        //inherit_width_from: '#slides',
-        //inherit_height_from: '#slides'
+        pagination: false,
+        //inherit_width_from: 'slides',
+        //inherit_height_from: 'slides'
     });
 
     // try to automatically advance to the next slide
-    setInterval(nextPhotoIfAvailable, 10000); // 10 sec
+    setInterval(nextPhotoIfAvailable, 15000); // 15 sec
 
     // setup the code to do ajax calls and update the dom
     setInterval(updateSlides, 30000); // 30 sec
+
+    var e = document.getElementById("slides");
+    e.onclick = function() {
+        if (RunPrefixMethod(document, "FullScreen") || RunPrefixMethod(document, "IsFullScreen")) {
+            RunPrefixMethod(document, "CancelFullScreen");
+        } else {
+            RunPrefixMethod(e, "RequestFullScreen");
+        }
+    }
+
 });

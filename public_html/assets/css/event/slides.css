@@ -1,0 +1,28 @@
+#slides {
+    background: #000;
+}
+
+#slides .letterbox img {
+    margin: auto;
+    display: block;
+}
+
+#slides .slide-container {
+    margin-top: -20px;
+}
+
+#fullscreen {
+    z-index: 9999;
+    position: fixed;
+    top: 1em;
+    width: 120px;
+    margin: 0 0 0 -60px;
+    left:50%;
+}
+
+/* this works */
+#slides:-webkit-full-screen #fullscreen { display: none }
+#slides:-moz-full-screen #fullscreen { display: none }
+#slides:-ms-full-screen #fullscreen { display: none }
+#slides:-o-full-screen #fullscreen { display: none }
+#slides:full-screen #fullscreen { display: none }

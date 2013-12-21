@@ -1,5 +1,6 @@
-<div id="slides" data-event_id="<?= $event_id ?>" >
-  <ul class="slides-container">
+<div id="slides" data-event_id="<?= $event_id ?>">
+  <button id="fullscreen" class="btn btn-primary fullscreen" href="#" >Full Screen Mode</button>
+  <ul class="slides-container letterbox">
     <?php foreach ($photos as $photo) { ?>
     <li>
       <img src="/p/get/<?= SnapApi::resource_pk($photo->resource_uri) ?>/orig" alt="<?= $photo->caption ?>" />
@@ -14,17 +15,6 @@
         ?>
     </li>
     <?php } ?>
-
-    <!--
-    <li>
-      <img src="http://flickholdr.com/400/400" alt="">
-      <div class="container">
-        <div class="contrast">
-            <p>Slide one</p>
-        </div>
-      </div>
-    </li>
-    -->
   </ul>
   <nav class="slides-navigation">
     <a href="#" class="next">
@@ -34,4 +24,5 @@
         <span class="glyphicon glyphicon-chevron-left"></span>
     </a>
   </nav>
+
 </div>
