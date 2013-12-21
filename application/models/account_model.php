@@ -88,8 +88,7 @@ Class Account_model extends CI_Model
 		$response = $resp['response'];
 		$httpcode = $resp['code'];
 		
-		if ( $httpcode == 200 )
-		{
+		if ( $httpcode == 200 ) {
 			$result = json_decode($response);
 			$email = $result->email;
 			$resource_uri = explode("/", $result->resource_uri);
@@ -102,18 +101,10 @@ Class Account_model extends CI_Model
 			$headers = array(
 				'X-SNAP-User' => $email . ":" . $password_nonce,
 			);
-			$resp = SnapApi::send($verb, $path, $params, $headers);
-	 
-	        $response = $resp['response'];
-	        $httpcode = $resp['code'];
-	               
-	        if($httpcode == 202) {
-	            return 1;
-	        } else {
-	        	return 0;
-	        }
+			$resp = SnapApi::send($verb, $path, $params, $headers);	           
+	        return $resp['code'];
 		} else {
-			return 0;
+			return 500;
 		}
 	}
 	

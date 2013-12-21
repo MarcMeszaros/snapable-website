@@ -9,9 +9,9 @@
 			<h2>Enter a new password and click "Reset".</h2>
 
 			<?php 
-			if (!empty($error)) {
+			if (isset($error)) {
 				echo '<div id="error">'.$error.'</div>';	
-			} 
+			}
 			?>
 
 			<hr class="dotted" />
