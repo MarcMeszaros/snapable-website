@@ -2,20 +2,17 @@
 
 class Account extends CI_Controller {
 
-	function __construct()
-	{
+	function __construct() {
     	parent::__construct();
     	$this->load->library('email');
     	$this->load->model('account_model','',TRUE);  		    	
 	}
 	
-	public function index()
-	{
+	public function index() {
 		redirect('/account/signin', 'refresh');
 	}
 	
-	public function signin()
-	{
+	public function signin() {
 		require_https(); // make sure we are in ssl
 
 		// check if we are already logged in, and redirect if we are
@@ -49,10 +46,8 @@ class Account extends CI_Controller {
 		$this->load->view('common/html_footer', $data);
 	}
 	
-	public function validate()
-	{
-		if ( isset($_POST) )
-		{
+	public function validate() {
+		if ( isset($_POST) ) {
 			// create password hash				
 			$pbHash = SnapAuth::snap_hash($_POST['email'], $_POST['password']);
 			// check if password matches
@@ -75,8 +70,7 @@ class Account extends CI_Controller {
 		}
 	}
 	
-	public function dashboard()
-	{
+	public function dashboard() {
 		require_https();
 		if($this->session->userdata('logged_in'))
 		{
@@ -118,57 +112,19 @@ class Account extends CI_Controller {
 		}
 	}
 	
-	function email()
-	{
-		if ( IS_AJAX && isset($_POST['type']) && isset($_POST['message']) )
-		{
-			$to = ( isset($_POST['to']) ) ? $_POST['to']:"team@snapable.com";
-			$from = ( isset($_POST['from']) ) ? $_POST['from']:"website@snapable.com";
-			
-			if ( $_POST['type'] == "question" )
-			{
-				$subject = 'Message From Customer';
-				$message_html = '<p><b>Message:</b></p><p>' . $_POST['message'] . '</p><p>Sent from: ' . $_POST['email'] . '</p>';
-				$message_text = 'Message: ' . $_POST['message'] . ' / Sent from: ' . $_POST['email'];
-			} else {
-				$subject = 'Follow my event @ Snapable!';
-				$message_html = $_POST['message'];
-				$message_text = $_POST['message'];
-			}
-
-			$this->email->from($from, 'Snapable');
-			$this->email->to($to);
-			$this->email->subject($subject);
-			$this->email->message($message_html);
-			$this->email->set_alt_message($message_text);		
-			if ( $this->email->send() )
-			{
-				echo "sent";
-			} else {
-				echo "failed";
-			}
-		} else {
-			show_404();
-		}
-	}
-	
-	function signout()
-	{
+	function signout() {
 		SnapAuth::signout();
 		redirect('/account/signin', 'refresh');
 	}
 	
-	function reset($nonce = NULL)
-	{
+	function reset($nonce = NULL) {
 		require_https();
 		$data = array(
 			'css' => array('assets/css/setup.css', 'assets/css/signin.css')
 		);
 		
-		if ( $nonce == NULL )
-		{
-			if ( isset($_GET['error']) )
-			{
+		if ( $nonce == NULL ) {
+			if ( isset($_GET['error']) ) {
 				$data['error'] = "<div id='error'>We weren't able to reset your password.<br />Please try again.</div>";
 			} else {
 				$data['error'] = "";
@@ -189,17 +145,13 @@ class Account extends CI_Controller {
 		$data = array(
 			'css' => array('assets/css/setup.css', 'assets/css/signin.css')
 		);
-		if ( isset($_POST) && isset($_POST['email']) )
-		{
+		if ( isset($_POST) && isset($_POST['email']) ) {
 			$userDeets = json_decode($this->account_model->userDetails($_POST['email']));
 			
-			if ( $userDeets->status == 200 )
-			{
-				$resource_uri = explode("/", $userDeets->resource_uri);
-				$nonce = json_decode($this->account_model->doReset($resource_uri[3]));
+			if ( $userDeets->status == 200 ) {
+				$resp = $this->account_model->doReset(SnapApi::resource_pk($userDeets->resource_uri));
 				
-				if ( $nonce = 1 )
-				{
+				if ( $resp['code'] == 201 ) {
 					$this->load->view('common/html_header', $data);
 					$this->load->view('account/email_sent', $data);
 					$this->load->view('common/html_footer', $data);
@@ -226,8 +178,7 @@ class Account extends CI_Controller {
 		{
 			$reset = $this->account_model->completeReset($_POST['password'], $_POST['nonce']); 
 			
-			if ( $reset == 0 )
-			{
+			if ( $reset == 0 ) {
 				redirect("/account/reset/?error");
 			} else {
 				redirect("/account/signin?reset");

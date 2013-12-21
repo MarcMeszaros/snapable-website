@@ -15,51 +15,25 @@ Class Account_model extends CI_Model
 		$response = $resp['response'];
 		$httpcode = $resp['code'];
 		
-		if ( $httpcode == 200 )
-		{
+		if ( $httpcode == 200 ) {
 			$result = json_decode($response); 
-			if ( $result->meta->total_count > 0 )
-			{
-				/*
-				{
-				    "meta": {
-				        "limit": 50,
-				        "next": null,
-				        "offset": 0,
-				        "previous": null,
-				        "total_count": 1
-				    },
-				    "objects": [
-				        {
-				            "billing_zip": "K2W 1G8",
-				            "email": "andrew@hashbrown.ca",
-				            "first_name": "Andrew",
-				            "last_name": "Draper",
-				            "password_algorithm": "pbkdf2_sha256",
-				            "password_iterations": "10000",
-				            "password_salt": "qsdzj7DWkA4J",
-				            "resource_uri": "/private_v1/user/67/",
-				            "terms": true
-				        }
-				    ]
-				}
-				*/
-				return '{
-					"status": 200,
-					"resource_uri": "' . $result->objects[0]->resource_uri . '",
-					"password_algorithm": "' . $result->objects[0]->password_algorithm . '",
-					"password_iterations": "' . $result->objects[0]->password_iterations . '",
-				    "password_salt": "' . $result->objects[0]->password_salt . '"
-				}';
+			if ( $result->meta->total_count > 0 ) {
+				return json_encode(array(
+					'status' => 200,
+					'resource_uri' => $result->objects[0]->resource_uri,
+					'password_algorithm' => $result->objects[0]->password_algorithm,
+					'password_iterations' => $result->objects[0]->password_iterations ,
+				    'password_salt' => $result->objects[0]->password_salt,
+				));
 			} else {
-				return '{
-					"status": 404
-				}';
+				return json_encode(array(
+					'status' => 404
+				));
 			}
 		} else {
-			return '{
-				"status": 404
-			}';
+			return json_encode(array(
+				'status' => 404
+			));
 		}
 	}
 
@@ -97,28 +71,16 @@ Class Account_model extends CI_Model
 	}
 	
 	
-	function doReset($user_id)
-	{	
+	function doReset($user_id) {	
 		$verb = 'POST';
 		$path = '/user/' . $user_id . '/passwordreset/';
 		$params = array(
 			"url" => "https://snapable.com/account/reset/",
 		);
-		$resp = SnapApi::send($verb, $path, $params);
-
-		$response = $resp['response'];
-		$httpcode = $resp['code'];
-		
-		if ( $httpcode == 201 )
-		{
-			return 1;
-		} else {
-			return 0;
-		}
+		return SnapApi::send($verb, $path, $params);
 	}
 	
-	function completeReset($password, $password_nonce)
-	{
+	function completeReset($password, $password_nonce) {
 		$verb = 'GET';
 		$path = '/user/passwordreset/' . $password_nonce . '/';
 		$resp = SnapApi::send($verb, $path, $params);
