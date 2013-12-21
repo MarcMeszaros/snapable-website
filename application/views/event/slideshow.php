@@ -3,15 +3,15 @@
     <?php foreach ($photos as $photo) { ?>
     <li>
       <img src="/p/get/<?= SnapApi::resource_pk($photo->resource_uri) ?>/orig" alt="<?= $photo->caption ?>" />
-      <div class="container">
         <?php
             if(!empty($photo->caption)) {
+                echo '<div class="container">';
                 echo '<div class="contrast">';
                 echo '<p>'.$photo->caption.'</p>';
                 echo '</div>';
+                echo '</div>';
             }
         ?>
-      </div>
     </li>
     <?php } ?>
 
