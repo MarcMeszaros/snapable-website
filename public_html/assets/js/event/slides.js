@@ -4,8 +4,9 @@ function removeOldestSlide() {
     $('#slides').superslides('update')
 }
 
-function addNewSlide(photoId, photoCaption) {
-    var photoSrc = sprintf('/p/get/%1$s/orig', photoId);
+function addNewSlide(photoId, caption) {
+    var photoSrc = '/p/get/' + photoId + '/orig';
+    var captionHTML = '';
     // get slide count
     var slideCount = $('#slides .slides-container li').length;
 
@@ -14,17 +15,43 @@ function addNewSlide(photoId, photoCaption) {
         removeOldestSlide();
     }
 
-    //$('#slides .slides-container li').first().remove()
-    $('#slides').superslides('update')
+    if(caption.length > 0) {
+        captionHTML = '<div class="contrast"><p>' + caption + '</p></div>'
+    }
+    $('#slides ul.slides-container').append('<li><img src="'+photoSrc+'" alt="'+caption+'" />'+captionHTML+'</li>');
+
+    console.log(photoSrc + ' - ' + caption);
 }
 
 function updateSlides() {
-    console.log('update slides call')
     // get slide count
+    var lastUpdateISO = new Date(window.lastUpdate).toISOString();
     var slideCount = $('#slides .slides-container li').length;
+
+    $.ajax('/ajax_api/photo', {
+        type: 'GET',
+        data: {
+            'created_at__gte': lastUpdateISO,// lastUpdateISO
+            //'order_by': '-created_at',
+            'streamable': 'true',
+            'event': $('#slides').data('event_id')
+        }
+    }).done(function(data){
+        var resp = $.parseJSON(data);
+        for (index = 0; index < resp.objects.length; index++) {
+            var photo_id_parts = resp.objects[index].resource_uri.split('/')
+            var photo_id = photo_id_parts[photo_id_parts.length - 2];
+            addNewSlide(photo_id, resp.objects[index].caption);
+        }
+        $('#slides').superslides('update');
+    }).always(function(data){
+        //$("#event_url").removeClass("spinner-16px");
+    });
+
+    window.lastUpdate = new Date().getTime();
 }
 
-function nextPhotoIfNotLast() {
+function nextPhotoIfAvailable() {
     var slideCount = $('#slides .slides-container li').length;
     if ($('#slides').superslides('current') < (slideCount-1)) {
         $('#slides').superslides('animate', 'next')
@@ -32,6 +59,7 @@ function nextPhotoIfNotLast() {
 }
 
 $(document).ready(function(){
+    window.lastUpdate = new Date().getTime();
     // start the slides
     $('#slides').superslides({
         //pagination: false
@@ -40,7 +68,7 @@ $(document).ready(function(){
     });
 
     // try to automatically advance to the next slide
-    setInterval(nextPhotoIfNotLast, 10000); // 10 sec
+    setInterval(nextPhotoIfAvailable, 10000); // 10 sec
 
     // setup the code to do ajax calls and update the dom
     setInterval(updateSlides, 30000); // 30 sec

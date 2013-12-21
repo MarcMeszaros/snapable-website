@@ -197,13 +197,14 @@ class Event extends CI_Controller {
 			$path = 'photo';
 			$params = array(
 				'event' => $event_id,
+				'streamable' => true,
 			);
 			$resp = SnapApi::send($verb, $path, $params);
 			$photos_raw = json_decode($resp['response']);
 			$photos = array_reverse($photos_raw->objects);
 			$data = array(
 				'photos' => $photos,
-				'streamable' => true,
+				'event_id' => $event_id,
 			);
 
 			$head = array(

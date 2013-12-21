@@ -1,8 +1,8 @@
-<div id="slides">
+<div id="slides" data-event_id="<?= $event_id ?>" >
   <ul class="slides-container">
     <?php foreach ($photos as $photo) { ?>
     <li>
-      <img src="/p/get/<?= SnapApi::resource_pk($photo->resource_uri) ?>/orig" alt="<?= $photo->caption ?>">
+      <img src="/p/get/<?= SnapApi::resource_pk($photo->resource_uri) ?>/orig" alt="<?= $photo->caption ?>" />
       <div class="container">
         <?php
             if(!empty($photo->caption)) {
