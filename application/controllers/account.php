@@ -119,25 +119,31 @@ class Account extends CI_Controller {
 	
 	function reset($nonce = NULL) {
 		require_https();
-		$data = array(
-			'css' => array('assets/css/setup.css', 'assets/css/signin.css')
+		$head = array(
+			'css' => array('assets/css/setup.css', 'assets/css/signin.css'),
 		);
 		
-		if ( $nonce == NULL ) {
-			if ( isset($_GET['error']) ) {
-				$data['error'] = "<div id='error'>We weren't able to reset your password.<br />Please try again.</div>";
+		if ( isset($_POST['password']) && isset($_POST['nonce']) ) {
+			$reset = $this->account_model->completeReset($_POST['password'], $_POST['nonce']); 
+			
+			if ( $reset == 0 ) {
+				redirect("/account/reset/?error");
 			} else {
-				$data['error'] = "";
+				redirect("/account/signin?reset");
 			}
-			$this->load->view('common/html_header', $data);
-			$this->load->view('account/reset', $data);
-			$this->load->view('common/html_footer', $data);
 		} else {
-			$data['nonce'] = $nonce;
-			$this->load->view('common/html_header', $data);
+			$data = array();
+			if (!empty($nonce)) {
+				$data['nonce'] = $nonce;
+			} else {
+				$data['error'] = "<div id='error'>We weren't able to reset your password.<br />Please try again.</div>";
+			}
+
+			$this->load->view('common/html_header', $head);
 			$this->load->view('account/new_password', $data);
-			$this->load->view('common/html_footer', $data);
+			$this->load->view('common/html_footer');
 		}
+
 	}
 	
 	function doreset()
