@@ -28,6 +28,7 @@ class Ajax_Api extends CI_Controller {
         // call the API
         if (in_array($verb, self::$ALLOWED_VERBS) && in_array($path[0], self::$ALLOWED_RESOURCES)) {
             $resp = SnapApi::send($verb, $path_str, $params);
+            $this->output->set_status_header($resp['code']);
             echo $resp['response'];
         } else {
             $this->output->set_status_header(403);
