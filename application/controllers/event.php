@@ -203,6 +203,7 @@ class Event extends CI_Controller {
 			$photos = array_reverse($photos_raw->objects);
 			$data = array(
 				'photos' => $photos,
+				'streamable' => true,
 			);
 
 			$head = array(
