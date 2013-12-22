@@ -7,16 +7,22 @@ function time_dec(){
   document.getElementById('countdown').innerHTML = time_left;
   if(time_left == 0){
     clearInterval(cinterval);
-    window.location.replace('/event/<?php echo $event_url; ?>');
+    window.location.replace('/event/<?= $event_url ?>');
   }
 }
 
+// set the countdown timer
 cinterval = setInterval('time_dec()', 1000);
 
-
 $(document).ready(function() {
-    ga('send', 'pageview', 'signup/submit');
-    _gaq.push(['_trackPageview', 'signup/submit']);
+  <?php if(!empty($order_id)) { ?>
+  ga('ecommerce:addTransaction', {
+    'id': '<?= $order_id ?>',
+    'revenue': '<?= $amount_total ?>'
+  });
+  ga('ecommerce:send');
+  <?php } ?>
+  _gaq.push(['_trackPageview', 'signup/submit']);
 });
 </script>
 
@@ -36,6 +42,6 @@ $(document).ready(function() {
     Redirecting In <span id="countdown">5</span>.
 </h2>
 
-<?php if(isset($url) && strlen($url) > 0) { ?>
-<img src="<?php echo $url; ?>" width="1" height="1"> 
+<?php if(!empty($url)) { ?>
+<img src="<?= $url ?>" width="1" height="1">
 <?php } ?>

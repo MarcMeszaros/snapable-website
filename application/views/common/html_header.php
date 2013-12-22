@@ -101,6 +101,7 @@
 
         ga('create', 'UA-38299813-2', 'snapable.com');
         ga('require', 'linkid', 'linkid.js');
+        ga('require', 'ecommerce', 'ecommerce.js');
         ga('send', 'pageview');
 
         // old analytics

@@ -586,6 +586,8 @@ class Signup extends CI_Controller {
 			$amount_sale = currency_cents_to_dollars($amount);
 			$url = 'https://shareasale.com/sale.cfm?amount='.$amount_sale.'&tracking='.$orderID.'&transtype=sale&merchantID=43776';
 			$data['url'] = $url;
+			$data['amount_total'] = $amount_sale;
+			$data['order_id'] = $orderID;
 		}
 
 		$head = array(
