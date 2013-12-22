@@ -9,9 +9,9 @@ class Ajax_Api extends CI_Controller {
         parent::__construct();
 
         // always check if it's an AJAX call
-        //if (!IS_AJAX) {
-        //    show_error('Not a proper AJAX call.', 403);
-        //}
+        if (!IS_AJAX) {
+            show_error('Not a proper AJAX call.', 403);
+        }
     }
 
     public function index($path) {
