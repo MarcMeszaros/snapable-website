@@ -11,12 +11,20 @@
     margin-top: -20px;
 }
 
+#slides .container {
+    bottom: 5%;
+    left: 15%;
+}
+#slides .container p {
+    margin: 5px;
+}
+
 #fullscreen {
     z-index: 9999;
     position: fixed;
     top: 1em;
-    width: 120px;
-    margin: 0 0 0 -60px;
+    width: 90px;
+    margin: 0 0 0 -45px;
     left:50%;
 }
 

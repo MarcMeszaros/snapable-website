@@ -220,7 +220,7 @@ class Event extends CI_Controller {
 			);
 
 			$this->load->view('common/html_header', $head);
-			$this->load->view('event/slideshow', $data);
+			$this->load->view('event/slides', $data);
 			$this->load->view('common/html_footer');
 		} else if ( $task == "invites" && IS_AJAX ) {
 			$this->event_model->sendInvite($_POST);

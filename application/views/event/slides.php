@@ -1,5 +1,5 @@
 <div id="slides" data-event_id="<?= $event_id ?>">
-  <button id="fullscreen" class="btn btn-primary fullscreen" href="#" >Full Screen Mode</button>
+  <button id="fullscreen" class="btn btn-primary fullscreen" href="#" >Full Screen</button>
   <ul class="slides-container letterbox">
     <?php foreach ($photos as $photo) { ?>
     <li>
