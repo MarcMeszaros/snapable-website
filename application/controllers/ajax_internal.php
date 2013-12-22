@@ -30,8 +30,8 @@ class Ajax_internal extends CI_Controller {
         $verb = 'GET';
         $path = 'user';
         $params = array(
-            'created__gte' => gmdate('c', $start),
-            'created__lte' => gmdate('c', $end),
+            'created_at__gte' => gmdate('c', $start),
+            'created_at__lte' => gmdate('c', $end),
         );
         $resp = SnapApi::send($verb, $path, $params);
 
@@ -58,8 +58,8 @@ class Ajax_internal extends CI_Controller {
         $verb = 'GET';
         $path = 'photo';
         $params = array(
-            'timestamp__gte' => gmdate('c', $start),
-            'timestamp__lte' => gmdate('c', $end),
+            'created_at__gte' => gmdate('c', $start),
+            'created_at__lte' => gmdate('c', $end),
         );
         $resp = SnapApi::send($verb, $path, $params);
 
@@ -153,8 +153,8 @@ class Ajax_internal extends CI_Controller {
         $verb = 'GET';
         $path = 'order';
         $params = array(
-            'timestamp__gte' => gmdate('c', $start),
-            'timestamp__lte' => gmdate('c', $end),
+            'created_at__gte' => gmdate('c', $start),
+            'created_at__lte' => gmdate('c', $end),
         );
         $resp = SnapApi::send($verb, $path, $params);
         $response_loop = json_decode($resp['response']);
