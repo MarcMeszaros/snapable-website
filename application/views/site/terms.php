@@ -14,8 +14,7 @@
         than those authorized to use your account, you will be responsible for all 
         usage and purchases under your account. You agree to authorize <b>Snapable</b> 
         to charge purchases you make on-line to the credit card you supplied to 
-        <b>Snapable</b> when you purchased any products offered on the <b>Snapable</b> 
-        web site.
+        <b>Snapable</b> when you purchased any products offered by <b>Snapable</b>.
     </p>
      
     <h2>Refunds & Delivery</h2>
@@ -29,52 +28,52 @@
 
     <p>
         You can request a full refund for the amount on your receipt at any time up to 30 days 
-        after you signup for a Snapable package. We reserve the right to delete all information 
-        (including photos) of the event after a refund has been issued.
+        after your purchase order. We reserve the right to delete all account information and data
+        after a refund has been issued.
     </p>
 
     <h2>Copyrights & Trademarks</h2>
     <p>
-        All web site design, text, graphics and arrangements are © <b>Snapable</b>, 2013 except 
+        All web site design, text, graphics and arrangements are © <b>Snapable</b>, <?= date("Y") ?> except 
         where noted. <b>Snapable</b> web site and all content provided on the <b>Snapable</b> 
         web site is protected by copyright, trademark, and other applicable intellectual property 
         and proprietary rights laws, and is owned, controlled, and/or licensed by <b>Snapable</b>.
     </p>
 
     <p>
-        No information or material from the <b>Snapable</b> web site may be copied, reproduced, 
+        No information or material from the <b>Snapable</b> service may be copied, reproduced, 
         republished, uploaded, posted, transmitted, or distributed in any way whatsoever except 
         where noted otherwise. You agree to abide by all copyright notices, information and restrictions 
-        contained in any content on the <b>Snapable</b> web site and any content accessed through the 
-        <b>Snapable</b> web site.
+        contained in any content on the <b>Snapable</b> service and any content accessed through the 
+        <b>Snapable</b> service.
     </p>
 
     <p>
-        You retain copyright and any other rights you already hold in Content which you submit, 
+        You retain copyright and any other rights you already hold in content which you submit, 
         post or display on or through, the Services. By submitting, posting or displaying the content 
         you give <b>Snapable</b> a perpetual, irrevocable, worldwide, royalty-free, and non-exclusive license 
         to reproduce, adapt, modify, translate, publish, publicly perform, publicly display and distribute 
-        any Content which you submit, post or display on or through, the Services. This license is for the 
-        sole purpose of enabling <b>Snapable</b> to display, distribute and promote the Services.
+        any Content which you submit, post or display on or through, the service. This license is for the 
+        sole purpose of enabling <b>Snapable</b> to display, distribute and promote the service.
     </p>
 
     <p>
-        You will use the <b>Snapable</b> web site and any content, material, or information found on 
-        the <b>Snapable</b> web site solely for lawful purposes. You shall not upload to, distribute to, 
-        or otherwise disseminate through the <b>Snapable</b> web site any material or information of any 
+        You will use the <b>Snapable</b> service and any content, material, or information found on 
+        the <b>Snapable</b> service solely for lawful purposes. You shall not upload to, distribute to, 
+        or otherwise disseminate through the <b>Snapable</b> service any material or information of any 
         kind that is libellous, defamatory, obscene, pornographic, abusive, or otherwise violates any 
         law or infringes or violates any rights of any other person or entity, or contains a solicitation 
         of funds, advertising, or a solicitation for goods or services. You will be solely responsible 
         for the content of any material or information that you make available through the <b>Snapable</b> 
-        web site. You will also be liable for any loss or damage resulting, directly or indirectly, 
-        from your making any material or information available through the <b>Snapable</b> web site.
+        service. You will also be liable for any loss or damage resulting, directly or indirectly, 
+        from your making any material or information available through the <b>Snapable</b> service.
     </p>
 
     <h2>Miscellaneous Conditions </h2>
     <p>
         We do our best to provide you with the most up-to-date and accurate information. In the event that 
         an error does occur, we reserve the right to correct or cancel an order at any time, and/or edit an 
-        order to reflect the correction, and/or correct the error on our web site.
+        order to reflect the correction, and/or correct the error on our service.
     </p>
 
     <p>
@@ -91,8 +90,6 @@
         We reserve the right to make changes to these terms. Any changes to these terms will be posted.
     </p>
 
-    <br><br>
-    <p>    
-        Last Modified: <?php echo date('Y-m-d', filemtime(__file__)); ?>
-    </p>
+    <hr class="dotted" />
+    <p>Last Modified: <?php echo date('Y-m-d', filemtime(__file__)); ?></p>
 </div>
