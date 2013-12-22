@@ -100,6 +100,7 @@
         })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
         ga('create', 'UA-38299813-2', 'snapable.com');
+        ga('require', 'linkid', 'linkid.js');
         ga('send', 'pageview');
 
         // old analytics
@@ -110,7 +111,7 @@
 
         (function() {
         var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
         })();
     <?php } else { ?> 

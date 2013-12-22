@@ -126,15 +126,15 @@
 			<ul id="event-nav">
 				<li><span class="down">Photostream</span></li>
 				<?php if ( (isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user) || (isset($guestLoggedin) && $guestLoggedin == true) ) { ?>
-					<li><a id="uploadBTN" href="#">Submit Photo</a></li>
+					<li><a id="uploadBTN" href="#" onclick="ga('send', 'event', 'Navigation', 'Upload');">Submit Photo</a></li>
 				<?php } else { ?>
-					<li><a id="uploadBTN" href="/event/<?= $url ?>/guest_signin?upload-photo=1" data-signin="true">Submit Photo</a></li>
+					<li><a id="uploadBTN" href="/event/<?= $url ?>/guest_signin?upload-photo=1" data-signin="true" onclick="ga('send', 'event', 'Navigation', 'Upload');">Submit Photo</a></li>
 				<?php } ?>
 				<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ) { ?>
-				<li><a href="#guest" id="guestBTN">Invite Guests</a></li>
-				<li><a href="#tablecards" id="tableBTN">Table Cards</a></li>
-				<li><a id="event-nav-contact" href="#nav-contact">Contact</a></li>
-				<li><a href="/event/<?= $url ?>/slides" target="_new">Live Slideshow<span class="badge" style="margin-left:3px;">Beta</span></a></li>
+				<li><a id="guestBTN" href="#guest" onclick="ga('send', 'event', 'Navigation', 'Invites');">Invite Guests</a></li>
+				<li><a id="tableBTN" href="#tablecards" onclick="ga('send', 'event', 'Navigation', 'Table_Cards');">Table Cards</a></li>
+				<li><a id="event-nav-contact" href="#nav-contact" onclick="ga('send', 'event', 'Navigation', 'Contact');">Contact</a></li>
+				<li><a href="/event/<?= $url ?>/slides" target="_new" onclick="ga('send', 'event', 'Navigation', 'Slides');">Live Slideshow<span class="badge" style="margin-left:3px;">Beta</span></a></li>
 				<?php } ?>
 			</ul>
 		</div>
