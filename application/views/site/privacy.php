@@ -1,5 +1,7 @@
 <div class="col-lg-7">
-    <h1>Privacy Policy</h1>
+    <div class="page-header">
+        <h1>Privacy Policy</h1>
+    </div>
 
     <p>
         Thank you for visiting <b>Snapable</b>. This privacy policy tells you how we use personal information collected  while using 

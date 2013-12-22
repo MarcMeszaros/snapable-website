@@ -1,5 +1,8 @@
 <div class="col-lg-7">
-    <h1>Terms Of Service</h1>
+    <div class="page-header">
+        <h1>Terms Of Service</h1>
+    </div>
+
     <p>
         By accessing any areas of <b>Snapable</b> you acknowledge the notices, 
         and agree to the terms and conditions set out below.
