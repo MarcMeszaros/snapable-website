@@ -49,18 +49,21 @@ Class Event_model extends CI_Model
 				// if start and end dates are the same day $display_timedate is in the format "Tue July 31, 7-9 PM"
 				// if start and end dates are different days $display_timedate is in the format "Tue July 31, 7 PM to Thu Aug 2, 9PM"
 				$start_epoch = strtotime($e->start);
+				$start_epoch_with_tz = strtotime($e->start) + ($e->tz_offset * 60);
 				$end_epoch = strtotime($e->end);
+				$end_epoch_with_tz = strtotime($e->end) + ($e->tz_offset * 60);
+
 				
 				$eventID = explode("/", $e->resource_uri);
 				
 				if ( date("m-d", $start_epoch) == date("m-d", $end_epoch) )
 				{
-					$display_timedate = date("D M j", $start_epoch) . ", " . date("g:i A", $start_epoch) . " - " . date("g:i A", $end_epoch);
+					$display_timedate = date("D M j", $start_epoch) . ", " . date("g:i A", $start_epoch_with_tz) . " - " . date("g:i A", $end_epoch_with_tz);
 				} else {
-					$display_timedate = date("D M j, g:i A", $start_epoch) . " to " . date("D M j, g:i A", $end_epoch);
+					$display_timedate = date("D M j, g:i A", $start_epoch_with_tz) . " to " . date("D M j, g:i A", $end_epoch_with_tz);
 				}
-				$human_start = date("D M j, g:i A", ($start_epoch + ($e->tz_offset * 60)));
-				$human_end = date("D M j, g:i A", ($end_epoch + ($e->tz_offset * 60)));
+				$human_start = date("D M j, g:i A", $start_epoch_with_tz);
+				$human_end = date("D M j, g:i A", $end_epoch_with_tz);
 
 				$privacyParts = explode('/', $e->type);
 				$eventRes = array(
