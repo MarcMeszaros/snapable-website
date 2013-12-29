@@ -131,6 +131,10 @@ class Account extends CI_Controller {
 			} else {
 				redirect("/account/reset/?error");
 			}
+		} else if (empty($nonce)) {
+			$this->load->view('common/html_header', $head);
+			$this->load->view('account/reset', $data);
+			$this->load->view('common/html_footer');
 		} else {
 			$data = array();
 			if (isset($nonce) && strlen($nonce) >= 64) {
@@ -141,7 +145,7 @@ class Account extends CI_Controller {
 			}
 
 			$this->load->view('common/html_header', $head);
-			$this->load->view('account/reset', $data);
+			$this->load->view('account/new_password', $data);
 			$this->load->view('common/html_footer');
 		}
 
