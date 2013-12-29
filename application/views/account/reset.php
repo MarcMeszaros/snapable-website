@@ -10,7 +10,7 @@
 			
 			<?php
 				if (!empty($error)) {
-					echo $error;
+					echo '<div id="error">'.$error.'</div>';
 				}
 			?>
 

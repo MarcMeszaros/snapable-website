@@ -132,7 +132,7 @@ class Account extends CI_Controller {
 				redirect("/account/reset/?error");
 			}
 		} else if (empty($nonce)) {
-			$this->load->view('common/html_header');
+			$this->load->view('common/html_header', $head);
 			$this->load->view('account/reset');
 			$this->load->view('common/html_footer');
 		} else {
