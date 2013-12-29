@@ -135,16 +135,13 @@ class Account extends CI_Controller {
 			$data = array();
 			if (isset($nonce) && strlen($nonce) >= 64) {
 				$data['nonce'] = $nonce;
-			} else if (strlen($nonce) < 64) {
+			} else if (isset($nonce) && strlen($nonce) < 64) {
 				$data['nonce'] = '';
 				$data['error'] = "The reset link seems to be invalid.";
-			} else {
-				$data['nonce'] = '';
-				$data['error'] = "We weren't able to reset your password.<br />Please try again.";
 			}
 
 			$this->load->view('common/html_header', $head);
-			$this->load->view('account/new_password', $data);
+			$this->load->view('account/reset', $data);
 			$this->load->view('common/html_footer');
 		}
 

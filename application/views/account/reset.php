@@ -8,7 +8,11 @@
 			<h1>Reset your password</h1>
 			<h2>Enter your email address, click the Reset button and we'll email you a link to reset your password.</h2>
 			
-			<?= $error ?>
+			<?php
+				if (!empty($error)) {
+					echo $error;
+				}
+			?>
 
 			<hr class="dotted" />
 
