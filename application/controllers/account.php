@@ -126,7 +126,7 @@ class Account extends CI_Controller {
 		if ( isset($_POST['password']) && isset($_POST['nonce']) ) {
 			$reset = $this->account_model->completeReset($_POST['password'], $_POST['nonce']); 
 			
-			if ( $reset == 202 ) {
+			if ( $reset == 201 ) {
 				redirect("/account/signin?reset");
 			} else {
 				redirect("/account/reset/?error");
