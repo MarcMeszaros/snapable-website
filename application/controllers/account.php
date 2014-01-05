@@ -5,27 +5,27 @@ class Account extends CI_Controller {
 	function __construct() {
     	parent::__construct();
     	$this->load->library('email');
-    	$this->load->model('account_model','',TRUE);  		    	
+    	$this->load->model('account_model','',TRUE);  		   
 	}
-	
+
 	public function index() {
 		redirect('/account/signin', 'refresh');
 	}
-	
+
 	public function signin() {
 		require_https(); // make sure we are in ssl
 
 		// check if we are already logged in, and redirect if we are
-		$userLogin = SnapAuth::is_logged_in(); 
+		$userLogin = SnapAuth::is_logged_in();
 		if($userLogin) {
 			$event_array = $this->account_model->eventDeets($userLogin['account_uri']);
 			$this->session->set_userdata('event_deets', $event_array);
 
 			redirect('/event/'.$event_array['url']);
 		}
-		
+
 		$segments = $this->uri->total_segments();
-		
+
 		$error = ( $segments == 3 && $this->uri->segment(3) == "error" ) ? true:false;
 		$reset = ( isset($_GET['reset']) ) ? true:false;
 
@@ -34,7 +34,7 @@ class Account extends CI_Controller {
 		if($redirect) {
 			$this->session->set_flashdata('redirect', $redirect);
 		}
-		
+
     	$data = array(
 			'css' => array('assets/css/setup.css', 'assets/css/signin.css'),
 			'js' => array('assets/js/signin.js'),
@@ -45,10 +45,10 @@ class Account extends CI_Controller {
 		$this->load->view('account/signin', $data);
 		$this->load->view('common/html_footer', $data);
 	}
-	
+
 	public function validate() {
 		if ( isset($_POST) ) {
-			// create password hash				
+			// create password hash		
 			$pbHash = SnapAuth::snap_hash($_POST['email'], $_POST['password']);
 			// check if password matches
 			$userLogin = SnapAuth::signin($_POST['email'], $pbHash);
@@ -69,22 +69,22 @@ class Account extends CI_Controller {
 			show_404();
 		}
 	}
-	
+
 	public function dashboard() {
 		require_https();
 		if($this->session->userdata('logged_in'))
 		{
 			// get event details
 			$session_data = $this->session->userdata('logged_in');
-			
+	
 			$event_array = $this->account_model->eventDeets($session_data['account_uri']);
 			$this->session->set_userdata('event_deets', $event_array);
-			
+	
 			if ( $event_array['status'] == 200 )
 			{
 				$days_until_epoch = $event_array['start_epoch'] - time();
 				$days_until = round($days_until_epoch / 86400);
-				
+		
 				if( $days_until < 0 )
 				{
 					$days_until = substr($days_until, 1);
@@ -92,9 +92,9 @@ class Account extends CI_Controller {
 				} else {
 					$days_verb = "Until";
 				}
-				
+		
 				$data = array(
-					'session' => $this->session->userdata('logged_in'), 
+					'session' => $this->session->userdata('logged_in'),
 					'css' => array('assets/css/setup.css', 'assets/css/dashboard.css'),
 					'js' => array('assets/js/dashboard.js'),
 					'eventDeets' => $event_array,
@@ -111,22 +111,22 @@ class Account extends CI_Controller {
 			redirect("/account/signin");
 		}
 	}
-	
+
 	function signout() {
 		SnapAuth::signout();
 		redirect('/account/signin', 'refresh');
 	}
-	
+
 	function reset($nonce = NULL) {
 		require_https();
 		$head = array(
 			'css' => array('assets/css/setup.css', 'assets/css/signin.css'),
 		);
-		
+
 		if ( isset($_POST['password']) && isset($_POST['nonce']) ) {
-			$reset = $this->account_model->completeReset($_POST['password'], $_POST['nonce']); 
-			
-			if ( $reset == 200 ) {
+			$reset = $this->account_model->completeReset($_POST['password'], $_POST['nonce']);
+	
+			if ( $reset == 202 ) {
 				redirect("/account/signin?reset");
 			} else {
 				redirect("/account/reset/?error");
@@ -150,17 +150,17 @@ class Account extends CI_Controller {
 		}
 
 	}
-	
+
 	function doreset() {
 		$data = array(
 			'css' => array('assets/css/setup.css', 'assets/css/signin.css')
 		);
 		if ( isset($_POST) && isset($_POST['email']) ) {
 			$userDeets = json_decode($this->account_model->userDetails($_POST['email']));
-			
+	
 			if ( $userDeets->status == 200 ) {
 				$resp = $this->account_model->doReset(SnapApi::resource_pk($userDeets->resource_uri));
-				
+		
 				if ( $resp['code'] == 201 ) {
 					$this->load->view('common/html_header', $data);
 					$this->load->view('account/email_sent', $data);
@@ -181,13 +181,13 @@ class Account extends CI_Controller {
 			$this->load->view('common/html_footer', $data);
 		}
 	}
-	
+
 	function password()
 	{
 		if ( isset($_POST['password']) && isset($_POST['nonce']) )
 		{
-			$reset = $this->account_model->completeReset($_POST['password'], $_POST['nonce']); 
-			
+			$reset = $this->account_model->completeReset($_POST['password'], $_POST['nonce']);
+	
 			if ( $reset == 0 ) {
 				redirect("/account/reset/?error");
 			} else {
