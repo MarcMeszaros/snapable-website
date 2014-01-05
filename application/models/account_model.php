@@ -79,33 +79,34 @@ Class Account_model extends CI_Model
 		);
 		return SnapApi::send($verb, $path, $params);
 	}
-	
-	function completeReset($password, $password_nonce) {
-		$verb = 'GET';
-		$path = '/user/passwordreset/' . $password_nonce . '/';
-		$resp = SnapApi::send($verb, $path, $params);
 
-		$response = $resp['response'];
-		$httpcode = $resp['code'];
-		
+	function completeReset($password, $password_nonce) {
+        $verb = 'GET';
+        $path = '/user/passwordreset/' . $password_nonce . '/';
+        $resp = SnapApi::send($verb, $path, $params);
+
+        $response = $resp['response'];
+        $httpcode = $resp['code'];
+
 		if ( $httpcode == 200 ) {
 			$result = json_decode($response);
 			$email = $result->email;
 			$resource_uri = explode("/", $result->resource_uri);
 
-			$verb = 'PUT';
-			$path = '/user/' . $resource_uri[3] . '/';
+			$verb = 'PATCH';
+			$path = '/user/' . $resource_uri[3] . '/passwordreset/';
 			$params = array(
+                "nonce" => $password_nonce,
 				"password" => $password,
-			);
-			$headers = array(
-				'X-SNAP-User' => $email . ":" . $password_nonce,
-			);
-			$resp = SnapApi::send($verb, $path, $params, $headers);	           
+            );
+            $header = array(
+                'X-SNAP-User' => $email . ":" . $password_nonce,
+            );
+			$resp = SnapApi::send($verb, $path, $params, $header);
 	        return $resp['code'];
 		} else {
 			return 500;
 		}
 	}
-	
+
 }
