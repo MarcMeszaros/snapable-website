@@ -51,9 +51,50 @@ function checkUrl(url)
 	});
 }
 
+function updateStream() {
+    // get slide count
+    var lastUpdateISO = new Date(window.lastUpdate).toISOString();
+
+    $.ajax('/ajax_api/photo', {
+        type: 'GET',
+        data: {
+            'created_at__gte': lastUpdateISO,// lastUpdateISO
+            //'order_by': '-created_at',
+            'streamable': 'true',
+            'event': $('#event-top').data('event-id')
+        }
+    }).done(function(data){
+        var resp = $.parseJSON(data);
+        for (index = 0; index < resp.objects.length; index++) {
+            var photo_id_parts = resp.objects[index].resource_uri.split('/')
+            var photo_id = photo_id_parts[photo_id_parts.length - 2];
+
+            var viewData = {
+				id: photo_id, 
+				url: '/p/' + photo_id,
+				photo: '/p/get/' + photo_id + '/200x200',
+				caption: resp.objects[index].caption,
+				photographer: resp.objects[index].author_name,
+				owner: $('form#event-settings').length,
+				streamable: resp.objects[index].streamable
+			};
+			// add photo to dom
+			loadPhoto(viewData, {method: 'prepend'});
+        }
+    }).always(function(data){
+        //$("#event_url").removeClass("spinner-16px");
+    });
+
+    window.lastUpdate = new Date().getTime();
+}
+
 // when the DOM is ready
-$(document).ready(function() 
-{  
+$(document).ready(function() {
+	window.lastUpdate = new Date().getTime();
+
+	// setup the code to do ajax calls and update the dom
+    setInterval(updateStream, 30000); // 30 sec
+
 	if ( $('#event-top').data('photo-count') > 0 )
 	{
 		// Display Loader

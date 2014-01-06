@@ -16,6 +16,8 @@ function uploadSuccess() {
         title: 'Photo Uploaded',
         text: 'The photo was successfully uploaded.\nRefresh the page to see your photo in the stream.'
     });
+
+    updateStream();
 }
 
 function uploadError() {
