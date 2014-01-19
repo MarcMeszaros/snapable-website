@@ -1,6 +1,6 @@
 	<div class="col-lg-10 col-lg-push-1" style="padding-left:0;">
 	<section id="footer">
-    	&copy; <?= date("Y") ?> Snapable / <a href="/site/contact">Contact</a> / <a href="/site/faq">FAQ</a> / <a href="http://blog.snapable.com">Blog</a> / <a href="/site/terms">Terms of Service</a> / <a href="/site/privacy">Privacy</a>
+    	&copy; <?= date("Y") ?> Snapable / <a href="/site/contact">Contact</a> / <a href="/site/faq">FAQ</a> / <a href="http://blog.snapable.com">Blog</a> / <a href="/site/terms">Terms of Service</a> / <a href="/site/privacy">Privacy</a> / <a href="https://status.snapable.com">Status</a>
     	
     	<div id="sm-links">
     		<a id="sm-twitter" href="http://twitter.com/getsnapable" target="_blank">Follow us</a>
