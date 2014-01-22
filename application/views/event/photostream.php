@@ -134,6 +134,7 @@
 				<li><a id="guestBTN" href="#guest" onclick="ga('send', 'event', 'Navigation', 'Invites');">Invite Guests</a></li>
 				<li><a id="tableBTN" href="#tablecards" onclick="ga('send', 'event', 'Navigation', 'Table_Cards');">Table Cards</a></li>
 				<li><a id="event-nav-contact" href="#nav-contact" onclick="ga('send', 'event', 'Navigation', 'Contact');">Contact</a></li>
+                <li><a id="downloadBTN" href="#downloadalbum" onclick="ga('send', 'event', 'Navigation', 'Download_Album');">Download Album</a></li>
 				<li><a href="/event/<?= $url ?>/slides" target="_new" onclick="ga('send', 'event', 'Navigation', 'Slides');">Live Slideshow<span class="badge" style="margin-left:3px;">Beta</span></a></li>
 				<?php } ?>
 			</ul>
