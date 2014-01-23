@@ -227,7 +227,7 @@
 
 					<hr />
 
-					<div class="secureInfo">Your information is secure</div>
+					<div class="secureInfo"><span class="glyphicon glyphicon-lock"></span> Your information is secure</div>
 					<div>
 						<button id="completSignup" class="btn btn-primary btn-lg" type="submit" name="submit-button">Setup Event ›</button>
 						<span id="signup-spinner" class="spinner-wrap hide" data-length="8" data-radius="5" data-width="4"></span>

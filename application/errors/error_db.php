@@ -9,7 +9,7 @@
 ::webkit-selection{ background-color: #E13300; color: white; }
 
 body {
-	background: #f9f9f9 url('/assets/img/logo-indented.png') no-repeat center 40px;
+	background: #f9f9f9 url('/assets/img/logo-circle.png') no-repeat center 40px;
 	margin: 40px;
 	font: 13px/20px normal Helvetica, Arial, sans-serif;
 	color: #4F5155;

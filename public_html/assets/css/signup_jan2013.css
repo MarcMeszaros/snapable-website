@@ -15,9 +15,9 @@
     display: block;
     width: 82px;
     height: 82px;
-    margin: 0 0 50px 0;
+    margin: 0 0 50px 45px;
     overflow: hidden;
-    background: transparent url('../home/img/logo-circle.png') no-repeat;
+    background: transparent url('../img/logo-circle.png') no-repeat;
     text-indent: -8000px;
     text-decoration: none;
 }
@@ -158,10 +158,9 @@ hr {
 
 .secureInfo {
 	float: right;
-	padding: 14px 5px 14px 35px;
-	width: 190px;
+	padding: 14px 5px;
 	border-radius: 5px;
-	background: #66ccff url('/assets/img/icons/lock_fill_12x16.png') no-repeat 10px 12px;
+	background: #66ccff;
 	color: #fff;
 	line-height: 14px;
 }

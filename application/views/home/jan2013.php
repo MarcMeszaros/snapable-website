@@ -1,19 +1,22 @@
-	<div id="headWrap">
-		<div id="head">
-			
-			<div id="logo">Snapable. Every moment at your event in photos</div>
-			
-			<ul id="nav">
-				<li><a class="signup" href="signup" onClick="ga('send', 'event', 'Signups', 'Clicked', 'Signup (Header)'); _gaq.push(['_trackEvent', 'Signups', 'Clicked', 'Signup (Header)']);">Sign-up</a></li>
-				<li><a class="signin" href="/account/signin">Sign-in</a></li>
-				<li><a href="http://blog.snapable.com/">Blog</a></li>
-				<li><a href="#pricing" class="anchorLink">Pricing</a></li>
-				<li><a href="#how-it-works" class="anchorLink">How It Works</a></li>
-				<li><a href="#why-use" class="anchorLink">Why Snapable?</a></li>
-			</ul>
-			
+	<nav id="nav" class="navbar navbar-default" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<div id="logo">Snapable. Every moment at your event in photos</div>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="#why-use" class="anchorLink">Why Snapable?</a></li>
+					<li><a href="#how-it-works" class="anchorLink">How It Works</a></li>
+					<li><a href="#pricing" class="anchorLink">Pricing</a></li>
+					<li><a href="http://blog.snapable.com/">Blog</a></li>
+					<li><a class="signin" href="/account/signin">Sign-in</a></li>
+					<li><a class="signup" href="signup" onClick="ga('send', 'event', 'Signups', 'Clicked', 'Signup (Header)'); _gaq.push(['_trackEvent', 'Signups', 'Clicked', 'Signup (Header)']);">Sign-up</a></li>
+				</ul>
+			</div><!-- /.navbar-collapse -->
 		</div>
-	</div>
+	</nav>
 	
 	<div id="ctaWrap">
 		<div id="cta">
