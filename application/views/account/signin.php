@@ -1,5 +1,5 @@
 <div class="container">
-	<img id="signLogo" src="/assets/img/logo-indented.png" alt="Snapable" />
+	<img id="signLogo" src="/assets/img/logo-circle.png" alt="Snapable" />
 	<div class="col-lg-4 col-lg-push-4 panel panel-default">
 		<div class="panel-body">
 		<form role="form" id="signinWrap" name="signin" action="/account/validate" method="post" data-validate="parsley" novalidate>

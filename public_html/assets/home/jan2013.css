@@ -1,86 +1,37 @@
-/*** SETUP ****/
-article,aside,details,figcaption,figure,
-    footer,header,hgroup,menu,nav,section { 
-            display:block;
-    }
-	
 /**** STRUCTURE ****/
 body {
 	background: #fff url('/assets/home/img/bg-home.jpg') no-repeat center top;
 	color: #666;
 }
 
-
 /**** HEADER ****/
-
-#headWrap {
-	border-bottom: 1px solid #fff;
-	background-color: #ffffff;
-	background-image: linear-gradient(bottom, rgb(240,240,240) 0%, rgb(255,255,255) 50%);
-	background-image: -o-linear-gradient(bottom, rgb(240,240,240) 0%, rgb(255,255,255) 50%);
-	background-image: -moz-linear-gradient(bottom, rgb(240,240,240) 0%, rgb(255,255,255) 50%);
-	background-image: -webkit-linear-gradient(bottom, rgb(240,240,240) 0%, rgb(255,255,255) 50%);
-	background-image: -ms-linear-gradient(bottom, rgb(240,240,240) 0%, rgb(255,255,255) 50%);
-	
-	background-image: -webkit-gradient(
-		linear,
-		left bottom,
-		left top,
-		color-stop(0, rgb(240,240,240)),
-		color-stop(0.5, rgb(255,255,255))
-	);
-
-	box-shadow: 0 1px 10px #666;
-}
-#head {
-	width: 960px;
-	margin: 0 auto;
-	padding: 5px 0;
-}
-#head:after {
-	content: ".";
-    display: block;
-    height: 0;
-    clear: both;
-    visibility: hidden;
-    margin: 0;
-    padding: 0;
-}
 #logo {
-	display: inline;
-	float: left;
 	width: 174px;
 	height: 33px;
 	background: transparent url('/assets/home/img/jan2013/logo.png') no-repeat;
 	text-indent: -8000px;
 }
-ul#nav {
-	display: inline;
-	float: right;
-	width: 650px;
-	margin: 0;
-	padding-top: 3px;
-	font-size: 14px;
-	line-height: 18px;
+
+#nav {
+	border-radius: 0;
 }
-#nav li {
-	display: inline;
-	float: right;
+
+#nav .container {
+	margin-top: 10px;
+	width: 960px;
 }
-#nav li:first-child { 
+
+#nav li:last-child { 
 	background-image: none; 
 	background: #fff;
 	border-radius: 5px;
 	border: 1px solid #ccc;
-	}
-#nav li:nth-child(2) {
-	background-image: none;
 }
 #nav a {
 	display: block;
 	font-weight: bold;
 	text-decoration: none;
-	padding: 5px 15px 3px 15px;
+	padding: 5px 15px;
 }
 #nav a.signin { 
 	font-weight: normal; 
