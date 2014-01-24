@@ -48,6 +48,7 @@ class Event extends CI_Controller {
 				'assets/js/event/photostream-upload.js',
 				'assets/js/event/photostream-contact.js',
 				'assets/js/event/photostream-tablecards.js',
+				'assets/js/event/photostream-download.js',
 			),
 			'url' => $event_details->event->url,
 			'title' => $event_details->event->title . ", via Snapable"
