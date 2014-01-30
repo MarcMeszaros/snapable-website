@@ -13,7 +13,12 @@
 		<div id="event-title-wrap" class="col-lg-6">
 			<h2 id="event-title"><?= $eventDeets->title ?></h2>
 			<div id="event-address"><?= (!$eventDeets->public && isset($eventDeets->addresses[0]->{'address'})) ? $eventDeets->addresses[0]->{'address'} : '&nbsp;' ?></div>
-			<div id="event-timestamp-start"><?= $eventDeets->human_start ?></span> to <span id="event-timestamp-end"><?= $eventDeets->human_end ?><?php if ($ownerLoggedin) { ?> &nbsp; <button id="event-settings-btn" class="btn btn-primary btn-xs" style="font-size:10px; margin-top:-2px;" onclick="$('#event-settings').slideDown();">Edit Event</button><?php } ?></div>
+			<div><span id="event-timestamp-start"><?= $eventDeets->human_start ?></span> to <span id="event-timestamp-end"><?= $eventDeets->human_end ?></span>
+				<?php if ($ownerLoggedin) { ?> &nbsp;
+					<button id="event-settings-btn" class="btn btn-primary btn-xs" style="margin-top:-2px;" onclick="$('#event-settings').slideDown();"><span class="glyphicon glyphicon-edit"></span> Edit Event</button>
+					<button id="downloadBTN" class="btn btn-primary btn-xs" style="margin-top:-2px;" onclick="downloadAlbum(); ga('send', 'event', 'Navigation', 'Download_Album');"><span class="glyphicon glyphicon-download"></span> Download Album</button>
+				<?php } ?>
+			</div>
 			<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ) { ?>
 			<form id="event-settings" role="form" method="POST" action="/ajax/put_event/<?= $eid[3] ?>">
 				<h3>Edit Your Event Details</h3>
@@ -134,8 +139,7 @@
 				<li><a id="guestBTN" href="#guest" onclick="ga('send', 'event', 'Navigation', 'Invites');">Invite Guests</a></li>
 				<li><a id="tableBTN" href="#tablecards" onclick="ga('send', 'event', 'Navigation', 'Table_Cards');">Table Cards</a></li>
 				<li><a id="event-nav-contact" href="#nav-contact" onclick="ga('send', 'event', 'Navigation', 'Contact');">Contact</a></li>
-                <li><a id="downloadBTN" href="#downloadalbum" onclick="ga('send', 'event', 'Navigation', 'Download_Album');">Download Album</a></li>
-				<li><a href="/event/<?= $url ?>/slides" target="_new" onclick="ga('send', 'event', 'Navigation', 'Slides');">Live Slideshow<span class="badge" style="margin-left:3px;">Beta</span></a></li>
+                <li><a href="/event/<?= $url ?>/slides" target="_new" onclick="ga('send', 'event', 'Navigation', 'Slides');">Live Slideshow<span class="badge" style="margin-left:3px;">Beta</span></a></li>
 				<?php } ?>
 			</ul>
 		</div>
