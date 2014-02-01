@@ -1,45 +1,28 @@
-    <?php if ( isset($loggedInBar) )
-		{
-			echo "<style type='text/css'> #homeHeadWrap { height: 100px; } </style>";
-		}
-	?>
-	<div id="homeHeadWrap">
-	
-		<?php if ( isset($loggedInBar) )
-		{
-			if (  $loggedInBar == "owner" )
-			{
-				$arr = $this->session->userdata('logged_in');
-				$name = $arr['first_name'] . " " . substr($arr['last_name'], 0,1) . ".";
-				$signout_url = "/account/signout";
-				$dash_link = "<a href='/account/dashboard'>Dashboard</a> / ";
-			}
-			else if ( $loggedInBar == "guest" )
-			{
-				$arr = $this->session->userdata('guest_login');
-				$name = $arr['name'];
-				$signout_url = "/event/" . $url . "/signout";
-				$dash_link = "";
-			} else {
-				$name = "Unknown";
-				$signout_url = "unknown";
-				$dash_link = "";
-			}
-			echo "<div id='signedInBar'><div id='signedInText'>Signed In as <strong>" . $name . "</strong> / <a href='" . $signout_url . "'>Sign Out</a></div></div>";
-		}
-		?>
-		
-		<div id="homeHead">
-			
-			<a id="headLogo" href="/">Snapable</a>
-			
-			<?php if ( !isset($noTagline) ) { ?>
-			<div id="headTagline">Every moment. Captured.</div>
-			<?php 
-			}
-			if ( isset($linkHome) ) { ?>
-			<div id="headNav"><a href="/">‹ Back to Home</a></div>
-			<?php } ?>
-			
+<?php if ( isset($loggedInBar) ) {
+	if (  $loggedInBar == "owner" ) {
+		$arr = $this->session->userdata('logged_in');
+		$name = $arr['first_name'] . " " . substr($arr['last_name'], 0,1) . ".";
+		$signout_url = "/account/signout";
+	} else if ( $loggedInBar == "guest" ) {
+		$arr = $this->session->userdata('guest_login');
+		$name = $arr['name'];
+		$signout_url = "/event/" . $url . "/signout";
+	} else {
+		$name = "Unknown";
+		$signout_url = "unknown";
+	}
+} ?>
+<nav id="homeHeadWrap" class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<?php if (isset($name) && isset($signout_url)) { ?>
+	<div id="signedInBar"><div id="signedInText">Signed In as <strong><?= $name ?></strong> / <a href=" <?= $signout_url ?>">Sign Out</a></div></div>
+	<? } ?>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-offset-1"><a href="/"><img src="/assets/img/snapable-sm.png" alt="Snapable" /></a></div>
+		</div>
+		<div class="row">
+			<div class="col-lg-offset-1"><h4 id="headTagline">Every moment. Captured.</h4></div>
 		</div>
 	</div>
+</nav>
