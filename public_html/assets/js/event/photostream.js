@@ -278,7 +278,7 @@ function loadPhoto(photoData, options) {
 		var target = $(this).attr("href");
 		// load the url and show modal on success
     	$("#photo-preview-modal .modal-body").load(target, function() {
-    		$('#photo-preview-modal .modal-dialog').css('width', '900px');
+    		$('#photo-preview-modal .modal-dialog').css('width', '1000px');
         	$("#photo-preview-modal").modal("show");
     	});
 	});
@@ -287,7 +287,7 @@ function loadPhoto(photoData, options) {
 		var target = $(this).attr("href");
 		// load the url and show modal on success
     	$("#photo-preview-modal .modal-body").load(target, function() {
-    		$('#photo-preview-modal .modal-dialog').css('width', '900px');
+    		$('#photo-preview-modal .modal-dialog').css('width', '1000px');
         	$("#photo-preview-modal").modal("show");
     	});
 	});
