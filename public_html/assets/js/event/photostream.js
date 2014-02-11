@@ -177,10 +177,11 @@ function loadPhoto(photoData, options) {
 		filter_position = ':first';
 	}
 	var $domPhoto = $('#photoArea').mustache('event-list-photo', photoData, options);
+	var $photo = $domPhoto.find('div.photo').filter(filter_position);
 
 	// setup the toggle switch
-	$domPhoto.find('div.photo-buttons .make-switch').filter(filter_position).bootstrapSwitch();
-	$domPhoto.find('div.photo-buttons .make-switch').filter(filter_position).on('switch-change', function(e, data) {
+	$photo.find('div.photo-buttons .make-switch').bootstrapSwitch();
+	$photo.find('div.photo-buttons .make-switch').on('switch-change', function(e, data) {
     	$.ajax({
     		url: '/ajax/patch_photo/'+$(this).data('photo_id'),
 			type: 'POST',
@@ -199,7 +200,7 @@ function loadPhoto(photoData, options) {
 	});
 
 	// set cover photo
-	$domPhoto.find('div.photo-buttons .add-cover').filter(filter_position).click(function(){
+	$photo.find('div.photo-buttons .add-cover').click(function(){
 		// make an ajax call
 		$.ajax({
 			url: '/ajax/put_event/'+$('#event-top').data('event-id'),
@@ -220,7 +221,7 @@ function loadPhoto(photoData, options) {
 	});
 
 	// setup the delete per photo
-	$domPhoto.find('div.photo .photo-delete').filter(filter_position).click(function(){
+	$photo.find('.photo-delete').click(function(){
 		var deleteButton = $(this); // save a reference to that button
 
 		// anonymous function to handle the deletion/keep variable scope
@@ -266,14 +267,17 @@ function loadPhoto(photoData, options) {
 	});
 
 	// Trigger photo overlay code
-	$domPhoto.find('div.photo').filter(filter_position).hover(function() {
+	$photo.hover(
+	  function(e) {
 	    $(".photo-overlay", this).fadeIn("fast");
 	  },
-	  function() {
-	    $(".photo-overlay", this).fadeOut("fast");
+	  function(e) {
+	  	if (!$.contains(this, e.target)) {
+	    	$(".photo-overlay", this).fadeOut("fast");
+		}
 	  }
 	);
-	$domPhoto.find('div.photo .photo-enlarge').filter(filter_position).click(function(e){
+	$photo.find('.photo-enlarge').click(function(e){
 		e.preventDefault();
 		var target = $(this).attr("href");
 		// load the url and show modal on success
@@ -282,7 +286,7 @@ function loadPhoto(photoData, options) {
         	$("#photo-preview-modal").modal("show");
     	});
 	});
-	$domPhoto.find('div.photo .photo-share').filter(filter_position).click(function(e){
+	$photo.find('.photo-share').click(function(e){
 		e.preventDefault();
 		var target = $(this).attr("href");
 		// load the url and show modal on success
@@ -293,10 +297,10 @@ function loadPhoto(photoData, options) {
 	});
 
 	// setup the tooltips
-	$domPhoto.find('div.photo .photo-credit').filter(filter_position).tooltip();
+	$photo.find('.photo-credit').tooltip();
 
 	// setup the download
-	$domPhoto.find('.photo-download').filter(filter_position).click(function(){
+	$photo.find('.photo-download').click(function(){
 		document.location = '/download/photo/'+$(this).data('photo_id')+'/orig';
 		return false; // end execution of the javascript
 	});
