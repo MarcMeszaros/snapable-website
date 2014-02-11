@@ -1,7 +1,7 @@
 function settingsBeforeSubmit() {
     $('#settings-save-spinner').removeClass('hide');
-    $('#event-settings-streamable').val($('#event-settings-streamable-toggle').bootstrapSwitch('status'));
-    $('#event-settings-public').val($('#event-settings-public-toggle').bootstrapSwitch('status'));
+    $('#event-settings-streamable').val($('#event-settings-streamable-toggle').bootstrapSwitch('state'));
+    $('#event-settings-public').val($('#event-settings-public-toggle').bootstrapSwitch('state'));
 }
 
 function settingsSuccess() {
@@ -10,7 +10,7 @@ function settingsSuccess() {
     // update field values
     $('#event-title').html(json.title);
     $('#event-address').html(json.addresses[0].address);
-    if ($('#event-settings-public-toggle').bootstrapSwitch('status')) {
+    if ($('#event-settings-public-toggle').bootstrapSwitch('state')) {
         $('#event-pin').fadeOut();
     } else {
         $('#event-pin').fadeIn();      
@@ -47,6 +47,8 @@ function settingsError() {
 }
 
 $(document).ready(function(){
+    $('#event-settings-streamable-toggle').bootstrapSwitch();
+    $('#event-settings-public-toggle').bootstrapSwitch();
     $(document).mouseup(function(e) {
         if ($(e.target).attr('id') != 'event-settings' && $(e.target).parents('#event-settings,.datepicker,.time-picker').length == 0) {
             $('#event-settings').slideUp();

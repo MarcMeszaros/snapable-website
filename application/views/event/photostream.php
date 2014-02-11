@@ -90,21 +90,13 @@
 					<input id="event-settings-streamable" name="are_photos_streamable" type="hidden" value="<?= $eventDeets->are_photos_streamable ?>"/>
 					<label for="event-settings-streamable-toggle">Automatically Add Guest Photos to Stream</label>
 					<div class="form-field_hint">Should photos uploaded by guests automatically be available in the stream?</div>
-					<div>
-					<div id="event-settings-streamable-toggle" class="make-switch" data-on="primary" data-off="danger" data-on-label="Yes" data-off-label="No">
-    					<input type="checkbox" <?php echo ($eventDeets->are_photos_streamable) ? 'checked' : ''; ?>>
-					</div>
-					</div>
+					<input id="event-settings-streamable-toggle" type="checkbox" data-on="primary" data-off="danger" data-on-label="Yes" data-off-label="No" <?php echo ($eventDeets->are_photos_streamable) ? 'checked' : ''; ?>>
 				</div>
 				<div class="form-group">
 					<input id="event-settings-public" name="public" type="hidden" value="<?= $eventDeets->public ?>"/>
 					<label for="event-settings-public-toggle">Public Event</label>
 					<div class="form-field_hint">Public events allow anyone to view and upload photos to the album. Private events are only viewable by guests that know the event PIN.</div>
-					<div>
-					<div id="event-settings-public-toggle" class="make-switch" data-on="primary" data-off="primary" data-on-label="Yes" data-off-label="No">
-    					<input type="checkbox" <?php echo ($eventDeets->public) ? 'checked' : ''; ?>>
-					</div>
-					</div>
+					<input id="event-settings-public-toggle" type="checkbox" class="make-switch" data-on="primary" data-off="primary" data-on-label="Yes" data-off-label="No" <?php echo ($eventDeets->public) ? 'checked' : ''; ?>>
 				</div>
 				<div class="form-group">
 					<label for="event-settings-address">Event Location</label>

@@ -7,9 +7,7 @@
 				<button class="btn btn-primary add-cover" href="#" data-photo_id="{{id}}">Set as Cover Photo</button>
 				<br /><br />
 				<label>In Guest Stream</label><br />
-				<div class="make-switch photo-streamable" data-photo_id="{{id}}" data-on="primary" data-off="danger" data-on-label="Yes" data-off-label="No">
-    				<input type="checkbox" {{#streamable}}checked{{/streamable}}>
-				</div>
+				<input type="checkbox" class="make-switch photo-streamable" data-photo_id="{{id}}" data-on="primary" data-off="danger" data-on-label="Yes" data-off-label="No" {{#streamable}}checked{{/streamable}}>
 				{{/owner}}
 				{{^owner}}
 				<br /><br />
