@@ -86,8 +86,11 @@ div.ui-datepicker{
  font-size:14px;
 }
 
+/* event field modifications */
+#event_location { width: 100%; }
 #event_url-start { width: 28%; font-size: 14px; padding-top: 4px; padding-right: 5px;}
-#event_url { width: 72% }
+#event_url { width: 72%; }
+#user_email { width: 100%; }
 #cc_cvc { width: 15%; }
 
 .help-block {
