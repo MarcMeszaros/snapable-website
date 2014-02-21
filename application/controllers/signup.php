@@ -15,9 +15,11 @@ class Signup extends CI_Controller {
 		'budgetsavvy' => 1000, // added: 2013-02-26; valid_until: TBD
 		'enfianced' => 1000, // added: 2013-01-31; valid_until: TBD
 		'gbg' => 1000, // added: 2013-01-31; valid_until: TBD
+		'nonprofitedu' => 4900, // added: 2014-02-20; valid_until: TBD
 		'poptastic' => 1000, // added: 2013-01-31; valid_until: TBD
 		'smartbride' => 1000, // added: 2013-01-31; valid_until: TBD
 		'snaptrial2013' => 4900, // added: 2013-03-14; valid_until: TBD
+		'snaptrial2014' => 4900, // added: 2014-02-20; valid_until: TBD
 		'weddingful5986' => 4900, // added: 2013-02-06; valid_until: TBD
 		'wr2013' => 1000, // added: 2013-01-17; valid_until: TBD
 	);
