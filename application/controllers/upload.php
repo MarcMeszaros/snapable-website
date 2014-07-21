@@ -121,8 +121,8 @@ class Upload extends CI_Controller {
 				$response = '';
 				foreach ($guests as $email => $name) {
 					$params = array(
-						'email' => $email,
-						'name' => $name,
+						'email' => trim($email),
+						'name' => trim($name),
 						'event' => SnapApi::resource_uri('event', $_POST['event_id']),
 					);
 					$resp = SnapApi::send($verb, $path, $params);
@@ -204,8 +204,8 @@ class Upload extends CI_Controller {
 		foreach ($guests as $email => $name) {
 			$verb = (in_array($email, $existingGuests)) ? 'PATCH' : 'POST';
 			$params = array(
-				'email' => $email,
-				'name' => $name,
+				'email' => trim($email),
+				'name' => trim($name),
 				'event' => SnapApi::resource_uri('event', $_POST['event_id']),
 			);
 			$resp = SnapApi::send($verb, $path, $params);
