@@ -123,7 +123,7 @@ class Upload extends CI_Controller {
 					$params = array(
 						'email' => $email,
 						'name' => $name,
-						'event' => SnapApi::resource_uri('guest', $_POST['event_id']),
+						'event' => SnapApi::resource_uri('event', $_POST['event_id']),
 					);
 					$resp = SnapApi::send($verb, $path, $params);
 
@@ -193,7 +193,7 @@ class Upload extends CI_Controller {
 		$existingGuests = array();	
 		if ( $result->meta->total_count > 0 ) {
 			foreach ( $result->objects as $guest ) {
-				$existingGuests = $guest->email;
+				$existingGuests[] = $guest->email;
 			}
 		}
 
@@ -203,22 +203,19 @@ class Upload extends CI_Controller {
 		$response = '';
 		foreach ($guests as $email => $name) {
 			$verb = (in_array($email, $existingGuests)) ? 'PATCH' : 'POST';
+			$params = array(
+				'email' => $email,
+				'name' => $name,
+				'event' => SnapApi::resource_uri('event', $_POST['event_id']),
+			);
+			$resp = SnapApi::send($verb, $path, $params);
 
-			if ($verb == 'POST') {
-				$params = array(
-					'email' => $email,
-					'name' => $name,
-					'event' => SnapApi::resource_uri('guest', $_POST['event_id']),
-				);
-				$resp = SnapApi::send($verb, $path, $params);
-
-				// update the status code
-				if ($resp['code'] > 201) {
-					$httpCode = $resp['code'];
-				}
-				if ($resp['code'] > 202) {
-					$response = $resp['response'];
-				}
+			// update the status code
+			if ($resp['code'] > 201) {
+				$httpCode = $resp['code'];
+			}
+			if ($resp['code'] > 202) {
+				$response = $resp['response'];
 			}
 		}
 
