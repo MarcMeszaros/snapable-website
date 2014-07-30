@@ -253,60 +253,18 @@ Class Event_model extends CI_Model
 		{
 			// get event details
 			$session_data = $this->session->userdata('logged_in');
-			//$event_data = $this->session->userdata('event_deets');
 			
-			try {
-				$message = $post['message'];
-				$event_uri = SnapApi::resource_uri('event', $post['event_id']);
+			$message = $post['message'];
+			$event_uri = SnapApi::resource_uri('event', $post['event_id']);
 
-				// get event
-				$verb = 'GET';
-				$path = '/event/'.$post['event_id'];
-				$resp = SnapApi::send($verb, $path);
-				$event = json_decode($resp['response']);
-
-				// get guests
-				$verb = 'GET';
-				$path = '/guest/';
-				$params = array(
-					'event' => $post['event_id'],
-					'invited' => 'false',
-				);
-				$resp = SnapApi::send($verb, $path, $params);
-
-				$response = $resp['response'];
-				$result = json_decode($response);
-
-				if ($resp['code'] == 200) {
-					// only send emails if there are some
-					if ($result->meta->total_count > 0) {
-						// common to all emails
-						$subject = 'At ' . $event->title . ' use Snapable!';
-						$fromname = $session_data['first_name'] . " " . $session_data['last_name'];
-
-						// do the first batch of results
-						foreach($result->objects as $o) {
-							$this->email_guest($o->resource_uri, $subject, $o->email, $o->name, $fromname, $message);
-						}
-
-						// start looping through the pages of results
-				        while (isset($response_loop->meta->next)) {
-				            $resp_loop = SnapAPI::next($response_loop->meta->next);
-				            $response_loop = json_decode($resp_loop['response']);
-
-				            // the next non invited person
-				            foreach ($response_loop->objects as $o) {
-				                $this->email_guest($o->resource_uri, $subject, $o->email, $o->name, $fromname, $message);
-				            }
-				        }
-			    	}
-			        $this->output->set_status_header(200);
-				} else {
-					$this->output->set_status_header($resp['code']);
-				}
-			} catch (Exception $e) {
-				$this->output->set_status_header(500);
-			}
+			// send the invites
+			$verb = 'POST';
+			$path = '/event/'.$post['event_id'].'/invites/';
+			$params = array(
+				'message' => $message,
+			);
+			$resp = SnapApi::send($verb, $path, $params);
+			$this->output->set_status_header($resp['code']);
 		}
 	}
 
