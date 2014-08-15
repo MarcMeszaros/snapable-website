@@ -54,7 +54,9 @@ function updateSlides() {
 function nextPhotoIfAvailable() {
     var slideCount = $('#slides .slides-container li').length;
     if ($('#slides').superslides('current') < (slideCount-1)) {
-        $('#slides').superslides('animate', 'next')
+        $('#slides').superslides('animate', 'next');
+    } else {
+        $('#slides').superslides('animate', 0);
     }
 }
 
