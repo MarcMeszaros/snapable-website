@@ -216,6 +216,7 @@ class Event extends CI_Controller {
 				'js' => array(
 					//'assets/libs/superslides/jquery.animate-enhanced.min.js',
 					'assets/libs/superslides/jquery.superslides.min.js',
+					'assets/js/libs/jquery.fullscreen.min.js',
 					'assets/js/event/slides.js',
 				),
 			);

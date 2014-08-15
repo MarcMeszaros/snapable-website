@@ -1,5 +1,9 @@
 <div id="slides" data-event_id="<?= $event_id ?>">
-  <button id="fullscreen" class="btn btn-primary fullscreen" href="#" >Full Screen</button>
+  <div id="overlay">
+    <button id="fullscreen" class="btn btn-primary fullscreen" href="#" >Full Screen</button>
+    <br>
+    <a id="hide-controls" href="#">Hide/Show Arrows</a>
+  </div>
   <ul class="slides-container letterbox">
     <?php foreach ($photos as $photo) { ?>
     <li>
@@ -16,7 +20,7 @@
     </li>
     <?php } ?>
   </ul>
-  <nav class="slides-navigation">
+  <nav id="navigation-controls" class="slides-navigation">
     <a href="#" class="next">
         <span class="glyphicon glyphicon-chevron-right"></span>
     </a>

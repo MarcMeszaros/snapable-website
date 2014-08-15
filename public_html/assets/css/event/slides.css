@@ -19,13 +19,21 @@
     margin: 5px;
 }
 
-#fullscreen {
+#overlay {
     z-index: 9999;
     position: fixed;
     top: 1em;
-    width: 90px;
-    margin: 0 0 0 -45px;
-    left:50%;
+    width: 120px;
+    left: 48%;
+}
+
+#overlay button {
+    margin-left: 8px;
+}
+
+#overlay a {
+    color: #fff;
+    text-decoration: underline;
 }
 
 /* this works */

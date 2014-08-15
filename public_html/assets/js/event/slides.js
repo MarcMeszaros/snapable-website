@@ -60,26 +60,6 @@ function nextPhotoIfAvailable() {
     }
 }
 
-var pfx = ["webkit", "moz", "ms", "o", ""];
-function RunPrefixMethod(obj, method) {
-    
-    var p = 0, m, t;
-    while (p < pfx.length && !obj[m]) {
-        m = method;
-        if (pfx[p] == "") {
-            m = m.substr(0,1).toLowerCase() + m.substr(1);
-        }
-        m = pfx[p] + m;
-        t = typeof obj[m];
-        if (t != "undefined") {
-            pfx = [pfx[p]];
-            return (t == "function" ? obj[m]() : obj[m]);
-        }
-        p++;
-    }
-
-}
-
 $(document).ready(function(){
     window.lastUpdate = new Date().getTime();
     // start the slides
@@ -95,13 +75,23 @@ $(document).ready(function(){
     // setup the code to do ajax calls and update the dom
     setInterval(updateSlides, 30000); // 30 sec
 
-    var e = document.getElementById("slides");
-    e.onclick = function() {
-        if (RunPrefixMethod(document, "FullScreen") || RunPrefixMethod(document, "IsFullScreen")) {
-            RunPrefixMethod(document, "CancelFullScreen");
+    $('#fullscreen').click(function(){
+        $('#slides').fullscreen();
+    });
+
+    // document's event
+    $(document).bind('fscreenchange', function(e, state, elem) {
+        // if we currently in fullscreen mode
+        if ($.fullscreen.isFullScreen()) {
+            $('#overlay').hide();
         } else {
-            RunPrefixMethod(e, "RequestFullScreen");
+            $('#overlay').show();
         }
-    }
+    });
+
+    // enable the hidding of controls
+    $('#hide-controls').click(function(event){
+        $('#navigation-controls').fadeToggle();
+    });
 
 });
