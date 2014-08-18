@@ -124,9 +124,15 @@ class Account extends CI_Controller {
 		);
 
 		if ( isset($_POST['password']) && isset($_POST['nonce']) ) {
-			$reset = $this->account_model->completeReset($_POST['password'], $_POST['nonce']);
-	
-			if ( $reset == 202 ) {
+			$verb = 'PATCH';
+			$path = '/user/passwordreset/';
+			$params = array(
+				'nonce' => $_POST['nonce'],
+				'password' => $_POST['password'],
+			);
+			$reset = SnapApi::send($verb, $path, $params);
+
+			if ( $reset['code'] == 202 ) {
 				redirect("/account/signin?reset");
 			} else {
 				redirect("/account/reset/?error");
