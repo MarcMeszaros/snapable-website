@@ -3,7 +3,7 @@
 class Ajax_Api extends CI_Controller {
 
     public static $ALLOWED_VERBS = array('GET');
-    public static $ALLOWED_RESOURCES = array('event', 'photo');
+    public static $ALLOWED_RESOURCES = array('photo');
         
     function __construct() {
         parent::__construct();
