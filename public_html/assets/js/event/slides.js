@@ -19,8 +19,6 @@ function addNewSlide(photoId, caption) {
         captionHTML = '<div class="container"><div class="contrast"><p>' + caption + '</p></div></div>'
     }
     $('#slides ul.slides-container').append('<li><img src="'+photoSrc+'" alt="'+caption+'" />'+captionHTML+'</li>');
-
-    console.log(photoSrc + ' - ' + caption);
 }
 
 function updateSlides() {
