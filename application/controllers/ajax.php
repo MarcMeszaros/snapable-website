@@ -329,4 +329,20 @@ class Ajax extends CI_Controller {
             $this->output->set_status_header('404');
         }
     }
+
+    public function get_photos($event_pk, $since=null) {
+        // get photos details
+        $verb = 'GET';
+        $path = 'photo';
+        $params = array(
+            'event' => $event_pk,
+            'is_streamable' => true,
+        );
+        if ($since != null && is_numeric($since)) {
+            $params['created_at__gte'] = gmdate("Y-m-d\TH:i:s\Z", $since);
+        }
+        $resp = SnapApi::send($verb, $path, $params);
+        $this->output->set_status_header($resp['code']);
+        echo $resp['response'];
+    }
 }

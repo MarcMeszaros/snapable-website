@@ -25,17 +25,11 @@ function addNewSlide(photoId, caption) {
 
 function updateSlides() {
     // get slide count
-    var lastUpdateISO = new Date(window.lastUpdate).toISOString();
     var slideCount = $('#slides .slides-container li').length;
 
-    $.ajax('/ajax_api/photo', {
+    var url = '/ajax/get_photos/' + $('#slides').data('event_id') + '/' + window.lastUpdate/1000;
+    $.ajax(url, {
         type: 'GET',
-        data: {
-            'created_at__gte': lastUpdateISO,// lastUpdateISO
-            //'order_by': '-created_at',
-            'streamable': 'true',
-            'event': $('#slides').data('event_id')
-        }
     }).done(function(data){
         var resp = $.parseJSON(data);
         for (index = 0; index < resp.objects.length; index++) {

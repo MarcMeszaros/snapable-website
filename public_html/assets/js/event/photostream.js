@@ -53,16 +53,9 @@ function checkUrl(url)
 
 function updateStream() {
     // get slide count
-    var lastUpdateISO = new Date(window.lastUpdate).toISOString();
-
-    $.ajax('/ajax_api/photo', {
-        type: 'GET',
-        data: {
-            'created_at__gte': lastUpdateISO,// lastUpdateISO
-            //'order_by': '-created_at',
-            'streamable': 'true',
-            'event': $('#event-top').data('event-id')
-        }
+    var url = '/ajax/get_photos/' + $('#event-top').data('event-id') + '/' + window.lastUpdate/1000;
+    $.ajax(url, {
+        type: 'GET'
     }).done(function(data){
         var resp = $.parseJSON(data);
         for (index = 0; index < resp.objects.length; index++) {
