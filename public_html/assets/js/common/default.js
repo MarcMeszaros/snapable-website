@@ -28,3 +28,5 @@ Modernizr.load({
   yep: '/assets/js/common/ajaxForm.js',
   nope: ['//cdnjs.cloudflare.com/ajax/libs/jquery.form/3.32/jquery.form.js', '/assets/js/common/ajaxForm-polyfill.js']
 });
+
+window.StatusPage = new StatusPage({ pageId : 'yyb2ctc3bkbm' });
