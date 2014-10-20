@@ -35,8 +35,6 @@ vendor/*
 .coverage
 trashcat_*_test*
 
-# Vagrant #
-###########
-*.pem
-.vagrant*
-vagrant
+# Docker #
+##########
+ssl/*
