@@ -136,7 +136,8 @@ class SnapApi {
         // return the response string and response code in an array
         return array(
             'response' => $response,
-            'code' => $httpcode,
+            'code' => $httpcode, // deprecated
+            'status' => $httpcode, // preferred
         );
     }
 

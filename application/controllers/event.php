@@ -13,13 +13,43 @@ class Event extends CI_Controller {
 	}
 
 	public function load_event($url) {
-		require_https();
-	 	$event_details = json_decode($this->event_model->getEventDetailsFromURL($url));
+	 	require_https();
+	 	$verb = 'GET';
+		$path = '/event/';
+		$params = array(
+			'url' => $url,
+		);
+		$resp = SnapApi::send($verb, $path, $params);
+	 	$response = json_decode($resp['response']);
+
+	 	// get the event
+	 	$event = $response->objects[0];
+
+	 	// if start and end dates are the same day $display_timedate is in the format "Tue July 31, 7-9 PM"
+		// if start and end dates are different days $display_timedate is in the format "Tue July 31, 7 PM to Thu Aug 2, 9PM"
+		$start_epoch = strtotime($event->start);
+		$start_epoch_with_tz = strtotime($event->start) + ($event->tz_offset * 60);
+		$end_epoch = strtotime($event->end);
+		$end_epoch_with_tz = strtotime($event->end) + ($event->tz_offset * 60);
+		$human_start = date("D M j, g:i A", $start_epoch_with_tz);
+		$human_end = date("D M j, g:i A", $end_epoch_with_tz);
+		if ( date("m-d", $start_epoch) == date("m-d", $end_epoch) )
+		{
+			$event->display_timedate = date("D M j", $start_epoch) . ", " . date("g:i A", $start_epoch_with_tz) . " - " . date("g:i A", $end_epoch_with_tz);
+		} else {
+			$event->$display_timedate = date("D M j, g:i A", $start_epoch_with_tz) . " to " . date("D M j, g:i A", $end_epoch_with_tz);
+		}
+
+		$event->human_start = $human_start;
+		$event->human_end = $human_end;
+		$event->start_epoch = $start_epoch;
+		$event->end_epoch = $end_epoch;
+
 	 	// don't show disabled events
-	 	if($event_details->event->enabled == false) {
+	 	if($event->is_enabled == false) {
 	 		show_404();
 	 	}
-		
+
 		$head = array(
 			'noTagline' => true,
 			'ext_css' => array(
@@ -50,40 +80,48 @@ class Event extends CI_Controller {
 				'assets/js/event/photostream-tablecards.js',
 				'assets/js/event/photostream-download.js',
 			),
-			'url' => $event_details->event->url,
-			'title' => $event_details->event->title . ", via Snapable"
+			'url' => $url,
+			'title' => $event->title . ", via Snapable"
 		);
 
 		$error = ( isset($_GET['error']) ) ? true:false;
 		$data = array(
 			'url' => $url,
-			'eventDeets' => $event_details->event
+			'event' => $event,
+			'event_pk' => SnapApi::resource_pk($event->resource_uri),
 		);
+		if (isset($event->addresses[0])) {
+			$data['address_pk'] = SnapApi::resource_pk($event->addresses[0]->{'resource_uri'});
+			$data['address'] = $event->addresses[0]->{'address'};
+			$data['address_uri'] = $event->addresses[0]->{'resource_uri'};
+			$data['address_lat'] = $event->addresses[0]->{'lat'};
+			$data['address_lng'] = $event->addresses[0]->{'lng'};
+		}
 
 		$ownerLoggedin = false;
 		$guestLoggedin = false;
-		if ( $event_details->status == 200 ) {
+		if ($resp['status'] == 200) {
 			$session_owner = SnapAuth::is_logged_in();
 			$session_guest = SnapAuth::is_guest_logged_in();
 
-			if ($session_owner && $event_details->event->user == $session_owner['resource_uri']) {
+			if ($session_owner && $event->user == $session_owner['resource_uri']) {
 				$verb = 'GET';
-				$path = 'user/'.SnapApi::resource_pk($event_details->event->user);
+				$path = 'user/'.SnapApi::resource_pk($event->user);
 				$user_resp = SnapApi::send($verb, $path);
 				$user = json_decode($user_resp['response']);
 
-				$data['owner_email'] = $user->first_name.' '.$user->last_name.' <'.$user->email.'>'; 
 				$ownerLoggedin = true;
-				$data["logged_in_user_resource_uri"] = $session_owner['resource_uri'];
-				$head["loggedInBar"] = "owner";
-				$eventID = explode("/",$event_details->event->resource_uri);
+				$full_name = $user->first_name.' '.$user->last_name;
+				$data['owner_email'] = $full_name.' <'.$user->email.'>'; 
+				$head['display_name'] = $full_name;
+				$head['signout_url'] = '/account/signout';
 
 				// get the owner guest_id
 				// if email address is not already a guest add
 				$verb = 'GET';
 				$path = '/guest/';
 				$params = array(
-					'event' => $eventID[3],
+					'event' => SnapApi::resource_pk($event->resource_uri),
 					'email' => $session_owner['email'],
 				);
 				$resp = SnapApi::send($verb, $path, $params);
@@ -96,29 +134,32 @@ class Event extends CI_Controller {
 				}
 			} else if($session_guest) {
 				$guestLoggedin = true;
-				$head["loggedInBar"] = "guest";
+				$head['signout_url'] = '/event/' . $url . '/signout';
+				$head['display_name'] = 'Guest';
 				// set data for event view
 				if (!empty($session_guest['id'])) {
-					$data['guest_uri'] = '/'.SnapApi::$api_version.'/guest/'.$session_guest['id'].'/';
+					$data['guest_uri'] =  SnapApi::resource_uri('guest', $session_guest['id']);
+
+					$verb = 'GET';
+					$path = '/guest/'.$session_guest['id'].'/';
+					$resp = SnapApi::send($verb, $path);
+					$response = json_decode($resp['response']);
+					$head['display_name'] = $response->name;
 				}
 			}
 			$data['ownerLoggedin'] = $ownerLoggedin;
 			$data['guestLoggedin'] = $guestLoggedin;
-			
+
 			// show the correct loggin screen if required
-			if (!$event_details->event->public && ($guestLoggedin != true && $ownerLoggedin != true)) {
-				$this->load->view('common/html_header', $head);
-				$this->load->view('common/header2', $head);
+			$this->load->view('common/html_header', $head);
+			$this->load->view('common/header2', $head);
+			if (!$event->is_public && ($guestLoggedin != true && $ownerLoggedin != true)) {
 				$this->load->view('event/guest_signin', $data);
-				$this->load->view('common/footer');
-				$this->load->view('common/html_footer');
 			} else {
-				$this->load->view('common/html_header', $head);
-				$this->load->view('common/header2', $head);
 				$this->load->view('event/photostream', $data);
-				$this->load->view('common/footer');
-				$this->load->view('common/html_footer');
 			}
+			$this->load->view('common/footer');
+			$this->load->view('common/html_footer');
 		} else {
 			$this->load->view('common/html_header', $head);
 			$this->load->view('common/header', $head);

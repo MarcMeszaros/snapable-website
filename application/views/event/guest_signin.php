@@ -1,7 +1,7 @@
 <div class="container">
 	<div class="col-lg-4 col-lg-push-4 panel panel-default">
 		<div class="panel-body">	
-		<form role="form" id="signinWrap" name="signin" action="/event/guests/<?= $eventDeets->url ?>/validate" method="post" data-validate="parsley" novalidate>
+		<form role="form" id="signinWrap" name="signin" action="/event/guests/<?= $event->url ?>/validate" method="post" data-validate="parsley" novalidate>
 			<?php 
 			if ( isset($upload_photo)) {
 				echo '<input type="hidden" name="upload_photo" value="1" />';	
@@ -9,7 +9,7 @@
 			?>
 			
 			<h1>Sign in to submit your photo!</h1>
-			<h2><?= $eventDeets->display_timedate ?></h2>
+			<h2><?= $event->display_timedate ?></h2>
 			<h2>Are you the organizer? <a href="/account/signin?redirect=<?php echo '/'.$this->uri->uri_string(); ?>">Login here</a>.</h2>
 			
 			<hr class="dotted" />
@@ -30,7 +30,7 @@
 				<input type="email" class="form-control text-center" data-type="email" name="email" required="required" data-required="true" />
 			</div>
 
-			<?php if(!$eventDeets->public) {?>
+			<?php if(!$event->is_public) {?>
 				<div class="form-group">
 					<label for="pin">Event PIN</label>
 					<input id="pinInput" class="form-control text-center" type="text" name="pin" required="required" data-required="true" data-required-message="You need to provide a pin to sign in." />
@@ -43,7 +43,7 @@
 			</div>
 
 			<!-- <h2 id="guestH2"> -->
-			<?php if(!$eventDeets->public) { ?>
+			<?php if(!$event->is_public) { ?>
 			<!-- Don't know the event PIN?<br /> -->
 			<?php } ?>
 			<!-- <a href="/event/message/organizer">Message the event organizer</a>.</h2> -->

@@ -1,48 +1,44 @@
-<?php
-	$eid = explode('/', $eventDeets->resource_uri);
-	$aid = explode('/', $eventDeets->addresses[0]->{'resource_uri'});
-?>	
 <div class="container">
 <div class="row">
 <div class="col-lg-12">
-<div id="event-top" data-event-id="<?= $eid[3] ?>" data-photo-count="<?= $eventDeets->photos ?>">
+<div id="event-top" data-event-id="<?= $event_pk ?>" data-photo-count="<?= $event->photo_count ?>">
 	<div class="row" style="margin-top:30px;">
 		<div class="col-lg-2">
-			<img id="event-cover-image" class="img-thumbnail" src="/p/get_event/<?= $eid[3] ?>/150x150" data-event-id="<?= $eid[3] ?>" />
+			<img id="event-cover-image" class="img-thumbnail" src="/p/get_event/<?= $event_pk ?>/150x150" data-event-id="<?= $event_pk ?>" />
 		</div>
 		<div id="event-title-wrap" class="col-lg-6">
-			<h2 id="event-title"><?= $eventDeets->title ?></h2>
-			<div id="event-address"><?= (!$eventDeets->public && isset($eventDeets->addresses[0]->{'address'})) ? $eventDeets->addresses[0]->{'address'} : '&nbsp;' ?></div>
-			<div><span id="event-timestamp-start"><?= $eventDeets->human_start ?></span> to <span id="event-timestamp-end"><?= $eventDeets->human_end ?></span>
+			<h2 id="event-title"><?= $event->title ?></h2>
+			<div id="event-address"><?= (!$event->is_public && isset($address_pk)) ? $address : '&nbsp;' ?></div>
+			<div><span id="event-timestamp-start"><?= $event->human_start ?></span> to <span id="event-timestamp-end"><?= $event->human_end ?></span>
 				<?php if ($ownerLoggedin) { ?> &nbsp;
 					<button id="event-settings-btn" class="btn btn-primary btn-xs" style="margin-top:-2px;" onclick="$('#event-settings').slideDown();"><span class="glyphicon glyphicon-edit"></span> Edit Event</button>
 					<button id="downloadBTN" class="btn btn-primary btn-xs" style="margin-top:-2px;" onclick="downloadAlbum(); ga('send', 'event', 'Navigation', 'Download_Album');"><span class="glyphicon glyphicon-download"></span> Download Album</button>
 				<?php } ?>
 			</div>
-			<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ) { ?>
-			<form id="event-settings" role="form" method="POST" action="/ajax/put_event/<?= $eid[3] ?>">
+			<?php if ( $ownerLoggedin ) { ?>
+			<form id="event-settings" role="form" method="POST" action="/ajax/put_event/<?= $event_pk ?>">
 				<h3>Edit Your Event Details</h3>
-				<input id="event-settings-lat" name="lat" type="hidden" value="<?= (isset($eventDeets->addresses[0])) ? $eventDeets->addresses[0]->{'lat'} : '0' ?>"/>
-				<input id="event-settings-lng" name="lng" type="hidden" value="<?= (isset($eventDeets->addresses[0])) ? $eventDeets->addresses[0]->{'lng'} : '0' ?>"/>
-				<input id="event-settings-timezone" name="tz_offset" type="hidden" value="<?php echo $eventDeets->tz_offset; ?>"/>
-				<input id="event-settings-start" name="start" type="hidden" value="<?php echo $eventDeets->start_epoch; ?>"/>
+				<input id="event-settings-lat" name="lat" type="hidden" value="<?= (isset($address_pk)) ? $address_lat : '0' ?>"/>
+				<input id="event-settings-lng" name="lng" type="hidden" value="<?= (isset($address_pk)) ? $address_lng : '0' ?>"/>
+				<input id="event-settings-timezone" name="tz_offset" type="hidden" value="<?php echo $event->tz_offset; ?>"/>
+				<input id="event-settings-start" name="start" type="hidden" value="<?php echo $event->start_epoch; ?>"/>
 
 				<div class="form-group">
 					<label for="event-settings-title">Event Title</label>
-					<input id="event-settings-title" class="form-control" name="title" type="text" value="<?php echo $eventDeets->title; ?>"/>
+					<input id="event-settings-title" class="form-control" name="title" type="text" value="<?php echo $event->title; ?>"/>
 				</div>
 				<div class="form-group">
 					<label for="event-settings-url">Event URL</label>
-					<input id="event-settings-url" class="form-control status" name="url" type="text" data-orig="<?php echo $eventDeets->url; ?>" value="<?php echo $eventDeets->url; ?>"/>
+					<input id="event-settings-url" class="form-control status" name="url" type="text" data-orig="<?php echo $event->url; ?>" value="<?php echo $event->url; ?>"/>
 				</div>
 				<div class="form-group row">
 					<div class="form-group col-sm-4">
 						<label for="event-start-date">Date</label>
-						<input type="text" id="event-start-date" class="form-control" name="start_date" value="<?= date("M j, Y", $eventDeets->start_epoch + ($eventDeets->tz_offset * 60)) ?>">
+						<input type="text" id="event-start-date" class="form-control" name="start_date" value="<?= date("M j, Y", $event->start_epoch + ($event->tz_offset * 60)) ?>">
 					</div>
 					<div class="form-group col-sm-3">
 						<label for="event-start-time">Time</label>
-						<input type="text" id="event-start-time" class="form-control" name="start_time" value="<?= date("h:i A", $eventDeets->start_epoch + ($eventDeets->tz_offset * 60)) ?>">
+						<input type="text" id="event-start-time" class="form-control" name="start_time" value="<?= date("h:i A", $event->start_epoch + ($event->tz_offset * 60)) ?>">
 					</div>
 					<div class="form-group col-sm-5">
 						<label for="event-duration-num">Duration</label>
@@ -50,7 +46,7 @@
 						<select id="event-duration-num" class="form-control" name="duration_num" style="width:49%;">
 							<?php
 							// get the delta (sec.)
-							$delta = $eventDeets->end_epoch - $eventDeets->start_epoch;
+							$delta = $event->end_epoch - $event->start_epoch;
 
 							if ($delta < 60*60*24) {
 								for ($i=1; $i<=23; $i++) {
@@ -87,21 +83,21 @@
 					<div style="clear:both;"></div>
 				</div>
 				<div class="form-group">
-					<input id="event-settings-streamable" name="are_photos_streamable" type="hidden" value="<?= $eventDeets->are_photos_streamable ?>"/>
+					<input id="event-settings-streamable" name="are_photos_streamable" type="hidden" value="<?= $event->are_photos_streamable ?>"/>
 					<label for="event-settings-streamable-toggle">Automatically Add Guest Photos to Stream</label>
 					<div class="form-field_hint">Should photos uploaded by guests automatically be available in the stream?</div>
-					<input id="event-settings-streamable-toggle" type="checkbox" data-on="primary" data-off="danger" data-on-label="Yes" data-off-label="No" <?php echo ($eventDeets->are_photos_streamable) ? 'checked' : ''; ?>>
+					<input id="event-settings-streamable-toggle" type="checkbox" data-on="primary" data-off="danger" data-on-label="Yes" data-off-label="No" <?php echo ($event->are_photos_streamable) ? 'checked' : ''; ?>>
 				</div>
 				<div class="form-group">
-					<input id="event-settings-public" name="public" type="hidden" value="<?= $eventDeets->public ?>"/>
+					<input id="event-settings-public" name="public" type="hidden" value="<?= $event->is_public ?>"/>
 					<label for="event-settings-public-toggle">Public Event</label>
 					<div class="form-field_hint">Public events allow anyone to view and upload photos to the album. Private events are only viewable by guests that know the event PIN.</div>
-					<input id="event-settings-public-toggle" type="checkbox" class="make-switch" data-on="primary" data-off="primary" data-on-label="Yes" data-off-label="No" <?php echo ($eventDeets->public) ? 'checked' : ''; ?>>
+					<input id="event-settings-public-toggle" type="checkbox" class="make-switch" data-on="primary" data-off="primary" data-on-label="Yes" data-off-label="No" <?php echo ($event->is_public) ? 'checked' : ''; ?>>
 				</div>
 				<div class="form-group">
 					<label for="event-settings-address">Event Location</label>
-					<input type="hidden" name="address_id" value="<?= $aid[3] ?>" />
-					<input id="event-settings-address" class="form-control status" name="address" type="text" data-resource-uri="<?= (isset($eventDeets->addresses[0]->{'resource_uri'})) ? $eventDeets->addresses[0]->{'resource_uri'} : '' ?>" value="<?= (isset($eventDeets->addresses[0]->{'address'})) ? $eventDeets->addresses[0]->{'address'} : '' ?>"/>
+					<input type="hidden" name="address_id" value="<?= $address_pk ?>" />
+					<input id="event-settings-address" class="form-control status" name="address" type="text" data-resource-uri="<?= (isset($address_pk)) ? $address_uri : '' ?>" value="<?= (isset($address_pk)) ? $address : '' ?>"/>
 					<div id="map_canvas-wrap" style="display:none;">
 						<div class="form-field_hint">Tip: Drag the pin to your event address.</div>
 						<div id="map_canvas" style="width:435px; height:280px;"></div>
@@ -114,19 +110,19 @@
 			</form>
 			<?php } ?>
 			<ul id="event-social">
-				<li><span class='st_twitter_hcount' displayText='Tweet' onclick="ga('send', 'event', 'Share', 'Twitter', 'Event'); _gaq.push(['_trackEvent', 'Share', 'Twitter', 'Event']);" st_via='GetSnapable' st_url="https://snapable.com/event/<?= $eventDeets->url ?>" st_title="<?= "Follow the photos on " . date("D M j", $eventDeets->start_epoch) . " at " .  date("g:i a", $eventDeets->start_epoch) . " for " . $eventDeets->title ?>"></span></li>
-				<li><span class='st_facebook_hcount' displayText='Facebook' onclick="ga('send', 'event', 'Share', 'Facebook', 'Event'); _gaq.push(['_trackEvent', 'Share', 'Facebook', 'Event']);" st_url="https://snapable.com/event/<?= $eventDeets->url ?>" st_title="<?= "Follow the photos on " . date("D M j", $eventDeets->start_epoch) . " at " .  date("g:i a", $eventDeets->start_epoch) . " for " . $eventDeets->title ?>"></span></li>
-				<li><span class='st_pinterest_hcount' displayText='Pinterest' onclick="ga('send', 'event', 'Share', 'Pinterest', 'Event'); _gaq.push(['_trackEvent', 'Share', 'Pinterest', 'Event']);" st_url="https://snapable.com/event/<?= $eventDeets->url ?>" st_image="<?= 'https://snapable.com/p/get_event/'.$eid[3].'/crop' ?>"></span></li>
-				<li><span class='st_googleplus_hcount' displayText='Google+' onclick="ga('send', 'event', 'Share', 'Google+', 'Event'); _gaq.push(['_trackEvent', 'Share', 'Google+', 'Event']);" st_url="https://snapable.com/event/<?= $eventDeets->url ?>" st_title="<?= "Follow the photos on " . date("D M j", $eventDeets->start_epoch) . " at " .  date("g:i a", $eventDeets->start_epoch) . " for " . $eventDeets->title ?>"></span></li>
+				<li><span class='st_twitter_hcount' displayText='Tweet' onclick="ga('send', 'event', 'Share', 'Twitter', 'Event'); _gaq.push(['_trackEvent', 'Share', 'Twitter', 'Event']);" st_via='GetSnapable' st_url="https://snapable.com/event/<?= $event->url ?>" st_title="<?= "Follow the photos on " . date("D M j", $event->start_epoch) . " at " .  date("g:i a", $event->start_epoch) . " for " . $event->title ?>"></span></li>
+				<li><span class='st_facebook_hcount' displayText='Facebook' onclick="ga('send', 'event', 'Share', 'Facebook', 'Event'); _gaq.push(['_trackEvent', 'Share', 'Facebook', 'Event']);" st_url="https://snapable.com/event/<?= $event->url ?>" st_title="<?= "Follow the photos on " . date("D M j", $event->start_epoch) . " at " .  date("g:i a", $event->start_epoch) . " for " . $event->title ?>"></span></li>
+				<li><span class='st_pinterest_hcount' displayText='Pinterest' onclick="ga('send', 'event', 'Share', 'Pinterest', 'Event'); _gaq.push(['_trackEvent', 'Share', 'Pinterest', 'Event']);" st_url="https://snapable.com/event/<?= $event->url ?>" st_image="<?= 'https://snapable.com/p/get_event/'.$event_pk.'/crop' ?>"></span></li>
+				<li><span class='st_googleplus_hcount' displayText='Google+' onclick="ga('send', 'event', 'Share', 'Google+', 'Event'); _gaq.push(['_trackEvent', 'Share', 'Google+', 'Event']);" st_url="https://snapable.com/event/<?= $event->url ?>" st_title="<?= "Follow the photos on " . date("D M j", $event->start_epoch) . " at " .  date("g:i a", $event->start_epoch) . " for " . $event->title ?>"></span></li>
 			</ul>
 			<ul id="event-nav">
 				<li><span class="down">Photostream</span></li>
-				<?php if ( (isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user) || (isset($guestLoggedin) && $guestLoggedin == true) ) { ?>
+				<?php if ( $ownerLoggedin || $guestLoggedin ) { ?>
 					<li><a id="uploadBTN" href="#" onclick="ga('send', 'event', 'Navigation', 'Upload');">Submit Photo</a></li>
 				<?php } else { ?>
 					<li><a id="uploadBTN" href="/event/<?= $url ?>/guest_signin?upload-photo=1" data-signin="true" onclick="ga('send', 'event', 'Navigation', 'Upload');">Submit Photo</a></li>
 				<?php } ?>
-				<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ) { ?>
+				<?php if ( $ownerLoggedin ) { ?>
 				<li><a id="guestBTN" href="#guest" onclick="ga('send', 'event', 'Navigation', 'Invites');">Invite Guests</a></li>
 				<li><a id="tableBTN" href="#tablecards" onclick="ga('send', 'event', 'Navigation', 'Table_Cards');">Table Cards</a></li>
 				<li><a id="event-nav-contact" href="#nav-contact" onclick="ga('send', 'event', 'Navigation', 'Contact');">Contact</a></li>
@@ -136,10 +132,10 @@
 		</div>
 
 		<div class="col-lg-2">
-			<div id="event-pin" class="col-lg-2 panel panel-default" <?php echo ($eventDeets->public) ? 'style="display:none;"':''; ?>>
+			<div id="event-pin" class="col-lg-2 panel panel-default" <?php echo ($event->is_public) ? 'style="display:none;"':''; ?>>
 				<div class="panel-body text-center">
 					<div class="small">Event PIN:</div>
-					<div class="large"><?= $eventDeets->pin ?></div>
+					<div class="large"><?= $event->pin ?></div>
 				</div>
 			</div>
 		</div>
@@ -157,7 +153,7 @@
 		please be patient! It might take a few minutes :)
 	</div>
 	<form role="form" method="POST" action="/upload" class="form-horizontal" style="width:500px;margin:0 auto;">
-		<input type="hidden" name="event" value="<?php echo $eventDeets->resource_uri; ?>" />
+		<input type="hidden" name="event" value="<?php echo $event->resource_uri; ?>" />
 		<?php if(isset($guest_uri)) { ?>
 		<input type="hidden" name="guest" value="<?php echo $guest_uri; ?>" />
 		<?php } ?>
@@ -176,7 +172,7 @@
 	</form>
 </div>
 
-<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ): ?>
+<?php if ( $ownerLoggedin ): ?>
 <div id="contact" class="row mustache-box hide slidContent">
 	<div class="section">
         <form role="form" id="questionForm" method="POST" action="/ajax/send_email" data-validate="parsley">
@@ -204,11 +200,11 @@
 </div>
 <?php endif; ?>
 
-<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ): ?>
+<?php if ( $ownerLoggedin ): ?>
 <div id="guest" class="row mustache-box slidContent"></div>
 <?php endif; ?>
 
-<?php if ( isset($logged_in_user_resource_uri) && $logged_in_user_resource_uri == $eventDeets->user ): ?>
+<?php if ( $ownerLoggedin ): ?>
 <div id="tablecards" class="row mustache-box hide slidContent" data-url="<?php echo $url; ?>">
 	<h3>Table Cards</h3>
 	
