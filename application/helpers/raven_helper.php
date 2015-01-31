@@ -14,13 +14,15 @@ if (defined('SENTRY_DSN')) {
 
 class Log {
 
+    private static function writeToConsole($message) {
+        $output = fopen('php://stdout', 'w');
+        ob_start();
+        fwrite($output, $message."\n");
+        ob_end_flush();
+    }
+
     public static function d($message, $params=array()) {
-        if (defined('SENTRY_DSN')) {
-            $raven_client = new Raven_Client(SENTRY_DSN, array(
-                //'option_name' => 'value',
-            ));
-            $raven_client->captureMessage($message, $params, Raven_Client::DEBUG);
-        }
+        self::writeToConsole($message);
     }
 
     public static function i($message, $params=array()) {
@@ -30,6 +32,7 @@ class Log {
             ));
             $raven_client->captureMessage($message, $params, Raven_Client::INFO);
         }
+        self::writeToConsole($message);
     }
 
     public static function w($message, $params=array()) {
@@ -39,6 +42,7 @@ class Log {
             ));
             $raven_client->captureMessage($message, $params, Raven_Client::WARNING);
         }
+        self::writeToConsole($message);
     }
 
     public static function e($message, $params=array()) {
@@ -48,6 +52,7 @@ class Log {
             ));
             $raven_client->captureMessage($message, $params, Raven_Client::ERROR);
         }
+        self::writeToConsole($message);
     }
 
     public static function f($message, $params=array()) {
@@ -57,5 +62,6 @@ class Log {
             ));
             $raven_client->captureMessage($message, $params, Raven_Client::FATAL);
         }
+        self::writeToConsole($message);
     }
 }
