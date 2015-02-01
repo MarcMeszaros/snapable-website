@@ -71,12 +71,13 @@ class SnapApi {
         );
         // define default headers
         $defaultHeaders = array(
-            'User-Agent' => 'SnapApi/0.0.2',
+            'User-Agent' => 'SnapApi/0.1.0',
             'Accept' => 'application/json',
             'Authorization' => 'SNAP '.implode(',',$sign_array),
         );
 
         // if it's a GET request, put params in query string
+        $requestUrl = self::$api_host . $path;
         if ($verb == 'GET') {
             $paramArray = array();
             foreach ($params as $key => $value) {
@@ -84,7 +85,7 @@ class SnapApi {
             }
             $paramString = implode('&', $paramArray);
             $queryString = (isset($paramString) && strlen($paramString) > 0)? '?'.$paramString:'';
-            curl_setopt($ch, CURLOPT_URL, self::$api_host . $path . $queryString);
+            $requestUrl = $requestUrl . $queryString;
         } else {
             if (isset($headers['Content-Type']) && $headers['Content-Type'] == 'multipart/form-data' && count($params) > 0) {
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
@@ -104,7 +105,6 @@ class SnapApi {
 
             // modify the request to include the json in body
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $verb);
-            curl_setopt($ch, CURLOPT_URL, self::$api_host . $path);
         } 
 
         // set the timeout a little longer
@@ -124,6 +124,7 @@ class SnapApi {
         }
 
         // set various curl parameters
+        curl_setopt($ch, CURLOPT_URL, $requestUrl);
         curl_setopt($ch, CURLOPT_TIMEOUT, $curl_timeout);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headersArray);
@@ -131,7 +132,18 @@ class SnapApi {
         // execute the request and parse response
         $response = curl_exec($ch);
         $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $duration = curl_getinfo($ch, CURLINFO_TOTAL_TIME) * 1000; // get the duration in ms
         curl_close($ch);
+
+        // create the API call log message
+        //logger.info('{0} {1} [{2}] ({3}) {4}'.format(request.method, response.status_code, duration, request.META['HTTP_ACCEPT'], request.path))
+        $message = sprintf('[%s] - %s %s %s (%s) %s', $headers['User-Agent'], $verb, $httpcode, $duration, $headers['Accept'], $requestUrl);
+
+        // log the API call
+        $output = fopen('php://stdout', 'w');
+        ob_start();
+        fwrite($output, $message."\n");
+        ob_end_flush();
 
         // return the response string and response code in an array
         return array(
