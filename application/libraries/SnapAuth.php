@@ -31,34 +31,6 @@ class SnapAuth {
         }
     }
 
-    public static function signin_nohash($email) {
-        $verb = 'GET';
-        $path = '/user/auth/';
-        $params = array(
-            'email' => $email,
-        );
-        $resp = SnapApi::send($verb, $path, $params);
-        $users = json_decode($resp['response']);
-        
-        if ($resp['code'] == 200 && $users->meta->total_count > 0) {
-            $sess_array = array(
-                'email' => $users->objects[0]->email,
-                'first_name' => $users->objects[0]->first_name,
-                'last_name' => $users->objects[0]->last_name,
-                'user_uri' => $users->objects[0]->resource_uri,
-                'account_uri' => $users->objects[0]->accounts[0],
-
-                // TODO deprecated (look through the code and try and stop using these)
-                'resource_uri' => $users->objects[0]->resource_uri,
-                'loggedin' => true,
-            );
-            self::getInstance()->session->set_userdata('logged_in', $sess_array);
-            return $sess_array;
-        } else {
-            return false;
-        }
-    }
-
     // signin (no network/API call: use a user API response object)
     public static function signin_nonetwork($user) {
         if (isset($user)) {
@@ -133,12 +105,10 @@ class SnapAuth {
         $guests = self::guest_validate($email, $event);
         if ($guests) {
             $guestParts = explode('/', $guests->objects[0]->resource_uri);
-            $typeParts = explode('/', $guests->objects[0]->type);
             $sess_array = array(
                 'id' => $guestParts[3],
                 'name' => $guests->objects[0]->name,
                 'email' => $email,
-                'type' => $typeParts[3],
                 'loggedin' => true
             );
             self::getInstance()->session->set_userdata('guest_login', $sess_array);
@@ -152,12 +122,10 @@ class SnapAuth {
     public static function guest_signin_nonetwork($guest) {
         if (isset($guest)) {
             $guestParts = explode('/', $guest->resource_uri);
-            $typeParts = explode('/', $guest->type);
             $sess_array = array(
                 'id' => $guestParts[3],
                 'name' => $guests->objects[0]->name,
                 'email' => $email,
-                'type' => $typeParts[3],
                 'loggedin' => true
             );
             self::getInstance()->session->set_userdata('guest_login', $sess_array);

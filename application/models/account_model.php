@@ -9,27 +9,17 @@ Class Account_model extends CI_Model
 		$params = array(
 			'email' => $email,
 		);
-		
 		$resp = SnapApi::send($verb, $path, $params);
-		                                                                                                    
-		$response = $resp['response'];
-		$httpcode = $resp['code'];
+		$result = json_decode($resp['response']);
 		
-		if ( $httpcode == 200 ) {
-			$result = json_decode($response); 
-			if ( $result->meta->total_count > 0 ) {
-				return json_encode(array(
-					'status' => 200,
-					'resource_uri' => $result->objects[0]->resource_uri,
-					'password_algorithm' => $result->objects[0]->password_algorithm,
-					'password_iterations' => $result->objects[0]->password_iterations ,
-				    'password_salt' => $result->objects[0]->password_salt,
-				));
-			} else {
-				return json_encode(array(
-					'status' => 404
-				));
-			}
+		if ( $resp['code'] == 200 && $result->meta->total_count > 0 ) {
+			return json_encode(array(
+				'status' => 200,
+				'resource_uri' => $result->objects[0]->resource_uri,
+				'password_algorithm' => $result->objects[0]->password_algorithm,
+				'password_iterations' => $result->objects[0]->password_iterations,
+			    'password_salt' => $result->objects[0]->password_salt,
+			));
 		} else {
 			return json_encode(array(
 				'status' => 404
@@ -39,22 +29,16 @@ Class Account_model extends CI_Model
 
 	function eventDeets($account_uri)
 	{
-		$uri_split = explode("/", $account_uri);
-		
 		$verb = 'GET';
 		$path = '/event/';
 		$params = array(
-			'account' => $uri_split[3],
+			'account' => SnapApi::resource_pk($account_uri),
 		);
-		$resp = SnapApi::send($verb, $path, $params);
-		                                                                                                    
-		$response = $resp['response'];
-		$httpcode = $resp['code'];
+		$resp = SnapApi::send($verb, $path, $params);                                                           
+		$result = json_decode($resp['response']);
 		
-		if ( $httpcode == 200 )
+		if ( $resp['code'] == 200 )
 		{
-			$result = json_decode($response);
-			
 			return $array = array(
 			    "status" => 200,
 			    "resource_uri" => $result->objects[0]->resource_uri,
@@ -69,7 +53,6 @@ Class Account_model extends CI_Model
 			return $array['status'] = 404;
 		}
 	}
-	
 	
 	function doReset($user_id) {	
 		$verb = 'POST';

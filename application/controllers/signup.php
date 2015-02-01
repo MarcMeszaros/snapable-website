@@ -547,7 +547,6 @@ class Signup extends CI_Controller {
 			}
 
 			// set sessions var to log user in
-			//SnapAuth::signin_nohash($_POST['user']['email']);
 			$hash = SnapAuth::snap_hash($_POST['user']['email'], $_POST['user']['password']);
 			SnapAuth::signin($_POST['user']['email'], $hash);
 
