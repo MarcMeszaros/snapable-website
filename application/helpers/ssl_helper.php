@@ -18,7 +18,7 @@
 
     function require_http() {
         // redirect if required
-        if( (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on'))
+        if( (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') && SSL_REDIRECT == true)
         {
             header('Location: http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
             exit();
