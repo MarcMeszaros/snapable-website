@@ -37,7 +37,7 @@ class Event extends CI_Controller {
 		{
 			$event->display_timedate = date("D M j", $start_epoch) . ", " . date("g:i A", $start_epoch_with_tz) . " - " . date("g:i A", $end_epoch_with_tz);
 		} else {
-			$event->$display_timedate = date("D M j, g:i A", $start_epoch_with_tz) . " to " . date("D M j, g:i A", $end_epoch_with_tz);
+			$event->display_timedate = date("D M j, g:i A", $start_epoch_with_tz) . " to " . date("D M j, g:i A", $end_epoch_with_tz);
 		}
 
 		$event->human_start = $human_start;
