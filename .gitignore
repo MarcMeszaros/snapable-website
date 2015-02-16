@@ -17,8 +17,7 @@ Thumbs.db# ignore OS X files
 
 # Temp Files #
 ##############
-public_html/tmp-files/*
-vendor/*
+app/vendor/*
 
 # Docker #
 ##########

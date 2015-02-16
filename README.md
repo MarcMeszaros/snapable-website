@@ -2,7 +2,7 @@
 
 ## Development Install ##
 
-1. Put the ssl files in ``ssl`` folder in the root of the project.
+1. Put the ssl files in ``.docker/ssl``.
 2. Get Docker
 3. Execute ``docker build .``
 4. Execute ``docker run <hash from build>``

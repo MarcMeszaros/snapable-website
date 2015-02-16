@@ -33,14 +33,14 @@ COPY .docker/000-snapable.conf /etc/apache2/sites-available/000-snapable.conf
 RUN ln -s /etc/apache2/sites-available/000-snapable.conf /etc/apache2/sites-enabled/000-snapable.conf
 
 # install composer deps
-COPY composer.json /tmp/composer.json
+COPY app/composer.json /tmp/composer.json
 RUN cd /tmp && composer install
 
 # app code setup
-COPY system /src/system/
-COPY vendor /src/vendor/
-COPY application /src/application/
-COPY public_html /src/public_html/
+COPY app/application /src/application/
+COPY app/public_html /src/public_html/
+COPY app/system /src/system/
+COPY app/vendor /src/vendor/
 
 # running
 EXPOSE 80 443
