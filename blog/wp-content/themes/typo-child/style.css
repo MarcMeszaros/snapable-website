@@ -1,0 +1,7 @@
+/*
+Theme Name:     Typo Child Theme
+Description:    Make your modifications to Typo in this child theme.
+Template:       typo
+*/
+
+@import url('../typo/style.css');

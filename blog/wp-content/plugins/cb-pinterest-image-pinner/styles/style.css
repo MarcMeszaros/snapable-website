@@ -1,0 +1,12 @@
+.cb_pin_images {
+	position: relative;
+	display: block;
+}
+.cb_pin_link {
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+	width: 43px;
+	height: 21px;
+	background: url(//assets.pinterest.com/images/PinExt.png) no-repeat;
+}

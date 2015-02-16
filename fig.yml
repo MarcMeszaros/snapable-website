@@ -7,7 +7,7 @@ website:
   links:
     - mysql:db
   environment:
-    - DEBUG=true
+    - DB_HOST=db
 
 # third-party
 mysql:
@@ -16,6 +16,6 @@ mysql:
     - "3306:3306" # to connect with an SQL client
   environment:
     - MYSQL_ROOT_PASSWORD=mysqlpass
-    - MYSQL_USER=snapableusr
-    - MYSQL_PASSWORD=snapable12345
-    - MYSQL_DATABASE=snapabledb
+    - MYSQL_USER=blog_usr
+    - MYSQL_PASSWORD=vj5pVr8Lg0B6C8Hb
+    - MYSQL_DATABASE=blog

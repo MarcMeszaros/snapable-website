@@ -18,6 +18,7 @@ Thumbs.db# ignore OS X files
 # Temp Files #
 ##############
 app/vendor/*
+blog/wp-content/uploads/*
 
 # Docker #
 ##########

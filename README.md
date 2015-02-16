@@ -22,3 +22,4 @@ defaults.
 | STRIPE_KEY_PUBLIC             | The public key for the Stripe API
 | SENTRY_DSN                    | The DSN string to use for Sentry (default: '')
 | SSL_REDIRECT                  | If the website should redirect to secure pages [true/false] (default: false)
+| DB_HOST                       | The database host for the blog (default: localhost)

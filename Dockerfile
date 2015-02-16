@@ -9,7 +9,8 @@ RUN apt-get update && apt-get -y install \
     php5 \
     php5-cli \
     php5-curl \
-    php5-gd
+    php5-gd \
+    php5-mysql
 
 # install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -28,19 +29,27 @@ ENV APACHE_LOG_DIR /var/log/apache2
 RUN a2enmod rewrite ssl
 RUN sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 10M/' /etc/php5/apache2/php.ini
 
+# app
 RUN rm /etc/apache2/sites-enabled/*
 COPY .docker/000-snapable.conf /etc/apache2/sites-available/000-snapable.conf
 RUN ln -s /etc/apache2/sites-available/000-snapable.conf /etc/apache2/sites-enabled/000-snapable.conf
+
+# blog
+COPY .docker/blog-snapable.conf /etc/apache2/sites-available/blog-snapable.conf
+RUN ln -s /etc/apache2/sites-available/blog-snapable.conf /etc/apache2/sites-enabled/blog-snapable.conf
 
 # install composer deps
 COPY app/composer.json /tmp/composer.json
 RUN cd /tmp && composer install
 
 # app code setup
-COPY app/application /src/application/
-COPY app/public_html /src/public_html/
-COPY app/system /src/system/
-COPY app/vendor /src/vendor/
+COPY app/application /src/app/application/
+COPY app/public_html /src/app/public_html/
+COPY app/system /src/app/system/
+COPY app/vendor /src/app/vendor/
+
+# blog code setup
+COPY blog /src/blog/
 
 # running
 EXPOSE 80 443
