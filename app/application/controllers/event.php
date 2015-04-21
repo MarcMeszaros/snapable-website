@@ -300,7 +300,7 @@ class Event extends CI_Controller {
 			$error = ( isset($_GET['error']) ) ? true:false;
 			$data = array(
 				'url' => $event_details->event->url,
-				'eventDeets' => $event_details->event,
+				'event' => $event_details->event,
 				'upload_photo' => $upload_photo,
 			);
 

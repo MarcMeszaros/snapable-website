@@ -83,7 +83,8 @@ Class Event_model extends CI_Model
 					'resource_uri' => $e->resource_uri,
 					'user' => $e->user,
 					'privacy' => $privacyParts[3],
-					'public' => $e->public,
+					'public' => $e->is_public,
+					'is_public' => $e->is_public,
 					'photos' => $e->photo_count,
 					'tz_offset' => $e->tz_offset,
 				);
