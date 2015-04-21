@@ -21,6 +21,10 @@ class Event extends CI_Controller {
 		);
 		$resp = SnapApi::send($verb, $path, $params);
 	 	$response = json_decode($resp['response']);
+	 	if ($resp['status'] == 404) {
+	 		show_404();
+	 		return;
+	 	}
 
 	 	// get the event
 	 	$event = $response->objects[0];

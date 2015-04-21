@@ -8,8 +8,7 @@
 			} 
 			?>
 			
-			<h1>Sign in to submit your photo!</h1>
-			<h2><?= $event->display_timedate ?></h2>
+			<h1>Let others know who uploaded the photo!</h1>
 			<h2>Are you the organizer? <a href="/account/signin?redirect=<?php echo '/'.$this->uri->uri_string(); ?>">Login here</a>.</h2>
 			
 			<hr class="dotted" />
@@ -22,12 +21,12 @@
 			
 			<div class="form-group">
 				<label for="name">Name</label>
-				<input type="text" class="form-control text-center" name="name" />
+				<input type="text" class="form-control text-center" name="name" placeholder="Anonymous" />
 			</div>
 
 			<div class="form-group">
 				<label for="email">Email Address</label>
-				<input type="email" class="form-control text-center" data-type="email" name="email" required="required" data-required="true" />
+				<input type="email" class="form-control text-center" data-type="email" name="email" placeholder="Optional" />
 			</div>
 
 			<?php if(!$event->is_public) {?>
@@ -39,7 +38,7 @@
 			<hr class="dotted" />
 			
 			<div class="form-group">
-				<button type="submit" name="submit" class="form-control btn btn-primary">Sign in</button>
+				<button type="submit" name="submit" class="form-control btn btn-primary">Continue to Event</button>
 			</div>
 
 			<!-- <h2 id="guestH2"> -->

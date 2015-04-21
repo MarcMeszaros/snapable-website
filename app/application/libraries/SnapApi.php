@@ -71,7 +71,7 @@ class SnapApi {
         );
         // define default headers
         $defaultHeaders = array(
-            'User-Agent' => 'SnapApi/0.1.0',
+            'User-Agent' => 'SnapApi/0.1.1',
             'Accept' => 'application/json',
             'Authorization' => 'SNAP '.implode(',',$sign_array),
         );
@@ -108,7 +108,7 @@ class SnapApi {
         } 
 
         // set the timeout a little longer
-        if ($verb = 'POST') {
+        if ($verb == 'POST') {
             $curl_timeout = 60;
         }
         if(in_array('X-SNAP-Timeout', $headers)) {
