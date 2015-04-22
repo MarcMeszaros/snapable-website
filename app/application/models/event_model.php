@@ -40,9 +40,8 @@ Class Event_model extends CI_Model
 		$response = str_replace("false", "\"0\"", $response);
 		$response = str_replace("true", "\"1\"", $response);
 		$result = json_decode($response);
-		$httpcode = $resp['code'];
 		
-		if ( $httpcode == 200 && $result->meta->total_count > 0 )
+		if ( $resp['code'] == 200 && $result->meta->total_count > 0 )
 		{	
 			foreach ( $result->objects as $e )
 			{
@@ -69,7 +68,8 @@ Class Event_model extends CI_Model
 				$eventRes = array(
 					'addresses' => $e->addresses,
 					'are_photos_streamable' => $e->are_photos_streamable,
-					'enabled' => $e->enabled,
+					'enabled' => $e->is_enabled,
+					'is_enabled' => $e->is_enabled,
 					'url' => $e->url,
 					'title' => $e->title,
 					'pin' => $e->pin,

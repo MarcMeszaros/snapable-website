@@ -13,7 +13,6 @@ class Event extends CI_Controller {
 	}
 
 	public function load_event($url) {
-	 	require_https();
 	 	$verb = 'GET';
 		$path = '/event/';
 		$params = array(
@@ -23,7 +22,6 @@ class Event extends CI_Controller {
 	 	$response = json_decode($resp['response']);
 	 	if ($resp['status'] == 404) {
 	 		show_404();
-	 		return;
 	 	}
 
 	 	// get the event
