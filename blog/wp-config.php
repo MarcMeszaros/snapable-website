@@ -44,7 +44,7 @@ define('DB_NAME', 'blog');
 define('DB_USER', 'blog_usr');
 
 /** MySQL database password */
-define('DB_PASSWORD', 'vj5pVr8Lg0B6C8Hb');
+define('DB_PASSWORD', env_str('DB_PASSWORD', 'vj5pVr8Lg0B6C8Hb'));
 
 /** MySQL hostname */
 define('DB_HOST', env_str('DB_HOST', 'localhost'));
@@ -110,4 +110,3 @@ if ( !defined('ABSPATH') )
 
 /** Sets up WordPress vars and included files. */
 require_once(ABSPATH . 'wp-settings.php');
-

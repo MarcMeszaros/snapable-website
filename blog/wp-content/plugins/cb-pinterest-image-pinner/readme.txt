@@ -3,7 +3,7 @@ Contributors: chriswhittle,jaythornton,jonbeers,clintford,stephenprater,mattjaco
 Donate link: http://collectivebias.com/
 Tags: pinterest, collective bias
 Requires at least: 3.0.0
-Tested up to: 3.4.2
+Tested up to: 3.9
 Stable tag: trunk
 
 Adds Pin This button to all post images
@@ -11,6 +11,8 @@ Adds Pin This button to all post images
 == Description ==
 
 Extremely lightweight jquery based plugin.  Adds "Pin This" button to all images.
+
+Thanks to Elembee for this walkthrough http://elembee.com/blogkeeping-pin-it-for-images/
 
 == Installation ==
 
@@ -90,6 +92,16 @@ Changed encodeURI to encodeURIComponent to fix issues with certin urls
 
 = 1.9 =
 Added fixed for 0 size images (thanks freerange)
+
+= 1.91 =
+Added misc support fixes
+
+= 1.92 =
+Added link to Elembee's walkthrough
+replaced non validating php on plugin_action_links_
+
+= 1.93 =
+fixed $defines not being set originally
 
 == Upgrade Notice ==
 

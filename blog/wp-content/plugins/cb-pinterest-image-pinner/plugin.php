@@ -3,7 +3,7 @@
   Plugin Name: Pinterest Image Pinner From Collective Bias
   Plugin URI: http://collectivebias.com
   Description: Adds Pin this to all post images
-  Version: 1.9
+  Version: 1.93
   Author: chriswhittle
   Author URI: http://collectivebias.com
   License: GPL
@@ -13,6 +13,7 @@ if (!class_exists("CBPinterestImagePinner")) {
     class CBPinterestImagePinner {
 
         var $option_name = "cb_pinterest_image_pinner";
+        var $js_ver = 1.91;
 
         function CBPinterestImagePinner() {//constructor
 
@@ -25,18 +26,15 @@ if (!class_exists("CBPinterestImagePinner")) {
             add_action('wp_enqueue_scripts', array(&$this, 'scripts_style_init'));
             add_action('admin_menu', array(&$this, 'admin_menu'));
             add_action('init', array(&$this, 'move_defines_to_js'));
-            $plugin = plugin_basename(__FILE__);
-            add_filter("plugin_action_links_$plugin", array(&$this, 'plugin_settings_link'));
+            add_filter('plugin_action_links_' . plugin_basename(__FILE__), array(&$this, 'plugin_settings_link'));
         }
 
-        //define('__CB_PINTEREST_IMAGES_PLUGIN_URL__', get_option('siteurl') . '/wp-content/plugins/' . plugin_basename(dirname(__FILE__)));
         function scripts_style_init() {
-            $PLUGIN_URL = get_option('siteurl') . '/wp-content/plugins/' . plugin_basename(dirname(__FILE__));
             //Scripts
             wp_enqueue_script('jquery');
-            wp_enqueue_script('cb_pinterest', $PLUGIN_URL . '/scripts/main.js', array('jquery'),2);
+            wp_enqueue_script('cb_pinterest', plugins_url( '/scripts/main.js', __FILE__ ) , array('jquery'),$this->js_ver);
             //Styles
-            wp_enqueue_style('cb_pinterest', $PLUGIN_URL . '/styles/style.css');
+            wp_enqueue_style('cb_pinterest', plugins_url( '/styles/style.css', __FILE__ ));
         }
 
         function plugin_install() {
@@ -56,6 +54,7 @@ if (!class_exists("CBPinterestImagePinner")) {
         }
 
         function move_defines_to_js() {
+            $defines = "";
             $options = get_option($this->option_name);
             $selector = $options['cb_pinterest_plugin_selector'];
             if (!empty($selector)) {
@@ -91,7 +90,6 @@ if (!class_exists("CBPinterestImagePinner")) {
         }
 
         function admin_options_page() {
-            $PLUGIN_URL = get_option('siteurl') . '/wp-content/plugins/' . plugin_basename(dirname(__FILE__));
             $options = get_option($this->option_name);
             ?>
             <style type="text/css">
@@ -109,7 +107,6 @@ if (!class_exists("CBPinterestImagePinner")) {
                     float:left;
                     display:block;
                     height:325px;
-                    /*background: url(<?php echo $PLUGIN_URL; ?>/images/bg.jpg) bottom repeat-x;*/
                 }
                 .right_<?php echo $this->option_name; ?> li{
                     margin:0px;
@@ -191,7 +188,6 @@ if (!class_exists("CBPinterestImagePinner")) {
                         <li>Links</li>
                         <li><a href="http://collectivebias.com" target="_blank">Collective Bias</a></li>
                         <li><a href="http://cbi.as" target="_blank">Url Shortener</a></li>
-                        <li><a href="http://realshoppermedia.com" target="_blank">Real Shopper Media</a></li>
                     </ul>
                 </div>
             </div>

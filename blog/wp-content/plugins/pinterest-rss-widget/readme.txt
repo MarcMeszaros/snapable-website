@@ -3,7 +3,7 @@ Contributors: bkmacdaddy, AidaofNubia, thewebprincess, leepettijohn
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SXTEL7YLUSFFC
 Tags: Pinterest, rss, feed, widget
 Requires at least: 2.8.4
-Tested up to: 3.5
+Tested up to: 4.3
 Stable tag: trunk
 
 A widget to display thumbnails and titles of the latest Pinterest Pins from a specific user via their Pinterest RSS feed
@@ -68,6 +68,28 @@ Example:
 3. Choose one of four buttons (or none) to display beneath the list of Pins
 
 == Changelog ==
+
+= 2.3.1 =
+* Fixed deprecated called constructor method for WP_Widget
+
+= 2.3 =
+* Fixed problem with new board name RSS feed URL
+
+= 2.2.6 =
+* Added fix for Google Chrome height resizing conflict
+
+= 2.2.5 =
+* Fixed issue with new Pinterest https URL
+
+= 2.2.4 =
+* Added fix for "Call to undefined method WP_Error::set_timeout()"
+
+= 2.2.3 =
+* Removed extraneous line left in accidentally in 2.2.2
+
+= 2.2.2 =
+* Removed problematic deregistering of WordPress jQuery
+* Plugin now uses built-in WordPress jQuery
 
 = 2.2.1 =
 * Fixed problem with wrong version in repository 
