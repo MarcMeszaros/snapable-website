@@ -13,9 +13,9 @@
 	}
 } ?>
 <nav id="homeHeadWrap" class="navbar navbar-default navbar-fixed-top" role="navigation">
-	<?php if (isset($name) && isset($signout_url)) { ?>
+	<?php if (isset($loggedInBar) && isset($name) && isset($signout_url)) { ?>
 	<div id="signedInBar"><div id="signedInText">Signed In as <strong><?= $name ?></strong> / <a href=" <?= $signout_url ?>">Sign Out</a></div></div>
-	<? } ?>
+	<?php } ?>
 
 	<div class="container">
 		<div class="row">
