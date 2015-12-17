@@ -1,4 +1,4 @@
-FROM ubuntu:14.10
+FROM ubuntu:15.10
 MAINTAINER Marc Meszaros <marc@snapable.com>
 
 # install dependencies
@@ -10,7 +10,9 @@ RUN apt-get update && apt-get -y install \
     php5-cli \
     php5-curl \
     php5-gd \
-    php5-mysql
+    php5-mysql \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
 
 # install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -38,15 +40,11 @@ RUN ln -s /etc/apache2/sites-available/000-snapable.conf /etc/apache2/sites-enab
 COPY .docker/blog-snapable.conf /etc/apache2/sites-available/blog-snapable.conf
 RUN ln -s /etc/apache2/sites-available/blog-snapable.conf /etc/apache2/sites-enabled/blog-snapable.conf
 
-# install composer deps
-COPY app/composer.json /tmp/composer.json
-RUN cd /tmp && composer install
-
 # app code setup
-COPY app/application /src/app/application/
-COPY app/public_html /src/app/public_html/
-COPY app/system /src/app/system/
-COPY app/vendor /src/app/vendor/
+COPY app /src/app/
+
+# install composer deps
+RUN cd /src/app && composer install
 
 # blog code setup
 COPY blog /src/blog/

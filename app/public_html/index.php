@@ -39,7 +39,7 @@ if (defined('ENVIRONMENT'))
 		case 'development':
 			error_reporting(E_ALL);
 		break;
-	
+
 		case 'testing':
 		case 'production':
 			error_reporting(0);
@@ -203,6 +203,7 @@ if (defined('ENVIRONMENT'))
  * And away we go...
  *
  */
+// include the composer autoload (automatically created by composer)
 include_once '../vendor/autoload.php';
 require_once BASEPATH.'core/CodeIgniter.php';
 
