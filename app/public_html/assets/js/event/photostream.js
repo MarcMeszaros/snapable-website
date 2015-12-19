@@ -13,13 +13,13 @@ function firstRunSlideshow()
 	    	$(this).removeClass("displayMe")
 	    	$("#uploadText").fadeIn("normal").addClass("displayMe");
 	    	$("a.blue").removeClass("blue");
-	    	$("#uploadDot").addClass("blue"); 
+	    	$("#uploadDot").addClass("blue");
 	    	slideCount = 1;
     	} else {
 	    	$(this).removeClass("displayMe").next("li").fadeIn("normal").addClass("displayMe");
-	    	$("a.blue").removeClass("blue").next("a").addClass("blue"); 
+	    	$("a.blue").removeClass("blue").next("a").addClass("blue");
 	    	slideCount++;
-	    } 
+	    }
     })
 }
 
@@ -63,7 +63,7 @@ function updateStream() {
             var photo_id = photo_id_parts[photo_id_parts.length - 2];
 
             var viewData = {
-				id: photo_id, 
+				id: photo_id,
 				url: '/p/' + photo_id,
 				photo: '/p/get/' + photo_id + '/200x200',
 				caption: resp.objects[index].caption,
@@ -103,16 +103,16 @@ $(document).ready(function() {
 			$.Mustache.load('/assets/js/templates.html').done(function() {
 				// check if any photos are in the cart
 				var photoArr = new Array();
-				
+
 				// add initial photos
 				photoAPI = json;
 				loadPhotos(photoAPI);
 
 				// hook up the 'Load More' button
 				$(document).on("click", ".loadMore", function(e)
-				{ 
+				{
 					e.preventDefault();
-					$.Mustache.load('/assets/js/templates.html').done(function () 
+					$.Mustache.load('/assets/js/templates.html').done(function ()
 					{
 						loadPhotos(photoAPI);
 					});
@@ -125,15 +125,15 @@ $(document).ready(function() {
   		});
 	} else {
 		$("#photoArea").addClass("noPhotos");
-		
-		$.Mustache.load('/assets/js/templates.html').done(function () 
+
+		$.Mustache.load('/assets/js/templates.html').done(function ()
 		{
 	        $('#photoArea').mustache('event-first-run');
 	        // start dot cycle
 	        setInterval ( "firstRunSlideshow()", 5000 );
 	        // set dot buttons
 	        $(document).on("click", "#eventFirstRunDots a", function()
-	        {  
+	        {
 	        	if ( $(this).attr("id") == "uploadDot" )
 	        	{
 		        	slideCount = 1;
@@ -179,7 +179,7 @@ function loadPhoto(photoData, options) {
     		url: '/ajax/patch_photo/'+$(this).data('photo_id'),
 			type: 'POST',
 			data: {
-				'streamable': data.value
+				'is_streamable': data.value
 			}
 		}).fail(function(jqXHR, textStatus, errorThrown){
 			$.pnotify({
@@ -321,9 +321,9 @@ function loadPhotos(photos) {
 		if ( count < 15 ) {
 			var resource_uri = val.resource_uri.split("/");
 			var inPhotoArr = $.inArray(resource_uri[3], photoArr);
-			
+
 			var viewData = {
-				id: resource_uri[3], 
+				id: resource_uri[3],
 				url: '/p/' + resource_uri[3],
 				photo: '/p/get/' + resource_uri[3] + '/200x200',
 				caption: val.caption,
@@ -339,7 +339,7 @@ function loadPhotos(photos) {
 	}
 	photos.objects.offset += count; // used to know where to resume looping
 	$(".loadMoreWrap").addClass('hide');
-	
+
 	if ( photos.objects.offset < photos.objects.length-1 ) {
 		$(".loadMoreWrap").removeClass('hide');
 	} else if ($('#event-top').data('photo-count') > 50 && (photoAPIOffset + 1) < $('#event-top').data('photo-count')) {
