@@ -5,7 +5,7 @@ class Account extends CI_Controller {
 	function __construct() {
     	parent::__construct();
     	$this->load->library('email');
-    	$this->load->model('account_model','',TRUE);  		   
+    	$this->load->model('account_model','',TRUE);
 	}
 
 	public function index() {
@@ -17,7 +17,7 @@ class Account extends CI_Controller {
 
 		// check if we are already logged in, and redirect if we are
 		$userLogin = SnapAuth::is_logged_in();
-		if($userLogin) {
+		if ($userLogin) {
 			$event_array = $this->account_model->eventDeets($userLogin['account_uri']);
 			$this->session->set_userdata('event_deets', $event_array);
 
@@ -47,7 +47,7 @@ class Account extends CI_Controller {
 
 	public function validate() {
 		if ( isset($_POST) ) {
-			// create password hash		
+			// create password hash
 			$pbHash = SnapAuth::snap_hash($_POST['email'], $_POST['password']);
 			// check if password matches
 			$userLogin = SnapAuth::signin($_POST['email'], $pbHash);
@@ -115,10 +115,10 @@ class Account extends CI_Controller {
 		);
 		if ( isset($_POST) && isset($_POST['email']) ) {
 			$userDeets = json_decode($this->account_model->userDetails($_POST['email']));
-	
+
 			if ( $userDeets->status == 200 ) {
 				$resp = $this->account_model->doReset(SnapApi::resource_pk($userDeets->resource_uri));
-		
+
 				if ( $resp['code'] == 201 ) {
 					$this->load->view('common/html_header', $data);
 					$this->load->view('account/email_sent', $data);
@@ -145,7 +145,7 @@ class Account extends CI_Controller {
 		if ( isset($_POST['password']) && isset($_POST['nonce']) )
 		{
 			$reset = $this->account_model->completeReset($_POST['password'], $_POST['nonce']);
-	
+
 			if ( $reset == 0 ) {
 				redirect("/account/reset/?error");
 			} else {
@@ -153,6 +153,47 @@ class Account extends CI_Controller {
 			}
 		} else {
 			show_404();
+		}
+	}
+
+	function dashboard()
+	{
+		$userLogin = SnapAuth::is_logged_in();
+		$guestLogin = SnapAuth::is_guest_logged_in();
+		if ($userLogin) {
+			$verb = 'GET';
+			$path = '/event/';
+			$params = array(
+				'account' => SnapApi::resource_pk($userLogin['account_uri']),
+			);
+			$resp = SnapApi::send($verb, $path, $params);
+			$result = json_decode($resp['response']);
+			$events = $result->objects;
+
+			$head = array(
+				'css' => array(
+						'assets/css/header.css',
+						'assets/css/footer.css',
+						'assets/css/account/dashboard.css',
+				),
+				'navigation' => array(
+						'full_name' => $userLogin['first_name'] . ' ' . $userLogin['last_name'],
+						'session' => $userLogin,
+				)
+			);
+			$data = array(
+				'events' => $events,
+			);
+
+			// display the page
+			$this->load->view('common/html_header', $head);
+			$this->load->view('common/bootstrap_header', $head);
+			$this->load->view('account/dashboard', $data);
+			$this->load->view('common/bootstrap_footer');
+			$this->load->view('common/html_footer');
+
+		} else {
+			redirect('/account/signin');
 		}
 	}
 }

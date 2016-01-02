@@ -1,0 +1,40 @@
+/**** FOOTER ****/
+#footer {
+  color: rgba(14, 60, 86, 0.33);
+  margin-top: 30px;
+  padding: 1em 0;
+  border-top: 1px solid rgba(49, 78, 95, 0.09);
+}
+#footer ul {
+  margin: 0;
+  padding: 0;
+  display: inline;
+}
+#footer ul li {
+  list-style-type: none;
+  margin: 0 6px 0 0;
+  padding: 0;
+  display: inline;
+}
+#footer a {
+  color: rgba(14, 60, 86, 0.33);
+  text-decoration: none;
+}
+#footer a:hover {
+  color: rgba(14, 60, 86, 0.63);
+}
+#footer .sm-links li {
+  margin-right: 4px;
+}
+#footer .sm-links a {
+  padding-left: 18px;
+}
+#footer .sm-links a.twitter {
+  background: transparent url('/assets/img/icons/16px/twitter.png') no-repeat left center;
+}
+#footer .sm-links a.facebook {
+  background: transparent url('/assets/img/icons/16px/facebook.png') no-repeat left center;
+}
+#footer .sm-links a.pinterest {
+  background: transparent url('/assets/img/icons/16px/pinterest.png') no-repeat left center;
+}
