@@ -18,10 +18,7 @@ class Account extends CI_Controller {
 		// check if we are already logged in, and redirect if we are
 		$userLogin = SnapAuth::is_logged_in();
 		if ($userLogin) {
-			$event_array = $this->account_model->eventDeets($userLogin['account_uri']);
-			$this->session->set_userdata('event_deets', $event_array);
-
-			redirect('/event/'.$event_array['url']);
+			redirect('/account/events');
 		}
 
 		$segments = $this->uri->total_segments();
@@ -156,7 +153,7 @@ class Account extends CI_Controller {
 		}
 	}
 
-	function dashboard()
+	function events()
 	{
 		$userLogin = SnapAuth::is_logged_in();
 		$guestLogin = SnapAuth::is_guest_logged_in();
@@ -176,6 +173,9 @@ class Account extends CI_Controller {
 						'assets/css/footer.css',
 						'assets/css/account/dashboard.css',
 				),
+				'js' => array(
+						'assets/js/ajax/download.js',
+				),
 				'navigation' => array(
 						'full_name' => $userLogin['first_name'] . ' ' . $userLogin['last_name'],
 						'session' => $userLogin,
@@ -188,7 +188,7 @@ class Account extends CI_Controller {
 			// display the page
 			$this->load->view('common/html_header', $head);
 			$this->load->view('common/bootstrap_header', $head);
-			$this->load->view('account/dashboard', $data);
+			$this->load->view('account/events', $data);
 			$this->load->view('common/bootstrap_footer');
 			$this->load->view('common/html_footer');
 

@@ -1,6 +1,6 @@
-function downloadAlbum(event_id) {
+function downloadEvent(event_id) {
     $.ajax({
-        url: '/ajax/post_event_zip/' + event_id.trim(),
+        url: '/ajax/post_event_zip/' + event_id,
         type: 'POST',
     }).done(function(data) {
         var json = $.parseJSON(data);
@@ -12,7 +12,7 @@ function downloadAlbum(event_id) {
     }).fail(function(jqXHR, textStatus, errorThrown) {
         if (jqXHR.status == 409) {
             $.pnotify({
-                type: 'error',
+                type: 'notice',
                 title: 'Unable to Process Request',
                 text: 'Our team of robots are already processing your request. You can request them to generate the download link again later.'
             });

@@ -34,7 +34,7 @@
 					<ul class="dropdown-menu">
 						<?php if (isset($navigation['session'])) { ?>
 							<?php if (isset($navigation['session']['account_uri'])) { ?>
-							<li><a href="/account/dashboard">Account</a></li>
+							<li><a href="/account/events">Events</a></li>
 							<li class="divider"></li>
 							<?php } ?>
 							<li><a href="/account/signout/">Logout</a></li>
