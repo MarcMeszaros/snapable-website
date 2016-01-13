@@ -25,7 +25,7 @@ function geocoder(address) {
 			$("#lat").val(lat);
 			$("#lng").val(lng);
 		}
-		
+
 		var timestamp = Math.round((new Date()).getTime() / 1000);
 		var tzRequest = '/ajax/timezone?lat='+lat+'&lng='+lng+'&timestamp='+timestamp;
 		$.getJSON(tzRequest, function(data){
@@ -85,24 +85,24 @@ $(document).ready(function() {
 		separator: ':',
 		step: 30
 	});
-	
+
 	// check if user has already registered
 	$("#user_email").keyup($.debounce(650, function() {
 		return userExists($(this).val());
 	}));
-	
+
 	// listener to check if url is available
 	$('#event_url').on('keyup change blur', $.debounce(650, function() {
 		sanitizeUrl();
 	}));
-	
+
 	// listener to geocode location
 	$('#event_location').on('blur keypress', function(e){
 		if (e.type == 'blur' || (e.type == 'keypress' && e.which == 13)) {
 			return geocoder($("#event_location").val());
 		}
 	});
-	
+
 	// listener to set url from title
 	$("#event_title").blur( function() {
 		$("#event_url").val($(this).val());
@@ -113,13 +113,13 @@ $(document).ready(function() {
 		var option = $(this).val();
 		var values = "";
 		var selected = "";
-		
+
 		if ( option == "days" ) {
-			for ( var i=1; i <= 7; i++ ) { 
+			for ( var i=1; i <= 7; i++ ) {
 				values += "<option value='" + i + "'" + selected + ">" + i + "</option>";
 			}
 		} else {
-			for ( var i=1; i<= 23; i++ ) { 
+			for ( var i=1; i<= 23; i++ ) {
 				if ( i == 12 ) {
 					selected = " SELECTED";
 				}
@@ -136,9 +136,9 @@ $(document).ready(function() {
 
 	$("#apply-promo-code").click( function() {
 		if ($('#promo-code').val().length > 0) {
-			$.getJSON("/signup/promo", { "code": $("#promo-code").val() }, function(json) {	
+			$.getJSON("/signup/promo", { "code": $("#promo-code").val() }, function(json) {
 				var promoCode = $("#promo-code").val();
-				
+
 				if ( json.status == 200 ) {
 					var amount = parseFloat($("#package-amount").data('amount'));
 					var discount = parseFloat(json.value);
@@ -165,26 +165,26 @@ $(document).ready(function() {
 		}
 		return false;
 	});
-	
-	// form verification and submission 
+
+	// form verification and submission
 	$("#eventDeets,#yourDeets").click( function() {
 		var id = $(this).attr("id");
-		
+
 		$(".field-error").css({ "display":"none" });
 		$("input").removeClass("input-error");
 
 		if ( id == "eventDeets" ) {
 			_gaq.push(['_trackPageview', 'signup/event_details']);
-			
+
 			$("#event").fadeOut("fast", function() {
 				$("#navEvent").removeClass("active");
 				$("#navYour").addClass("active");
 				$("#your").fadeIn("fast");
 			})
-		} 
+		}
 		else if ( id == "yourDeets" ) {
 			_gaq.push(['_trackPageview', 'signup/your_details']);
-			
+
 			$("#your").fadeOut("fast", function() {
 				$("#navYour").removeClass("active");
 				$("#navBilling").addClass("active");
@@ -251,7 +251,20 @@ $(document).ready(function() {
 	        	$('#completSignup').removeAttr("disabled").show();
 			} else {
 				// create the token/submit the form
-				Stripe.createToken($("#payment-form").get(0), stripeResponseHandler);
+				// Stripe.createToken($("#payment-form").get(0), stripeResponseHandler);
+				Stripe.card.createToken({
+						name: $('#cc_name').val(),
+						address_line1: $('#cc_address_line1').val(),
+						address_line2: $('#cc_address_line2').val(),
+						address_city: $('#cc_city').val(),
+						address_state: $('#cc_state').val(),
+						address_zip: $('#cc_zip').val(),
+						address_country: $('#cc_country').val(),
+						number: $('#cc_number').val(),
+						cvc: $('#cc_cvc').val(),
+						exp_month: $('#cc_exp_month').val(),
+						exp_year: $('#cc_exp_year').val()
+				}, stripeResponseHandler);
 			}
 		}).fail(function(){
 			$.pnotify({
@@ -265,7 +278,7 @@ $(document).ready(function() {
 		// prevent the form from submitting with the default action
 		return false;
 	});
-	
+
 	function stripeResponseHandler(status, response) {
 	    if (response.error && !$('#billing input').is(':disabled')) {
 	    	_gaq.push(['_trackPageview', 'signup/error']);
@@ -297,7 +310,7 @@ $(document).ready(function() {
 			$("#cc_number").removeClass("input-error");
 			$("#cc_number_error").fadeOut();
 		}
-		
+
 		return false;
 	});
 	$("#cc_exp_month, #cc_exp_year").change( function() {
@@ -306,9 +319,9 @@ $(document).ready(function() {
 		} else {
 			$("#cc_exp_error").fadeOut();
 		}
-		
+
 		return false;
-	}); 
+	});
 	$("#cc_cvc").blur( function() {
 		if ( !Stripe.validateCVC($(this).val()) ) {
 			$("#cc_cvc").addClass("input-error");
@@ -317,7 +330,7 @@ $(document).ready(function() {
 			$("#cc_cvc").removeClass("input-error");
 			$("#cc_cvc_error").fadeOut();
 		}
-		
+
 		return false;
 	});
 
@@ -332,5 +345,5 @@ $(document).ready(function() {
 			$('#cc_type img').removeClass('disabled');
 		}
 	}));
-	
+
 });

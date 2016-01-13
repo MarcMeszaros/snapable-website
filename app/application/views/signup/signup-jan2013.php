@@ -12,12 +12,12 @@
 				</ul>
 			</div>
 		</div>
-		
+
 		<form id="payment-form" class="form" name="signupForm" action="/signup/setup" method="post" data-validate="parsley" novalidate>
 		<div class="col-lg-5">
 			<h1>SIGN-UP</h1>
 			<h2>It takes only a minute to setup your event</h2>
-			
+
 			<div id="event">
 				<h3>Event Details</h3>
 				<fieldset>
@@ -28,7 +28,7 @@
 
 					<div class="form-group">
 						<label for="event_title">Title</label>
-						<input id="event_title" class="form-control" name="event[title]" type="text" data-required="true" data-notblank="true" data-error-message="You must provide a title for your event." /> 
+						<input id="event_title" class="form-control" name="event[title]" type="text" data-required="true" data-notblank="true" data-error-message="You must provide a title for your event." />
 					</div>
 
 					<div class="form-group row">
@@ -66,7 +66,7 @@
 					<div class="form-group">
 						<label for="event_location">Location</label>
 						<div class="form-inline">
-							<input id="event_location" class="form-control status" name="event[location]" type="text" data-required="true" data-notblank="true" data-error-message="You must provide a location for your event." /> 
+							<input id="event_location" class="form-control status" name="event[location]" type="text" data-required="true" data-notblank="true" data-error-message="You must provide a location for your event." />
 						</div>
 						<span class="help-block">Example: 255 Bremner Blvd, Toronto, Canada, M5V 3M9</span>
 					</div>
@@ -135,24 +135,26 @@
 				<fieldset>
 					<div class="form-group">
 						<label for="cc_address_line1">Billing Address</label>
-						<input type="text" id="cc_address_line1" class="form-control" data-stripe="address_line1" data-required="true" data-notblank="true" />		
+						<input type="text" id="cc_address_line1" class="form-control" data-stripe="address_line1" data-required="true" data-notblank="true" />
+						<label for="cc_address_line2">Appartment/Suite</label>
+						<input type="text" id="cc_address_line2" class="form-control" data-stripe="address_line2" />
 					</div>
 
 					<div class="form-group">
-						<label for="cc_country">Country</label> 
-						<select id="cc_country" class="form-control" data-stripe="address_country" data-required="true"> 
+						<label for="cc_country">Country</label>
+						<select id="cc_country" class="form-control" data-stripe="address_country" data-required="true">
 							<?php
 								// loop through the countries
 								foreach ($countries as $key => $value) {
 									echo '<option value="'.$value.'">'.$value.'</option>'.PHP_EOL;
 								}
-							?> 
+							?>
 						</select>
 					</div>
 
 					<div class="form-group">
 						<label for="cc_city">City</label>
-						<input type="text" id="cc_city" class="form-control" data-stripe="address_city" />		
+						<input type="text" id="cc_city" class="form-control" data-stripe="address_city" />
 					</div>
 
 					<div class="form-group row">
@@ -162,14 +164,14 @@
 						</div>
 
 						<div class="form-group col-sm-6">
-							<label for="cc_zip">Postal Code</label>
+							<label for="cc_zip">Zip/Postal Code</label>
 							<input type="text" id="cc_zip" class="form-control" data-stripe="address_zip" />
 						</div>
 					</div>
 
 					<div class="form-group">
 						<label for="cc_name">Name on Credit Card</label>
-						<input type="text" id="cc_name" class="form-control" data-stripe="name" data-required="true" data-notblank="true" data-error-message="You must provide the name on your credit card." />		
+						<input type="text" id="cc_name" class="form-control" data-stripe="name" data-required="true" data-notblank="true" data-error-message="You must provide the name on your credit card." />
 					</div>
 
 					<div class="form-group">
@@ -186,23 +188,23 @@
 					</div>
 
 					<div class="form-group">
-						<label for="cc_exp_month">Expiration Date</label> 
+						<label for="cc_exp_month">Expiration Date</label>
 						<div class="form-inline">
-							<select id="cc_exp_month" class="form-control short" data-stripe="exp_month" data-required="true"> 
-								<option value="01">1 - January</option> 
-								<option value="02">2 - February</option> 
-								<option value="03">3 - March</option> 
-								<option value="04">4 - April</option> 
-								<option value="05">5 - May</option> 
-								<option value="06">6 - June</option> 
-								<option value="07">7 - July</option> 
-								<option value="08">8 - August</option> 
-								<option value="09">9 - September</option> 
-								<option value="10">10 - October</option> 
-								<option value="11">11 - November</option> 
-								<option value="12">12 - December</option> 
+							<select id="cc_exp_month" class="form-control short" data-stripe="exp_month" data-required="true">
+								<option value="01">1 - January</option>
+								<option value="02">2 - February</option>
+								<option value="03">3 - March</option>
+								<option value="04">4 - April</option>
+								<option value="05">5 - May</option>
+								<option value="06">6 - June</option>
+								<option value="07">7 - July</option>
+								<option value="08">8 - August</option>
+								<option value="09">9 - September</option>
+								<option value="10">10 - October</option>
+								<option value="11">11 - November</option>
+								<option value="12">12 - December</option>
 							</select>
-							<select id="cc_exp_year" class="form-control short" data-stripe="exp_year" data-required="true"> 
+							<select id="cc_exp_year" class="form-control short" data-stripe="exp_year" data-required="true">
 								<?php
 									// get the current year
 									$year = date('Y');
@@ -213,7 +215,7 @@
 										$year++;
 										echo '<option value="'.$year.'">'.$year.'</option>'.PHP_EOL;
 									}
-								?> 
+								?>
 							</select>
 							<div class="field-error" id="cc_exp_error">Expiration date is invalid.</div>
 						</div>
