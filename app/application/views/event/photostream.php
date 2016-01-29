@@ -12,7 +12,7 @@
 			<div><span id="event-timestamp-start"><?= $event->human_start ?></span> to <span id="event-timestamp-end"><?= $event->human_end ?></span>
 				<?php if ($ownerLoggedin) { ?> &nbsp;
 					<button id="event-settings-btn" class="btn btn-primary btn-xs" style="margin-top:-2px;" onclick="$('#event-settings').slideDown();"><span class="glyphicon glyphicon-edit"></span> Edit Event</button>
-					<button id="downloadBTN" class="btn btn-primary btn-xs" style="margin-top:-2px;" onclick="downloadAlbum(); ga('send', 'event', 'Navigation', 'Download_Album');"><span class="glyphicon glyphicon-download"></span> Download Album</button>
+					<button id="downloadBTN" class="btn btn-primary btn-xs" style="margin-top:-2px;" onclick="downloadAlbum('<?= $event_pk ?>'); ga('send', 'event', 'Navigation', 'Download_Album');"><span class="glyphicon glyphicon-download"></span> Download Album</button>
 				<?php } ?>
 			</div>
 			<?php if ( $ownerLoggedin ) { ?>
