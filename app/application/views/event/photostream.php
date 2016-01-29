@@ -65,7 +65,7 @@
 										$selected = "";
 									}
 									echo "<option value='" . $i . "'" . $selected . ">" . $i . "</option>";
-								}	
+								}
 							}
 							?>
 							</select>
@@ -142,14 +142,14 @@
 
 		<div class="col-lg-2">
 			<a id="appstore" href="http://itunes.com/apps/snapable"><img alt="Available on the App Store" src="/assets/home/img/jan2013/appstore.png" width="161" height="56" onclick="ga('send', 'event', 'Downloads', 'App Store', 'iOS');" /></a>
-			<a id="playstore" href="https://play.google.com/store/apps/details?id=ca.hashbrown.snapable"><img alt="Android app on Google Play" src="https://developer.android.com/images/brand/en_app_rgb_wo_60.png" width="161" height="56" onclick="ga('send', 'event', 'Downloads', 'App Store', 'Android');" /></a>
+			<a id="playstore" href="https://play.google.com/store/apps/details?id=ca.hashbrown.snapable"><img alt="Android app on Google Play" src="/assets/img/google-play-badge.png" width="161" height="56" onclick="ga('send', 'event', 'Downloads', 'App Store', 'Android');" /></a>
 		</div>
 	</div><!-- /row -->
 </div>
 
 <div id="uploadArea" class="row mustache-box hide slidContent">
 	<div class="hint">
-		Photos must be in jpeg format and a maximum of 10 MB. If your photos are rather large, 
+		Photos must be in jpeg format and a maximum of 10 MB. If your photos are rather large,
 		please be patient! It might take a few minutes :)
 	</div>
 	<form role="form" method="POST" action="/upload" class="form-horizontal" style="width:500px;margin:0 auto;">
@@ -207,13 +207,13 @@
 <?php if ( $ownerLoggedin ): ?>
 <div id="tablecards" class="row mustache-box hide slidContent" data-url="<?php echo $url; ?>">
 	<h3>Table Cards</h3>
-	
+
 	<img src="/assets/img/tablecard.png" alt="Table card sample" />
 	<p>
 		Make sure your guests know about Snapable! In addition to inviting them before the event, you can also use our custom event cards at the event.
 	</p>
 	<p>
-		We recommend printing on a heavy paper (98 Bright, 100-lb). The PDF comes with 4 cards on a 
+		We recommend printing on a heavy paper (98 Bright, 100-lb). The PDF comes with 4 cards on a
 		sheet (US Letter) to minimize printing costs (just cut them in quarters after printing).
 	</p>
 	<br>
