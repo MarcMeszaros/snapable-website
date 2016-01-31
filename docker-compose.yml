@@ -5,12 +5,44 @@ website:
     - "80:80"
     - "443:443"
   links:
-    - mysql:db
+    - mysql-blog:db
+    - api:api
   environment:
     - DB_HOST=db
+    # - API_HOST=http://67.192.246.122:8081
+    - API_KEY=key123
+    - API_SECRET=sec123
+
+# other service
+api:
+  image: quay.io/marc_meszaros/api:v0.0.7
+  command: api migrate
+  ports:
+    - "8081:80"
+  links:
+    - redis:rd
+    - mysql-api:db
+  environment:
+    - DJANGO_DEBUG=true
+    - CLOUDFILES_IMAGES_PREFIX=marc_images_
+    - SNAP_AUTHENTICATION=false
+    - SNAP_AUTHORIZATION=false
 
 # third-party
-mysql:
+redis:
+  image: redis:2.8
+
+mysql-api:
+  image: mysql:5.5
+  ports:
+    - "3306" # to connect with an SQL client
+  environment:
+    - MYSQL_ROOT_PASSWORD=mysqlpass
+    - MYSQL_USER=snapableusr
+    - MYSQL_PASSWORD=snapable12345
+    - MYSQL_DATABASE=snapabledb
+
+mysql-blog:
   image: mysql:5.5
   ports:
     - "3306:3306" # to connect with an SQL client
