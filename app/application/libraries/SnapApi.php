@@ -71,7 +71,7 @@ class SnapApi {
         );
         // define default headers
         $defaultHeaders = array(
-            'User-Agent' => 'SnapApi/0.1.1',
+            'User-Agent' => 'snapable-php/0.1.2',
             'Accept' => 'application/json',
             'Authorization' => 'SNAP '.implode(',',$sign_array),
         );
@@ -88,6 +88,12 @@ class SnapApi {
             $requestUrl = $requestUrl . $queryString;
         } else {
             if (isset($headers['Content-Type']) && $headers['Content-Type'] == 'multipart/form-data' && count($params) > 0) {
+                // http://php.net/manual/en/function.curl-setopt.php
+                // PHP 5.5+ changed how files are uploaded
+                if (array_key_exists('image', $params)) {
+                    $imagePath = (substr($params['image'], 0, 1) == '@') ? substr($params['image'], 1) : $params['image'];
+                    $params['image'] = new CURLFile($imagePath);
+                }
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
             } else {
                 // json encode the params
@@ -105,7 +111,7 @@ class SnapApi {
 
             // modify the request to include the json in body
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $verb);
-        } 
+        }
 
         // set the timeout a little longer
         if ($verb == 'POST') {
@@ -174,7 +180,7 @@ class SnapApi {
             $param = explode('=', $value);
             $params[urldecode($param[0])] = urldecode($param[1]);
         }
-        
+
         return self::send($verb, $path, $params);
     }
 
