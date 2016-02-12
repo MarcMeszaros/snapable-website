@@ -14,7 +14,7 @@
             </tr>
         </thead>
         <tbody>
-						<?php foreach ($events as $key => $event) {
+						<?php foreach ($events as $event) {
 							$event_id = SnapApi::resource_pk($event->resource_uri);
 							$start = DateTime::createFromFormat('Y-m-d\TH:i:s\Z', $event->start_at);
 							$end = DateTime::createFromFormat('Y-m-d\TH:i:s\Z', $event->end_at);
