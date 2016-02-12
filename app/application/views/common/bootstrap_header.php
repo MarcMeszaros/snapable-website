@@ -36,6 +36,7 @@
 							<?php if (isset($navigation['session']['account_uri'])) { ?>
 							<li><a href="/account/events">Events</a></li>
 							<li class="divider"></li>
+							<li><a href="/account/changepassword/">Change Password</a></li>
 							<?php } ?>
 							<li><a href="/account/signout/">Logout</a></li>
 						<?php } else { ?>

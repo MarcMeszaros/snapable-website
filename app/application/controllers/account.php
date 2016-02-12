@@ -66,25 +66,64 @@ class Account extends CI_Controller {
 		redirect('/account/signin', 'refresh');
 	}
 
+	function changepassword() {
+		$head = array(
+			'css' => array('assets/css/setup.css', 'assets/css/signin.css'),
+		);
+
+		$userLogin = SnapAuth::is_logged_in();
+		if ($userLogin) {
+			$this->load->view('common/html_header', $head);
+			$this->load->view('common/html_footer');
+			$this->load->view('account/new_password');
+		} else {
+			$this->load->view('common/html_header', $head);
+			$this->load->view('account/reset');
+			$this->load->view('common/html_footer');
+		}
+	}
+
 	function reset($nonce = NULL) {
 		require_https();
 		$head = array(
 			'css' => array('assets/css/setup.css', 'assets/css/signin.css'),
 		);
 
-		if ( isset($_POST['password']) && isset($_POST['nonce']) ) {
-			$verb = 'PATCH';
-			$path = '/user/passwordreset/';
-			$params = array(
-				'nonce' => $_POST['nonce'],
-				'password' => $_POST['password'],
-			);
-			$reset = SnapApi::send($verb, $path, $params);
+		if ( isset($_POST['password']) ) {
+			$userLogin = SnapAuth::is_logged_in();
+			if ($userLogin) {
+				$verb = 'PATCH';
+				$path = '/user/' . SnapApi::resource_pk($userLogin['user_uri']) .'/';
+				$params = array(
+					'password' => $_POST['password'],
+				);
 
-			if ( $reset['code'] == 202 ) {
-				redirect("/account/signin?reset");
-			} else {
-				redirect("/account/reset/?error");
+				// sanity check
+				if ($_POST['password'] == $_POST['password-confirm']) {
+					$reset = SnapApi::send($verb, $path, $params);
+				} else {
+					redirect('/account/changepassword/');
+				}
+
+				if ( $reset['code'] == 202 ) {
+					redirect("/account/signin?reset");
+				} else {
+					redirect("/account/reset/?error");
+				}
+			} else if (isset($_POST['nonce'])) {
+				$verb = 'PATCH';
+				$path = '/user/passwordreset/';
+				$params = array(
+					'nonce' => $_POST['nonce'],
+					'password' => $_POST['password'],
+				);
+				$reset = SnapApi::send($verb, $path, $params);
+
+				if ( $reset['code'] == 202 ) {
+					redirect("/account/signin?reset");
+				} else {
+					redirect("/account/reset/?error");
+				}
 			}
 		} else if (empty($nonce)) {
 			$this->load->view('common/html_header', $head);

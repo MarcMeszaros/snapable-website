@@ -4,20 +4,22 @@
 	<div class="col-lg-4 col-lg-push-4 panel panel-default">
 		<div class="panel-body">
 		<form role="form" id="signinWrap" name="signin" action="/account/reset" method="post" data-validate="parsley" novalidate>
-		
+
 			<h1>Reset your password</h1>
 			<h2>Enter a new password and click "Reset".</h2>
 
-			<?php 
+			<?php
 			if (!empty($error)) {
-				echo '<div id="error">'.$error.'</div>';	
+				echo '<div id="error">'.$error.'</div>';
 			}
 			?>
 
 			<hr class="dotted" />
 
 			<div class="form-group">
+				<?php if (!empty($nonce)) { ?>
 				<input type="hidden" name="nonce" value="<?= $nonce ?>" />
+				<?php } ?>
 
 				<label for="password">Password</label>
 				<input id="password" type="password" name="password" class="form-control" data-required="true" data-minlength="6" />
