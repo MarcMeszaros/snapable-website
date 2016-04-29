@@ -20,6 +20,8 @@ class Signup extends CI_Controller {
 		'smartbride' => 1000, // added: 2013-01-31; valid_until: TBD
 		'snaptrial2013' => 4900, // added: 2013-03-14; valid_until: TBD
 		'snaptrial2014' => 4900, // added: 2014-02-20; valid_until: TBD
+		'snaptrial2015' => 4900, // added: 2014-02-20; valid_until: TBD
+		'snaptrial2016' => 4900, // added: 2014-02-20; valid_until: TBD
 		'weddingful5986' => 4900, // added: 2013-02-06; valid_until: TBD
 		'wr2013' => 1000, // added: 2013-01-17; valid_until: TBD
 	);
@@ -352,13 +354,13 @@ class Signup extends CI_Controller {
 
 	function __construct()
 	{
-    	parent::__construct(); 
+    	parent::__construct();
     	$this->load->library('email');
     	$this->load->model('account_model','',TRUE);
-		
+
     	$this->load->library('email');
     	$this->load->helper('currency');
-    	$this->load->helper('cookie');  	
+    	$this->load->helper('cookie');
 	}
 
 	public function _remap($method, $params = array())
@@ -370,7 +372,7 @@ class Signup extends CI_Controller {
 	    	return call_user_func_array(array($this, 'index'), $params);
 	    }
 	}
-	
+
 	public function index($package=null)
 	{
 		require_https();
@@ -389,7 +391,7 @@ class Signup extends CI_Controller {
 
 		// set price in cents
 		$amount_in_cents = $package->amount;
-		
+
 		$head = array(
 			'stripe' => true,
 			'linkHome' => true,
@@ -398,7 +400,7 @@ class Signup extends CI_Controller {
 			),
 			'css' => array(
 				'assets/css/timePicker.css',
-				'assets/css/signup_jan2013.css', 
+				'assets/css/signup_jan2013.css',
 				'assets/css/home_footer.css'
 			),
 			'ext_js' => array(
@@ -417,8 +419,8 @@ class Signup extends CI_Controller {
 		$this->load->view('common/home_footer.php');
 		$this->load->view('common/html_footer');
 	}
-	
-	
+
+
 	function setup()
 	{
 		// make sure form data is here
@@ -458,8 +460,8 @@ class Signup extends CI_Controller {
 			$timezone_offset_seconds = $_POST['event']['tz_offset'] * 60;
 			// SET TO UTC
 			$start_timestamp = strtotime($_POST['event']['start_date'] . " " . $_POST['event']['start_time']) + ($timezone_offset_seconds);
-			$start = gmdate( "c", $start_timestamp ); //date( "Y-m-d", $start_timestamp ) . "T" . date( "H:i:s", $start_timestamp ); // formatted: 2010-11-10T03:07:43 
-			
+			$start = gmdate( "c", $start_timestamp ); //date( "Y-m-d", $start_timestamp ) . "T" . date( "H:i:s", $start_timestamp ); // formatted: 2010-11-10T03:07:43
+
 			// CREATE END DATE
 			if ( $_POST['event']['duration_type'] == "days" ) {
 				$duration_in_seconds = $_POST['event']['duration_num'] * 86400;
@@ -511,7 +513,7 @@ class Signup extends CI_Controller {
 				$idParts = explode('/', $order_response->resource_uri);
 				$orderID = $idParts[3];
 				$this->session->set_flashdata('orderID', $orderID);
-			} 
+			}
 			// can't create order
 			else {
 				Log::e('Unable to process payment. There was a problem with the Credit Card.');
@@ -541,7 +543,7 @@ class Signup extends CI_Controller {
 			$this->email->to('team@snapable.com');
 			$this->email->subject($subject);
 			$this->email->message($this->load->view('email/user_signup_html', $signup_details, true));
-			$this->email->set_alt_message($this->load->view('email/user_signup_txt', $signup_details, true));		
+			$this->email->set_alt_message($this->load->view('email/user_signup_txt', $signup_details, true));
 			if (DEBUG == false) {
 				$this->email->send();
 			}
@@ -570,7 +572,7 @@ class Signup extends CI_Controller {
 		}
 
 	}
-	
+
 	function complete()
 	{
 		// get the data from the flash session
@@ -601,8 +603,8 @@ class Signup extends CI_Controller {
 		$this->load->view('signup/complete', $data);
 		$this->load->view('common/html_footer');
 	}
-	
-	
+
+
 	function check() {
 		if ( isset($_GET['email']) ) {
 			$verb = 'GET';
@@ -613,7 +615,7 @@ class Signup extends CI_Controller {
 			$resp = SnapApi::send($verb, $path, $params);
 			$this->output->set_status_header($resp['code']);
 			echo $resp['response'];
-		} 
+		}
 		else if ( isset($_GET['url']) ) {
 			$verb = 'GET';
 			$path = '/event/';
@@ -627,14 +629,14 @@ class Signup extends CI_Controller {
 			echo '{ "status": 404 }';
 		}
 	}
-	
+
 	function promo() {
 		$numargs = func_num_args();
 
 		if ( IS_AJAX && isset($_GET['code']) && ($numargs == 0 || $numargs == 1) ) {
 			// sanitize the data (ie. remove invalid characters and lowercase)
 			$code = strtolower(preg_replace('/[^a-zA-Z0-9-_]/', '', $_GET['code']));
-			
+
 			if ( array_key_exists($code, self::$COUPON_CODES) ) {
 			    // success
 			    echo json_encode(array(
@@ -646,7 +648,7 @@ class Signup extends CI_Controller {
 			}
 		} else {
 			return 0;
-		}		
+		}
 	}
 
 	function states($country) {
@@ -657,5 +659,5 @@ class Signup extends CI_Controller {
 			echo json_encode(self::$CA_STATES);
 		}
 	}
-	
+
 }
