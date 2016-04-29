@@ -30,7 +30,7 @@ api:
 
 # third-party
 redis:
-  image: redis:2.8
+  image: redis:3.0-alpine
 
 mysql-api:
   image: mysql:5.5
