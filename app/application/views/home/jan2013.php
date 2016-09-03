@@ -12,7 +12,7 @@
 					<li><a href="#pricing" class="anchorLink">Pricing</a></li>
 					<li><a href="http://blog.snapable.com/">Blog</a></li>
 					<li><a class="signin" href="/account/signin">Sign-in</a></li>
-					<li><a class="signup" href="signup" onClick="ga('send', 'event', 'Signups', 'Clicked', 'Signup (Header)'); _gaq.push(['_trackEvent', 'Signups', 'Clicked', 'Signup (Header)']);">Sign-up</a></li>
+					<!-- <li><a class="signup" href="signup" onClick="ga('send', 'event', 'Signups', 'Clicked', 'Signup (Header)'); _gaq.push(['_trackEvent', 'Signups', 'Clicked', 'Signup (Header)']);">Sign-up</a></li> -->
 				</ul>
 			</div><!-- /.navbar-collapse -->
 		</div>
@@ -40,7 +40,7 @@
 
 		<div class="sectionWrap">
 
-			<a id="ctaBtn" class="btn btn-success btn-lg" href="/signup" style="font-size:40px;">Set up Your Event</span></a>
+			<!-- <a id="ctaBtn" class="btn btn-success btn-lg" href="/signup" style="font-size:40px;">Set up Your Event</span></a> -->
 
 			<section id="why-use">
 		      <div class="inner">
@@ -140,7 +140,7 @@
 
 			       <p>It’s that easy! All of your photos in one spot, so you don’t miss a single moment.</p>
 
-		          <a href="/signup" class="btn btn-primary">Sign Up</a>
+		          <!-- <a href="/signup" class="btn btn-primary">Sign Up</a> -->
 		        </div>
 
 		      </div>
@@ -175,7 +175,7 @@
 		        			<span class="old-price grey hide"><span class="strike"></span>$79</span>
 		        			<span class="price">$49</span>
 		        		</div>
-		        		<a class="btn btn-success btn-lg" href="/signup" style="font-size:30px;">Set up Your Event</span></a>
+		        		<!-- <a class="btn btn-success btn-lg" href="/signup" style="font-size:30px;">Set up Your Event</span></a> -->
 
 		        	</div>
 
