@@ -1,0 +1,14 @@
+body {
+  margin: 40px 20px;
+  background: #f5fafc;
+  color: #666;
+  font-size: large;
+}
+
+p {
+  margin-bottom: 20px;
+}
+
+.header {
+    margin-bottom: 40px;
+}

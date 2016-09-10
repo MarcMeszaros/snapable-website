@@ -42,6 +42,7 @@ $route['default_controller'] = "home";
 $route['404_override'] = '';
 
 // == custom routes ==
+$route['goodbye'] = 'home/goodbye'; // exception for the event name
 
 // buy controller
 
