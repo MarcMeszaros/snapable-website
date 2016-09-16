@@ -12,13 +12,13 @@
             </p>
             <p class="text-justify">
               Unfortunately we are closing our doors. The interest in the service was not wide
-              spread enough to continue operations. You can download your photos until we shutdown
+              spread enough to continue operating the service. You can download your photos until we shutdown
               on <strong>October 1<sup>st</sup>, 2016</strong>. We will be permanently and securely deleting all data after this date.
               This includes account information, hashed passwords, email addresses, all pictures, and any other information
               that was stored in your account.
             </p>
             <p>
-              If you signed up after <i>September 1<sup>st</sup></i>, we will automatically refund
+              If you signed up after <i>September 1<sup>st</sup></i>, we automatically refunded
               your purchase.
             </p>
             <p>
