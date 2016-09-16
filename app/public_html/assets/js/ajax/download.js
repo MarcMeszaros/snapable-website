@@ -4,11 +4,15 @@ function downloadEvent(event_id) {
         type: 'POST',
     }).done(function(data) {
         var json = $.parseJSON(data);
-        $.pnotify({
+        if ('zip_url' in json) {
+          window.location.assign(json.zip_url);
+        } else {
+          $.pnotify({
             type: 'success',
             title: 'Download Request Received',
             text: 'Our team of robots are collecting all your photos and will email you once they are done.'
-        });
+          });
+        }
     }).fail(function(jqXHR, textStatus, errorThrown) {
         if (jqXHR.status == 409) {
             $.pnotify({
