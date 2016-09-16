@@ -10,7 +10,7 @@
               Snapable is a useful services for capturing all the moments at your events.
             </p>
             <p class="text-justify">
-              Unfortuantly we are closing our doors. The interest in the service was not wide
+              Unfortunately we are closing our doors. The interest in the service was not wide
               spread enough to the cover the operating costs. You can download your photos until we shutdown
               on <strong>October 1<sup>st</sup>, 2016</strong>. We will be permanently and securely deleting all data after this date.
               This includes account information, hashed passwords, email addresses, all pictures, and any other information
