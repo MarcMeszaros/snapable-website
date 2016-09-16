@@ -7,7 +7,8 @@
     <div class="row">
         <div class="col-xs-12 col-md-8 col-md-push-2">
             <p>
-              Snapable is a useful services for capturing all the moments at your events.
+              Thank you for your support of Snapable over the years. We've enjoyed working on Snapable 
+              as much as you’ve enjoyed using it. It’s been an honor serving you.
             </p>
             <p class="text-justify">
               Unfortunately we are closing our doors. The interest in the service was not wide
